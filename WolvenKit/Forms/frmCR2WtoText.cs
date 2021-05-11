@@ -85,8 +85,9 @@ namespace WolvenKit.Forms
             radOutputModeSingleFile.Checked = OutputSingleFile;
             radOutputModeSeparateFiles.Checked = !OutputSingleFile;
             chkDumpSDB.Checked = true;
+            chkDumpOnlyEdited.Checked = true;
             chkDumpFCD.Checked = false;
-            chkDumpEmbedded.Checked = true;
+            chkDumpEmbedded.Checked = false;
             numThreads.Value = Environment.ProcessorCount;
             numThreads.Maximum = Environment.ProcessorCount * 2;
         }
@@ -175,6 +176,7 @@ namespace WolvenKit.Forms
                     ListEmbedded = chkDumpEmbedded.Checked,
                     DumpFCD = chkDumpFCD.Checked,
                     DumpSDB = chkDumpSDB.Checked,
+                    DumpOnlyEdited = chkDumpOnlyEdited.Checked,
                     LocalizeStrings = chkLocalizedString.Checked
                 };
 
@@ -643,6 +645,7 @@ namespace WolvenKit.Forms
         public bool ListEmbedded { get; set; }
         public bool DumpSDB { get; set; }
         public bool DumpFCD { get; set; }
+        public bool DumpOnlyEdited { get; set; }
         public bool LocalizeStrings { get; set; }
     }
     internal class LoggerCR2W
@@ -693,7 +696,8 @@ namespace WolvenKit.Forms
                 //var node = GetNodes(chunk);
                 foreach (var item in chunk.GetEditableVariables())
                 {
-                    ProcessNode(item, level + 1);
+                    if (!Options.DumpOnlyEdited || item.IsSerialized)
+                        ProcessNode(item, level + 1);
                 }
             }
         }
@@ -710,6 +714,57 @@ namespace WolvenKit.Forms
                 Writer.Write("Size: " + embed.Embedded.dataSize, level + 1);
                 Writer.Write("ClassName: " + embed.ClassName, level + 1);
                 Writer.Write("Handle: " + embed.Handle, level + 1);
+            }
+        }
+        private void ProcessDataBuffer(IEditableVariable node, int level)
+        {
+            try
+            {
+                var ls = new LoggerService();
+                CR2WFile embedcr2w = new CR2WFile(ls);
+
+                CR2W.Types.CByteArray bArray = null;
+                if (node.REDType == "array:2,0,Uint8")
+                {
+                    bArray = (CR2W.Types.CByteArray)node;
+                }
+                else
+                {
+                    CR2W.Types.SharedDataBuffer SDB = (CR2W.Types.SharedDataBuffer)node;
+                    if (SDB != null)
+                        bArray = SDB.Bufferdata;
+                    /// actually SharedDataBuffer == DataBuffer, so casting is correct
+                }
+                if (bArray == null || bArray.GetBytes() == null)
+                    return;
+
+                switch (embedcr2w.Read(bArray.GetBytes()))
+                {
+                    case EFileReadErrorCodes.NoError:
+                        var lc = new LoggerCR2W(embedcr2w, Writer, Options);
+                        lc.processCR2W(level);
+
+                        break;
+                    case EFileReadErrorCodes.NoCr2w:
+                        break;
+                    case EFileReadErrorCodes.UnsupportedVersion:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            catch (FormatException)
+            {
+                // Embedded buffer/array:2,0,Uint8 was not a CR2W file. Do nothing.
+            }
+            catch (Exception e)
+            {
+                string msg = node.REDName + ":" + node.REDType + ": ";
+                string logMsg = msg + ": Buffer or 'array:2,0,Uint8' caught exception: ";
+                Writer.Write(logMsg + e, level);
+                Console.WriteLine(logMsg + e);
+                OnException?.Invoke(msg, e);
+                ExceptionCount++;
             }
         }
         private void ProcessNode(IEditableVariable node, int level)
@@ -729,9 +784,13 @@ namespace WolvenKit.Forms
 
             if (node.GetEditableVariables().Count > 0)
                 foreach (var child in node.GetEditableVariables())
-                    ProcessNode(child, level);
+                {
+                    if (!Options.DumpOnlyEdited || child.IsSerialized)
+                        ProcessNode(child, level);
+                }
 
-            if (   (node.REDType == "SharedDataBuffer" && Options.DumpSDB) 
+
+            if ( ( (node.REDType == "SharedDataBuffer" || node.REDType == "DataBuffer") && Options.DumpSDB) 
                 || (node.REDType == "array:2,0,Uint8" && node.REDName != "deltaTimes") ) 
             {   // Embedded CR2W dump:
                 // Dump SharedDataBuffer if option is set.
@@ -739,37 +798,7 @@ namespace WolvenKit.Forms
                 // And dump FCD only if options.dumpFCD is set.
                 if (node.REDName != "flatCompiledData" || Options.DumpFCD)
                 {
-                    try
-                    {
-                        var ls = new LoggerService();
-                        CR2WFile embedcr2w = new CR2WFile(ls);
-                        switch (embedcr2w.Read(((IByteSource)node).GetBytes()))
-                        {
-                            case EFileReadErrorCodes.NoError:
-                                var lc = new LoggerCR2W(embedcr2w, Writer, Options);
-                                lc.processCR2W(level);
-                                break;
-                            case EFileReadErrorCodes.NoCr2w:
-                                break;
-                            case EFileReadErrorCodes.UnsupportedVersion:
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                    catch (FormatException)
-                    {
-                        // Embedded buffer/array:2,0,Uint8 was not a CR2W file. Do nothing.
-                    }
-                    catch (Exception e)
-                    {
-                        string msg = node.REDName + ":" + node.REDType + ": ";
-                        string logMsg = msg + ": Buffer or 'array:2,0,Uint8' caught exception: ";
-                        Writer.Write(logMsg + e, level);
-                        Console.WriteLine(logMsg + e);
-                        OnException?.Invoke(msg, e);
-                        ExceptionCount++;
-                    }
+                    ProcessDataBuffer(node, level);
                 }
             }
         }
