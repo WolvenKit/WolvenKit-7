@@ -21,7 +21,7 @@ namespace WolvenKit.Forms
     {
         private readonly string[] extExclude = { ".txt", ".json", ".csv", ".xml", ".jpg", ".png", ".buffer", ".navgraph", ".navtile",
                                                  ".usm", ".wem", ".dds", ".bnk", ".xbm", ".bundle", ".w3strings", ".store", ".navconfig",
-                                                 ".srt", ".naviobstacles", ".navmesh", ".sav", ".subs" };
+                                                 ".srt", ".naviobstacles", ".navmesh", ".sav", ".subs", ".yml" };
         private StatusController statusController;
         private readonly List<string> Files = new List<string>();
 
@@ -85,6 +85,7 @@ namespace WolvenKit.Forms
             radOutputModeSingleFile.Checked = OutputSingleFile;
             radOutputModeSeparateFiles.Checked = !OutputSingleFile;
             chkDumpSDB.Checked = true;
+            chkDumpYML.Checked = true;
             chkDumpOnlyEdited.Checked = true;
             chkDumpFCD.Checked = false;
             chkDumpEmbedded.Checked = false;
@@ -176,6 +177,8 @@ namespace WolvenKit.Forms
                     ListEmbedded = chkDumpEmbedded.Checked,
                     DumpFCD = chkDumpFCD.Checked,
                     DumpSDB = chkDumpSDB.Checked,
+                    DumpYML = chkDumpYML.Checked,
+                    DumpTXT = true,
                     DumpOnlyEdited = chkDumpOnlyEdited.Checked,
                     LocalizeStrings = chkLocalizedString.Checked
                 };
@@ -436,6 +439,8 @@ namespace WolvenKit.Forms
                 Parallel.ForEach(Files, parOptions, async fileName =>
                     {
                         string outputDestination;
+                        string outputDestinationTxt;
+                        string outputDestinationYml;
                         string fileBaseName = Path.GetFileName(fileName);
                         string fileNameNoSourcePath = FileNameNoSourcePath(fileName, WriterData.SourcePath);
 
@@ -450,22 +455,24 @@ namespace WolvenKit.Forms
                         else
                             outputDestination = WriterData.OutputLocation;
 
-                        outputDestination = outputDestination + "\\" + fileBaseName + ".txt";
+                        outputDestinationTxt = outputDestination + "\\" + fileBaseName + ".txt";
+                        outputDestinationYml = outputDestination + "\\" + fileBaseName + ".yml";
 
                         try
                         {
                             bool skip = false;
-                            if (File.Exists(outputDestination))
+                            if (File.Exists(outputDestinationTxt))
                                 if (WriterData.OverwriteFiles)
-                                    File.Delete(outputDestination);
+                                    File.Delete(outputDestinationTxt);
                                 else
                                     skip = true;
 
                             if (!skip)
                             {
-                                using (StreamWriter streamDestination = new StreamWriter(outputDestination, false))
+                                using (StreamWriter streamDestination = new StreamWriter(outputDestinationTxt, false))
+                                using (StreamWriter streamDestinationYml = new StreamWriter(outputDestinationYml, false))
                                 {
-                                    await Dump(streamDestination, fileName);
+                                    await Dump(streamDestination, streamDestinationYml, fileName);
                                     lock (statusLock)
                                         WriterData.Status.Processed++;
                                 }
@@ -494,15 +501,17 @@ namespace WolvenKit.Forms
         public override async Task StartDump()
         {
             string outputDestination = WriterData.OutputLocation;
+            string outputDestinationYml = WriterData.OutputLocation + ".yml";
             if (File.Exists(outputDestination))
                 File.Delete(outputDestination);
 
             using (StreamWriter streamDestination = new StreamWriter(outputDestination, false))
+            using (StreamWriter streamDestinationYml = new StreamWriter(outputDestinationYml, false))
                 foreach (var fileName in Files)
                 {
                     if (WriterData.CancelToken.IsCancellationRequested)
                         break;
-                    await Dump(streamDestination, fileName);
+                    await Dump(streamDestination, streamDestinationYml, fileName);
                     WriterData.Status.Processed++;
                 }
         }
@@ -541,15 +550,22 @@ namespace WolvenKit.Forms
             OnExceptionFile?.Invoke(fileName, msg);
         }
 #pragma warning disable CS1998
-        protected async Task Dump(StreamWriter streamDestination, string fileName)
+        protected async Task Dump(StreamWriter streamDestination, StreamWriter streamDestinationYml, string fileName)
 #pragma warning restore CS1998
         {
             LoggerOutputFileTxt outputFile = new LoggerOutputFileTxt(streamDestination, WriterData.PrefixFileName,
                 Path.GetFileName(fileName));
+            LoggerOutputFileYml outputFileYml = new LoggerOutputFileYml(streamDestinationYml, WriterData.PrefixFileName,
+                Path.GetFileName(fileName));
             try
             {
-                var lCR2W = new LoggerCR2W(fileName, outputFile, CR2WOptions);
+                var lCR2W = new LoggerCR2W(fileName, outputFile, outputFileYml, CR2WOptions);
                 outputFile.WriteLine("FILE: " + fileName);
+                if (CR2WOptions.DumpYML)
+                {
+                    outputFileYml.WriteLine("templates:");
+                    outputFileYml.WriteLine("  ### FILE: " + fileName);
+                }
                 lCR2W.OnException += (msg, ex) =>
                 {
                     OnExceptionFile?.Invoke(fileName, msg + ex.Message);
@@ -583,6 +599,35 @@ namespace WolvenKit.Forms
                 Console.WriteLine(msg);
                 ExceptionOccurred(fileName, "An exception occurred processing this file. Skipping. Details: " + ex.Message);
             }
+        }
+    }
+
+    internal class LoggerOutputFileYml : LoggerOutputFile
+    {
+        private string Prefix { get; }
+        private bool PrefixLine { get; }
+        private string TempLine { get; set; }
+        internal LoggerOutputFileYml(StreamWriter streamDestination, bool prefixLine, string prefix)
+            : base(streamDestination)
+        {
+            PrefixLine = prefixLine;
+            Prefix = prefix;
+        }
+        public void WriteLine(string line)
+        {
+            OutputFile.WriteLine(line);
+        }
+        public override void Write(string text, int level = 0)
+        {
+            string line;
+            string indent = "";
+
+            for (int i = 0; i < level; i++)
+                indent += "  ";
+
+            line = indent + text;
+
+            WriteLine(line);
         }
     }
 
@@ -645,6 +690,8 @@ namespace WolvenKit.Forms
         public bool ListEmbedded { get; set; }
         public bool DumpSDB { get; set; }
         public bool DumpFCD { get; set; }
+        public bool DumpYML { get; set; }
+        public bool DumpTXT { get; set; }
         public bool DumpOnlyEdited { get; set; }
         public bool LocalizeStrings { get; set; }
     }
@@ -654,10 +701,24 @@ namespace WolvenKit.Forms
         public delegate void OnExceptionDelegate(string msg, Exception e);
         public OnExceptionDelegate OnException;
         private CR2WFile CR2W { get; }
+        private string CR2WFilePath { get; set; }
         private LoggerOutputFile Writer { get; }
+        private LoggerOutputFile WriterYml { get; }
         private LoggerCR2WOptions Options { get; }
         private List<CR2WExportWrapper> Chunks { get; }
         private List<CR2WEmbeddedWrapper> Embedded { get; }
+        private HashSet<string> wasDumped = new HashSet<string>();
+        private List<List<string>> mapInArray = new List<List<string>>();
+        private HashSet<string> enumTypes = new HashSet<string> { "EDrawableFlags", "ELightChannel", "EInterpMethodType", "EInterpCurveMode", "ECompareOp", "ESpaceFillMode", "EComboAttackResponse", "ECameraState", "ECameraShakeState", "ECameraShakeMagnitude", "EDismembermentEffectTypeFlag", "ETriggerChannel", "EDayPart", "EGameplayMimicMode", "EPlayerGameplayMimicMode", "ESoundGameState", "ESoundEventSaveBehavior", "EStaticCameraAnimState", "EStaticCameraGuiEffect", "ECharacterPowerStats", "ECharacterRegenStats", "EDirection", "EDirectionZ", "EMoonState", "EWeatherEffect", "EScriptedEventCategory", "EScriptedEventType", "EInputDeviceType", "EncumbranceBoyMode", "EActorImmortalityMode", "EActorImmortalityChanel", "ETerrainType", "EAreaName", "EDlcAreaName", "EZoneName", "EHitReactionType", "EFocusHitReaction", "EAttackSwingType", "EAttackSwingDirection", 
+            "EManageGravity", "ECounterAttackSwitch", "EAttitudeGroupPriority", "ETimescaleSource", "EMonsterCategory", "EButtonStage", "EStaminaActionType", "EFocusModeSoundEffectType", "EStatistic", "EAchievement", "ETutorialHintDurationType", "ETutorialHintPositionType", "ESpeedType", "EBloodType", "EStatOwner", "ETestSubject", "ETargetName", "EMonsterTactic", "EOperator", "ESpawnPositionPattern", "ESpawnRotation", "EFlyingCheck", "ECriticalEffectCounterType", "EFairytaleWitchAction", "EActionInfoType", "EBossAction", "EBossSpecialAttacks", "EEredinPhaseChangeAction", "ESpawnCondition", "ENPCCollisionStance", "ENPCBaseType", "EGuardState", "ENPCType", "EChosenTarget", "ETeleportType", "ECameraAnimPriority", "ECameraBlendSpeedMode", "EMerchantMapPinType", "EScriptedDetroyableComponentState", "EFoodGroup", "EClimbProbeUsed", "ESideSelected", "EPlayerCollisionStance", "EMovementCorrectionType", "EGameplayContextInput", "EExplorationStateType", 
+            "EBehGraphConfirmationState", "EAirCollisionSide", "EClimbRequirementType", "EClimbRequirementVault", "EClimbRequirementPlatform", "EClimbHeightType", "EClimbDistanceType", "EClimbEndReady", "EOutsideCapsuleState", "EPlayerIdleSubstate", "ExplorationInteractionType", "EJumpSubState", "EJumpType", "ELandPredictionType", "ELandType", "ELandRunForcedMode", "EPushSide", "ESlidingSubState", "ESlideCameraShakeState", "EFallType", "ECollisionTrajecoryStatus", "ECollisionTrajecoryExplorationStatus", "ECollisionTrajectoryPart", "ECollisionTrajectoryToWaterState", 
+            "EDoorMarkingState", "EntityType", "ESkillColor", "ESkillPath", "ESkillSubPath", "EPlayerMutationType", "EActionHitAnim", "EAlchemyExceptions", "EAlchemyCookedItemType", "EBirdType", "EWhaleMovementPatern", "EJobTreeType", "ECraftsmanType", "ECraftingException", "ECraftsmanLevel", "EItemUpgradeException", "EElevatorSwitchType", "ETrapOperation", "EEffectInteract", "EEffectType", "ECriticalHandling", "EEncounterMonitorCounterType", "EEncounterSpawnGroup", "EFocusModeChooseEntityStrategy", "ETriggeredDamageType", "EIllusionDiscoveredOneliner", "EDoorOperation", "EMonsterNestType", "ENestType", "ENewDoorOperation", "EShrineBuffs", "EToxicCloudOperation", "EOilBarrelOperation", 
+            "EArmorType", "EEquipmentSlots", "EItemGroup", "EInventoryFilterType", "EInventoryActionType", "ECompareType", "ESpendablePointType", "EEP2PoiType", "EPhysicalDamagemechanismOperation", "ESwitchState", "EResetSwitchMode", "ERequiredSwitchState", "EEncounterOperation", "EFactOperation", "EOcurrenceTime", "ELogicalOperator", "EBoidClueState", "EMonsterCluesTypes", "EMonsterSize", "EMonsterEmittedSound", "EMonsterDamageMarks", "EMonsterVictimState", "EMonsterApperance", "EMonsterSkinFacture", "EMonsterMovement", "EMonsterBehaviour", "EMonsterAttitude", "EMonsterAttackTime", "EMonsterHideout", 
+            "EFocusClueAttributeAction", "EClueOperation", "EFocusClueMedallionReaction", "EPlayerVoicesetType", "EMonsterClueAnim", "EReputationLevel", "EFactionName", "ETutorialMessageType", "EUITutorialTriggerCondition", "EUserDialogButtons", "EUniqueMessageIDs", "ELockedControlScheme", "EGamepadType", "ECursorType", "EGuiSceneControllerRenderFocus", "EQuantityTransferFunction", "EHudVisibilitySource", "EFloatingValueType", "EUpdateEventType", "EMutationFeedbackType", "EIngameMenuConstants", "EMutationResourceType", "EBonusSkillSlot", "EInventoryMenuState", "ENotificationType", "EItemSelectionPopupMode", "EUserMessageAction", 
+            "EUserMessageProgressType", "EPreporationItemType", "EBackgroundNPCWork_Single", "EBackgroundNPCWork_Paired", "EBgNPCType", "EBackgroundNPCWomanWork", "EConverserType", "EDeathType", "EFinisherDeathType", "EActionFail", "ETauntType", "EBehaviorGraph", "EExplorationMode", "EAgonyType", "ENPCFightStage", "ECriticalStateType", "EHitReactionDirection", "EHitReactionSide", "EDetailedHitType", "EAttackType", "EChargeAttackType", "EDodgeType", "EDodgeDirection", "ETurnDirection", "ETargetDirection", "ENpcPose", "EFlightStance", "ENPCRightItemType", "ENPCLeftItemType", "EInventoryFundsType", 
+            "EWeaponSubType1Handed", "EWeaponSubType2Handed", "EWeaponSubTypeRanged", "ENpcWeapons", "ENpcFightingStyles", "EAnimalType", "EPlayerDeathType", "EAimType", "EPlayerMode", "EForceCombatModeReason", "EGeneralEnum", "EPlayerExplorationAction", "EPlayerBoatMountFacing", "EPlayerAttackType", "ESkill", "EItemSetBonus", "EItemSetType", "EPlayerCommentary", "EPlayerWeapon", "EPlayerRangedWeapon", "EPlayerCombatStance", "ESignType", "EMoveSwitchDirection", "EPlayerEvadeType", "EPlayerEvadeDirection", "EPlayerParryDirection", "EPlayerRepelType", "ERotationRate", "EItemType", "ESpecialAbilityInput", 
+            "EThrowStage", "EParryStage", "EParryType", "EAttackSwingRange", "EInputActionBlock", "EPlayerMoveType", "EPlayerActionToRestore", "EPlayerInteractionLock", "EPlayerPreviewInventory", "EDismembermentWoundTypes", "ERecoilLevel", "EPlayerMovementLockType", "EHorseMode", "ECustomCameraType", "ECustomCameraController", "EInitialAction", "EDir", "EPlayerStopPose", "EVehicleCombatAction", "EBookDirection", "EQuestSword", "EFactValueChangeMethod", "EMapPinStatus", "EFocusEffectActivationAction", "ECameraEffect", "EQuestReplacerEntities", "EItemSelectionType", "EQuestNPCStates", "EDrawWeaponQuestType", "ESwarmStateOnArrival", "EAnimalReaction", 
+            "EDoorQuestState", "EGeraltPath", "EDM_MappinType", "EGwentCardFaction", "EGwentDeckUnlock", "EEnableMode", "EHudTimeOutAction", "EQuestPadVibrationStrength", "ELanguageCheckType", "ECheckedLanguage", "EQuestConditionDLCType", "EContainerMode", "EQuestPlayerSkillLevel", "EQuestPlayerSkillCondition", "EQuestConditionPlayerState", "ESwitchStateCondition", "EPlayerReplacerType", "EStorySceneOutputAction", "EStorySceneGameplayAction", "ENegotiationResult", "ECollectItemsRes", "ECollectItemsCustomRes", "EHorseWaterTestResult" };
         private static CR2WFile LoadCR2W(string fileName)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
@@ -669,17 +730,54 @@ namespace WolvenKit.Forms
             }
                      
         }
-        internal LoggerCR2W(string fileName, LoggerOutputFile writer, LoggerCR2WOptions options)
-            : this(LoadCR2W(fileName), writer, options) {}
-        internal LoggerCR2W(CR2WFile cr2wFile, LoggerOutputFile writer, LoggerCR2WOptions options)
+        internal LoggerCR2W(string fileName, LoggerOutputFile writer, LoggerOutputFile writerYml, LoggerCR2WOptions options)
+            : this(LoadCR2W(fileName), fileName, writer, writerYml, options) {}
+        internal LoggerCR2W(CR2WFile cr2wFile, string filePath, 
+            LoggerOutputFile writer, LoggerOutputFile writerYml, LoggerCR2WOptions options)
         {
             CR2W = cr2wFile;
+            CR2WFilePath = filePath;
             Chunks = CR2W.chunks;
             Embedded = CR2W.embedded;
             Writer = writer;
+            WriterYml = writerYml;
             Options = options;
             if (Options.LocalizeStrings)
                 CR2W.LocalizedStringSource = MainController.Get();
+            setupYmlMapCases();
+        }
+        private void setupYmlMapCases()
+        {
+            // --- dlc mounters
+            mapInArray.Add(new List<string> { "CR4WorldDLCMounter", "worlds", "worldName" });
+            // --- entity template
+            mapInArray.Add(new List<string> { "CEntityTemplate", "appearances", "name" });
+            mapInArray.Add(new List<string> { "CEntityTemplate", "bodyParts", "name" });
+            mapInArray.Add(new List<string> { "CEntityTemplate", "slots", "name" });
+            mapInArray.Add(new List<string> { "CEntityTemplate", "effects", "name" });
+            // --- cutscenes
+            mapInArray.Add(new List<string> { "CCutsceneTemplate", "effects", "name" });
+            // --- entities
+            mapInArray.Add(new List<string> { "CAnimSlotsParam", "animationSlots", "name" });
+            mapInArray.Add(new List<string> { "CEntityDismemberment", "wounds", "name" });
+            mapInArray.Add(new List<string> { "SDismembermentWoundSingleSpawn", "additionalEffects", "name" });
+            mapInArray.Add(new List<string> { "CAttackRangeParam", "attackRanges", "name" });
+            mapInArray.Add(new List<string> { "CR4LootParam", "containers", "name" });
+            mapInArray.Add(new List<string> { "CVoicesetParam", "slots", "name" });
+            mapInArray.Add(new List<string> { "CEntity", "components", "name" });
+            mapInArray.Add(new List<string> { "CActionPoint", "events", "eventName" });
+            mapInArray.Add(new List<string> { "CFXDefinition", "trackGroups", "name" });
+            mapInArray.Add(new List<string> { "CFXTrackGroup", "tracks", "name" });
+            // --- components
+            mapInArray.Add(new List<string> { "CSoundAmbientAreaComponent", "dynamicEvents", "eventName" });
+            mapInArray.Add(new List<string> { "CDropPhysicsComponent", "dropSetups", "name" });
+            mapInArray.Add(new List<string> { "CSlotComponent", "slots", "slotName" });
+            mapInArray.Add(new List<string> { "CSoundEmitterComponent", "switchesOnAttach", "SoundSwitch" });
+            mapInArray.Add(new List<string> { "CSoundEmitterComponent", "rtpcsOnAttach", "SoundProperty" });
+            mapInArray.Add(new List<string> { "CAdvancedVehicleComponent", "passengerSeats", "name" });
+            // --- particles
+            mapInArray.Add(new List<string> { "CParticleSystem", "emitters", "editorName" });
+            mapInArray.Add(new List<string> { "CParticleEmitter", "modules", "editorName" });
         }
         public void processCR2W(int overrideLevel = 0)
         {
@@ -692,13 +790,29 @@ namespace WolvenKit.Forms
             Writer.Write("Chunks:", level);
             foreach (var chunk in Chunks)
             {
-                Writer.Write(chunk.REDName + " (" + chunk.REDType + ") : " + chunk.Preview, level);
+                var dumpYml = Options.DumpYML && !wasDumped.Contains(chunk.REDName);
+                wasDumped.Add(chunk.REDName);
+                
                 //var node = GetNodes(chunk);
-                foreach (var item in chunk.GetEditableVariables())
+                if (Options.DumpTXT)
                 {
-                    if (!Options.DumpOnlyEdited || item.IsSerialized)
-                        ProcessNode(item, level + 1);
+                    Writer.Write(chunk.REDName + " (" + chunk.REDType + ") : " + chunk.Preview, level);
+                    foreach (var item in chunk.GetEditableVariables())
+                    {
+                        if (!Options.DumpOnlyEdited || item.IsSerialized)
+                            ProcessNode(item, level + 1);
+                    }
                 }
+                if (dumpYml)
+                {
+                    WriterYml.Write(CR2WFilePath.Split('\\').Last() + ":", level);
+                    foreach (var item in chunk.GetEditableVariables())
+                    {
+                        if (!Options.DumpOnlyEdited || item.IsSerialized)
+                            ProcessNodeYml(item, level + 1);
+                    }
+                }
+                    
             }
         }
         private void ProcessEmbedded(int level)
@@ -716,7 +830,7 @@ namespace WolvenKit.Forms
                 Writer.Write("Handle: " + embed.Handle, level + 1);
             }
         }
-        private void ProcessDataBuffer(IEditableVariable node, int level)
+        private void ProcessDataBuffer(IEditableVariable node, int level, bool ymlDump)
         {
             try
             {
@@ -728,12 +842,17 @@ namespace WolvenKit.Forms
                 {
                     bArray = (CR2W.Types.CByteArray)node;
                 }
-                else
+                else if (node.REDType == "SharedDataBuffer")
                 {
                     CR2W.Types.SharedDataBuffer SDB = (CR2W.Types.SharedDataBuffer)node;
                     if (SDB != null)
                         bArray = SDB.Bufferdata;
-                    /// actually SharedDataBuffer == DataBuffer, so casting is correct
+                }
+                else if (node.REDType == "DataBuffer")
+                {
+                    CR2W.Types.DataBuffer DB = (CR2W.Types.DataBuffer)node;
+                    if (DB != null)
+                        bArray = DB.Bufferdata;
                 }
                 if (bArray == null || bArray.GetBytes() == null)
                     return;
@@ -741,7 +860,12 @@ namespace WolvenKit.Forms
                 switch (embedcr2w.Read(bArray.GetBytes()))
                 {
                     case EFileReadErrorCodes.NoError:
-                        var lc = new LoggerCR2W(embedcr2w, Writer, Options);
+                        LoggerCR2WOptions newOptions = Options;
+                        if (ymlDump)
+                            newOptions.DumpTXT = false;
+                        else
+                            newOptions.DumpYML = false;
+                        var lc = new LoggerCR2W(embedcr2w, node.REDName, Writer, WriterYml, newOptions);
                         lc.processCR2W(level);
 
                         break;
@@ -769,6 +893,7 @@ namespace WolvenKit.Forms
         }
         private void ProcessNode(IEditableVariable node, int level)
         {
+            //Console.WriteLine(new String(' ', level) + "> node: " + node.REDName + ", type: " + node.REDType + ", value: " + node.REDValue);
             if (node.REDName == "unknownBytes" && node.ToString() == "0 bytes"
                 || node.REDName == "unk1" && node.ToString() == "0")
                 return;
@@ -798,10 +923,616 @@ namespace WolvenKit.Forms
                 // And dump FCD only if options.dumpFCD is set.
                 if (node.REDName != "flatCompiledData" || Options.DumpFCD)
                 {
-                    ProcessDataBuffer(node, level);
+                    ProcessDataBuffer(node, level, false);
                 }
             }
         }
+        List<string> getUnsupportedVarsByType(string type)
+        {
+            if (type.StartsWith("CFXTrackItem"))
+                type = "CFXTrackItem";
+            if (type.EndsWith("Attachment"))
+                type = "IAttachment";
+            List<string> ret = new List<string>();
+            switch (type)
+            {
+                case "IAttachment":
+                    ret.Add("parent");
+                    break;
+                case "CEntityTemplate":
+                    //? ret.Add("overrides");
+                    ret.Add("entityClass");
+                    ret.Add("properOverrides");
+                    ret.Add("cookedEffectsVersion");
+                    break;
+                case "SAppearanceAttachment":
+                    ret.Add("Data");
+                    break;
+                case "CFXTrackItem":
+                    ret.Add("count");
+                    ret.Add("unk");
+                    ret.Add("buffername");
+                    break;
+                case "CFXDefinition":
+                case "CFXTrack":
+                case "CFXTrackGroup":
+                    ret.Add("name");
+                    break;
+            }
+            return ret;
+        }
+        string prepareName(string name)
+        {
+            if (name.All(Char.IsDigit))
+            {
+                name = '\"' + name + '\"';
+            }
+            int pos = name.IndexOf('#');
+            if (pos > 0)
+                return name.Substring(0, pos - 1);
+            else
+                return name;
+        }
+        bool isArrayType(string type)
+        {
+            return !string.IsNullOrEmpty(type) && (type.StartsWith("array:") || type.StartsWith("CBuffer"));
+        }
+        string prepareValue(IEditableVariable node, string type = "")
+        {
+            if (type == "")
+                type = node.REDType;
+            string value = string.IsNullOrEmpty(node.REDValue) ? "" : node.REDValue;
+
+            Func<string, string> wrapValue = x =>
+            {
+                string ret = x.Replace('\\', '/');
+                int pos = ret.LastIndexOf(": ");
+                if (pos > 0)
+                    ret = ret.Substring(pos + 2);
+                return ret;
+            };
+            if (string.IsNullOrEmpty(type))
+            {
+                return wrapValue(value);
+            }
+            else if (isArrayType(type))
+            {
+                return "# " + type;
+            }
+            else if (type == "Bool")
+            {
+                return (value == "True" ? "true" : "false");
+            }
+            else if (type == "Float")
+            {
+                string ret = value.Replace(',', '.');
+                foreach (char c in ret) // check if it is correct number
+                {
+                    if ((c < '0' || c > '9') && c != '-' && c != '.')
+                    {
+                        ret = "0.0";
+                        break;
+                    }
+                }
+                if (!ret.Contains('.'))
+                {
+                    ret += ".0";
+                }
+                return ret;
+            }
+            else if (type.StartsWith("Int") || type.StartsWith("Uint"))
+            {
+                foreach (char c in value) // check if it is correct number
+                {
+                    if ((c < '0' || c > '9') && c != '-')
+                    {
+                        value = "0";
+                        break;
+                    }
+                }
+                return value;
+            }
+            else if (type == "IdTag")
+            {
+                int pos = value.LastIndexOf("] ");
+                if (pos > 0)
+                    value = value.Substring(pos + 1);
+                return value;
+            }
+            else if (type == "String")
+            {
+                return "\"" + wrapValue(value) + "\"";
+            }
+            else if (type == "CName")
+            {
+                return wrapValue(value);
+            }
+            else
+            {
+                return wrapValue(value);
+            }
+        }
+        private void ProcessNodeYml_EngineTransform(IEditableVariable node, int cur_level, bool isArrayElement = false)
+        {
+            WriterYml.Write((isArrayElement ? "- " : "") + prepareName(node.REDName) + ":", cur_level);
+            string x = "0.0", y = "0.0", z = "0.0", pitch = "0.0", yaw = "0.0", roll = "0.0", scale_x = "1.0", scale_y = "1.0", scale_z = "1.0";
+            List<IEditableVariable> children = node.GetEditableVariables();
+            
+            foreach (var child in children)
+            {
+                switch (child.REDName)
+                {
+                    case "X":
+                        x = prepareValue(child);
+                        break;
+                    case "Y":
+                        y = prepareValue(child);
+                        break;
+                    case "Z":
+                        z = prepareValue(child);
+                        break;
+                    case "Pitch":
+                        pitch = prepareValue(child);
+                        break;
+                    case "Yaw":
+                        yaw = prepareValue(child);
+                        break;
+                    case "Roll":
+                        roll = prepareValue(child);
+                        break;
+                    case "Scale_x":
+                        scale_x = prepareValue(child);
+                        break;
+                    case "Scale_y":
+                        scale_y = prepareValue(child);
+                        break;
+                    case "Scale_z":
+                        scale_z = prepareValue(child);
+                        break;
+                }
+            }
+            WriterYml.Write("pos: [ " + x + ", " + y + ", " + z + " ]", cur_level + 1);
+            WriterYml.Write("rot: [ " + pitch + ", " + yaw + ", " + roll + " ]", cur_level + 1);
+            WriterYml.Write("scale: [ " + scale_x + ", " + scale_y + ", " + scale_z + " ]", cur_level + 1);
+        }
+        private void ProcessNodeYml_Vector(IEditableVariable node, int cur_level, bool isArrayElement = false)
+        {
+            string X = "0.0", Y = "0.0", Z = "0.0", W = "0.0";
+            List<IEditableVariable> children = node.GetEditableVariables();
+
+            foreach (var child in children)
+            {
+                switch (child.REDName)
+                {
+                    case "X":
+                        X = prepareValue(child);
+                        break;
+                    case "Y":
+                        Y = prepareValue(child);
+                        break;
+                    case "Z":
+                        Z = prepareValue(child);
+                        break;
+                    case "W":
+                        W = prepareValue(child);
+                        break;
+                }
+            }
+            WriterYml.Write((isArrayElement ? "- " : "") + prepareName(node.REDName) + ": [ " + X + ", " + Y + ", " + Z + ", " + W + " ]", cur_level);
+        }
+        private void ProcessNodeYml_EulerAngles(IEditableVariable node, int cur_level, bool isArrayElement = false)
+        {
+            string pitch = "0.0", yaw = "0.0", roll = "0.0";
+            List<IEditableVariable> children = node.GetEditableVariables();
+
+            foreach (var child in children)
+            {
+                switch (child.REDName)
+                {
+                    case "Pitch":
+                        pitch = prepareValue(child);
+                        break;
+                    case "Yaw":
+                        yaw = prepareValue(child);
+                        break;
+                    case "Roll":
+                        roll = prepareValue(child);
+                        break;
+                }
+            }
+            WriterYml.Write((isArrayElement ? "- " : "") + prepareName(node.REDName) + ": [ " + pitch + ", " + yaw + ", " + roll + " ]", cur_level);
+        }
+        private void ProcessNodeYml_Color(IEditableVariable node, int cur_level, bool isArrayElement = false)
+        {
+            string Red = "0.0", Green = "0.0", Blue = "0.0", Alpha = "-1.0";
+            List<IEditableVariable> children = node.GetEditableVariables();
+
+            foreach (var child in children)
+            {
+                switch (child.REDName)
+                {
+                    case "Red":
+                        Red = prepareValue(child);
+                        break;
+                    case "Green":
+                        Green = prepareValue(child);
+                        break;
+                    case "Blue":
+                        Blue = prepareValue(child);
+                        break;
+                    case "Alpha":
+                        Alpha = prepareValue(child);
+                        break;
+                }
+            }
+            WriterYml.Write((isArrayElement ? "- " : "") + prepareName(node.REDName) + ": [ " + Red + ", " + Green + ", " + Blue + ((Alpha == "-1.0") ? "" : (", " + Alpha)) + " ]", cur_level);
+        }
+        private void ProcessNodeYml_cookedEffects(IEditableVariable node, int cur_level, bool isArrayElement = false)
+        {
+            List<IEditableVariable> children = node.GetEditableVariables();
+
+            if (children.Count() < 1)
+                return;
+            WriterYml.Write("effects:", cur_level);
+            ++cur_level;
+            int nonameEffectsCount = 0;
+
+            foreach (var i_child in children)
+            {
+                var i_children = i_child.GetEditableVariables();
+                if (i_children.Count() < 1)
+                    return;
+                string name = "";
+                string buffer_size = "";
+                IEditableVariable bufferNode = null;
+                foreach (var j_child in i_children)
+                {
+                    if (j_child.REDName == "name")
+                        name = j_child.REDValue;
+                    else if (j_child.REDType == "SharedDataBuffer")
+                    {
+                        bufferNode = j_child;
+                    }
+                }
+                if (bufferNode != null)
+                {
+                    if (name == "")
+                        name = "noname_effect_" + nonameEffectsCount++;
+                    CR2W.Types.SharedDataBuffer SDB = (CR2W.Types.SharedDataBuffer)bufferNode;
+                    if (SDB != null)
+                        buffer_size = SDB.Bufferdata.ToString();
+                    WriterYml.Write("#buffer: " + buffer_size, cur_level);
+                    bufferNode.SetREDName(name);
+                    ProcessDataBuffer(bufferNode, cur_level, true);
+                }
+            }
+        }
+        private void ProcessNodeYml_interpolationBuffer(IEditableVariable node, int cur_level, bool isArrayElement = false)
+        {
+            List<IEditableVariable> children = node.GetEditableVariables();
+
+            if (children.Count() < 1)
+                return;
+            string[,] vars = new string[16, 4];
+            int rows = 0;
+
+            foreach (var child in children)
+            {
+                List<IEditableVariable> i_children = child.GetEditableVariables();
+                if (i_children.Count() < 16)
+                    return;
+                for (int j = 0; j < i_children.Count() && j < 16; ++j)
+                {
+                    vars[j, rows] = prepareValue(i_children[j], "Float");
+                }
+                ++rows;
+            }
+
+            WriterYml.Write("interpolation:", cur_level);
+            for (int j = 0; j < 16; ++j)
+            {
+                string tmp_var = "- [ " + vars[j, 0];
+                for (int i = 1; i < rows; ++i)
+                {
+                    tmp_var += ", " + vars[j, i];
+                }
+                tmp_var += " ]";
+
+                if (rows == 1)
+                    tmp_var = "- " + vars[j, 0];
+
+                WriterYml.Write(tmp_var, cur_level + 1);
+            }
+        }
+        private void ProcessNodeYml_Enum(IEditableVariable node, int cur_level, bool isArrayElement = false)
+        {
+            string value = node.REDValue ?? "";
+            string[] enum_values = value.Split(',');
+
+            if (enum_values.Count() < 1)
+                return;
+
+            //Console.WriteLine(" > Enum value: " + node.REDName + ", type: " + node.REDType + ", class: " + node.GetType());
+            WriterYml.Write(prepareName(node.REDName) + ":", cur_level);
+            foreach (var enum_value in enum_values)
+            {
+                WriterYml.Write("- " + enum_value, cur_level + 1);
+            }
+        }
+        private void ProcessNodeYml_TagList(IEditableVariable node, int cur_level, bool isArrayElement = false)
+        {
+            CR2W.Types.CBufferVLQInt32<CR2W.Types.CName> tags = ((CR2W.Types.TagList) node).tags;
+
+            if (tags == null || tags.Count() < 1)
+                return;
+
+            WriterYml.Write(prepareName(node.REDName) + ":", cur_level);
+            foreach (var tag in tags)
+            {
+                WriterYml.Write("- " + tag, cur_level + 1);
+            }
+        }
+        string getSpecialYmlMapNameVar(IEditableVariable node)
+        {
+            if (node.ParentVar == null)
+                return "";
+
+            List<int> pos = new List<int>();
+            for (int i = 0; i < mapInArray.Count(); ++i)
+            {
+                if (mapInArray[i][1] == node.REDName)
+                {
+                    pos.Add(i);
+                }
+            }
+            if (pos.Count() > 0)
+            {
+                //Console.WriteLine(" ^getSpecialYmlMapNameVar: ok [" + node.REDName + "]");
+                Type classInfo = node.ParentVar.GetType();
+                List<string> parentClasses = new List<string>();
+                while (classInfo != null && classInfo.Name != "CVariable")
+                {
+                    parentClasses.Add(classInfo.Name);
+                    classInfo = classInfo.BaseType;
+                }
+                
+                for (int i = 0; i < pos.Count(); ++i)
+                {
+                    if (parentClasses.Contains(mapInArray[pos[i]][0]))
+                    {
+                        //Console.WriteLine(" ^getSpecialYmlMapNameVar: Found! [" + mapInArray[pos[i]][2] + "]");
+                        return mapInArray[pos[i]][2];
+                    }
+                }
+            }
+            return "";
+        }
+
+        private void ProcessNodeYml(IEditableVariable node, int level, bool isArrayElement = false, string useNameVar = "")
+        {
+            //Console.WriteLine(new String(' ', level) + "> node: " + node.REDName + ", type: " + node.REDType + ", value: " + node.REDValue);
+            // special cases for rmemr encoder
+            if (node.REDType == "EngineTransform")
+            {
+                ProcessNodeYml_EngineTransform(node, level);
+                return;
+            }
+            if (node.REDType == "Vector" || node.REDType == "SVector4D")
+            {
+                ProcessNodeYml_Vector(node, level);
+                return;
+            }
+            if (node.REDType == "EulerAngles")
+            {
+                ProcessNodeYml_EulerAngles(node, level);
+                return;
+            }
+            if (node.REDType == "Color")
+            {
+                ProcessNodeYml_Color(node, level);
+                return;
+            }
+            if (node.REDName == "cookedEffects")
+            {
+                ProcessNodeYml_cookedEffects(node, level);
+                return;
+            }
+            if (node.REDName == "buffer" && node.REDType == "CCompressedBuffer:CBufferUInt16:CFloat")
+            {
+                ProcessNodeYml_interpolationBuffer(node, level);
+                return;
+            }
+            if (enumTypes.Contains(node.REDType))
+            {
+                ProcessNodeYml_Enum(node, level);
+                return;
+            }
+            if (node.REDType == "TagList")
+            {
+                ProcessNodeYml_TagList(node, level);
+                return;
+            }
+            if (node.REDName == "AttachmentsChild")
+            {
+                node.SetREDName("attachments");
+            }
+
+            if (node.REDName == "BufferV1" || node.REDName == "BufferV2" || node.REDName == "unknownBytes"
+                || node.REDName == "flatCompiledData" || node.REDName == "AttachmentsReference" || (node.REDName == "Unk1" && node.REDValue == "0"))
+                return;
+
+            //if (node.REDName == "Parent" && node.REDValue == "NULL") - Not actual for 0.7
+            //    return;
+
+            bool isMeArray = isArrayType(node.REDType);
+            List<IEditableVariable> children = node.GetEditableVariables();
+            List<string> unsupportedVars = getUnsupportedVarsByType(node.REDType);
+            string value = node.REDValue ?? "";
+            string mapNameVar = getSpecialYmlMapNameVar(node);
+            if (useNameVar == "")
+                useNameVar = mapNameVar;
+
+            if (node.REDName == "AttachmentsChild" && children.Count() == 0)
+                return;
+
+            if (node.REDName != node.REDType) // Chunk node is already printed in processCR2W, so don't print it again.
+            {
+                /* CHUNK-REFERENCE TYPE (ptr, handle) */
+                if (value.Contains("#") && !isMeArray)
+                {
+                    bool chunkFound = false;
+                    foreach (var chunk in Chunks)
+                    {
+                        if (wasDumped.Contains(chunk.REDName) || chunk.REDName != value)
+                            continue;
+
+                        chunkFound = true;
+                        wasDumped.Add(chunk.REDName);
+
+                        if (!isArrayElement) // avoid "0" excess chunks
+                        {
+                            WriterYml.Write(prepareName(node.REDName) + ":", level);
+                        }
+
+                        foreach (var item in chunk.GetEditableVariables())
+                        {
+                            if (!Options.DumpOnlyEdited || item.IsSerialized)
+                            {
+                                if (unsupportedVars.Contains(item.REDName))
+                                {
+                                    WriterYml.Write("## " + prepareName(item.REDName) + ": " + prepareValue(item), level + (isArrayElement ? 0 : 1));
+                                    continue;
+                                }
+                                if (isArrayElement)
+                                {
+                                    ProcessNodeYml(item, level, true, useNameVar);
+                                }
+                                else
+                                {
+                                    ProcessNodeYml(item, level + 1, false, useNameVar);
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                    if (!chunkFound)
+                    {
+                        WriterYml.Write("#" + prepareName(node.REDName) + ": (looped reference) " + value, level);
+                    }
+                    //return;
+                }
+                /* SIMPLE TYPE (int, float, cname, string, guid, handle-path) */
+                else if (children.Count() == 0)
+                {
+                    if (string.IsNullOrEmpty(node.REDValue) || value == "NULL") // empty value, ignore
+                    {
+                        WriterYml.Write("#" + prepareName(node.REDName) + ": <empty value>", level);
+                        return;
+                    }
+
+                    if (isArrayElement)
+                    {
+                        WriterYml.Write("- " + prepareValue(node), level);
+                    }
+                    else
+                    {
+                        WriterYml.Write(prepareName(node.REDName) + ": " + prepareValue(node), level);
+                    }
+                    return;
+                }
+                /* STRUCT/CLASS TYPE */
+                else
+                {
+                    if (isArrayElement)
+                    {
+                        if (useNameVar != "")
+                        {
+                            string mapName = node.REDType + "0";
+                            foreach (var child in children)
+                            {
+                                if (child.REDName == useNameVar)
+                                {
+                                    mapName = child.REDValue ?? mapName;
+                                    break;
+                                }
+                            }
+                            WriterYml.Write(prepareName(mapName) + ":", level);
+                            WriterYml.Write("\".type\": " + node.REDType, level + 1);
+
+                            unsupportedVars.Add(useNameVar);
+                            useNameVar = "";
+                        } else
+                        {
+                            WriterYml.Write("- \".type\": " + node.REDType, level);
+                        }
+                    }
+                    else
+                    {
+                        WriterYml.Write(prepareName(node.REDName) + ":  #" + node.REDType, level);
+                    }
+                }
+            } else
+            {   // chunk header - write type/name
+                if (isArrayElement)
+                {
+                    if (useNameVar != "")
+                    {
+                        string mapName = node.REDType + "0";
+                        foreach (var child in children)
+                        {
+                            if (child.REDName == useNameVar)
+                            {
+                                mapName = child.REDValue ?? mapName;
+                                node.RemoveVariable(child);
+                                break;
+                            }
+                        }
+                        WriterYml.Write(prepareName(mapName) + ":", level);
+                        WriterYml.Write("\".type\": " + node.REDType, level + 1);
+
+                        unsupportedVars.Add(useNameVar);
+                        useNameVar = "";
+                    }
+                    else
+                    {
+                        WriterYml.Write("- \".type\": " + node.REDType, level);
+                    }
+                }
+                else
+                {
+                    WriterYml.Write("\".type\": " + node.REDType, level);
+                    --level;
+                }
+            }
+
+            foreach (var child in children)
+            {
+                if (!Options.DumpOnlyEdited || child.IsSerialized)
+                {
+                    if (unsupportedVars.Contains(child.REDName))
+                    {
+                        WriterYml.Write("## " + prepareName(child.REDName) + ": " + prepareValue(child), level + 1);
+                        continue;
+                    }
+                    ProcessNodeYml(child, level + 1, isMeArray, useNameVar);
+                }
+            }
+
+
+            if (((node.REDType == "SharedDataBuffer" || node.REDType == "DataBuffer") && Options.DumpSDB)
+                || (node.REDType == "array:2,0,Uint8" && node.REDName != "deltaTimes"))
+            {   // Embedded CR2W dump:
+                // Dump SharedDataBuffer if option is set.
+                // Dump "array:2,0,Uint8", unless it's called "deltaTimes" (not CR2W)
+                // And dump FCD only if options.dumpFCD is set.
+                if (node.REDName != "flatCompiledData" || Options.DumpFCD)
+                {
+                    ProcessDataBuffer(node, level + 1, true);
+                }
+            }
+        }
+        
         //private VariableListNode GetNodes(CR2WExportWrapper chunk)
         //{
         //    return frmChunkProperties.AddListViewItems(chunk);

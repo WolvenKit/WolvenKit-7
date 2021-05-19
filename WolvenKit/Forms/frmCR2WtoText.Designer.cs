@@ -35,6 +35,7 @@
             this.btnRun = new System.Windows.Forms.Button();
             this.rtfDescription = new System.Windows.Forms.RichTextBox();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.chkDumpOnlyEdited = new System.Windows.Forms.CheckBox();
             this.chkLocalizedString = new System.Windows.Forms.CheckBox();
             this.labNumThreads = new System.Windows.Forms.Label();
             this.numThreads = new System.Windows.Forms.NumericUpDown();
@@ -68,7 +69,7 @@
             this.colSkipped = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colExceptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.chkDumpOnlyEdited = new System.Windows.Forms.CheckBox();
+            this.chkDumpYML = new System.Windows.Forms.CheckBox();
             this.pnlControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).BeginInit();
             this.grpExistingFiles.SuspendLayout();
@@ -83,7 +84,7 @@
             this.btnRun.Image = global::WolvenKit.Properties.Resources.Output_16x;
             this.btnRun.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRun.Location = new System.Drawing.Point(260, 633);
-            this.btnRun.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRun.Margin = new System.Windows.Forms.Padding(4);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(560, 28);
             this.btnRun.TabIndex = 30;
@@ -98,7 +99,7 @@
             this.rtfDescription.Cursor = System.Windows.Forms.Cursors.Default;
             this.rtfDescription.Font = new System.Drawing.Font("Calibri", 9F);
             this.rtfDescription.Location = new System.Drawing.Point(16, 14);
-            this.rtfDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rtfDescription.Margin = new System.Windows.Forms.Padding(4);
             this.rtfDescription.Name = "rtfDescription";
             this.rtfDescription.ReadOnly = true;
             this.rtfDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
@@ -109,6 +110,7 @@
             // 
             // pnlControls
             // 
+            this.pnlControls.Controls.Add(this.chkDumpYML);
             this.pnlControls.Controls.Add(this.chkDumpOnlyEdited);
             this.pnlControls.Controls.Add(this.chkLocalizedString);
             this.pnlControls.Controls.Add(this.labNumThreads);
@@ -130,10 +132,23 @@
             this.pnlControls.Controls.Add(this.txtPath);
             this.pnlControls.Controls.Add(this.grpRadioOutputMode);
             this.pnlControls.Location = new System.Drawing.Point(16, 236);
-            this.pnlControls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlControls.Margin = new System.Windows.Forms.Padding(4);
             this.pnlControls.Name = "pnlControls";
             this.pnlControls.Size = new System.Drawing.Size(987, 386);
             this.pnlControls.TabIndex = 21;
+            // 
+            // chkDumpOnlyEdited
+            // 
+            this.chkDumpOnlyEdited.AutoSize = true;
+            this.chkDumpOnlyEdited.Checked = true;
+            this.chkDumpOnlyEdited.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDumpOnlyEdited.Location = new System.Drawing.Point(604, 156);
+            this.chkDumpOnlyEdited.Margin = new System.Windows.Forms.Padding(4);
+            this.chkDumpOnlyEdited.Name = "chkDumpOnlyEdited";
+            this.chkDumpOnlyEdited.Size = new System.Drawing.Size(178, 20);
+            this.chkDumpOnlyEdited.TabIndex = 38;
+            this.chkDumpOnlyEdited.Text = "Dump only edited values";
+            this.chkDumpOnlyEdited.UseVisualStyleBackColor = true;
             // 
             // chkLocalizedString
             // 
@@ -141,7 +156,7 @@
             this.chkLocalizedString.Checked = true;
             this.chkLocalizedString.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLocalizedString.Location = new System.Drawing.Point(192, 282);
-            this.chkLocalizedString.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkLocalizedString.Margin = new System.Windows.Forms.Padding(4);
             this.chkLocalizedString.Name = "chkLocalizedString";
             this.chkLocalizedString.Size = new System.Drawing.Size(249, 20);
             this.chkLocalizedString.TabIndex = 15;
@@ -161,7 +176,7 @@
             // numThreads
             // 
             this.numThreads.Location = new System.Drawing.Point(541, 62);
-            this.numThreads.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numThreads.Margin = new System.Windows.Forms.Padding(4);
             this.numThreads.Minimum = new decimal(new int[] {
             1,
             0,
@@ -183,7 +198,7 @@
             this.chkCreateFolders.Checked = true;
             this.chkCreateFolders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkCreateFolders.Location = new System.Drawing.Point(192, 156);
-            this.chkCreateFolders.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkCreateFolders.Margin = new System.Windows.Forms.Padding(4);
             this.chkCreateFolders.Name = "chkCreateFolders";
             this.chkCreateFolders.Size = new System.Drawing.Size(191, 20);
             this.chkCreateFolders.TabIndex = 10;
@@ -194,7 +209,7 @@
             // 
             this.chkDumpEmbedded.AutoSize = true;
             this.chkDumpEmbedded.Location = new System.Drawing.Point(192, 206);
-            this.chkDumpEmbedded.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkDumpEmbedded.Margin = new System.Windows.Forms.Padding(4);
             this.chkDumpEmbedded.Name = "chkDumpEmbedded";
             this.chkDumpEmbedded.Size = new System.Drawing.Size(147, 20);
             this.chkDumpEmbedded.TabIndex = 12;
@@ -206,9 +221,9 @@
             this.grpExistingFiles.Controls.Add(this.radExistingSkip);
             this.grpExistingFiles.Controls.Add(this.radExistingOverwrite);
             this.grpExistingFiles.Location = new System.Drawing.Point(192, 314);
-            this.grpExistingFiles.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpExistingFiles.Margin = new System.Windows.Forms.Padding(4);
             this.grpExistingFiles.Name = "grpExistingFiles";
-            this.grpExistingFiles.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpExistingFiles.Padding = new System.Windows.Forms.Padding(4);
             this.grpExistingFiles.Size = new System.Drawing.Size(189, 69);
             this.grpExistingFiles.TabIndex = 20;
             this.grpExistingFiles.TabStop = false;
@@ -217,7 +232,7 @@
             // 
             this.radExistingSkip.AutoSize = true;
             this.radExistingSkip.Location = new System.Drawing.Point(8, 41);
-            this.radExistingSkip.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radExistingSkip.Margin = new System.Windows.Forms.Padding(4);
             this.radExistingSkip.Name = "radExistingSkip";
             this.radExistingSkip.Size = new System.Drawing.Size(131, 20);
             this.radExistingSkip.TabIndex = 22;
@@ -230,7 +245,7 @@
             this.radExistingOverwrite.AutoSize = true;
             this.radExistingOverwrite.Checked = true;
             this.radExistingOverwrite.Location = new System.Drawing.Point(8, 14);
-            this.radExistingOverwrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radExistingOverwrite.Margin = new System.Windows.Forms.Padding(4);
             this.radExistingOverwrite.Name = "radExistingOverwrite";
             this.radExistingOverwrite.Size = new System.Drawing.Size(160, 20);
             this.radExistingOverwrite.TabIndex = 21;
@@ -242,7 +257,7 @@
             // 
             this.chkPrefixFileName.AutoSize = true;
             this.chkPrefixFileName.Location = new System.Drawing.Point(192, 182);
-            this.chkPrefixFileName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkPrefixFileName.Margin = new System.Windows.Forms.Padding(4);
             this.chkPrefixFileName.Name = "chkPrefixFileName";
             this.chkPrefixFileName.Size = new System.Drawing.Size(202, 20);
             this.chkPrefixFileName.TabIndex = 11;
@@ -253,7 +268,7 @@
             // 
             this.chkDumpFCD.AutoSize = true;
             this.chkDumpFCD.Location = new System.Drawing.Point(192, 258);
-            this.chkDumpFCD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkDumpFCD.Margin = new System.Windows.Forms.Padding(4);
             this.chkDumpFCD.Name = "chkDumpFCD";
             this.chkDumpFCD.Size = new System.Drawing.Size(173, 20);
             this.chkDumpFCD.TabIndex = 14;
@@ -266,7 +281,7 @@
             this.chkDumpSDB.Checked = true;
             this.chkDumpSDB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDumpSDB.Location = new System.Drawing.Point(192, 233);
-            this.chkDumpSDB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkDumpSDB.Margin = new System.Windows.Forms.Padding(4);
             this.chkDumpSDB.Name = "chkDumpSDB";
             this.chkDumpSDB.Size = new System.Drawing.Size(219, 20);
             this.chkDumpSDB.TabIndex = 13;
@@ -287,7 +302,7 @@
             // btnPickOutput
             // 
             this.btnPickOutput.Location = new System.Drawing.Point(804, 114);
-            this.btnPickOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPickOutput.Margin = new System.Windows.Forms.Padding(4);
             this.btnPickOutput.Name = "btnPickOutput";
             this.btnPickOutput.Size = new System.Drawing.Size(100, 28);
             this.btnPickOutput.TabIndex = 8;
@@ -342,7 +357,7 @@
             // txtOutputDestination
             // 
             this.txtOutputDestination.Location = new System.Drawing.Point(192, 116);
-            this.txtOutputDestination.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtOutputDestination.Margin = new System.Windows.Forms.Padding(4);
             this.txtOutputDestination.Name = "txtOutputDestination";
             this.txtOutputDestination.Size = new System.Drawing.Size(603, 22);
             this.txtOutputDestination.TabIndex = 7;
@@ -351,7 +366,7 @@
             // btnChoosePath
             // 
             this.btnChoosePath.Location = new System.Drawing.Point(804, 14);
-            this.btnChoosePath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnChoosePath.Margin = new System.Windows.Forms.Padding(4);
             this.btnChoosePath.Name = "btnChoosePath";
             this.btnChoosePath.Size = new System.Drawing.Size(100, 25);
             this.btnChoosePath.TabIndex = 2;
@@ -362,7 +377,7 @@
             // txtPath
             // 
             this.txtPath.Location = new System.Drawing.Point(192, 14);
-            this.txtPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtPath.Name = "txtPath";
             this.txtPath.Size = new System.Drawing.Size(603, 22);
             this.txtPath.TabIndex = 1;
@@ -374,9 +389,9 @@
             this.grpRadioOutputMode.Controls.Add(this.radOutputModeSingleFile);
             this.grpRadioOutputMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.grpRadioOutputMode.Location = new System.Drawing.Point(192, 41);
-            this.grpRadioOutputMode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpRadioOutputMode.Margin = new System.Windows.Forms.Padding(4);
             this.grpRadioOutputMode.Name = "grpRadioOutputMode";
-            this.grpRadioOutputMode.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpRadioOutputMode.Padding = new System.Windows.Forms.Padding(4);
             this.grpRadioOutputMode.Size = new System.Drawing.Size(189, 62);
             this.grpRadioOutputMode.TabIndex = 3;
             this.grpRadioOutputMode.TabStop = false;
@@ -386,7 +401,7 @@
             this.radOutputModeSeparateFiles.AutoSize = true;
             this.radOutputModeSeparateFiles.Checked = true;
             this.radOutputModeSeparateFiles.Location = new System.Drawing.Point(8, 14);
-            this.radOutputModeSeparateFiles.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radOutputModeSeparateFiles.Margin = new System.Windows.Forms.Padding(4);
             this.radOutputModeSeparateFiles.Name = "radOutputModeSeparateFiles";
             this.radOutputModeSeparateFiles.Size = new System.Drawing.Size(161, 20);
             this.radOutputModeSeparateFiles.TabIndex = 4;
@@ -399,7 +414,7 @@
             // 
             this.radOutputModeSingleFile.AutoSize = true;
             this.radOutputModeSingleFile.Location = new System.Drawing.Point(8, 36);
-            this.radOutputModeSingleFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radOutputModeSingleFile.Margin = new System.Windows.Forms.Padding(4);
             this.radOutputModeSingleFile.Name = "radOutputModeSingleFile";
             this.radOutputModeSingleFile.Size = new System.Drawing.Size(87, 20);
             this.radOutputModeSingleFile.TabIndex = 5;
@@ -451,7 +466,7 @@
             this.colSkipped,
             this.colExceptions});
             this.dataStatus.Location = new System.Drawing.Point(260, 674);
-            this.dataStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataStatus.Margin = new System.Windows.Forms.Padding(4);
             this.dataStatus.MultiSelect = false;
             this.dataStatus.Name = "dataStatus";
             this.dataStatus.ReadOnly = true;
@@ -551,7 +566,7 @@
             // 
             this.txtLog.BackColor = System.Drawing.SystemColors.Window;
             this.txtLog.Location = new System.Drawing.Point(13, 752);
-            this.txtLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLog.Margin = new System.Windows.Forms.Padding(4);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
@@ -561,18 +576,18 @@
             this.txtLog.TabStop = false;
             this.txtLog.WordWrap = false;
             // 
-            // chkDumpOnlyEdited
+            // chkDumpYML
             // 
-            this.chkDumpOnlyEdited.AutoSize = true;
-            this.chkDumpOnlyEdited.Checked = true;
-            this.chkDumpOnlyEdited.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDumpOnlyEdited.Location = new System.Drawing.Point(604, 156);
-            this.chkDumpOnlyEdited.Margin = new System.Windows.Forms.Padding(4);
-            this.chkDumpOnlyEdited.Name = "chkDumpOnlyEdited";
-            this.chkDumpOnlyEdited.Size = new System.Drawing.Size(178, 20);
-            this.chkDumpOnlyEdited.TabIndex = 38;
-            this.chkDumpOnlyEdited.Text = "Dump only edited values";
-            this.chkDumpOnlyEdited.UseVisualStyleBackColor = true;
+            this.chkDumpYML.AutoSize = true;
+            this.chkDumpYML.Checked = true;
+            this.chkDumpYML.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDumpYML.Location = new System.Drawing.Point(604, 202);
+            this.chkDumpYML.Margin = new System.Windows.Forms.Padding(4);
+            this.chkDumpYML.Name = "chkDumpYML";
+            this.chkDumpYML.Size = new System.Drawing.Size(176, 20);
+            this.chkDumpYML.TabIndex = 39;
+            this.chkDumpYML.Text = "Dump YML (radish-style)";
+            this.chkDumpYML.UseVisualStyleBackColor = true;
             // 
             // frmCR2WtoText
             // 
@@ -586,7 +601,7 @@
             this.Controls.Add(this.btnRun);
             this.Controls.Add(this.pnlControls);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmCR2WtoText";
@@ -646,5 +661,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colExceptions;
         private System.Windows.Forms.CheckBox chkLocalizedString;
         private System.Windows.Forms.CheckBox chkDumpOnlyEdited;
+        private System.Windows.Forms.CheckBox chkDumpYML;
     }
 }
