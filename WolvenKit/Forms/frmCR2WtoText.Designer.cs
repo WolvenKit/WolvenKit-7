@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCR2WtoText));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnRun = new System.Windows.Forms.Button();
             this.rtfDescription = new System.Windows.Forms.RichTextBox();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.chkDumpYML = new System.Windows.Forms.CheckBox();
             this.chkDumpOnlyEdited = new System.Windows.Forms.CheckBox();
             this.chkLocalizedString = new System.Windows.Forms.CheckBox();
             this.labNumThreads = new System.Windows.Forms.Label();
@@ -69,7 +70,6 @@
             this.colSkipped = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colExceptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.chkDumpYML = new System.Windows.Forms.CheckBox();
             this.pnlControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).BeginInit();
             this.grpExistingFiles.SuspendLayout();
@@ -136,6 +136,19 @@
             this.pnlControls.Name = "pnlControls";
             this.pnlControls.Size = new System.Drawing.Size(987, 386);
             this.pnlControls.TabIndex = 21;
+            // 
+            // chkDumpYML
+            // 
+            this.chkDumpYML.AutoSize = true;
+            this.chkDumpYML.Checked = true;
+            this.chkDumpYML.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDumpYML.Location = new System.Drawing.Point(604, 202);
+            this.chkDumpYML.Margin = new System.Windows.Forms.Padding(4);
+            this.chkDumpYML.Name = "chkDumpYML";
+            this.chkDumpYML.Size = new System.Drawing.Size(176, 20);
+            this.chkDumpYML.TabIndex = 39;
+            this.chkDumpYML.Text = "Dump YML (radish-style)";
+            this.chkDumpYML.UseVisualStyleBackColor = true;
             // 
             // chkDumpOnlyEdited
             // 
@@ -449,14 +462,14 @@
             this.dataStatus.AllowUserToResizeColumns = false;
             this.dataStatus.AllowUserToResizeRows = false;
             this.dataStatus.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataStatus.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataStatus.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataStatus.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colAllFiles,
@@ -470,24 +483,24 @@
             this.dataStatus.MultiSelect = false;
             this.dataStatus.Name = "dataStatus";
             this.dataStatus.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataStatus.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataStatus.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dataStatus.RowHeadersVisible = false;
             this.dataStatus.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.Format = "N0";
-            dataGridViewCellStyle3.NullValue = "-";
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            this.dataStatus.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.Format = "N0";
+            dataGridViewCellStyle6.NullValue = "-";
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            this.dataStatus.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dataStatus.RowTemplate.ReadOnly = true;
             this.dataStatus.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataStatus.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -576,19 +589,6 @@
             this.txtLog.TabStop = false;
             this.txtLog.WordWrap = false;
             // 
-            // chkDumpYML
-            // 
-            this.chkDumpYML.AutoSize = true;
-            this.chkDumpYML.Checked = true;
-            this.chkDumpYML.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDumpYML.Location = new System.Drawing.Point(604, 202);
-            this.chkDumpYML.Margin = new System.Windows.Forms.Padding(4);
-            this.chkDumpYML.Name = "chkDumpYML";
-            this.chkDumpYML.Size = new System.Drawing.Size(176, 20);
-            this.chkDumpYML.TabIndex = 39;
-            this.chkDumpYML.Text = "Dump YML (radish-style)";
-            this.chkDumpYML.UseVisualStyleBackColor = true;
-            // 
             // frmCR2WtoText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -606,8 +606,9 @@
             this.MinimizeBox = false;
             this.Name = "frmCR2WtoText";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Dump CR2W Files To Text";
+            this.Text = "Dump CR2W Files To Text & YML";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCR2WtoText_FormClosing);
+            this.Load += new System.EventHandler(this.frmCR2WtoText_Load);
             this.pnlControls.ResumeLayout(false);
             this.pnlControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).EndInit();

@@ -1,7 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -11,7 +10,6 @@ using WolvenKit.App;
 using WolvenKit.Common.Model;
 using WolvenKit.Common.Services;
 using WolvenKit.CR2W;
-using static WolvenKit.Forms.frmChunkProperties;
 using MessageBoxButtons = System.Windows.Forms.MessageBoxButtons;
 using MessageBoxIcon = System.Windows.Forms.MessageBoxIcon;
 
@@ -341,6 +339,11 @@ namespace WolvenKit.Forms
             }
             else
                 e.Cancel = false;
+        }
+
+        private void frmCR2WtoText_Load(object sender, EventArgs e)
+        {
+
         }
     }
     internal class StatusController
@@ -708,6 +711,7 @@ namespace WolvenKit.Forms
         private List<CR2WExportWrapper> Chunks { get; }
         private List<CR2WEmbeddedWrapper> Embedded { get; }
         private HashSet<string> wasDumped = new HashSet<string>();
+        private Dictionary<string, CR2WExportWrapper> chunkByREDName = new Dictionary<string, CR2WExportWrapper>();
         private List<List<string>> mapInArray = new List<List<string>>();
         private HashSet<string> enumTypes = new HashSet<string> { "EDrawableFlags", "ELightChannel", "EInterpMethodType", "EInterpCurveMode", "ECompareOp", "ESpaceFillMode", "EComboAttackResponse", "ECameraState", "ECameraShakeState", "ECameraShakeMagnitude", "EDismembermentEffectTypeFlag", "ETriggerChannel", "EDayPart", "EGameplayMimicMode", "EPlayerGameplayMimicMode", "ESoundGameState", "ESoundEventSaveBehavior", "EStaticCameraAnimState", "EStaticCameraGuiEffect", "ECharacterPowerStats", "ECharacterRegenStats", "EDirection", "EDirectionZ", "EMoonState", "EWeatherEffect", "EScriptedEventCategory", "EScriptedEventType", "EInputDeviceType", "EncumbranceBoyMode", "EActorImmortalityMode", "EActorImmortalityChanel", "ETerrainType", "EAreaName", "EDlcAreaName", "EZoneName", "EHitReactionType", "EFocusHitReaction", "EAttackSwingType", "EAttackSwingDirection", 
             "EManageGravity", "ECounterAttackSwitch", "EAttitudeGroupPriority", "ETimescaleSource", "EMonsterCategory", "EButtonStage", "EStaminaActionType", "EFocusModeSoundEffectType", "EStatistic", "EAchievement", "ETutorialHintDurationType", "ETutorialHintPositionType", "ESpeedType", "EBloodType", "EStatOwner", "ETestSubject", "ETargetName", "EMonsterTactic", "EOperator", "ESpawnPositionPattern", "ESpawnRotation", "EFlyingCheck", "ECriticalEffectCounterType", "EFairytaleWitchAction", "EActionInfoType", "EBossAction", "EBossSpecialAttacks", "EEredinPhaseChangeAction", "ESpawnCondition", "ENPCCollisionStance", "ENPCBaseType", "EGuardState", "ENPCType", "EChosenTarget", "ETeleportType", "ECameraAnimPriority", "ECameraBlendSpeedMode", "EMerchantMapPinType", "EScriptedDetroyableComponentState", "EFoodGroup", "EClimbProbeUsed", "ESideSelected", "EPlayerCollisionStance", "EMovementCorrectionType", "EGameplayContextInput", "EExplorationStateType", 
@@ -744,7 +748,23 @@ namespace WolvenKit.Forms
             Options = options;
             if (Options.LocalizeStrings)
                 CR2W.LocalizedStringSource = MainController.Get();
+
             setupYmlMapCases();
+            foreach (var chunk in Chunks)
+            {
+                try
+                {
+                    chunkByREDName.Add(chunk.REDName, chunk);
+                }
+                catch (ArgumentNullException)
+                {
+                    Console.WriteLine("processCR2W::Null chunk!");
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("processCR2W::Already existing chunk name!");
+                }
+            }
         }
         private void setupYmlMapCases()
         {
@@ -788,11 +808,12 @@ namespace WolvenKit.Forms
                 ProcessEmbedded(level);
             }
             Writer.Write("Chunks:", level);
+
             foreach (var chunk in Chunks)
             {
-                var dumpYml = Options.DumpYML && !wasDumped.Contains(chunk.REDName);
-                wasDumped.Add(chunk.REDName);
-                
+                var dumpYml = Options.DumpYML && chunkByREDName.ContainsKey(chunk.REDName);
+                chunkByREDName.Remove(chunk.REDName);
+
                 //var node = GetNodes(chunk);
                 if (Options.DumpTXT)
                 {
@@ -1380,14 +1401,10 @@ namespace WolvenKit.Forms
                 /* CHUNK-REFERENCE TYPE (ptr, handle) */
                 if (value.Contains("#") && !isMeArray)
                 {
-                    bool chunkFound = false;
-                    foreach (var chunk in Chunks)
+                    if (chunkByREDName.ContainsKey(value))
                     {
-                        if (wasDumped.Contains(chunk.REDName) || chunk.REDName != value)
-                            continue;
-
-                        chunkFound = true;
-                        wasDumped.Add(chunk.REDName);
+                        var chunk = chunkByREDName[value];
+                        chunkByREDName.Remove(chunk.REDName);
 
                         if (!isArrayElement) // avoid "0" excess chunks
                         {
@@ -1413,10 +1430,7 @@ namespace WolvenKit.Forms
                                 }
                             }
                         }
-
-                        break;
-                    }
-                    if (!chunkFound)
+                    } else
                     {
                         WriterYml.Write("#" + prepareName(node.REDName) + ": (looped reference) " + value, level);
                     }
@@ -1469,8 +1483,11 @@ namespace WolvenKit.Forms
                     }
                     else
                     {
-                        WriterYml.Write(prepareName(node.REDName) + ":  #" + node.REDType, level);
-                    }
+                        if (isMeArray && children.Count() < 1)
+                            WriterYml.Write("# " + prepareName(node.REDName) + ": <null value>  #" + node.REDType, level);
+                        else
+                            WriterYml.Write(prepareName(node.REDName) + ":  #" + node.REDType, level);
+                    }   
                 }
             } else
             {   // chunk header - write type/name
