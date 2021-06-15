@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper.Configuration;
 using WolvenKit.Common.Services;
 using WolvenKit.CR2W.Types;
 
@@ -21,17 +22,22 @@ namespace WolvenKit.App.Model
                 using (var ms = new MemoryStream())
                 using (var writer = new StreamWriter(ms, Encoding.UTF8))
                 using (var reader = new StreamReader(ms))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
-                    RegisterClassMap(wrappedArray.InnerType, csv);
-                    csv.Configuration.HasHeaderRecord = useHeader;
-                    csv.WriteRecords(wrappedArray);
+                    var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                    {
+                        HasHeaderRecord = useHeader,
+                    };
+                    using (var csv = new CsvWriter(writer, config))
+                    {
+                        RegisterClassMap(wrappedArray.InnerType, csv);
+                        csv.WriteRecords(wrappedArray);
 
-                    writer.Flush();
-                    ms.Seek(0, SeekOrigin.Begin);
+                        writer.Flush();
+                        ms.Seek(0, SeekOrigin.Begin);
 
-                    var s = reader.ReadToEnd();
-                    return s;
+                        var s = reader.ReadToEnd();
+                        return s;
+                    }
                 }
             }
             catch (Exception e)
@@ -61,10 +67,13 @@ namespace WolvenKit.App.Model
         {
             try
             {
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    HasHeaderRecord = useHeader,
+                };
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
                     RegisterClassMap(type, csv);
-                    csv.Configuration.HasHeaderRecord = useHeader;
 
                     var records = csv.GetRecords(type).ToList();
                     // TODO: is there a way without recreating all?
@@ -81,25 +90,72 @@ namespace WolvenKit.App.Model
 
         private static void RegisterClassMap(Type type, CsvWriter csv)
         {
-            if (type == typeof(CName)) csv.Configuration.RegisterClassMap<CNameMap>();
-            if (type == typeof(CString)) csv.Configuration.RegisterClassMap<CStringMap>();
-            if (type == typeof(CBool)) csv.Configuration.RegisterClassMap<CBoolMap>();
-            if (type == typeof(CFloat)) csv.Configuration.RegisterClassMap<CFloatMap>();
+            if (type == typeof(CName))
+            {
+                csv.Context.RegisterClassMap<CNameMap>();
+            }
 
-            if (type == typeof(CUInt8)) csv.Configuration.RegisterClassMap<CUInt8Map>();
-            if (type == typeof(CUInt16)) csv.Configuration.RegisterClassMap<CUInt16Map>();
-            if (type == typeof(CUInt32)) csv.Configuration.RegisterClassMap<CUInt32Map>();
-            if (type == typeof(CUInt64)) csv.Configuration.RegisterClassMap<CUInt64Map>();
-            if (type == typeof(CInt8)) csv.Configuration.RegisterClassMap<CInt8Map>();
-            if (type == typeof(CInt16)) csv.Configuration.RegisterClassMap<CInt16Map>();
-            if (type == typeof(CInt32)) csv.Configuration.RegisterClassMap<CInt32Map>();
-            if (type == typeof(CInt64)) csv.Configuration.RegisterClassMap<CInt64Map>();
+            if (type == typeof(CString))
+            {
+                csv.Context.RegisterClassMap<CStringMap>();
+            }
 
+            if (type == typeof(CBool))
+            {
+                csv.Context.RegisterClassMap<CBoolMap>();
+            }
+
+            if (type == typeof(CFloat))
+            {
+                csv.Context.RegisterClassMap<CFloatMap>();
+            }
+
+            if (type == typeof(CUInt8))
+            {
+                csv.Context.RegisterClassMap<CUInt8Map>();
+            }
+
+            if (type == typeof(CUInt16))
+            {
+                csv.Context.RegisterClassMap<CUInt16Map>();
+            }
+
+            if (type == typeof(CUInt32))
+            {
+                csv.Context.RegisterClassMap<CUInt32Map>();
+            }
+
+            if (type == typeof(CUInt64))
+            {
+                csv.Context.RegisterClassMap<CUInt64Map>();
+            }
+
+            if (type == typeof(CInt8))
+            {
+                csv.Context.RegisterClassMap<CInt8Map>();
+            }
+
+            if (type == typeof(CInt16))
+            {
+                csv.Context.RegisterClassMap<CInt16Map>();
+            }
+
+            if (type == typeof(CInt32))
+            {
+                csv.Context.RegisterClassMap<CInt32Map>();
+            }
+
+            if (type == typeof(CInt64))
+            {
+                csv.Context.RegisterClassMap<CInt64Map>();
+            }
         }
         private static void RegisterClassMap(Type type, CsvReader csv)
         {
-            if (type == typeof(CName)) csv.Configuration.RegisterClassMap<CNameMap>();
-
+            if (type == typeof(CName))
+            {
+                csv.Context.RegisterClassMap<CNameMap>();
+            }
         }
 
     }

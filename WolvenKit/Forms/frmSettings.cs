@@ -300,15 +300,23 @@ namespace WolvenKit.Forms
                     {
                         if (programName.ToString().Contains("Witcher 3 Mod Tools"))
                         {
-                            wcc = Directory.GetFiles(installLocation.ToString(), "wcc_lite.exe",
-                                SearchOption.AllDirectories).First();
+                            var str = installLocation.ToString();
+                            if (Directory.Exists(str))
+                            {
+                                wcc = Directory.GetFiles(str, "wcc_lite.exe",
+                                    SearchOption.AllDirectories).FirstOrDefault();
+                            }
                         }
 
                         if (programName.ToString().Contains("The Witcher 3 - Wild Hunt") ||
                             programName.ToString().Contains("The Witcher 3: Wild Hunt"))
                         {
-                            w3 = Directory.GetFiles(installLocation.ToString(), "witcher3.exe",
-                                SearchOption.AllDirectories).First();
+                            var str = installLocation.ToString();
+                            if (Directory.Exists(str))
+                            {
+                                w3 = Directory.GetFiles(str, "witcher3.exe",
+                                    SearchOption.AllDirectories).FirstOrDefault();
+                            }
                         }
                     }
 
@@ -326,7 +334,7 @@ namespace WolvenKit.Forms
                         {
                             if (Directory.Exists(installLocation.ToString()))
                                 wcc = Directory.GetFiles(installLocation.ToString(), "wcc_lite.exe",
-                                    SearchOption.AllDirectories).First();
+                                    SearchOption.AllDirectories).FirstOrDefault();
                         }
 
                         if (programName.ToString().Contains("The Witcher 3 - Wild Hunt") ||
@@ -334,7 +342,7 @@ namespace WolvenKit.Forms
                         {
                             if (Directory.Exists(installLocation.ToString()))
                                 w3 = Directory.GetFiles(installLocation.ToString(), "witcher3.exe",
-                                SearchOption.AllDirectories).First();
+                                SearchOption.AllDirectories).FirstOrDefault();
                         }
                     }
 

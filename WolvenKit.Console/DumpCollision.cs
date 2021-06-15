@@ -55,7 +55,7 @@ namespace WolvenKit.Console
                     .Select(g => g.First())
                     .ToList();
                 using (var pb = new ConsoleProgressBar.ProgressBar())
-                using (var p1 = pb.Progress.Fork())
+                //using (var p1 = pb.Progress.Fork())
                 {
                     int progress = 0;
 
@@ -120,7 +120,7 @@ namespace WolvenKit.Console
 
                         progress += 1;
                         var perc = progress / (double)files.Count;
-                        p1.Report(perc, $"Loading bundle entries: {progress}/{files.Count}");
+                        //p1.Report(perc, $"Loading bundle entries: {progress}/{files.Count}");
                     }
                 }
             }

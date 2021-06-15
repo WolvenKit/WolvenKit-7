@@ -61,7 +61,7 @@ namespace WolvenKit.Console
             #region XBM DUMP
             const string ext = "xbm";
             using (var pb = new ConsoleProgressBar.ProgressBar())
-            using (var p1 = pb.Progress.Fork())
+            //using (var p1 = pb.Progress.Fork())
             {
                 int progress = 0;
                 var files1 = bm.FileList.Where(x => x.Name.EndsWith(ext)).ToList();
@@ -117,7 +117,7 @@ namespace WolvenKit.Console
 
                     progress += 1;
                     var perc = progress / (double)files1.Count;
-                    p1.Report(perc, $"Loading bundle entries: {progress}/{files1.Count}");
+                    //p1.Report(perc, $"Loading bundle entries: {progress}/{files1.Count}");
                 });
             }
             System.Console.WriteLine($@"Loaded {bundlexbmDict.Values.Count} Bundle Entries");
@@ -152,7 +152,7 @@ namespace WolvenKit.Console
 
                 
                 using (var pb = new ConsoleProgressBar.ProgressBar())
-                using (var p1 = pb.Progress.Fork())
+                //using (var p1 = pb.Progress.Fork())
                 {
                     int progress = 0;
                     var files = txc.FileList;
@@ -208,7 +208,7 @@ namespace WolvenKit.Console
 
                         progress += 1;
                         var perc = progress / (double)files.Count;
-                        p1.Report(perc, $"Loading cache entries: {progress}/{files.Count}");
+                        //p1.Report(perc, $"Loading cache entries: {progress}/{files.Count}");
                     });
                     System.Console.WriteLine($"Finished dumping {files.Count} texture cache infos.\r\n");
                 }
