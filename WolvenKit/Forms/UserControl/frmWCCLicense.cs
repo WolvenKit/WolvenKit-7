@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using RtfPipe;
 using WolvenKit.Properties;
 
 namespace WolvenKit

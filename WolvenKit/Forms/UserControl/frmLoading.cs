@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VGMToolbox.format.iso;
 using WolvenKit.App;
 
 namespace WolvenKit.Forms

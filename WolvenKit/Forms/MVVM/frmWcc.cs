@@ -1,5 +1,4 @@
 ﻿using BrightIdeasSoftware;
-using Microsoft.JScript;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
