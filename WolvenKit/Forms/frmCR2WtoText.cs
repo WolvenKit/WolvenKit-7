@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VisualPlus.Extensibility;
 using WolvenKit.App;
 using WolvenKit.Common.Model;
 using WolvenKit.Common.Services;
@@ -526,7 +525,8 @@ namespace WolvenKit.Forms
 
         public static string FileNameNoSourcePath(string fileName, string sourcePath)
         {
-            fileName.ReplaceFirst(sourcePath, "", out var fileNameNoSourcePath);
+            //TODO:UPDATE
+            var fileNameNoSourcePath = fileName.Replace(sourcePath, "");
             return fileNameNoSourcePath;
         }
         protected void ExceptionOccurred(string fileName, string msg)

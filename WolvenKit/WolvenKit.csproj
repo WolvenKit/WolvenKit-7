@@ -1,22 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{12FD792B-EC76-4969-8B42-9671025D5108}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WolvenKit</RootNamespace>
-    <AssemblyName>WolvenKit</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net48</TargetFramework>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <PublishUrl>./Publish/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -42,31 +28,30 @@
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <AssemblyTitle>Wolven kit</AssemblyTitle>
+    <Company>Community</Company>
+    <Product>Wolven kit</Product>
+    <Description>Wolven kit a tool to operate with the game \"The Witcher 3: Wild Hunt\" in various ways.</Description>
+    <Copyright>Copyright © 2015-2020</Copyright>
+    <AssemblyVersion>0.7.0.1</AssemblyVersion>
+    <FileVersion>0.7.0.1</FileVersion>
+    <NoWarn>1591</NoWarn>
+    <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
+    <PostBuildEvent />
+    <PostBuildEvent />
+    <PostBuildEvent />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <NoWarn>1591</NoWarn>
-    <DocumentationFile>bin\Debug\WolvenKit.xml</DocumentationFile>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Configuration)\WolvenKit.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Release\WolvenKit.xml</DocumentationFile>
-    <NoWarn>1591</NoWarn>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Configuration)\WolvenKit.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\WolvenKit\Icons\wolven_kit_icon2.ico</ApplicationIcon>
@@ -90,792 +75,658 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <NoWarn>1591</NoWarn>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\x86\Release\WolvenKit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Platform)\$(Configuration)\WolvenKit.xml</DocumentationFile>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <NoWarn>1591</NoWarn>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\x64\Release\WolvenKit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Platform)\$(Configuration)\WolvenKit.xml</DocumentationFile>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent />
+  </PropertyGroup>
+  <Target Name="AfterBuildMigrated">
+    <ItemGroup>
+      <MoveToLibFolder Include="$(OutputPath)*.dll ; $(OutputPath)*.pdb ; $(OutputPath)*.xml" />
+    </ItemGroup>
+  </Target>
   <ItemGroup>
-    <Reference Include="AutoUpdater.NET, Version=1.6.4.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autoupdater.NET.Official.1.6.4\lib\net45\AutoUpdater.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="CommandLine, Version=2.8.0.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommandLineParser.2.8.0\lib\net461\CommandLine.dll</HintPath>
-    </Reference>
-    <Reference Include="Cyotek.Windows.Forms.ImageBox, Version=1.2.0.0, Culture=neutral, PublicKeyToken=58daa28b0b2de221, processorArchitecture=MSIL">
-      <HintPath>..\packages\CyotekImageBox.1.3.0-Alpha1\lib\net20\Cyotek.Windows.Forms.ImageBox.dll</HintPath>
-    </Reference>
-    <Reference Include="Dfust.Hotkeys, Version=1.2.6206.24906, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dfust.Hotkeys.1.2.6206.24906\lib\net452\Dfust.Hotkeys.dll</HintPath>
-    </Reference>
-    <Reference Include="Dfust.Hotkeys.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dfust.Hotkeys.1.2.6206.24906\lib\net452\Dfust.Hotkeys.Util.dll</HintPath>
-    </Reference>
-    <Reference Include="Gma.System.MouseKeyHook, Version=5.6.130.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MouseKeyHook.5.6.0\lib\net40\Gma.System.MouseKeyHook.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.2.10, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.1.3.2\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="IniParserLTK, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IniParserLTK.1.1.5\lib\net45\IniParserLTK.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.ZLib, Version=2.0.0.14, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MarkerMetro.Unity.Ionic.Zlib.2.0.0.14\lib\net35\Ionic.ZLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.2.1.1\lib\net462\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
-    </Reference>
+    <PackageReference Include="AutoCompleteMenu-ScintillaNET" Version="1.6.2" />
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.6.4" />
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="CSharpImageLibrary" Version="4.2.0" />
+    <PackageReference Include="CsvHelper" Version="27.1.0" />
+    <PackageReference Include="CyotekImageBox" Version="1.3.0-Alpha1" />
+    <PackageReference Include="DevZH.FlatBuffers" Version="1.4.0" />
+    <PackageReference Include="Dfust.Hotkeys" Version="1.2.6206.24906" />
+    <PackageReference Include="DockPanelSuite" Version="3.0.6" />
+    <PackageReference Include="DockPanelSuite.ThemeVS2015" Version="3.0.6" />
+    <PackageReference Include="FastMember" Version="1.5.0" />
+    <PackageReference Include="IniParserLTK" Version="1.1.5" />
+    <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
+    <PackageReference Include="lz4net" Version="1.0.15.93" />
+    <PackageReference Include="MarkerMetro.Unity.Ionic.Zlib" Version="2.0.0.14" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.1.1" />
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Tpl.Dataflow" Version="4.5.24" />
+    <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+    <PackageReference Include="MouseKeyHook" Version="5.6.0" />
+    <PackageReference Include="NAudio" Version="2.0.0" />
+    <PackageReference Include="NAudio.Asio" Version="2.0.0" />
+    <PackageReference Include="NAudio.Core" Version="2.0.0" />
+    <PackageReference Include="NAudio.Midi" Version="2.0.0" />
+    <PackageReference Include="NAudio.Wasapi" Version="2.0.0" />
+    <PackageReference Include="NAudio.WinForms" Version="2.0.0" />
+    <PackageReference Include="NAudio.WinMM" Version="2.0.0" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="ObjectListView.Official" Version="2.9.2-alpha2" />
+    <PackageReference Include="OpenGL.Net.WinForms" Version="0.8.4" />
+    <PackageReference Include="PropertyGridEx" Version="1.0.0" />
+    <PackageReference Include="protobuf-net" Version="3.0.101" />
+    <PackageReference Include="protobuf-net.Core" Version="3.0.101" />
+    <PackageReference Include="ScintillaNET_FindReplaceDialog" Version="1.0.3.3" />
+    <PackageReference Include="SharpZipLib" Version="1.3.2" />
+    <PackageReference Include="System.AppContext" Version="4.3.0" />
+    <PackageReference Include="System.Buffers" Version="4.5.1" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+    <PackageReference Include="System.Console" Version="4.3.1" />
+    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="5.0.1" />
+    <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.Tracing" Version="4.3.0" />
+    <PackageReference Include="System.Globalization" Version="4.3.0" />
+    <PackageReference Include="System.Globalization.Calendars" Version="4.3.0" />
+    <PackageReference Include="System.IO" Version="4.3.0" />
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
+    <PackageReference Include="System.Net.Sockets" Version="4.3.0" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <PackageReference Include="System.ObjectModel" Version="4.3.0" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
+    <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="5.0.0" />
+    <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
+    <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
+    <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="System.Threading" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageReference Include="System.Threading.Timer" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
+    <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
+    <PackageReference Include="UsefulCSharpThings" Version="1.7.3" />
+    <PackageReference Include="Vlc.DotNet.Core" Version="3.1.0" />
+    <PackageReference Include="Vlc.DotNet.Core.Interops" Version="3.1.0" />
+    <PackageReference Include="Vlc.DotNet.Forms" Version="3.1.0" />
+    <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
+    <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.0" />
+    <PackageReference Include="WinFormAnimation" Version="1.6.0.4" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.Asio, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.Asio.2.0.0\lib\netstandard2.0\NAudio.Asio.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.Core.2.0.0\lib\netstandard2.0\NAudio.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.Midi, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.Midi.2.0.0\lib\netstandard2.0\NAudio.Midi.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.Wasapi, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.Wasapi.2.0.0\lib\netstandard2.0\NAudio.Wasapi.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.WinForms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.WinForms.2.0.0\lib\net472\NAudio.WinForms.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.WinMM, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.WinMM.2.0.0\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
-    </Reference>
-    <Reference Include="ObjectListView, Version=2.9.1.25410, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectListView.Official.2.9.2-alpha2\lib\net20\ObjectListView.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="PropertyGridEx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyGridEx.1.0.0\lib\net20\PropertyGridEx.dll</HintPath>
-    </Reference>
-    <Reference Include="protobuf-net.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <HintPath>..\packages\protobuf-net.Core.3.0.101\lib\net461\protobuf-net.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
-    </Reference>
-    <Reference Include="ScintillaNET_FindReplaceDialog, Version=1.0.3.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ScintillaNET_FindReplaceDialog.1.0.3.3\lib\net40-client\ScintillaNET_FindReplaceDialog.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.5.0.0\lib\net461\System.Collections.Immutable.dll</HintPath>
-    </Reference>
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Console, Version=4.0.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Console.4.3.1\lib\net46\System.Console.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing.Design" />
-    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Extensions, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.Extensions.4.3.1\lib\net462\System.Runtime.Extensions.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.RegularExpressions.4.3.1\lib\net463\System.Text.RegularExpressions.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.1\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
-    </Reference>
-    <Reference Include="UsefulThings, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UsefulCSharpThings.1.7.3\lib\net462\UsefulThings.dll</HintPath>
-    </Reference>
-    <Reference Include="VisualPlus, Version=0.4.1.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VisualPlus.0.4.1.4-beta\lib\VisualPlus\NET4\VisualPlus.dll</HintPath>
-    </Reference>
-    <Reference Include="Vlc.DotNet.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vlc.DotNet.Core.3.1.0\lib\net45\Vlc.DotNet.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Vlc.DotNet.Core.Interops, Version=3.1.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vlc.DotNet.Core.Interops.3.1.0\lib\net45\Vlc.DotNet.Core.Interops.dll</HintPath>
-    </Reference>
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
-      <HintPath>..\packages\DockPanelSuite.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
-    <Reference Include="WeifenLuo.WinFormsUI.Docking.ThemeVS2015, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
-      <HintPath>..\packages\DockPanelSuite.ThemeVS2015.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.ThemeVS2015.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ComboBoxExtensions.cs" />
-    <Compile Include="Forms\Editors\ArrayEditor.cs">
+    <Compile Update="Forms\Editors\ArrayEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Editors\ArrayEditor.Designer.cs">
+    <Compile Update="Forms\Editors\ArrayEditor.Designer.cs">
       <DependentUpon>ArrayEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editors\ByteArrayEditor.cs">
+    <Compile Update="Forms\Editors\ByteArrayEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Editors\ByteArrayEditor.Designer.cs">
+    <Compile Update="Forms\Editors\ByteArrayEditor.Designer.cs">
       <DependentUpon>ByteArrayEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editors\frmCsvEditor.cs">
+    <Compile Update="Forms\Editors\frmCsvEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editors\frmCsvEditor.Designer.cs">
+    <Compile Update="Forms\Editors\frmCsvEditor.Designer.cs">
       <DependentUpon>frmCsvEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editors\IdTagEditor.cs">
+    <Compile Update="Forms\Editors\IdTagEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Editors\IdTagEditor.Designer.cs">
+    <Compile Update="Forms\Editors\IdTagEditor.Designer.cs">
       <DependentUpon>IdTagEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editors\PtrEditor.cs">
+    <Compile Update="Forms\Editors\PtrEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Editors\PtrEditor.Designer.cs">
+    <Compile Update="Forms\Editors\PtrEditor.Designer.cs">
       <DependentUpon>PtrEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MVVM\frmBulkEditor.cs">
+    <Compile Update="Forms\MVVM\frmBulkEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmBulkEditor.Designer.cs">
+    <Compile Update="Forms\MVVM\frmBulkEditor.Designer.cs">
       <DependentUpon>frmBulkEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MVVM\frmMain_FileSystemWatcher.cs">
+    <Compile Update="Forms\MVVM\frmMain_FileSystemWatcher.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmOtherDocument.cs">
+    <Compile Update="Forms\MVVM\frmOtherDocument.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmOtherDocument.Designer.cs">
+    <Compile Update="Forms\MVVM\frmOtherDocument.Designer.cs">
       <DependentUpon>frmOtherDocument.cs</DependentUpon>
     </Compile>
-    <Compile Include="discord.cs" />
-    <Compile Include="Extensions\CustomFloatWindow.cs">
+    <Compile Update="Extensions\CustomFloatWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Extensions\RichTextBoxExtensions.cs" />
-    <Compile Include="FlowTreeEditors\LinkEditor.cs">
+    <Compile Update="FlowTreeEditors\LinkEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Quest\QuestPhaseEditor.cs">
+    <Compile Update="FlowTreeEditors\Quest\QuestPhaseEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Quest\QuestPhaseInputEditor.cs">
+    <Compile Update="FlowTreeEditors\Quest\QuestPhaseInputEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Quest\QuestScriptBlockEditor.cs">
+    <Compile Update="FlowTreeEditors\Quest\QuestScriptBlockEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneChoiceEditor.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneChoiceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneChoiceEditor.Designer.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneChoiceEditor.Designer.cs">
       <DependentUpon>SceneChoiceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneFlowConditionEditor.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneFlowConditionEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneFlowConditionEditor.Designer.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneFlowConditionEditor.Designer.cs">
       <DependentUpon>SceneFlowConditionEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneLinkEditor.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneLinkEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneLinkEditor.Designer.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneLinkEditor.Designer.cs">
       <DependentUpon>SceneLinkEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneRandomizerEditor.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneRandomizerEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneRandomizerEditor.Designer.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneRandomizerEditor.Designer.cs">
       <DependentUpon>SceneRandomizerEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneSectionEditor.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneSectionEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\Scene\SceneSectionEditor.Designer.cs">
+    <Compile Update="FlowTreeEditors\Scene\SceneSectionEditor.Designer.cs">
       <DependentUpon>SceneSectionEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MVVM\frmWcc.cs">
+    <Compile Update="Forms\MVVM\frmWcc.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmWcc.Designer.cs">
+    <Compile Update="Forms\MVVM\frmWcc.Designer.cs">
       <DependentUpon>frmWcc.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl\frmProgress.cs">
+    <Compile Update="Forms\UserControl\frmProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl\frmProgress.Designer.cs">
+    <Compile Update="Forms\UserControl\frmProgress.Designer.cs">
       <DependentUpon>frmProgress.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MVVM\frmRadish.cs">
+    <Compile Update="Forms\MVVM\frmRadish.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmRadish.Designer.cs">
+    <Compile Update="Forms\MVVM\frmRadish.Designer.cs">
       <DependentUpon>frmRadish.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmCR2WtoText.cs">
+    <Compile Update="Forms\frmCR2WtoText.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmCR2WtoText.Designer.cs">
+    <Compile Update="Forms\frmCR2WtoText.Designer.cs">
       <DependentUpon>frmCR2WtoText.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MVVM\frmImportUtility.cs">
+    <Compile Update="Forms\MVVM\frmImportUtility.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmImportUtility.Designer.cs">
+    <Compile Update="Forms\MVVM\frmImportUtility.Designer.cs">
       <DependentUpon>frmImportUtility.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMimics.cs">
+    <Compile Update="Forms\frmMimics.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMimics.Designer.cs">
+    <Compile Update="Forms\frmMimics.Designer.cs">
       <DependentUpon>frmMimics.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl\frmLoading.cs">
+    <Compile Update="Forms\UserControl\frmLoading.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl\frmLoading.Designer.cs">
+    <Compile Update="Forms\UserControl\frmLoading.Designer.cs">
       <DependentUpon>frmLoading.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmChunkFlowDiagram.cs">
+    <Compile Update="Forms\frmChunkFlowDiagram.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmChunkFlowDiagram.Designer.cs">
+    <Compile Update="Forms\frmChunkFlowDiagram.Designer.cs">
       <DependentUpon>frmChunkFlowDiagram.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMusicPlayer.cs">
+    <Compile Update="Forms\frmMusicPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMusicPlayer.Designer.cs">
+    <Compile Update="Forms\frmMusicPlayer.Designer.cs">
       <DependentUpon>frmMusicPlayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmConsole.cs">
+    <Compile Update="Forms\frmConsole.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmConsole.Designer.cs">
+    <Compile Update="Forms\frmConsole.Designer.cs">
       <DependentUpon>frmConsole.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmScriptEditor.cs">
+    <Compile Update="Forms\frmScriptEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmScriptEditor.Designer.cs">
+    <Compile Update="Forms\frmScriptEditor.Designer.cs">
       <DependentUpon>frmScriptEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmAnims.cs">
+    <Compile Update="Forms\frmAnims.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmAnims.Designer.cs">
+    <Compile Update="Forms\frmAnims.Designer.cs">
       <DependentUpon>frmAnims.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Dialog\frmStringsGuiImporterIDDialog.cs">
+    <Compile Update="Forms\Dialog\frmStringsGuiImporterIDDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Dialog\frmStringsGuiImporterIDDialog.Designer.cs">
+    <Compile Update="Forms\Dialog\frmStringsGuiImporterIDDialog.Designer.cs">
       <DependentUpon>frmStringsGuiImporterIDDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmCreateInstaller.cs">
+    <Compile Update="Forms\frmWelcome.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmCreateInstaller.Designer.cs">
-      <DependentUpon>frmCreateInstaller.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmWelcome.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmWelcome.Designer.cs">
+    <Compile Update="Forms\frmWelcome.Designer.cs">
       <DependentUpon>frmWelcome.cs</DependentUpon>
     </Compile>
-    <Compile Include="MockKernel.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\IThemedContent.cs" />
-    <Compile Include="UIConfiguration.cs" />
-    <Compile Include="UIController.cs" />
-    <Compile Include="Utility\EditorHandler.cs" />
-    <Compile Include="Utility\ProductionWindowFactory.cs" />
-    <Compile Include="Utility\UnbundleGameArgs.cs" />
-    <Compile Include="Utility\AddFileArgs.cs" />
-    <Compile Include="Utility\LoadFileArgs.cs" />
-    <Compile Include="WitcherListViewItem.cs" />
-    <Compile Include="Utility\CommonUIFunctions.cs" />
-    <Compile Include="Forms\UserControl\frmAbout.cs">
+    <Compile Update="Forms\UserControl\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl\frmAbout.Designer.cs">
+    <Compile Update="Forms\UserControl\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmDebug.cs">
+    <Compile Update="Forms\frmDebug.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmDebug.Designer.cs">
+    <Compile Update="Forms\frmDebug.Designer.cs">
       <DependentUpon>frmDebug.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl\frmImagePreview.cs">
+    <Compile Update="Forms\UserControl\frmImagePreview.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl\frmImagePreview.Designer.cs">
+    <Compile Update="Forms\UserControl\frmImagePreview.Designer.cs">
       <DependentUpon>frmImagePreview.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmInstallPackage.cs">
+    <Compile Update="Forms\frmInstallPackage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmInstallPackage.Designer.cs">
+    <Compile Update="Forms\frmInstallPackage.Designer.cs">
       <DependentUpon>frmInstallPackage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmJournalEditor.cs">
+    <Compile Update="Forms\frmJournalEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmJournalEditor.Designer.cs">
+    <Compile Update="Forms\frmJournalEditor.Designer.cs">
       <DependentUpon>frmJournalEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMenuCreator.cs">
+    <Compile Update="Forms\frmMenuCreator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMenuCreator.Designer.cs">
+    <Compile Update="Forms\frmMenuCreator.Designer.cs">
       <DependentUpon>frmMenuCreator.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl\frmPackSettings.cs">
+    <Compile Update="Forms\UserControl\frmPackSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl\frmPackSettings.Designer.cs">
+    <Compile Update="Forms\UserControl\frmPackSettings.Designer.cs">
       <DependentUpon>frmPackSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmSaveEditor.cs">
+    <Compile Update="Forms\frmSaveEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSaveEditor.Designer.cs">
+    <Compile Update="Forms\frmSaveEditor.Designer.cs">
       <DependentUpon>frmSaveEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmStringsGui.cs">
+    <Compile Update="Forms\frmStringsGui.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmStringsGui.Designer.cs">
+    <Compile Update="Forms\frmStringsGui.Designer.cs">
       <DependentUpon>frmStringsGui.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmStringsGuiImporter.cs">
+    <Compile Update="Forms\frmStringsGuiImporter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmStringsGuiImporter.Designer.cs">
+    <Compile Update="Forms\frmStringsGuiImporter.Designer.cs">
       <DependentUpon>frmStringsGuiImporter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.cs">
+    <Compile Update="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.Designer.cs">
+    <Compile Update="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.Designer.cs">
       <DependentUpon>frmStringsGuiScriptsPrefixDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Dialog\frmTextInput.cs">
+    <Compile Update="Forms\Dialog\frmTextInput.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Dialog\frmTextInput.Designer.cs">
+    <Compile Update="Forms\Dialog\frmTextInput.Designer.cs">
       <DependentUpon>frmTextInput.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl\frmWCCLicense.cs">
+    <Compile Update="Forms\UserControl\frmWCCLicense.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl\frmWCCLicense.Designer.cs">
+    <Compile Update="Forms\UserControl\frmWCCLicense.Designer.cs">
       <DependentUpon>frmWCCLicense.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utility\ImportExportUtility.cs" />
-    <Compile Include="FlowTreeEditors\ChunkEditor.cs">
+    <Compile Update="FlowTreeEditors\ChunkEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlowTreeEditors\ChunkEditor.Designer.cs">
+    <Compile Update="FlowTreeEditors\ChunkEditor.Designer.cs">
       <DependentUpon>ChunkEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlowTreeEditors\MoveEditorArgs.cs" />
-    <Compile Include="Forms\Dialog\frmAddChunk.cs">
+    <Compile Update="Forms\Dialog\frmAddChunk.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Dialog\frmAddChunk.Designer.cs">
+    <Compile Update="Forms\Dialog\frmAddChunk.Designer.cs">
       <DependentUpon>frmAddChunk.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmAssetBrowser.cs">
+    <Compile Update="Forms\frmAssetBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmAssetBrowser.Designer.cs">
+    <Compile Update="Forms\frmAssetBrowser.Designer.cs">
       <DependentUpon>frmAssetBrowser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmChunkList.cs">
+    <Compile Update="Forms\frmChunkList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmChunkList.Designer.cs">
+    <Compile Update="Forms\frmChunkList.Designer.cs">
       <DependentUpon>frmChunkList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmChunkProperties.cs">
+    <Compile Update="Forms\frmChunkProperties.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmChunkProperties.Designer.cs">
+    <Compile Update="Forms\frmChunkProperties.Designer.cs">
       <DependentUpon>frmChunkProperties.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MVVM\frmCR2WDocument.cs">
+    <Compile Update="Forms\MVVM\frmCR2WDocument.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmCR2WDocument.Designer.cs">
+    <Compile Update="Forms\MVVM\frmCR2WDocument.Designer.cs">
       <DependentUpon>frmCR2WDocument.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmEmbeddedFiles.cs">
+    <Compile Update="Forms\frmEmbeddedFiles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmEmbeddedFiles.Designer.cs">
+    <Compile Update="Forms\frmEmbeddedFiles.Designer.cs">
       <DependentUpon>frmEmbeddedFiles.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Dialog\frmExtractAmbigious.cs">
+    <Compile Update="Forms\Dialog\frmExtractAmbigious.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Dialog\frmExtractAmbigious.Designer.cs">
+    <Compile Update="Forms\Dialog\frmExtractAmbigious.Designer.cs">
       <DependentUpon>frmExtractAmbigious.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmHexEditorView.cs">
+    <Compile Update="Forms\frmHexEditorView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmHexEditorView.Designer.cs">
+    <Compile Update="Forms\frmHexEditorView.Designer.cs">
       <DependentUpon>frmHexEditorView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MVVM\frmMain.cs">
+    <Compile Update="Forms\MVVM\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmMain.Designer.cs">
+    <Compile Update="Forms\MVVM\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MVVM\frmModExplorer.cs">
+    <Compile Update="Forms\MVVM\frmModExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MVVM\frmModExplorer.Designer.cs">
+    <Compile Update="Forms\MVVM\frmModExplorer.Designer.cs">
       <DependentUpon>frmModExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl\frmModSettings.cs">
+    <Compile Update="Forms\UserControl\frmModSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl\frmModSettings.Designer.cs">
+    <Compile Update="Forms\UserControl\frmModSettings.Designer.cs">
       <DependentUpon>frmModSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl\frmOutput.cs">
+    <Compile Update="Forms\UserControl\frmOutput.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl\frmOutput.Designer.cs">
+    <Compile Update="Forms\UserControl\frmOutput.Designer.cs">
       <DependentUpon>frmOutput.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Dialog\frmRenameDialog.cs">
+    <Compile Update="Forms\Dialog\frmRenameDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Dialog\frmRenameDialog.Designer.cs">
+    <Compile Update="Forms\Dialog\frmRenameDialog.Designer.cs">
       <DependentUpon>frmRenameDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmSettings.cs">
+    <Compile Update="Forms\frmSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSettings.Designer.cs">
+    <Compile Update="Forms\frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Win32.cs" />
-    <EmbeddedResource Include="FlowTreeEditors\Scene\SceneFlowConditionEditor.resx">
+    <EmbeddedResource Update="FlowTreeEditors\Scene\SceneFlowConditionEditor.resx">
       <DependentUpon>SceneFlowConditionEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FlowTreeEditors\Scene\SceneLinkEditor.resx">
+    <EmbeddedResource Update="FlowTreeEditors\Scene\SceneLinkEditor.resx">
       <DependentUpon>SceneLinkEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editors\ArrayEditor.resx">
+    <EmbeddedResource Update="Forms\Editors\ArrayEditor.resx">
       <DependentUpon>ArrayEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editors\ByteArrayEditor.resx">
+    <EmbeddedResource Update="Forms\Editors\ByteArrayEditor.resx">
       <DependentUpon>ByteArrayEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editors\frmCsvEditor.resx">
+    <EmbeddedResource Update="Forms\Editors\frmCsvEditor.resx">
       <DependentUpon>frmCsvEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editors\IdTagEditor.resx">
+    <EmbeddedResource Update="Forms\Editors\IdTagEditor.resx">
       <DependentUpon>IdTagEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editors\PtrEditor.resx">
+    <EmbeddedResource Update="Forms\Editors\PtrEditor.resx">
       <DependentUpon>PtrEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MVVM\frmWcc.resx">
+    <EmbeddedResource Update="Forms\MVVM\frmWcc.resx">
       <DependentUpon>frmWcc.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl\frmAbout.resx">
+    <EmbeddedResource Update="Forms\UserControl\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FlowTreeEditors\ChunkEditor.resx">
+    <EmbeddedResource Update="FlowTreeEditors\ChunkEditor.resx">
       <DependentUpon>ChunkEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Dialog\frmAddChunk.resx">
+    <EmbeddedResource Update="Forms\Dialog\frmAddChunk.resx">
       <DependentUpon>frmAddChunk.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MVVM\frmBulkEditor.resx">
+    <EmbeddedResource Update="Forms\MVVM\frmBulkEditor.resx">
       <DependentUpon>frmBulkEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MVVM\frmOtherDocument.resx">
+    <EmbeddedResource Update="Forms\MVVM\frmOtherDocument.resx">
       <DependentUpon>frmOtherDocument.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl\frmProgress.resx">
+    <EmbeddedResource Update="Forms\UserControl\frmProgress.resx">
       <DependentUpon>frmProgress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MVVM\frmRadish.resx">
+    <EmbeddedResource Update="Forms\MVVM\frmRadish.resx">
       <DependentUpon>frmRadish.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmCR2WtoText.resx">
+    <EmbeddedResource Update="Forms\frmCR2WtoText.resx">
       <DependentUpon>frmCR2WtoText.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MVVM\frmImportUtility.resx">
+    <EmbeddedResource Update="Forms\MVVM\frmImportUtility.resx">
       <DependentUpon>frmImportUtility.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMimics.resx">
+    <EmbeddedResource Update="Forms\frmMimics.resx">
       <DependentUpon>frmMimics.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmAssetBrowser.resx">
+    <EmbeddedResource Update="Forms\frmAssetBrowser.resx">
       <DependentUpon>frmAssetBrowser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmChunkList.resx">
+    <EmbeddedResource Update="Forms\frmChunkList.resx">
       <DependentUpon>frmChunkList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmChunkProperties.resx">
+    <EmbeddedResource Update="Forms\frmChunkProperties.resx">
       <DependentUpon>frmChunkProperties.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MVVM\frmCR2WDocument.resx">
+    <EmbeddedResource Update="Forms\MVVM\frmCR2WDocument.resx">
       <DependentUpon>frmCR2WDocument.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmDebug.resx">
+    <EmbeddedResource Update="Forms\frmDebug.resx">
       <DependentUpon>frmDebug.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmEmbeddedFiles.resx">
+    <EmbeddedResource Update="Forms\frmEmbeddedFiles.resx">
       <DependentUpon>frmEmbeddedFiles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Dialog\frmExtractAmbigious.resx">
+    <EmbeddedResource Update="Forms\Dialog\frmExtractAmbigious.resx">
       <DependentUpon>frmExtractAmbigious.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmHexEditorView.resx">
+    <EmbeddedResource Update="Forms\frmHexEditorView.resx">
       <DependentUpon>frmHexEditorView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl\frmImagePreview.resx">
+    <EmbeddedResource Update="Forms\UserControl\frmImagePreview.resx">
       <DependentUpon>frmImagePreview.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmInstallPackage.resx">
+    <EmbeddedResource Update="Forms\frmInstallPackage.resx">
       <DependentUpon>frmInstallPackage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmJournalEditor.resx">
+    <EmbeddedResource Update="Forms\frmJournalEditor.resx">
       <DependentUpon>frmJournalEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl\frmLoading.resx">
+    <EmbeddedResource Update="Forms\UserControl\frmLoading.resx">
       <DependentUpon>frmLoading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MVVM\frmMain.resx">
+    <EmbeddedResource Update="Forms\MVVM\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMenuCreator.resx">
+    <EmbeddedResource Update="Forms\frmMenuCreator.resx">
       <DependentUpon>frmMenuCreator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MVVM\frmModExplorer.resx">
+    <EmbeddedResource Update="Forms\MVVM\frmModExplorer.resx">
       <DependentUpon>frmModExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl\frmModSettings.resx">
+    <EmbeddedResource Update="Forms\UserControl\frmModSettings.resx">
       <DependentUpon>frmModSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMusicPlayer.resx">
+    <EmbeddedResource Update="Forms\frmMusicPlayer.resx">
       <DependentUpon>frmMusicPlayer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmConsole.resx">
+    <EmbeddedResource Update="Forms\frmConsole.resx">
       <DependentUpon>frmConsole.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl\frmOutput.resx">
+    <EmbeddedResource Update="Forms\UserControl\frmOutput.resx">
       <DependentUpon>frmOutput.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl\frmPackSettings.resx">
+    <EmbeddedResource Update="Forms\UserControl\frmPackSettings.resx">
       <DependentUpon>frmPackSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmChunkFlowDiagram.resx">
+    <EmbeddedResource Update="Forms\frmChunkFlowDiagram.resx">
       <DependentUpon>frmChunkFlowDiagram.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Dialog\frmRenameDialog.resx">
+    <EmbeddedResource Update="Forms\Dialog\frmRenameDialog.resx">
       <DependentUpon>frmRenameDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSaveEditor.resx">
+    <EmbeddedResource Update="Forms\frmSaveEditor.resx">
       <DependentUpon>frmSaveEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmAnims.resx">
+    <EmbeddedResource Update="Forms\frmAnims.resx">
       <DependentUpon>frmAnims.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmScriptEditor.resx">
+    <EmbeddedResource Update="Forms\frmScriptEditor.resx">
       <DependentUpon>frmScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSettings.resx">
+    <EmbeddedResource Update="Forms\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmStringsGui.resx">
+    <EmbeddedResource Update="Forms\frmStringsGui.resx">
       <DependentUpon>frmStringsGui.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmStringsGuiImporter.resx">
+    <EmbeddedResource Update="Forms\frmStringsGuiImporter.resx">
       <DependentUpon>frmStringsGuiImporter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Dialog\frmStringsGuiImporterIDDialog.resx">
+    <EmbeddedResource Update="Forms\Dialog\frmStringsGuiImporterIDDialog.resx">
       <DependentUpon>frmStringsGuiImporterIDDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.resx">
+    <EmbeddedResource Update="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.resx">
       <DependentUpon>frmStringsGuiScriptsPrefixDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Dialog\frmTextInput.resx">
+    <EmbeddedResource Update="Forms\Dialog\frmTextInput.resx">
       <DependentUpon>frmTextInput.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl\frmWCCLicense.resx">
+    <EmbeddedResource Update="Forms\UserControl\frmWCCLicense.resx">
       <DependentUpon>frmWCCLicense.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmCreateInstaller.resx">
-      <DependentUpon>frmCreateInstaller.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmWelcome.resx">
+    <EmbeddedResource Update="Forms\frmWelcome.resx">
       <DependentUpon>frmWelcome.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -883,10 +734,6 @@
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
     <None Include="Properties\app.manifest">
       <SubType>Designer</SubType>
     </None>
@@ -894,7 +741,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Settings.Designer.cs">
+    <Compile Update="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -916,55 +763,18 @@
     <None Include="Resources\VisualStudio\FileGroup_10135_16x.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WolvenKit.App\WolvenKit.App.csproj">
-      <Project>{6C5EE693-7F88-4259-90D5-9B247E61A15A}</Project>
-      <Name>WolvenKit.App</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.Bundles\WolvenKit.Bundles.csproj">
-      <Project>{5bd2292a-24db-4b4a-a5b1-5d435769c289}</Project>
-      <Name>WolvenKit.Bundles</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.Common\WolvenKit.Common.csproj">
-      <Project>{4d1019f1-f099-450f-85b8-697e0332a94f}</Project>
-      <Name>WolvenKit.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.CR2W\WolvenKit.CR2W.csproj">
-      <Project>{f3129e02-31ad-4327-a9ef-7c52d777c71f}</Project>
-      <Name>WolvenKit.CR2W</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.Net\WolvenKit.Net.csproj">
-      <Project>{f60b8974-617d-45b5-bd33-68a9f739de4f}</Project>
-      <Name>WolvenKit.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Wolvenkit.Radish\WolvenKit.Radish.csproj">
-      <Project>{D4D390BB-C14D-423A-861A-470BED6D40A9}</Project>
-      <Name>WolvenKit.Radish</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.Render\WolvenKit.Render.csproj">
-      <Project>{8be56f4f-3b98-4bd8-8052-2b5e630af3d7}</Project>
-      <Name>WolvenKit.Render</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.Scaleform\WolvenKit.Scaleform.csproj">
-      <Project>{031dd6da-b643-4c2a-a30d-a2e2212724c2}</Project>
-      <Name>WolvenKit.Scaleform</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.Cache\WolvenKit.Cache.csproj">
-      <Project>{17cf5901-6e1f-467f-afe0-3cc04dc9688a}</Project>
-      <Name>WolvenKit.Cache</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.W3Strings\WolvenKit.W3Strings.csproj">
-      <Project>{32d40d10-d6c3-48f0-aeb6-0f41c7e75cfd}</Project>
-      <Name>WolvenKit.W3Strings</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.Save\WolvenKit.Save.csproj">
-      <Project>{9c026da7-481d-43c6-8c18-635d69fdb423}</Project>
-      <Name>WolvenKit.Save</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WolvenKit.Wwise\WolvenKit.Wwise.csproj">
-      <Project>{dcbbe807-cd6e-493e-8c04-db976a1591ea}</Project>
-      <Name>WolvenKit.Wwise</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\WolvenKit.App\WolvenKit.App.csproj" />
+    <ProjectReference Include="..\WolvenKit.Bundles\WolvenKit.Bundles.csproj" />
+    <ProjectReference Include="..\WolvenKit.Common\WolvenKit.Common.csproj" />
+    <ProjectReference Include="..\WolvenKit.CR2W\WolvenKit.CR2W.csproj" />
+    <ProjectReference Include="..\WolvenKit.Net\WolvenKit.Net.csproj" />
+    <ProjectReference Include="..\Wolvenkit.Radish\WolvenKit.Radish.csproj" />
+    <ProjectReference Include="..\WolvenKit.Render\WolvenKit.Render.csproj" />
+    <ProjectReference Include="..\WolvenKit.Scaleform\WolvenKit.Scaleform.csproj" />
+    <ProjectReference Include="..\WolvenKit.Cache\WolvenKit.Cache.csproj" />
+    <ProjectReference Include="..\WolvenKit.W3Strings\WolvenKit.W3Strings.csproj" />
+    <ProjectReference Include="..\WolvenKit.Save\WolvenKit.Save.csproj" />
+    <ProjectReference Include="..\WolvenKit.Wwise\WolvenKit.Wwise.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Legacy\geralt.jpg" />
@@ -1178,337 +988,6 @@
     <None Include="Resources\CustomImages\refresh.png" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <PublishFile Include="Crc32C.NET">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Cyotek.Windows.Forms.ImageBox">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="ICSharpCode.SharpZipLib">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="IniParserLTK">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Ionic.ZLib">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Irrlicht.dll">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Licenses\License.doboz4net.txt">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Licenses\License.dockpanelsuit.txt">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Licenses\License.dotnetzip.txt">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Licenses\License.dotnetzip.zlib.txt">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Licenses\License.lz4net.txt">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Licenses\License.objectlistview.txt">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Licenses\License.W3SaveGameEditor.txt">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="ObjectListView">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Snappy.NET">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="System.Runtime.CompilerServices.Unsafe">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Vlc.DotNet.Core">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Vlc.DotNet.Core.Interops">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="W3SavegameEditor.Core">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WeifenLuo.WinFormsUI.Docking">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WeifenLuo.WinFormsUI.Docking.ThemeVS2015">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WolvenKit.Bundles">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WolvenKit.Cache">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WolvenKit.Interfaces">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WolvenKit.Net">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WolvenKit.Render">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WolvenKit.Scaleform">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="WolvenKit.W3Strings">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="wolven_kit_icon.ico">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <Target Name="AfterBuild">
-    <ItemGroup>
-      <MoveToLibFolder Include="$(OutputPath)*.dll ; $(OutputPath)*.pdb ; $(OutputPath)*.xml" />
-    </ItemGroup>
-  </Target>
 </Project>

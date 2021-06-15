@@ -148,17 +148,18 @@ namespace WolvenKit.Forms
             /// debug console enabling
             try
             {
-                IniParser ip = new IniParser(Path.Combine(MainController.Get().Configuration.GameRootDir, "bin\\config\\base\\general.ini"));
-                if (!ip.HasSection("General") || ip.GetSetting("General", "DBGConsoleOn", true) != "true")
-                {
-                    if (MessageBox.Show(
-                            "WolvenKit has detected that your game has the debug console disabled. It is a useful tool when testing mods. Would you like it to be enabled?",
-                            "Debug console enabling", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        ip.AddSetting("General", "DBGConsoleOn", "true");
-                        ip.Save();
-                    }
-                }
+                //TODO:UPDATE
+                // IniParser ip = new IniParser(Path.Combine(MainController.Get().Configuration.GameRootDir, "bin\\config\\base\\general.ini"));
+                // if (!ip.HasSection("General") || ip.GetSetting("General", "DBGConsoleOn", true) != "true")
+                // {
+                //     if (MessageBox.Show(
+                //             "WolvenKit has detected that your game has the debug console disabled. It is a useful tool when testing mods. Would you like it to be enabled?",
+                //             "Debug console enabling", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                //     {
+                //         ip.AddSetting("General", "DBGConsoleOn", "true");
+                //         ip.Save();
+                //     }
+                // }
             }
             catch (Exception exception)
             {

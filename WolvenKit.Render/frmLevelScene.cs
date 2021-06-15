@@ -925,86 +925,86 @@ namespace WolvenKit.Render
 
         private void AddOpenFileDialogCustomControls(CommonFileDialog openDialog)
         {
-            // Add a geometry type ComboBox
-            CommonFileDialogGroupBox geoBox = new CommonFileDialogGroupBox("Geometry");
-            CommonFileDialogComboBox geoComboBox = new CommonFileDialogComboBox("geoComboBox");
-            geoComboBox.Items.Add(new CommonFileDialogComboBoxItem(".fbx"));
-            geoComboBox.Items.Add(new CommonFileDialogComboBoxItem(".obj"));
-            geoComboBox.SelectedIndex = 1;
-            geoBox.Items.Add(geoComboBox);
-            openDialog.Controls.Add(geoBox);
+            //// Add a geometry type ComboBox
+            //CommonFileDialogGroupBox geoBox = new CommonFileDialogGroupBox("Geometry");
+            //CommonFileDialogComboBox geoComboBox = new CommonFileDialogComboBox("geoComboBox");
+            //geoComboBox.Items.Add(new CommonFileDialogComboBoxItem(".fbx"));
+            //geoComboBox.Items.Add(new CommonFileDialogComboBoxItem(".obj"));
+            //geoComboBox.SelectedIndex = 1;
+            //geoBox.Items.Add(geoComboBox);
+            //openDialog.Controls.Add(geoBox);
 
-            // Add a texture ComboBox
-            CommonFileDialogGroupBox texBox = new CommonFileDialogGroupBox("Texture");
-            CommonFileDialogComboBox texComboBox = new CommonFileDialogComboBox("texComboBox");
-            texComboBox.Items.Add(new CommonFileDialogComboBoxItem(".bmp"));
-            texComboBox.Items.Add(new CommonFileDialogComboBoxItem(".jpg"));
-            texComboBox.Items.Add(new CommonFileDialogComboBoxItem(".png"));
-            texComboBox.Items.Add(new CommonFileDialogComboBoxItem(".tga"));
-            texComboBox.SelectedIndex = 2;
-            texBox.Items.Add(texComboBox);
-            openDialog.Controls.Add(texBox);
+            //// Add a texture ComboBox
+            //CommonFileDialogGroupBox texBox = new CommonFileDialogGroupBox("Texture");
+            //CommonFileDialogComboBox texComboBox = new CommonFileDialogComboBox("texComboBox");
+            //texComboBox.Items.Add(new CommonFileDialogComboBoxItem(".bmp"));
+            //texComboBox.Items.Add(new CommonFileDialogComboBoxItem(".jpg"));
+            //texComboBox.Items.Add(new CommonFileDialogComboBoxItem(".png"));
+            //texComboBox.Items.Add(new CommonFileDialogComboBoxItem(".tga"));
+            //texComboBox.SelectedIndex = 2;
+            //texBox.Items.Add(texComboBox);
+            //openDialog.Controls.Add(texBox);
 
-            // Create and add a separator
-            openDialog.Controls.Add(new CommonFileDialogSeparator());
+            //// Create and add a separator
+            //openDialog.Controls.Add(new CommonFileDialogSeparator());
 
-            // Add a world or local space option
-            openDialog.Controls.Add(new CommonFileDialogCheckBox("worldSpaceCheckBox", "World Space", false));
+            //// Add a world or local space option
+            //openDialog.Controls.Add(new CommonFileDialogCheckBox("worldSpaceCheckBox", "World Space", false));
 
-            // Add a multiple objects or single merged object
-            openDialog.Controls.Add(new CommonFileDialogCheckBox("mergeCheckBox", "Merge", false));
+            //// Add a multiple objects or single merged object
+            //openDialog.Controls.Add(new CommonFileDialogCheckBox("mergeCheckBox", "Merge", false));
         }
 
         private void Export(TreeNode node)
         {
-            // OBJ for now
-            var dlg = new CommonOpenFileDialog() { Title = "Select export folder" };
-            dlg.IsFolderPicker = true;
-            AddOpenFileDialogCustomControls(dlg);
+            //// OBJ for now
+            //var dlg = new CommonOpenFileDialog() { Title = "Select export folder" };
+            //dlg.IsFolderPicker = true;
+            //AddOpenFileDialogCustomControls(dlg);
 
-            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                string exportMeshDirectory = dlg.FileName;
+            //if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+            //{
+            //    string exportMeshDirectory = dlg.FileName;
 
-                CommonFileDialogComboBox geoComboBox = dlg.Controls["geoComboBox"] as CommonFileDialogComboBox;
-                string modelExtension = geoComboBox.Items[geoComboBox.SelectedIndex].Text;
+            //    CommonFileDialogComboBox geoComboBox = dlg.Controls["geoComboBox"] as CommonFileDialogComboBox;
+            //    string modelExtension = geoComboBox.Items[geoComboBox.SelectedIndex].Text;
 
-                CommonFileDialogComboBox texComboBox = dlg.Controls["texComboBox"] as CommonFileDialogComboBox;
-                string texExtension = texComboBox.Items[texComboBox.SelectedIndex].Text;
+            //    CommonFileDialogComboBox texComboBox = dlg.Controls["texComboBox"] as CommonFileDialogComboBox;
+            //    string texExtension = texComboBox.Items[texComboBox.SelectedIndex].Text;
 
-                CommonFileDialogCheckBox worldSpaceCheckBox = dlg.Controls["worldSpaceCheckBox"] as CommonFileDialogCheckBox;
-                bool transformToWorld = worldSpaceCheckBox.IsChecked;
+            //    CommonFileDialogCheckBox worldSpaceCheckBox = dlg.Controls["worldSpaceCheckBox"] as CommonFileDialogCheckBox;
+            //    bool transformToWorld = worldSpaceCheckBox.IsChecked;
 
-                CommonFileDialogCheckBox mergeCheckBox = dlg.Controls["mergeCheckBox"] as CommonFileDialogCheckBox;
-                bool mergeObjects = mergeCheckBox.IsChecked;
+            //    CommonFileDialogCheckBox mergeCheckBox = dlg.Controls["mergeCheckBox"] as CommonFileDialogCheckBox;
+            //    bool mergeObjects = mergeCheckBox.IsChecked;
 
-                exportMeshButton.Enabled = false;
+            //    exportMeshButton.Enabled = false;
 
-                if (node.Nodes.Count > 0)
-                {
-                    // TODO: if merging is desired, combine all the objects into one mesh with multiple buffers
-                    progressBar.Maximum = node.Nodes.Count;
+            //    if (node.Nodes.Count > 0)
+            //    {
+            //        // TODO: if merging is desired, combine all the objects into one mesh with multiple buffers
+            //        progressBar.Maximum = node.Nodes.Count;
 
-                    int instance = 0;                    
-                    foreach(RenderTreeNode rn in node.Nodes)
-                    {
-                        string instanceName = "_" + instance.ToString();
-                        ExportNode(rn, exportMeshDirectory, modelExtension, texExtension, transformToWorld, instanceName);
-                        ++instance;
+            //        int instance = 0;                    
+            //        foreach(RenderTreeNode rn in node.Nodes)
+            //        {
+            //            string instanceName = "_" + instance.ToString();
+            //            ExportNode(rn, exportMeshDirectory, modelExtension, texExtension, transformToWorld, instanceName);
+            //            ++instance;
 
-                        progressBar.PerformStep();
-                    }
+            //            progressBar.PerformStep();
+            //        }
 
-                    progressBar.Value = 0;
-                }
-                else
-                {
-                    string instanceName = "";
-                    ExportNode((RenderTreeNode)node, exportMeshDirectory, modelExtension, texExtension, transformToWorld, instanceName);
-                }
+            //        progressBar.Value = 0;
+            //    }
+            //    else
+            //    {
+            //        string instanceName = "";
+            //        ExportNode((RenderTreeNode)node, exportMeshDirectory, modelExtension, texExtension, transformToWorld, instanceName);
+            //    }
 
-                exportMeshButton.Enabled = true;
-            }
+            //    exportMeshButton.Enabled = true;
+            //}
         }
 
         private void irrlichtPanel_Enter(object sender, EventArgs e)

@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using VisualPlus.Extensibility;
 using WeifenLuo.WinFormsUI.Docking;
 using WolvenKit.App;
 
@@ -102,7 +101,7 @@ namespace WolvenKit.Forms
         <style>
             body {{ 
                 font-family: Calibri, sans-serif; 
-                background: { UIController.GetBackColor().ToHTML() }; 
+                background: { UIController.GetBackColor() }; 
             }} 
             
         </style> 

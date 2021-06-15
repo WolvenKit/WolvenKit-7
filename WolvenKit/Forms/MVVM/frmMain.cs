@@ -469,8 +469,9 @@ namespace WolvenKit
         /// </summary>
         private void CreateInstaller()
         {
-            var cif = new frmCreateInstaller();
-            cif.ShowDialog();
+            //TODO:UPDATE
+            //var cif = new frmCreateInstaller();
+            //cif.ShowDialog();
         }
 
         //TODO: rework this for ViewModels
