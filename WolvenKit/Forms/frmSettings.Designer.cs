@@ -358,9 +358,9 @@ namespace WolvenKit.Forms
             this.labelUpdateChannel.Enabled = false;
             this.labelUpdateChannel.Location = new System.Drawing.Point(35, 224);
             this.labelUpdateChannel.Name = "labelUpdateChannel";
-            this.labelUpdateChannel.Size = new System.Drawing.Size(124, 13);
+            this.labelUpdateChannel.Size = new System.Drawing.Size(84, 13);
             this.labelUpdateChannel.TabIndex = 29;
-            this.labelUpdateChannel.Text = "Text Language (e.g. EN)";
+            this.labelUpdateChannel.Text = "Update Channel";
             // 
             // comboBoxUpdateChannel
             // 
