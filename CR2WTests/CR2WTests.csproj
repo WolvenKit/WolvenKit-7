@@ -58,7 +58,6 @@
     <ProjectReference Include="..\WolvenKit.Common\WolvenKit.Common.csproj" />
     <ProjectReference Include="..\WolvenKit.CR2W\WolvenKit.CR2W.csproj" />
     <ProjectReference Include="..\WolvenKit.Net\WolvenKit.Net.csproj" />
-    <ProjectReference Include="..\WolvenKit.Render\WolvenKit.Render.csproj" />
     <ProjectReference Include="..\WolvenKit.Save\WolvenKit.Save.csproj" />
     <ProjectReference Include="..\WolvenKit.Scaleform\WolvenKit.Scaleform.csproj" />
     <ProjectReference Include="..\WolvenKit.W3Speech\WolvenKit.W3Speech.csproj" />

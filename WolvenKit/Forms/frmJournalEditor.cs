@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,7 +8,6 @@ using WolvenKit.App.Model;
 using WolvenKit.Cache;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.Types;
-using WolvenKit.Render;
 
 namespace WolvenKit
 {

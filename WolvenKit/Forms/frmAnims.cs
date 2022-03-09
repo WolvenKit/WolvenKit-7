@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,14 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using IniParserLTK;
 using WolvenKit.CR2W;
+#if !USE_RENDER
 using WolvenKit.Render;
+#endif
 
 namespace WolvenKit
 {
     public partial class frmAnims : Form
     {
         private CR2WFile animsFile;
+#if !USE_RENDER
         private ExportAnimation exportAnims { get; set; }
+#endif
 
         public frmAnims(string w2animsFilePath = null, string w2rigFilePath = null)
         {
@@ -42,8 +46,9 @@ namespace WolvenKit
                 {
                     string w2rigFilePath = txw2rig.Text;
                     string w2animsFilePath = txw2anims.Text;
-
+#if !USE_RENDER
                     exportAnims = new ExportAnimation();
+#endif
                     byte[] animsData;
                     animsData = File.ReadAllBytes(w2animsFilePath);
                     using (MemoryStream ms = new MemoryStream(animsData))
@@ -54,12 +59,16 @@ namespace WolvenKit
                             FileName = w2animsFilePath
                         };
                         animsFile.Read(br);
+#if !USE_RENDER
                         exportAnims.LoadData(animsFile);
+#endif
                     }
                     comboBoxAnim.Items.Clear();
+#if !USE_RENDER
                     for (int i = 0; i < ExportAnimation.AnimationNames.Count; i++)
                         comboBoxAnim.Items.Add(ExportAnimation.AnimationNames[i].Key);
                     comboBoxAnim.SelectedItem = ExportAnimation.AnimationNames[0].Key;
+#endif
                 }
             }
             else
@@ -103,8 +112,10 @@ namespace WolvenKit
                 sf.FileName = Path.GetFileName(txw2anims.Text) + ".json";
                 if (sf.ShowDialog() == DialogResult.OK)
                 {
+#if !USE_RENDER
                     CommonData cdata = new CommonData();
                     Rig exportRig = new Rig(cdata);
+#endif
                     byte[] data;
                     data = File.ReadAllBytes(txw2rig.Text);
                     using (MemoryStream ms = new MemoryStream(data))
@@ -112,10 +123,14 @@ namespace WolvenKit
                     {
                         CR2WFile rigFile = new CR2WFile();
                         rigFile.Read(br);
+#if !USE_RENDER
                         exportRig.LoadData(rigFile);
+#endif
                     }
+#if !USE_RENDER
                     exportAnims.Apply(exportRig);
                     exportAnims.SaveJson(sf.FileName);
+#endif
                     MessageBox.Show(this, "Sucessfully wrote file!", "WolvenKit", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -178,7 +193,10 @@ namespace WolvenKit
             int resultIndex = -1;
             string selectedAnim = (string)comboBoxAnim.SelectedItem;
             resultIndex = comboBoxAnim.FindStringExact(selectedAnim);
+#if !USE_RENDER
             exportAnims.SelectAnimation(animsFile, resultIndex);
+#endif
+
         }
     }
 }

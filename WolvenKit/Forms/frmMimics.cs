@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -10,14 +10,18 @@ using System.Windows.Forms;
 using IniParserLTK;
 //using Microsoft.Win32;
 using WolvenKit.CR2W;
+#if !USE_RENDER
 using WolvenKit.Render;
+#endif
 
 namespace WolvenKit
 {
     public partial class frmMimics : Form
     {
         private CR2WFile animsFile;
+#if !USE_RENDER
         private ExportFace exportFac { get; set; }
+#endif
 
         public frmMimics(string w2animsFilePath = null, string w3facFilePath = null)
         {
@@ -44,7 +48,10 @@ namespace WolvenKit
                     string w3facFilePath = txw3fac.Text;
                     string w2animsFilePath = txw2anims.Text;
 
+#if !USE_RENDER
                     exportFac = new ExportFace();
+#endif
+
                     byte[] animsData;
                     animsData = File.ReadAllBytes(w2animsFilePath);
                     using (MemoryStream ms = new MemoryStream(animsData))
@@ -55,12 +62,16 @@ namespace WolvenKit
                             FileName = w2animsFilePath
                         };
                         animsFile.Read(br);
+#if !USE_RENDER
                         exportFac.LoadData(animsFile);
+#endif
                     }
                     comboBoxAnim.Items.Clear();
+#if !USE_RENDER
                     for (int i = 0; i < ExportAnimation.AnimationNames.Count; i++)
                         comboBoxAnim.Items.Add(ExportAnimation.AnimationNames[i].Key);
                     comboBoxAnim.SelectedItem = ExportAnimation.AnimationNames[0].Key;
+#endif
                 }
             }
             else
@@ -104,8 +115,10 @@ namespace WolvenKit
                 sf.FileName = Path.GetFileName(txw2anims.Text) + ".json";
                 if (sf.ShowDialog() == DialogResult.OK)
                 {
+#if !USE_RENDER
                     CommonData cdata = new CommonData();
                     Rig exportRig = new Rig(cdata);
+#endif
                     byte[] data;
                     data = File.ReadAllBytes(txw3fac.Text);
                     using (MemoryStream ms = new MemoryStream(data))
@@ -113,7 +126,9 @@ namespace WolvenKit
                     {
                         CR2WFile rigFile = new CR2WFile();
                         rigFile.Read(br);
+#if !USE_RENDER
                         exportRig.LoadData(rigFile);
+#endif
                     }
                     //exportFac.Apply(exportRig);
                     //exportFac.LoadData(sf.FileName);

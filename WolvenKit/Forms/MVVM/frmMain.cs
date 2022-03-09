@@ -1,4 +1,4 @@
-﻿using AutoUpdaterDotNET;
+using AutoUpdaterDotNET;
 using Dfust.Hotkeys;
 using Microsoft.VisualBasic.FileIO;
 using SharpPresence;
@@ -38,7 +38,9 @@ namespace WolvenKit
     using Extensions;
     using Forms;
     using Microsoft.WindowsAPICodePack.Dialogs;
+#if !USE_RENDER
     using Render;
+#endif
     using Scaleform;
     using System.Globalization;
     using WolvenKit.CR2W.Reflection;
@@ -49,7 +51,7 @@ namespace WolvenKit
     {
         private const string BaseTitle = "Wolven kit";
 
-        #region Fields
+#region Fields
         private readonly MainViewModel vm;
 
         private frmProgress ProgressForm { get; set; }
@@ -69,9 +71,9 @@ namespace WolvenKit
         private WolvenKit.Common.Services.LoggerService Logger { get; set; }
         private static string Version => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 
-        #endregion
+#endregion
 
-        #region Properties
+#region Properties
         private W3Mod ActiveMod
         {
             get => MainController.Get().ActiveMod;
@@ -82,9 +84,9 @@ namespace WolvenKit
             }
         }
 
-        #endregion
+#endregion
 
-        #region Constructor
+#region Constructor
         public frmMain()
         {
             vm = MockKernel.Get().GetMainViewModel();
@@ -131,9 +133,9 @@ namespace WolvenKit
             this.toolStripDropDownButtonGit.Paint += toolStripDropDownButtonGit_Paint;
         }
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
         /// <summary>
         /// Opens a document in the background
         /// </summary>
@@ -295,7 +297,7 @@ namespace WolvenKit
             }
 
             var old = XDocument.Load(file);
-            #region Upgrade from w3edit
+#region Upgrade from w3edit
             try
             {
                 if (old.Descendants("InstallAsDLC").Any())
@@ -343,7 +345,7 @@ namespace WolvenKit
             {
                 MessageBox.Show("Failed to upgrade the project!\n" + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            #endregion
+#endregion
 
 
 
@@ -363,7 +365,7 @@ namespace WolvenKit
             Logger.LogString("\"" + ActiveMod.Name + "\" loaded successfully!\n", Common.Services.Logtype.Success);
             MainController.Get().ProjectStatus = EProjectStatus.Ready;
 
-            #region upgrade from older mod projects
+#region upgrade from older mod projects
             if (!old.Descendants("Version").Any() || (old.Descendants("Version").Any()
                                                       && int.TryParse(old.Descendants("Version").First().Value, out int version)
                                                       && version < 0.62))
@@ -400,7 +402,7 @@ namespace WolvenKit
             }
 
 
-            #endregion
+#endregion
 
             // Hash all filepaths
             var relativepaths = ActiveMod.ModFiles
@@ -447,9 +449,9 @@ namespace WolvenKit
                 }
             }
         }
-        #endregion
+#endregion
 
-        #region UI Methods
+#region UI Methods
         public DockPanel GetDockPanel() => dockPanel;
         /// <summary>
         /// Closes all the "file documents", resets modexplorer and clears the output.
@@ -596,7 +598,7 @@ namespace WolvenKit
             }
         }
 
-        #region UI formborderstyle none
+#region UI formborderstyle none
 
         private const long WS_SYSMENU = 0x00080000L;
         private const long WS_BORDER = 0x00800000L;
@@ -786,10 +788,10 @@ namespace WolvenKit
             }
         }
 
-        #endregion
-        #endregion
+#endregion
+#endregion
 
-        #region BackGroundWorker
+#region BackGroundWorker
         Func<object, DoWorkEventArgs, object> workerAction;
         //Func<object, object> workerCompletedAction;
         void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -824,9 +826,9 @@ namespace WolvenKit
             ProgressForm.Close();
         }
 
-        #endregion
+#endregion
 
-        #region HotKeys
+#region HotKeys
         private void HKRun(HotKeyEventArgs e)
         {
             var pack = vm.PackAndInstallMod();
@@ -871,9 +873,9 @@ namespace WolvenKit
 
         private static void HKHelp(HotKeyEventArgs e) => Process.Start("https://github.com/Traderain/Wolven-kit/wiki");
 
-        #endregion
+#endregion
 
-        #region Events
+#region Events
         //private void Welcome_FormClosed(object sender, FormClosedEventArgs e)
         //{
         //    Welcome = null;
@@ -1235,8 +1237,10 @@ namespace WolvenKit
 
         public void ModExplorer_RequestFastRender(object sender, RequestFileOpenArgs e)
         {
+#if !USE_RENDER
             Render.FastRender.frmFastRender ren = new Render.FastRender.frmFastRender(e.File, Logger, ActiveMod);
             ren.Show(this.dockPanel, DockState.Document);
+#endif
         }
 
         public void ModExplorer_RequestAssetBrowser(object sender, RequestFileOpenArgs e) => OpenAssetBrowser(false, e.File);
@@ -1393,9 +1397,9 @@ namespace WolvenKit
 
             }
         }
-        #endregion
+#endregion
 
-        #region UI Events
+#region UI Events
         private void frmMain_Load(object sender, EventArgs e)
         {
             //Load/Setup the config
@@ -1578,7 +1582,7 @@ namespace WolvenKit
             }
         }
 
-        #region Discord
+#region Discord
         private void richpresenceworker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             string project = "non";
@@ -1612,7 +1616,7 @@ namespace WolvenKit
         {
 
         }
-        #endregion
+#endregion
 
         private void doc_Activated(object sender, EventArgs e)
         {
@@ -1632,15 +1636,15 @@ namespace WolvenKit
         }
 
 
-        #endregion
+#endregion
 
-        #region MenuStrip
+#region MenuStrip
         private void iconToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //new frmLoading().Show();
         }
 
-        #region Context menus
+#region Context menus
         private void modToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             packAndInstallModToolStripMenuItem.Enabled = ActiveMod != null;
@@ -1667,7 +1671,7 @@ namespace WolvenKit
 
         private void RepopulateRecentFiles(string file = "")
         {
-            #region Load recent files into toolstrip
+#region Load recent files into toolstrip
 
             // Update the recent files.
             recentFilesToolStripMenuItem.DropDownItems.Clear();
@@ -1696,7 +1700,7 @@ namespace WolvenKit
                 recentFilesToolStripMenuItem.Enabled = false;
             }
             new XDocument(new XElement("RecentFiles", files.Distinct().Select(x => new XElement("recentfile", x)))).Save("recent_files.xml");
-            #endregion
+#endregion
         }
 
 
@@ -1730,9 +1734,9 @@ namespace WolvenKit
             saveExplorerToolStripMenuItem.Enabled = ActiveMod != null;
         }
 
-        #endregion
+#endregion
 
-        #region File
+#region File
         private void tbtNewMod_Click(object sender, EventArgs e) => CreateNewMod();
 
         private void tbtOpenMod_Click(object sender, EventArgs e) => OpenMod();
@@ -1797,6 +1801,7 @@ namespace WolvenKit
 
         private void w2rigjsonToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if !USE_RENDER
             //MessageBox.Show(@"Select w2rig JSON.", "Information about importing rigs", MessageBoxButtons.OK, MessageBoxIcon.Information);
             using (var of = new OpenFileDialog())
             {
@@ -1830,10 +1835,12 @@ namespace WolvenKit
                     }
                 }
             }
+#endif
         }
 
         private void w2animsjsonToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if !USE_RENDER
             //MessageBox.Show(@"Select w2anims JSON.", "Information about importing rigs", MessageBoxButtons.OK, MessageBoxIcon.Information);
             using (var of = new OpenFileDialog())
             {
@@ -1866,6 +1873,7 @@ namespace WolvenKit
                     }
                 }
             }
+#endif
         }
 
         private void DLCScriptToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2015,9 +2023,9 @@ namespace WolvenKit
         {
             Close();
         }
-        #endregion
+#endregion
 
-        #region Project
+#region Project
         private void createPackedInstallerToolStripMenuItem_Click(object sender, EventArgs e) => CreateInstaller();
 
         private void ReloadProjectToolStripMenuItem_Click(object sender, EventArgs e) => OpenMod(MainController.Get().ActiveMod?.FileName);
@@ -2068,9 +2076,9 @@ namespace WolvenKit
             }
         }
 
-        #endregion
+#endregion
 
-        #region Tools
+#region Tools
         private void packageInstallerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var of = new OpenFileDialog())
@@ -2138,8 +2146,10 @@ namespace WolvenKit
 
         private void terrainViewerToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
+#if !USE_RENDER
             Render.frmTerrain ter = new Render.frmTerrain();
             ter.Show(this.dockPanel, DockState.Document);
+#endif
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2159,9 +2169,9 @@ namespace WolvenKit
             var be = new frmBulkEditor();
             be.ShowDialog();
         }
-        #endregion
+#endregion
 
-        #region View
+#region View
         private void modExplorerToolStripMenuItem_Click(object sender, EventArgs e) => MockKernel.Get().ShowModExplorer();
 
         private void OutputToolStripMenuItem_Click(object sender, EventArgs e) => MockKernel.Get().ShowOutput();
@@ -2175,9 +2185,9 @@ namespace WolvenKit
         private void scriptToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
-        #endregion
+#endregion
 
-        #region Game
+#region Game
         private void unbundleGameToolStripMenuItem_Click(object sender, EventArgs e) => SetupUnbundling();
 
         private void SetupUnbundling()
@@ -2499,9 +2509,9 @@ namespace WolvenKit
             gdb.Show(dockPanel, floatWindowBounds);
         }
 
-        #endregion
+#endregion
 
-        #region Help
+#region Help
         private void donateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Thank you! Every last bit helps and everything donated is distributed between the core developers evenly.", "Thank you", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
@@ -2549,10 +2559,10 @@ Would you like to open the problem steps recorder?", "Bug reporting", System.Win
                 System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
             Process.Start($"mailto:{"hambalko.bence@gmail.com"}?Subject={"WolvenKit bug report"}&Body={"Short description of bug:"}");
         }
-        #endregion
-        #endregion
+#endregion
+#endregion
 
-        #region ToolBar
+#region ToolBar
         private void newModToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateNewMod();
@@ -2649,6 +2659,7 @@ Would you like to open the problem steps recorder?", "Bug reporting", System.Win
 
         private void sceneViewerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if !USE_RENDER
             var dlg = new CommonOpenFileDialog {Title = "Select file", Multiselect = false};
             dlg.Filters.Add(new CommonFileDialogFilter("Files", ".w2w,.w2l"));
             dlg.InitialDirectory = MainController.Get().Configuration.InitialFileDirectory;
@@ -2658,6 +2669,7 @@ Would you like to open the problem steps recorder?", "Bug reporting", System.Win
                 var sceneView = new Render.frmLevelScene(dlg.FileName, MainController.Get().Configuration.DepotPath, MainController.Get().TextureManager);
                 sceneView.Show(this.dockPanel, DockState.Document);
             }
+#endif
         }
 
         private void toolStripDropDownButtonGit_Paint(object sender, PaintEventArgs e)
@@ -2702,6 +2714,6 @@ Would you like to open the problem steps recorder?", "Bug reporting", System.Win
         
         private void openDlcFolderToolStripMenuItem_Click(object sender, EventArgs e) => Commonfunctions.ShowFolderInExplorer(MainController.Get().Configuration.GameDlcDir);
 
-        #endregion
+#endregion
     }
 }

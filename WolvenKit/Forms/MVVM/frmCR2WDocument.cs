@@ -40,7 +40,9 @@ namespace WolvenKit
         private frmChunkFlowDiagram flowDiagram;
         private frmJournalEditor JournalEditor;
         private frmImagePreview ImageViewer;
+#if !USE_RENDER
         private Render.frmRender RenderViewer;
+#endif
 
         private CR2WFile File => (CR2WFile)vm.File;
 
@@ -561,7 +563,7 @@ namespace WolvenKit
                                 MockKernel.Get().Window.PauseMonitoring();
                                 WccHelper.AddAllImports(filename, true, false);
                                 MockKernel.Get().Window.ResumeMonitoring();
-
+#if !USE_RENDER
                                 this.RenderViewer = new Render.frmRender
                                 {
                                     LoadDocument = LoadDocumentAndGetFile,
@@ -570,6 +572,7 @@ namespace WolvenKit
                                     renderHelper = new Render.RenderHelper(MainController.Get().ActiveMod, MainController.Get().Logger)
                                 };
                                 this.RenderViewer.Show(this.FormPanel, DockState.Document);
+#endif
                             }
                             catch (Exception ex)
                             {
@@ -616,7 +619,7 @@ namespace WolvenKit
             stopwatch.Stop();
 
             MainController.LogString(output.ToString(), Logtype.Important);
-            #endregion
+#endregion
 
             CR2WFile LoadDocumentAndGetFile(string path)
             {

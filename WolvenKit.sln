@@ -1,12 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29509.3
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32210.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolvenKit", "WolvenKit\WolvenKit.csproj", "{12FD792B-EC76-4969-8B42-9671025D5108}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DCBBE807-CD6E-493E-8C04-DB976A1591EA} = {DCBBE807-CD6E-493E-8C04-DB976A1591EA}
-		{8BE56F4F-3B98-4BD8-8052-2B5E630AF3D7} = {8BE56F4F-3B98-4BD8-8052-2B5E630AF3D7}
 		{9C026DA7-481D-43C6-8C18-635D69FDB423} = {9C026DA7-481D-43C6-8C18-635D69FDB423}
 	EndProjectSection
 EndProject
@@ -19,11 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolvenKit.W3Speech", "WolvenKit.W3Speech\WolvenKit.W3Speech.csproj", "{C025F253-C78B-4A3B-87E7-1B2A1A453B97}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolvenKit.Save", "WolvenKit.Save\WolvenKit.Save.csproj", "{9C026DA7-481D-43C6-8C18-635D69FDB423}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolvenKit.Render", "WolvenKit.Render\WolvenKit.Render.csproj", "{8BE56F4F-3B98-4BD8-8052-2B5E630AF3D7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F6EF8E3-F26F-49DB-867D-FD10FB083B0D} = {4F6EF8E3-F26F-49DB-867D-FD10FB083B0D}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolvenKit.Scaleform", "WolvenKit.Scaleform\WolvenKit.Scaleform.csproj", "{031DD6DA-B643-4C2A-A30D-A2E2212724C2}"
 EndProject
@@ -58,13 +52,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolvenKit.Console", "Wolven
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolvenKit.App", "WolvenKit.App\WolvenKit.App.csproj", "{6C5EE693-7F88-4259-90D5-9B247E61A15A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IrrlichtLime", "WolvenKit.IrrlichtLime\IrrlichtLime.vcxproj", "{4F6EF8E3-F26F-49DB-867D-FD10FB083B0D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DD5C43CB-34A8-409B-9010-5A5A52787552} = {DD5C43CB-34A8-409B-9010-5A5A52787552}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Irrlicht", "WolvenKit.Irrlicht\Irrlicht15.0.vcxproj", "{DD5C43CB-34A8-409B-9010-5A5A52787552}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -95,10 +82,6 @@ Global
 		{9C026DA7-481D-43C6-8C18-635D69FDB423}.Debug|x64.Build.0 = Debug|Any CPU
 		{9C026DA7-481D-43C6-8C18-635D69FDB423}.Release|x64.ActiveCfg = Release|x64
 		{9C026DA7-481D-43C6-8C18-635D69FDB423}.Release|x64.Build.0 = Release|x64
-		{8BE56F4F-3B98-4BD8-8052-2B5E630AF3D7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8BE56F4F-3B98-4BD8-8052-2B5E630AF3D7}.Debug|x64.Build.0 = Debug|Any CPU
-		{8BE56F4F-3B98-4BD8-8052-2B5E630AF3D7}.Release|x64.ActiveCfg = Release|x64
-		{8BE56F4F-3B98-4BD8-8052-2B5E630AF3D7}.Release|x64.Build.0 = Release|x64
 		{031DD6DA-B643-4C2A-A30D-A2E2212724C2}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{031DD6DA-B643-4C2A-A30D-A2E2212724C2}.Debug|x64.Build.0 = Debug|Any CPU
 		{031DD6DA-B643-4C2A-A30D-A2E2212724C2}.Release|x64.ActiveCfg = Release|x64
@@ -139,14 +122,6 @@ Global
 		{6C5EE693-7F88-4259-90D5-9B247E61A15A}.Debug|x64.Build.0 = Debug|Any CPU
 		{6C5EE693-7F88-4259-90D5-9B247E61A15A}.Release|x64.ActiveCfg = Release|x64
 		{6C5EE693-7F88-4259-90D5-9B247E61A15A}.Release|x64.Build.0 = Release|x64
-		{4F6EF8E3-F26F-49DB-867D-FD10FB083B0D}.Debug|x64.ActiveCfg = Debug|x64
-		{4F6EF8E3-F26F-49DB-867D-FD10FB083B0D}.Debug|x64.Build.0 = Debug|x64
-		{4F6EF8E3-F26F-49DB-867D-FD10FB083B0D}.Release|x64.ActiveCfg = Release|x64
-		{4F6EF8E3-F26F-49DB-867D-FD10FB083B0D}.Release|x64.Build.0 = Release|x64
-		{DD5C43CB-34A8-409B-9010-5A5A52787552}.Debug|x64.ActiveCfg = Debug|x64
-		{DD5C43CB-34A8-409B-9010-5A5A52787552}.Debug|x64.Build.0 = Debug|x64
-		{DD5C43CB-34A8-409B-9010-5A5A52787552}.Release|x64.ActiveCfg = Release|x64
-		{DD5C43CB-34A8-409B-9010-5A5A52787552}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

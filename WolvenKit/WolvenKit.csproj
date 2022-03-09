@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>
@@ -41,6 +41,12 @@
     <PostBuildEvent />
     <PostBuildEvent />
   </PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants>USE_RENDER</DefineConstants>
+	</PropertyGroup>
+	
+	
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
     <DebugType>full</DebugType>
@@ -769,7 +775,6 @@
     <ProjectReference Include="..\WolvenKit.CR2W\WolvenKit.CR2W.csproj" />
     <ProjectReference Include="..\WolvenKit.Net\WolvenKit.Net.csproj" />
     <ProjectReference Include="..\Wolvenkit.Radish\WolvenKit.Radish.csproj" />
-    <ProjectReference Include="..\WolvenKit.Render\WolvenKit.Render.csproj" />
     <ProjectReference Include="..\WolvenKit.Scaleform\WolvenKit.Scaleform.csproj" />
     <ProjectReference Include="..\WolvenKit.Cache\WolvenKit.Cache.csproj" />
     <ProjectReference Include="..\WolvenKit.W3Strings\WolvenKit.W3Strings.csproj" />
@@ -858,10 +863,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\WolvenKit\Icons\wolven_kit_icon2.ico" />
-    <Content Include="..\Libs\Irrlicht.dll">
-      <Link>Irrlicht.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\CustomImages\box.png" />
     <None Include="Resources\CustomImages\box--arrow.png" />
     <None Include="Resources\CustomImages\bug.png" />

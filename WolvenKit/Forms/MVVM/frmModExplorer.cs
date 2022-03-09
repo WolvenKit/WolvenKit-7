@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,7 +25,9 @@ namespace WolvenKit
     using Common.Extensions;
     using Common.Model;
     using CR2W;
+#if !USE_RENDER
     using Render;
+#endif
     using Dfust.Hotkeys;
 
     public partial class frmModExplorer : DockContent, IThemedContent
@@ -78,7 +80,7 @@ namespace WolvenKit
             treeListView.ExpandAll();
         }
 
-        #region Properties
+#region Properties
 
         private static W3Mod ActiveMod => MainController.Get().ActiveMod;
 
@@ -91,7 +93,7 @@ namespace WolvenKit
         public FileSystemInfo GetSelectedObject() =>
             treeListView.SelectedObject is FileSystemInfo selectedobject ? selectedobject : null;
 
-        #endregion
+#endregion
 
 
 
@@ -111,7 +113,7 @@ namespace WolvenKit
 
 
 
-        #region Methods
+#region Methods
         public void ApplyCustomTheme()
         {
             UIController.Get().ToolStripExtender.SetStyle(searchstrip, VisualStudioToolStripExtender.VsVersion.Vs2015, UIController.GetThemeBase());
@@ -336,9 +338,9 @@ namespace WolvenKit
                 return (node as FileInfo)?.Extension;
         }
 
-        #endregion
+#endregion
 
-        #region Control Events
+#region Control Events
 
         private void ExpandBTN_Click(object sender, EventArgs e) => treeListView.ExpandAll();
         private void CollapseBTN_Click(object sender, EventArgs e) => treeListView.CollapseAll();
@@ -530,9 +532,9 @@ namespace WolvenKit
             vm.SelectedItems = s;
         }
 
-        #endregion
+#endregion
 
-        #region Context Menu
+#region Context Menu
         private void openAssetBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (treeListView.SelectedObject is FileSystemInfo selectedobject)
@@ -671,8 +673,10 @@ namespace WolvenKit
                     sf.FileName = Path.GetFileName(selectedobject.FullName + ".json");
                     if (sf.ShowDialog() == DialogResult.OK)
                     {
+#if !USE_RENDER
                         CommonData cdata = new CommonData();
                         Rig exportRig = new Rig(cdata);
+#endif
                         byte[] data;
                         data = File.ReadAllBytes(w2RigFilePath);
                         using (MemoryStream ms = new MemoryStream(data))
@@ -680,8 +684,10 @@ namespace WolvenKit
                         {
                             CR2WFile rigFile = new CR2WFile();
                             rigFile.Read(br);
+#if !USE_RENDER
                             exportRig.LoadData(rigFile);
                             exportRig.SaveRig(sf.FileName);
+#endif
                         }
                         MessageBox.Show(this, "Sucessfully wrote file!", "WolvenKit", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -728,7 +734,9 @@ namespace WolvenKit
                     : fullpath;
                 var files = Directory.GetFiles(dir ?? throw new InvalidOperationException(), "*.*", SearchOption.AllDirectories).ToList();
                 var folderName = Path.GetFileName(fullpath);
+#if !USE_RENDER
                 ConvertAnimation anim = new ConvertAnimation();
+#endif
                 if (File.Exists(fullpath + ".w2anims"))
                 {
                     if (MessageBox.Show(
@@ -740,6 +748,7 @@ namespace WolvenKit
                     }
                 }
 
+#if !USE_RENDER
                 try
                 {
                     anim.Load(files, fullpath + ".w2anims");
@@ -748,6 +757,7 @@ namespace WolvenKit
                 {
                     MessageBox.Show(ex.Message, "Error cooking files.");
                 }
+#endif
             }
         }
         private void exportW2meshToFbxToolStripMenuItem_Click(object sender, EventArgs e)
@@ -776,7 +786,7 @@ namespace WolvenKit
 
 
 
-        #endregion
+#endregion
 
 
     }
