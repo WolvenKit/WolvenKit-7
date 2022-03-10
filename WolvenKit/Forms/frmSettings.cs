@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using IniParserLTK;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using WolvenKit.App;
@@ -34,7 +30,7 @@ namespace WolvenKit.Forms
             InitializeComponent();
             var config = MainController.Get().Configuration;
 
-            
+
 
 
             textBoxGame.Text = config.ExecutablePath;
@@ -45,11 +41,11 @@ namespace WolvenKit.Forms
 
             txTextLanguage.Text = config.TextLanguage;
             txVoiceLanguage.Text = config.VoiceLanguage;
-            
+
 
             checkBoxDisableWelcomeForm.Checked = config.IsWelcomeFormDisabled;
             checkBoxAutoInstall.Checked = !config.IsAutoInstallModsDisabled;
-            
+
             comboBoxTheme.Items.AddRange(Enum.GetValues(typeof(EColorThemes)).Cast<object>().ToArray());
             comboBoxTheme.SelectedItem = UIController.Get().Configuration.ColorTheme;
 
@@ -62,14 +58,16 @@ namespace WolvenKit.Forms
             // automatically scan the registry for exe paths for wcc and tw3
             // if either text field is empty
             if (string.IsNullOrEmpty(textBoxGame.Text) || string.IsNullOrEmpty(textBoxWcc.Text))
+            {
                 exeSearcherSlave.RunWorkerAsync();
+            }
 
             btSave.Enabled =
                 (File.Exists(textBoxWcc.Text) && Path.GetExtension(textBoxWcc.Text) == ".exe" && textBoxWcc.Text.Contains("wcc_lite.exe")) &&
                 (File.Exists(textBoxGame.Text) && Path.GetExtension(textBoxGame.Text) == ".exe" && textBoxGame.Text.Contains("witcher3.exe")) &&
                 Directory.Exists(textBoxDepot.Text);
 
-            this.Icon = UIController.GetThemedWkitIcon();
+            Icon = UIController.GetThemedWkitIcon();
 
         }
 
@@ -103,8 +101,8 @@ namespace WolvenKit.Forms
             var uiconfig = UIController.Get().Configuration;
 
             // Apply Theme
-            bool applyTheme = uiconfig.ColorTheme != (EColorThemes)comboBoxTheme.SelectedItem;
-            
+            var applyTheme = uiconfig.ColorTheme != (EColorThemes)comboBoxTheme.SelectedItem;
+
             // save settings
             config.ExecutablePath = textBoxGame.Text;
             config.WccLite = textBoxWcc.Text;
@@ -112,8 +110,8 @@ namespace WolvenKit.Forms
             // double check that r4depot exists
             if (string.IsNullOrEmpty(config.DepotPath))
             {
-                DirectoryInfo wccDir = new FileInfo(textBoxWcc.Text).Directory.Parent.Parent;
-                string wcc_r4data = Path.Combine(wccDir.FullName, "r4data");
+                var wccDir = new FileInfo(textBoxWcc.Text).Directory.Parent.Parent;
+                var wcc_r4data = Path.Combine(wccDir.FullName, "r4data");
                 if (Directory.Exists(wcc_r4data))
                 {
                     config.DepotPath = wcc_r4data;
@@ -144,7 +142,7 @@ namespace WolvenKit.Forms
                 MockKernel.Get().Window.GlobalApplyTheme();
                 RequestApplyTheme?.Invoke();
             }
-                
+
             /// debug console enabling
             try
             {
@@ -203,8 +201,8 @@ namespace WolvenKit.Forms
                                         MessageBoxIcon.Error);
                                 }
                             }
-                            
-                            
+
+
 
                             break;
                         }
@@ -241,14 +239,17 @@ namespace WolvenKit.Forms
 
             MainController.Get().StatusProgress = 100;
             MainController.Get().ProjectStatus = EProjectStatus.Ready;
+            DialogResult = DialogResult.OK;
         }
 
         private void btnBrowseExe_Click(object sender, EventArgs e)
         {
-            var dlg = new System.Windows.Forms.OpenFileDialog();
-            dlg.Title = "Select Witcher 3 Executable.";
-            dlg.FileName = textBoxGame.Text;
-            dlg.Filter = "witcher3.exe|witcher3.exe";
+            var dlg = new System.Windows.Forms.OpenFileDialog
+            {
+                Title = "Select Witcher 3 Executable.",
+                FileName = textBoxGame.Text,
+                Filter = "witcher3.exe|witcher3.exe"
+            };
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 textBoxGame.Text = dlg.FileName;
@@ -271,7 +272,7 @@ namespace WolvenKit.Forms
 
         private void btBrowseDepot_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog dlg = new CommonOpenFileDialog
+            var dlg = new CommonOpenFileDialog
             {
                 InitialDirectory = "C:\\Users",
                 IsFolderPicker = true
@@ -334,16 +335,20 @@ namespace WolvenKit.Forms
                         if (programName.ToString().Contains("Witcher 3 Mod Tools"))
                         {
                             if (Directory.Exists(installLocation.ToString()))
+                            {
                                 wcc = Directory.GetFiles(installLocation.ToString(), "wcc_lite.exe",
                                     SearchOption.AllDirectories).FirstOrDefault();
+                            }
                         }
 
                         if (programName.ToString().Contains("The Witcher 3 - Wild Hunt") ||
                             programName.ToString().Contains("The Witcher 3: Wild Hunt"))
                         {
                             if (Directory.Exists(installLocation.ToString()))
+                            {
                                 w3 = Directory.GetFiles(installLocation.ToString(), "witcher3.exe",
                                 SearchOption.AllDirectories).FirstOrDefault();
+                            }
                         }
                     }
 
@@ -359,9 +364,14 @@ namespace WolvenKit.Forms
         private void exeSearcherSlave_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             if (File.Exists(witcherexe))
+            {
                 textBoxGame.Text = witcherexe;
+            }
+
             if (File.Exists(wccLiteexe))
+            {
                 textBoxWcc.Text = wccLiteexe;
+            }
 
 
             // get the depot path
@@ -375,7 +385,7 @@ namespace WolvenKit.Forms
                     var wccDir = directoryInfo?.Parent?.Parent;
                     if (wccDir != null)
                     {
-                        string wccR4data = Path.Combine(wccDir.FullName, "r4data");
+                        var wccR4data = Path.Combine(wccDir.FullName, "r4data");
                         if (Directory.Exists(wccR4data))
                         {
                             config.DepotPath = wccR4data;
@@ -396,7 +406,9 @@ namespace WolvenKit.Forms
             var config = MainController.Get().Configuration;
             var executablePath = config.ExecutablePath;
             if (string.IsNullOrEmpty(executablePath))
+            {
                 executablePath = witcherexe;
+            }
 
             if (string.IsNullOrEmpty(config.GameModDir) || !Directory.Exists(config.GameModDir))
             {
@@ -406,9 +418,14 @@ namespace WolvenKit.Forms
                     var tw3Directory = tw3ExeDirectory?.Parent?.Parent;
                     if (tw3Directory != null)
                     {
-                        string gamemoddir = Path.Combine(tw3Directory.FullName, "Mods");
+                        var gamemoddir = Path.Combine(tw3Directory.FullName, "Mods");
                         if (Directory.Exists(gamemoddir))
                         {
+                            config.GameModDir = gamemoddir;
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(gamemoddir);
                             config.GameModDir = gamemoddir;
                         }
                     }
@@ -422,7 +439,9 @@ namespace WolvenKit.Forms
             var config = MainController.Get().Configuration;
             var executablePath = config.ExecutablePath;
             if (string.IsNullOrEmpty(executablePath))
+            {
                 executablePath = witcherexe;
+            }
 
             if (string.IsNullOrEmpty(config.GameDlcDir) || !Directory.Exists(config.GameDlcDir))
             {
@@ -432,7 +451,7 @@ namespace WolvenKit.Forms
                     var tw3Directory = tw3ExeDirectory?.Parent?.Parent;
                     if (tw3Directory != null)
                     {
-                        string gamedlcdir = Path.Combine(tw3Directory.FullName, "DLC");
+                        var gamedlcdir = Path.Combine(tw3Directory.FullName, "DLC");
                         if (Directory.Exists(gamedlcdir))
                         {
                             config.GameDlcDir = gamedlcdir;
@@ -473,8 +492,8 @@ namespace WolvenKit.Forms
             var config = MainController.Get().Configuration;
             if (File.Exists(textBoxWcc.Text) && Path.GetExtension(textBoxWcc.Text) == ".exe" && textBoxWcc.Text.Contains("wcc_lite.exe"))
             {
-                DirectoryInfo wccDir = new FileInfo(textBoxWcc.Text).Directory.Parent.Parent;
-                string wcc_r4data = Path.Combine(wccDir.FullName, "r4data");
+                var wccDir = new FileInfo(textBoxWcc.Text).Directory.Parent.Parent;
+                var wcc_r4data = Path.Combine(wccDir.FullName, "r4data");
                 if (Directory.Exists(wcc_r4data))
                 {
                     config.DepotPath = wcc_r4data;
@@ -529,6 +548,6 @@ namespace WolvenKit.Forms
             }
         }
 
-        
+
     }
 }
