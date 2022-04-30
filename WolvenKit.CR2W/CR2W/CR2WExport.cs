@@ -1,4 +1,4 @@
-﻿//using RED.CRC32;
+//using RED.CRC32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -138,14 +138,14 @@ namespace WolvenKit.CR2W
         public List<CR2WExportWrapper> VirtualChildrenChunks => cr2w.chunks.Where(_ => _.VirtualParentChunk == this).ToList();
 
         /// <summary>
-        /// Playing with latin here, ab means toward, ab away from.
+        /// Playing with latin here, ad means toward, ab away from.
         /// This is the directed-graph in-edge list :
         /// CVariables, being CPtr or CHandle, which reference this chunk.
         /// </summary>
         public List<IChunkPtrAccessor> AdReferences;
 
         /// <summary>
-        /// Playing with latin here, ab means toward, ab away from.
+        /// Playing with latin here, ad means toward, ab away from.
         /// This is the directed-graph out-edge list :
         /// CVariables, being CPtr or CHandle, which are referenced by this chunk.
         /// </summary>
