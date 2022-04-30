@@ -1,4 +1,4 @@
-﻿using RED.CRC32;
+using RED.CRC32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -110,6 +110,22 @@ namespace WolvenKit.CR2W
         #endregion
 
         #region Supporting Functions
+		/// <summary>
+        /// Creates dictionary of chunks by it's REDNames.
+        /// </summary>
+        /// <param name="name_prefix">Includes only chunks with the same prefix in name (useful to filter by type). Leave empty to include all chunks.</param>
+        /// <returns>Dictionary[REDName] = CR2WExportWrapper</returns>
+        public Dictionary<string, CR2WExportWrapper> GetChunksMapByPrefix(string name_prefix)
+        {
+            Dictionary<string, CR2WExportWrapper> ret = new Dictionary<string, CR2WExportWrapper>();
+            foreach (var chunk in chunks)
+            {
+                if (string.IsNullOrEmpty(name_prefix) || chunk.REDName.StartsWith(name_prefix)) {
+                    ret[chunk.REDName] = chunk;
+                }
+            }
+            return ret;
+        }
         // Does not reindex /TODO
         public CR2WExportWrapper CreateChunk(string type, int chunkindex=0, CR2WExportWrapper parent = null, CR2WExportWrapper virtualparent = null, CVariable cvar = null)
         {
@@ -851,6 +867,26 @@ namespace WolvenKit.CR2W
                     hash.Append(BitConverter.GetBytes(h.crc32));
                 }
                 return hash.HashUInt32;
+            }
+        }
+
+        public void Write(CByteArray ba)
+        {
+            using (var ms = new MemoryStream())
+            using (var bw = new BinaryWriter(ms))
+            {
+                Write(bw);
+                ba.Bytes = ms.ToArray();
+            }
+        }
+
+        public void Write(byte[] ba)
+        {
+            using (var ms = new MemoryStream())
+            using (var bw = new BinaryWriter(ms))
+            {
+                Write(bw);
+                ba = ms.ToArray();
             }
         }
 
