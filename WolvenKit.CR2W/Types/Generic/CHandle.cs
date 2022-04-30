@@ -136,9 +136,11 @@ namespace WolvenKit.CR2W.Types
                     this.ClassName = parts[0];
                     this.DepotPath = parts[1];
                     this.ChunkHandle = false;
+                    SetIsSerialized();
                     break;
                 case CR2WExportWrapper wrapper:
                     SetValueInternal(wrapper.ChunkIndex + 1); // TODO check why +1 is needed
+                    SetIsSerialized();
                     break;
                 case int o:
                     SetValueInternal(o);
