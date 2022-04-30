@@ -35,6 +35,7 @@ namespace WolvenKit.CR2W.Types
             {
                 // do nothing I guess?
             }
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

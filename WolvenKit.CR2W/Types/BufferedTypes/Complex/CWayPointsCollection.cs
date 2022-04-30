@@ -55,6 +55,7 @@ namespace WolvenKit.CR2W.Types
                     throw new InvalidParsingException("Did not read buffer to the end.");
             }
 
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

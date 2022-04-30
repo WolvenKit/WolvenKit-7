@@ -208,6 +208,7 @@ namespace WolvenKit.CR2W.Types
                 return;
             Unk1 = new CUInt32(cr2w, this, nameof(Unk1)) { IsSerialized = true };
             Unk1.Read(file, size);
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

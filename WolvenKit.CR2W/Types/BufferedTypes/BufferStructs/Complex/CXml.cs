@@ -38,6 +38,7 @@ namespace WolvenKit.CR2W.Types
         {
             var len = file.ReadInt32();
             backingfield = file.ReadBytes(len);
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

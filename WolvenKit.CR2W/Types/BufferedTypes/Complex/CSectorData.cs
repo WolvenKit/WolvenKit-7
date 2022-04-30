@@ -66,6 +66,7 @@ namespace WolvenKit.CR2W.Types
                 blockdata.Read(file, (uint)len);
                 BlockData.AddVariable(blockdata);
             }
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

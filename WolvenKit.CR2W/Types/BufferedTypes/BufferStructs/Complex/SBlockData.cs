@@ -104,6 +104,7 @@ namespace WolvenKit.CR2W.Types
             {
                 throw new InvalidParsingException("read too far");
             }
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

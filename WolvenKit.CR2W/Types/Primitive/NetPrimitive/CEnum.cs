@@ -102,6 +102,7 @@ namespace WolvenKit.CR2W.Types
             }
 
             SetValue(strings);
+            SetIsSerialized();
         }
 
         /// <summary>

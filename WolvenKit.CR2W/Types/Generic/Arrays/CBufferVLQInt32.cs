@@ -19,6 +19,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             base.Read(file, size, (int)file.ReadVLQInt32());
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

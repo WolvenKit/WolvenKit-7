@@ -173,6 +173,7 @@ namespace WolvenKit.CR2W.Types
                 CVariable variable = fields[i];
                 variable.Read(file, size);
             }
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

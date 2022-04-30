@@ -32,6 +32,7 @@ namespace WolvenKit.CR2W.Types
             var endpos = file.BaseStream.Position;
 
             Data.Read(file, (uint)(size - (endpos - startpos)));
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

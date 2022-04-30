@@ -34,6 +34,7 @@ namespace WolvenKit.CR2W.Types
                 ParentGroup.ChunkHandle = true;
                 ParentGroup.Read(file, 4);
             }
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

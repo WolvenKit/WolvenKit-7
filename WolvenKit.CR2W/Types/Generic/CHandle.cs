@@ -68,6 +68,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             SetValueInternal(file.ReadInt32());
+            SetIsSerialized();
         }
 
         private void SetValueInternal(int val)

@@ -20,6 +20,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             val = file.ReadSingle();
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

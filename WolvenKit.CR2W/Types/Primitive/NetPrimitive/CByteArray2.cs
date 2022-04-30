@@ -21,6 +21,7 @@ namespace WolvenKit.CR2W.Types
         {
             var arraysize = file.ReadUInt32();
             Bytes = file.ReadBytes((int) arraysize - 4);
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

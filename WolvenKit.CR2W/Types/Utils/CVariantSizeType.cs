@@ -43,6 +43,7 @@ namespace WolvenKit.CR2W.Types
             }
 
             Variant = parsedvar;
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

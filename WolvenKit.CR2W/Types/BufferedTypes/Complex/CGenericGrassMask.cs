@@ -34,6 +34,7 @@ namespace WolvenKit.CR2W.Types
             if (MaskRes == null) return;
             var res = MaskRes.val;
             grassmask.Bytes = file.ReadBytes((int)(res * res >> 3));
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

@@ -51,6 +51,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             SetValueInternal(file.ReadInt32());
+            SetIsSerialized();
         }
 
         private void SetValueInternal(int val)
@@ -104,10 +105,12 @@ namespace WolvenKit.CR2W.Types
             switch (val)
             {
                 case CR2WExportWrapper wrapper:
+                    //IsSerialized = true;
                     Reference = wrapper;
 					SetIsSerialized();
                     break;
                 case IPtrAccessor cval:
+                    //IsSerialized = true;
                     Reference = cval.Reference;
 					SetIsSerialized();
                     break;

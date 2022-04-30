@@ -30,6 +30,7 @@ namespace WolvenKit.CR2W.Types
         {
             var idx = file.ReadUInt16();
             Value = cr2w.names[idx].Str;
+            SetIsSerialized();
         }
 
         /// <summary>
