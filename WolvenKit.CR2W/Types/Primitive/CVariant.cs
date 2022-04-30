@@ -74,6 +74,7 @@ namespace WolvenKit.CR2W.Types
                     Parent = this.ParentVar as CVariable
                 };
                 this.Variant = cvar.Variant.Copy(context);
+				SetIsSerialized();
             }
 
             return this;

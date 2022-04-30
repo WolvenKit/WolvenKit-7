@@ -91,6 +91,7 @@ namespace WolvenKit.CR2W.Types
                 {
                     AddVariable(item);
                 }
+				SetIsSerialized();
             }
 
             return this;

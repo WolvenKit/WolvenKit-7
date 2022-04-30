@@ -52,9 +52,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case XDocument document:
                     Data = document;
+					SetIsSerialized();
                     break;
                 case CXml cvar:
-                    this.Data = cvar.Data;
+                    Data = cvar.Data;
+					SetIsSerialized();
                     break;
             }
 

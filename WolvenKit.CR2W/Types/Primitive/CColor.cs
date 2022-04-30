@@ -57,9 +57,12 @@ namespace WolvenKit.CR2W.Types
             if (val is Color)
             {
                 Color = (Color)val;
+				SetIsSerialized();
             }
-            else if (val is CColor cvar)
+            else if (val is CColor cvar) {
                 Color = cvar.Color;
+				SetIsSerialized();
+			}
 
             return this;
         }

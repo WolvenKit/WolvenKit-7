@@ -39,12 +39,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case ulong o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = ulong.Parse(s);
+					SetIsSerialized();
                     break;
                 case CUInt64 v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 
@@ -210,12 +213,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case byte o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = byte.Parse(s);
+					SetIsSerialized();
                     break;
                 case CUInt8 v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 
@@ -266,12 +272,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case long o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = long.Parse(s);
+					SetIsSerialized();
                     break;
                 case CInt64 v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 
@@ -324,12 +333,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case int o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = int.Parse(s);
+					SetIsSerialized();
                     break;
                 case CInt32 v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 
@@ -380,12 +392,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case short o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = short.Parse(s);
+					SetIsSerialized();
                     break;
                 case CInt16 v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 
@@ -436,12 +451,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case sbyte o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = sbyte.Parse(s);
+					SetIsSerialized();
                     break;
                 case CInt8 v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 
@@ -492,12 +510,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case sbyte o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = sbyte.Parse(s);
+					SetIsSerialized();
                     break;
                 case CDynamicInt v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 
@@ -555,12 +576,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case sbyte o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = sbyte.Parse(s);
+					SetIsSerialized();
                     break;
                 case CVLQInt32 v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 
@@ -620,12 +644,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case bool b:
                     this.val = b;
+					SetIsSerialized();
                     break;
                 case string s:
                     this.val = bool.Parse(s);
+					SetIsSerialized();
                     break;
                 case CBool v:
                     this.val = v.val;
+					SetIsSerialized();
                     break;
             }
 

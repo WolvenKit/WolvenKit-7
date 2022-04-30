@@ -51,9 +51,12 @@ namespace WolvenKit.CR2W.Types
             if (val is string)
             {
                 Value = (string)val;
+				SetIsSerialized();
             }
-            else if (val is CName cval)
+            else if (val is CName cval) {
                 Value = cval.Value;
+				SetIsSerialized();
+			}
 
             return this;
         }

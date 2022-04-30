@@ -1,4 +1,4 @@
-﻿using DotNetHelper.FastMember.Extension.Extension;
+using DotNetHelper.FastMember.Extension.Extension;
 using FastMember;
 using System;
 using System.CodeDom;
@@ -56,7 +56,7 @@ namespace WolvenKit.CR2W.Types
         /// Shows if the CVariable is to be serialized
         /// important because cr2w files only serialize initialized variables
         /// and some types are not null by default
-        /// Is set upon read
+        /// Is set upon Read(..) and SetValue(..)
         /// Must also be set when a variable is edited in the editor
         /// </summary>
         public bool IsSerialized { get; set; }
@@ -324,7 +324,6 @@ namespace WolvenKit.CR2W.Types
                         break;
 
                     cvar.IsSerialized = true;
-
 #if DEBUG
                     dbg_varnames.Add($"[{cvar.REDType}] {cvar.REDName}");
 #endif
@@ -590,6 +589,7 @@ namespace WolvenKit.CR2W.Types
                     if (item is CVariable citem)
                         this.TrySettingFastMemberAccessor(citem);
                 }
+				SetIsSerialized();
             }
 
             return this;

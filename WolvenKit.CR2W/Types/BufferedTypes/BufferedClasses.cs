@@ -183,6 +183,7 @@ namespace WolvenKit.CR2W.Types
             if (val is CXml)
             {
                 Ragdolldata = (CXml)val;
+				SetIsSerialized();
             }
 
             return this;

@@ -32,10 +32,12 @@ namespace WolvenKit.CR2W.Types
             if (val is string)
             {
                 this.val = (string) val;
+				SetIsSerialized();
             }
             else if (val is StringAnsi cvar)
             {
                 this.val = cvar.val;
+				SetIsSerialized();
             }
             return this;
         }

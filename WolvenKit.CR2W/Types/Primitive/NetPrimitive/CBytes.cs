@@ -39,9 +39,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case byte[] bytes:
                     Bytes = bytes;
+					SetIsSerialized();
                     break;
                 case CBytes cvar:
                     this.Bytes = cvar.Bytes;
+					SetIsSerialized();
                     break;
             }
 

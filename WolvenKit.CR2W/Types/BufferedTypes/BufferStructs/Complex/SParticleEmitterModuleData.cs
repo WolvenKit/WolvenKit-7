@@ -193,6 +193,7 @@ namespace WolvenKit.CR2W.Types
             if (val is SParticleEmitterModuleData)
             {
                 fields = (val as SParticleEmitterModuleData).fields;
+				SetIsSerialized();
             }
             return this;
         }

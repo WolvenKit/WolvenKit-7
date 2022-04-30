@@ -98,6 +98,7 @@ namespace WolvenKit.CR2W.Types
             if (val is CArrayBase<T> cvar)
             {
                 this.Elements = cvar.Elements;
+				SetIsSerialized();
             }
 
             return this;

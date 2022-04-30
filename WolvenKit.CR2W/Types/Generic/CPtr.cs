@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -105,9 +105,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case CR2WExportWrapper wrapper:
                     Reference = wrapper;
+					SetIsSerialized();
                     break;
                 case IPtrAccessor cval:
                     Reference = cval.Reference;
+					SetIsSerialized();
                     break;
             }
 

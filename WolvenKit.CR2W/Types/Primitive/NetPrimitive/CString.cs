@@ -37,9 +37,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case string s:
                     this.val = s;
+					SetIsSerialized();
                     break;
                 case CString cvar:
                     this.val = cvar.val;
+					SetIsSerialized();
                     break;
             }
 

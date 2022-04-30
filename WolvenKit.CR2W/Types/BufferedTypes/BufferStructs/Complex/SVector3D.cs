@@ -82,6 +82,7 @@ namespace WolvenKit.CR2W.Types
                 this.X = v.X;
                 this.Y = v.Y;
                 this.Z = v.Z;
+				SetIsSerialized();
             }
 
             return this;

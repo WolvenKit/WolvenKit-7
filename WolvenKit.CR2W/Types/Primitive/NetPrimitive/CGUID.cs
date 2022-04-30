@@ -48,9 +48,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case byte[] o:
                     guid = o;
+					SetIsSerialized();
                     break;
                 case CGUID cvar:
                     this.guid = cvar.guid;
+					SetIsSerialized();
                     break;
             }
 

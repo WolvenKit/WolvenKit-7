@@ -78,8 +78,10 @@ namespace WolvenKit.CR2W.Types
 
         public override CVariable SetValue(object val)
         {
-            if (val is CMatrix4x4 v)
+            if (val is CMatrix4x4 v) {
                 this.fields = v.fields;
+				SetIsSerialized();
+			}
 
             return this;
         }
