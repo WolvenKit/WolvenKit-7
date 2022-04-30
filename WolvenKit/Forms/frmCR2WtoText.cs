@@ -775,6 +775,7 @@ namespace WolvenKit.Forms
             mapInArray.Add(new List<string> { "CEntityTemplate", "bodyParts", "name" });
             mapInArray.Add(new List<string> { "CEntityTemplate", "slots", "name" });
             mapInArray.Add(new List<string> { "CEntityTemplate", "effects", "name" });
+            mapInArray.Add(new List<string> { "CByteArray", "streamingDataBuffer", "name" });
             // --- cutscenes
             mapInArray.Add(new List<string> { "CCutsceneTemplate", "effects", "name" });
             // --- entities
@@ -1075,7 +1076,10 @@ namespace WolvenKit.Forms
         }
         private void ProcessNodeYml_EngineTransform(IEditableVariable node, int cur_level, bool isArrayElement = false)
         {
-            WriterYml.Write((isArrayElement ? "- " : "") + prepareName(node.REDName) + ":", cur_level);
+            if (isArrayElement)
+                WriterYml.Write("- \".type\": " + node.REDType, cur_level);
+            else
+                WriterYml.Write(prepareName(node.REDName) + ":", cur_level);
             string x = "0.0", y = "0.0", z = "0.0", pitch = "0.0", yaw = "0.0", roll = "0.0", scale_x = "1.0", scale_y = "1.0", scale_z = "1.0";
             List<IEditableVariable> children = node.GetEditableVariables();
             
@@ -1139,7 +1143,7 @@ namespace WolvenKit.Forms
                         break;
                 }
             }
-            WriterYml.Write((isArrayElement ? "- " : "") + prepareName(node.REDName) + ": [ " + X + ", " + Y + ", " + Z + ", " + W + " ]", cur_level);
+            WriterYml.Write((isArrayElement ? "- " : (prepareName(node.REDName) + ": ")) + "[ " + X + ", " + Y + ", " + Z + ", " + W + " ]", cur_level);
         }
         private void ProcessNodeYml_EulerAngles(IEditableVariable node, int cur_level, bool isArrayElement = false)
         {
@@ -1161,7 +1165,7 @@ namespace WolvenKit.Forms
                         break;
                 }
             }
-            WriterYml.Write((isArrayElement ? "- " : "") + prepareName(node.REDName) + ": [ " + pitch + ", " + yaw + ", " + roll + " ]", cur_level);
+            WriterYml.Write((isArrayElement ? "- " : (prepareName(node.REDName) + ": ")) + "[ " + pitch + ", " + yaw + ", " + roll + " ]", cur_level);
         }
         private void ProcessNodeYml_Color(IEditableVariable node, int cur_level, bool isArrayElement = false)
         {
@@ -1186,7 +1190,7 @@ namespace WolvenKit.Forms
                         break;
                 }
             }
-            WriterYml.Write((isArrayElement ? "- " : "") + prepareName(node.REDName) + ": [ " + Red + ", " + Green + ", " + Blue + ((Alpha == "-1.0") ? "" : (", " + Alpha)) + " ]", cur_level);
+            WriterYml.Write((isArrayElement ? "- " : (prepareName(node.REDName) + ": ")) + "[ " + Red + ", " + Green + ", " + Blue + ((Alpha == "-1.0") ? "" : (", " + Alpha)) + " ]", cur_level);
         }
         private void ProcessNodeYml_cookedEffects(IEditableVariable node, int cur_level, bool isArrayElement = false)
         {
@@ -1331,26 +1335,26 @@ namespace WolvenKit.Forms
 
         private void ProcessNodeYml(IEditableVariable node, int level, bool isArrayElement = false, string useNameVar = "")
         {
-            //Console.WriteLine(new String(' ', level) + "> node: " + node.REDName + ", type: " + node.REDType + ", value: " + node.REDValue);
+            Console.WriteLine(new String(' ', level) + "> node: " + node.REDName + ", type: " + node.REDType + ", value: " + node.REDValue);
             // special cases for rmemr encoder
             if (node.REDType == "EngineTransform")
             {
-                ProcessNodeYml_EngineTransform(node, level);
+                ProcessNodeYml_EngineTransform(node, level, isArrayElement);
                 return;
             }
             if (node.REDType == "Vector" || node.REDType == "SVector4D")
             {
-                ProcessNodeYml_Vector(node, level);
+                ProcessNodeYml_Vector(node, level, isArrayElement);
                 return;
             }
             if (node.REDType == "EulerAngles")
             {
-                ProcessNodeYml_EulerAngles(node, level);
+                ProcessNodeYml_EulerAngles(node, level, isArrayElement);
                 return;
             }
             if (node.REDType == "Color")
             {
-                ProcessNodeYml_Color(node, level);
+                ProcessNodeYml_Color(node, level, isArrayElement);
                 return;
             }
             if (node.REDName == "cookedEffects")
@@ -1392,6 +1396,8 @@ namespace WolvenKit.Forms
             string mapNameVar = getSpecialYmlMapNameVar(node);
             if (useNameVar == "")
                 useNameVar = mapNameVar;
+
+            Console.WriteLine(new String(' ', level) + "> nodeExtra: Childs: " + children.Count());
 
             if (node.REDName == "AttachmentsChild" && children.Count() == 0)
                 return;
