@@ -35,6 +35,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             val = file.ReadUInt32();
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -47,14 +48,17 @@ namespace WolvenKit.CR2W.Types
             if (val is uint)
             {
                 this.val = (uint)val;
+				SetIsSerialized();
             }
             else if (val is int)
             {
                 this.val = (uint)(int)val;
+				SetIsSerialized();
             }
             else if (val is LocalizedString cvar)
             {
                 this.val = cvar.val;
+				SetIsSerialized();
             }
 
             return this;

@@ -33,6 +33,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             base.Read(file, size);
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)
@@ -57,9 +58,12 @@ namespace WolvenKit.CR2W.Types
             if (val is Color)
             {
                 Color = (Color)val;
+				SetIsSerialized();
             }
-            else if (val is CColor cvar)
+            else if (val is CColor cvar) {
                 Color = cvar.Color;
+				SetIsSerialized();
+			}
 
             return this;
         }

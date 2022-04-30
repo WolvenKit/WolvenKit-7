@@ -37,6 +37,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             SetValueInternal(file.ReadUInt16());
+            SetIsSerialized();
         }
         
         private void SetValueInternal(ushort value)
@@ -79,11 +80,13 @@ namespace WolvenKit.CR2W.Types
             {
                 case ushort o:
                     this.SetValueInternal(o);
+					SetIsSerialized();
                     break;
                 case ISoftAccessor cvar:
                     this.DepotPath = cvar.DepotPath;
                     this.ClassName = cvar.ClassName;
                     this.Flags = cvar.Flags;
+					SetIsSerialized();
                     break;
             }
 

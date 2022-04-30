@@ -35,6 +35,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             guid = file.ReadBytes(16);
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -48,9 +49,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case byte[] o:
                     guid = o;
+					SetIsSerialized();
                     break;
                 case CGUID cvar:
                     this.guid = cvar.guid;
+					SetIsSerialized();
                     break;
             }
 

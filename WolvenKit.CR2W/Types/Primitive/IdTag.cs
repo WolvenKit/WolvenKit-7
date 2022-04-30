@@ -47,6 +47,7 @@ namespace WolvenKit.CR2W.Types
         {
             _type = file.ReadByte();
             _guid = file.ReadBytes(16);
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -68,15 +69,18 @@ namespace WolvenKit.CR2W.Types
             if(val is byte[])
             {
                 _guid = (byte[])val;
+				SetIsSerialized();
             }
             else if(val is byte)
             {
                 _type = (byte)val;
+				SetIsSerialized();
             }
             else if (val is IdTag cvar)
             {
                 _guid = cvar._guid;
                 _type = cvar._type;
+				SetIsSerialized();
             }
 
             return this;

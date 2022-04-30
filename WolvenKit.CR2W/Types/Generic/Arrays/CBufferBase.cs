@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -53,6 +53,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             throw new NotImplementedException();
+            SetIsSerialized();
         }
 
         public void Read(BinaryReader file, uint size, int elementcount)
@@ -94,6 +95,7 @@ namespace WolvenKit.CR2W.Types
                 variable.SetREDName(elements.Count.ToString());
                 tvar.IsSerialized = true;
                 elements.Add(tvar);
+                SetIsSerialized();
             }
         }
         public void AddVariableWithName(CVariable variable)
@@ -102,6 +104,7 @@ namespace WolvenKit.CR2W.Types
             {
                 tvar.IsSerialized = true;
                 elements.Add(tvar);
+                SetIsSerialized();
             }
         }
         public override bool CanRemoveVariable(IEditableVariable child)

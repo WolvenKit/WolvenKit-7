@@ -38,6 +38,7 @@ namespace WolvenKit.CR2W.Types
 
             
             Rawfile.Read(file, Filesize.val);
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

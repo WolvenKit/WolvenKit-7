@@ -24,6 +24,7 @@ namespace WolvenKit.CR2W.Types
             {
                 this.x = v.x;
                 this.y = v.y;
+				SetIsSerialized();
             }
 
             return this;

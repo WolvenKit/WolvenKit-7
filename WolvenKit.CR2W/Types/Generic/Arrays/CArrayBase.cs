@@ -64,6 +64,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             throw new NotImplementedException();
+            SetIsSerialized();
         }
 
         protected void Read(BinaryReader file, uint size, int elementcount)
@@ -98,6 +99,7 @@ namespace WolvenKit.CR2W.Types
             if (val is CArrayBase<T> cvar)
             {
                 this.Elements = cvar.Elements;
+				SetIsSerialized();
             }
 
             return this;

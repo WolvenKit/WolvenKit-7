@@ -30,6 +30,7 @@ namespace WolvenKit.CR2W.Types
             base.Read(file, size, count.val);
 
             padding.Read(file, 4);
+            //SetIsSerialized() in base
         }
 
         public override List<IEditableVariable> GetEditableVariables()

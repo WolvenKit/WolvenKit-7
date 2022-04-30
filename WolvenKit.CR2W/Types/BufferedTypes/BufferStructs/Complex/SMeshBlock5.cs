@@ -32,6 +32,7 @@ namespace WolvenKit.CR2W.Types
                 throw new NotImplementedException();
 
             unk1.Read(file, (uint)bytesize.val - 2);
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

@@ -36,6 +36,7 @@ namespace WolvenKit.CR2W.Types
 
                 BufferParameters.AddVariableWithName(cVariant);
             }
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

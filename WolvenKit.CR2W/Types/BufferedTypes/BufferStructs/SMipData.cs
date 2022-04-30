@@ -31,6 +31,7 @@ namespace WolvenKit.CR2W.Types
             // if is uncooked
             if (this.REDFlags == 0)
                 Mip.Read(file, 0);
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

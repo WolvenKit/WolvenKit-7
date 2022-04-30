@@ -51,6 +51,7 @@ namespace WolvenKit.CR2W.Types
             {
                 throw new InvalidParsingException($"Error in parsing SAppearanceAttachment: Data Variable. Bytes read: {bytesread} out of {bytecount}.");
             }
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

@@ -173,6 +173,7 @@ namespace WolvenKit.CR2W.Types
                 CVariable variable = fields[i];
                 variable.Read(file, size);
             }
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -193,6 +194,7 @@ namespace WolvenKit.CR2W.Types
             if (val is SParticleEmitterModuleData)
             {
                 fields = (val as SParticleEmitterModuleData).fields;
+				SetIsSerialized();
             }
             return this;
         }

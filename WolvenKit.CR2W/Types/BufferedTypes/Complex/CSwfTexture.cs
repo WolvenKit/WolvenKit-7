@@ -29,6 +29,7 @@ namespace WolvenKit.CR2W.Types
             //var textureSize = Convert.ToInt32( size - (file.BaseStream.Position - pos) );
 
             //swfTexture.Read(file, (uint)textureSize);
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

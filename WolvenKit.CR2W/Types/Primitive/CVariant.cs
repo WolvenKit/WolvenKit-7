@@ -35,6 +35,7 @@ namespace WolvenKit.CR2W.Types
             {
                 // do nothing I guess?
             }
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -74,6 +75,7 @@ namespace WolvenKit.CR2W.Types
                     Parent = this.ParentVar as CVariable
                 };
                 this.Variant = cvar.Variant.Copy(context);
+				SetIsSerialized();
             }
 
             return this;

@@ -69,6 +69,8 @@ namespace WolvenKit.CR2W.Types
 
                 AddVariable(var);
             }
+			if (array.Count > 0)
+				SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -91,6 +93,7 @@ namespace WolvenKit.CR2W.Types
                 {
                     AddVariable(item);
                 }
+				SetIsSerialized();
             }
 
             return this;

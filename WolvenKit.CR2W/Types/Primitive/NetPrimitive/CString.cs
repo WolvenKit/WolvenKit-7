@@ -24,6 +24,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             val = file.ReadLengthPrefixedString();
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -37,9 +38,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case string s:
                     this.val = s;
+					SetIsSerialized();
                     break;
                 case CString cvar:
                     this.val = cvar.val;
+					SetIsSerialized();
                     break;
             }
 

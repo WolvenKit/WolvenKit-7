@@ -73,6 +73,7 @@ namespace WolvenKit.CR2W.Types
             unk1.Read(file, 2);
             unk2.Read(file, 2);
             Residentmip.Read(file, ResidentmipSize.val);
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

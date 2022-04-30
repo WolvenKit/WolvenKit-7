@@ -31,6 +31,7 @@ namespace WolvenKit.CR2W.Types
 
             rigdata.Read(file, (uint)bonecount * 48, bonecount);
             
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

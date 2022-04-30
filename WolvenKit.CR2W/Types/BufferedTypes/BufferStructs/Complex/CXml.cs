@@ -38,6 +38,7 @@ namespace WolvenKit.CR2W.Types
         {
             var len = file.ReadInt32();
             backingfield = file.ReadBytes(len);
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -52,9 +53,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case XDocument document:
                     Data = document;
+					SetIsSerialized();
                     break;
                 case CXml cvar:
-                    this.Data = cvar.Data;
+                    Data = cvar.Data;
+					SetIsSerialized();
                     break;
             }
 

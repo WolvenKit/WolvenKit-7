@@ -37,6 +37,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             throw new NotImplementedException();
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

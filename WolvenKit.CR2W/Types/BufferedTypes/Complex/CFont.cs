@@ -87,6 +87,7 @@ namespace WolvenKit.CR2W.Types
 
                 Glyphs.AddVariable(glyph);
             }
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

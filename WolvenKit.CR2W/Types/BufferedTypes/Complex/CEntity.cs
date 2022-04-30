@@ -112,6 +112,7 @@ namespace WolvenKit.CR2W.Types
             }
             #endregion
 
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

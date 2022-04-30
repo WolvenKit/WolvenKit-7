@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Runtime.Serialization;
 using WolvenKit.CR2W.Reflection;
 
@@ -20,6 +20,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             val = file.ReadSingle();
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -33,9 +34,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case float o:
                     this.val = o;
+					SetIsSerialized();
                     break;
                 case CFloat cvar:
                     this.val = cvar.val;
+					SetIsSerialized();
                     break;
             }
 

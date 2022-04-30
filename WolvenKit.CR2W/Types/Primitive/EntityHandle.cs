@@ -35,6 +35,7 @@ namespace WolvenKit.CR2W.Types
                 unk1.Read(file, size - 18);
             }
 
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)

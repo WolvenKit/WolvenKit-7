@@ -34,9 +34,11 @@ namespace WolvenKit.CR2W.Types
             {
                 case Color o:
                     Color = HslColor.FromRgb(o);
+					SetIsSerialized();
                     break;
                 case CColorShift cvar:
                     Color = cvar.Color;
+					SetIsSerialized();
                     break;
             }
 

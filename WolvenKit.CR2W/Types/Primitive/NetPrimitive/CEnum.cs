@@ -102,6 +102,7 @@ namespace WolvenKit.CR2W.Types
             }
 
             SetValue(strings);
+            SetIsSerialized();
         }
 
         /// <summary>
@@ -170,6 +171,7 @@ namespace WolvenKit.CR2W.Types
                 T en = (T)Enum.Parse(WrappedEnum.GetType(), finalvalue);
                 WrappedEnum = en;
             }
+			SetIsSerialized();
 
             return this;
         }

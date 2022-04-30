@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
@@ -68,6 +68,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             SetValueInternal(file.ReadInt32());
+            SetIsSerialized();
         }
 
         private void SetValueInternal(int val)
@@ -130,6 +131,7 @@ namespace WolvenKit.CR2W.Types
             {
                 case int o:
                     SetValueInternal(o);
+					SetIsSerialized();
                     break;
                 case IHandleAccessor cvar:
                     this.ChunkHandle = cvar.ChunkHandle;
@@ -138,6 +140,7 @@ namespace WolvenKit.CR2W.Types
                     this.Flags = cvar.Flags;
 
                     this.Reference = cvar.Reference;
+					SetIsSerialized();
                     break;
             }
 

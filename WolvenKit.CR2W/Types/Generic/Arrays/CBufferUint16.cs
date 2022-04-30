@@ -25,6 +25,7 @@ namespace WolvenKit.CR2W.Types
             count.Read(file, size);
 
             base.Read(file, size, (int)count.val);
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)

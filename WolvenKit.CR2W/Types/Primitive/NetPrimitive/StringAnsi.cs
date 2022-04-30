@@ -20,6 +20,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             val = file.ReadLengthPrefixedStringNullTerminated();
+            SetIsSerialized();
         }
 
         public override void Write(BinaryWriter file)
@@ -32,10 +33,12 @@ namespace WolvenKit.CR2W.Types
             if (val is string)
             {
                 this.val = (string) val;
+				SetIsSerialized();
             }
             else if (val is StringAnsi cvar)
             {
                 this.val = cvar.val;
+				SetIsSerialized();
             }
             return this;
         }

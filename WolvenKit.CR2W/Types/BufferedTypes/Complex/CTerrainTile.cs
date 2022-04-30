@@ -28,6 +28,7 @@ namespace WolvenKit.CR2W.Types
             base.Read(file, size);
 
             var maxres = file.ReadInt32();
+            //SetIsSerialized() in base
         }
 
         public override void Write(BinaryWriter file)
