@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
@@ -124,10 +124,22 @@ namespace WolvenKit.CR2W.Types
             file.Write(val);
         }
 
+        /// <summary>
+        /// Sets new handle: string if depot path (must be "classname:path"), CR2WExportWrapper or chunkIndex if chunk handle
+        /// </summary>
         public override CVariable SetValue(object val)
         {
             switch (val)
             {
+                case string s:
+                    string[] parts = s.Split(':');
+                    this.ClassName = parts[0];
+                    this.DepotPath = parts[1];
+                    this.ChunkHandle = false;
+                    break;
+                case CR2WExportWrapper wrapper:
+                    SetValueInternal(wrapper.ChunkIndex + 1); // TODO check why +1 is needed
+                    break;
                 case int o:
                     SetValueInternal(o);
                     break;
