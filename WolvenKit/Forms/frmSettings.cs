@@ -143,7 +143,7 @@ namespace WolvenKit.Forms
                 RequestApplyTheme?.Invoke();
             }
 
-            /// debug console enabling
+            // debug console enabling
             try
             {
                 //TODO:UPDATE
