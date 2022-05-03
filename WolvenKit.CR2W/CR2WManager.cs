@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,21 +42,25 @@ namespace WolvenKit.CR2W
             {
                 availableTypes.Add(AssemblyDictionary.GetTypeByName(typename));
                 var subclasses = AssemblyDictionary.GetSubClassesOf(AssemblyDictionary.GetTypeByName(typename));
-                availableTypes.AddRange(subclasses);
+                if (subclasses != null)
+                    availableTypes.AddRange(subclasses);
 
                 // check if subclasses exist in custom assemblies
                 var ssubclasses = CR2WManager.GetSubClassesOf(AssemblyDictionary.GetTypeByName(typename));
-                availableTypes.AddRange(ssubclasses);
+                if (ssubclasses != null)
+                    availableTypes.AddRange(ssubclasses);
             }
             else if (CR2WManager.TypeExists(typename))
             {
                 availableTypes.Add(CR2WManager.GetTypeByName(typename));
                 var subclasses = CR2WManager.GetSubClassesOf(CR2WManager.GetTypeByName(typename));
-                availableTypes.AddRange(subclasses);
+                if (subclasses != null)
+                    availableTypes.AddRange(subclasses);
 
                 // check if subclasses exist in main assembly
                 var ssubclasses = AssemblyDictionary.GetSubClassesOf(CR2WManager.GetTypeByName(typename));
-                availableTypes.AddRange(ssubclasses);
+                if (ssubclasses != null)
+                    availableTypes.AddRange(ssubclasses);
             }
             else
             {
@@ -69,7 +73,18 @@ namespace WolvenKit.CR2W
             return availableTypes.Distinct();
         }
 
-        private static List<Type> GetSubClassesOf(Type type) => m_types.Values.Where(_ => _.IsSubclassOf(type)).ToList();
+        private static List<Type> GetSubClassesOf(Type type)
+        {
+            if (CR2WManager.TypeExists(type.FullName))
+            {
+                return CR2WManager.GetSubClassesOf(CR2WManager.GetTypeByName(type.FullName));
+            }
+            else if (AssemblyDictionary.TypeExists(type.FullName))
+            {
+                return AssemblyDictionary.GetSubClassesOf(CR2WManager.GetTypeByName(type.FullName)).ToList();
+            }
+            return null;
+        }
 
         public static Type GetTypeByName(string typeName)
         {
