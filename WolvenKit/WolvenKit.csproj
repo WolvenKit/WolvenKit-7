@@ -32,9 +32,9 @@
     <Company>Community</Company>
     <Product>Wolven kit</Product>
     <Description>Wolven kit a tool to operate with the game \"The Witcher 3: Wild Hunt\" in various ways.</Description>
-    <Copyright>Copyright © 2015-2020</Copyright>
-    <AssemblyVersion>7.0</AssemblyVersion>
-    <FileVersion>7.0</FileVersion>
+    <Copyright>Copyright © 2015-2022</Copyright>
+    <AssemblyVersion>7.0.4</AssemblyVersion>
+    <FileVersion>7.0.4</FileVersion>
     <NoWarn>1591</NoWarn>
     <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
     <PostBuildEvent />
@@ -114,6 +114,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent />
+    <RepositoryUrl>https://github.com/WolvenKit/WolvenKit-7</RepositoryUrl>
   </PropertyGroup>
   <Target Name="AfterBuildMigrated">
     <ItemGroup>

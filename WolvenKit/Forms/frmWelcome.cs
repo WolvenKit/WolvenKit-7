@@ -108,7 +108,7 @@ namespace WolvenKit.Forms
     </head>
     <body>
         <li><a href = ${"\"https://github.com/Traderain/Wolven-kit/wiki\""}> WolvenKit Wiki </a></li>
-        <li><a href = ${"\"https://github.com/Traderain/Wolven-kit\""}> GitHub Repository </a></li>
+        <li><a href = ${"\"https://github.com/WolvenKit/WolvenKit-7\""}> GitHub Repository </a></li>
         <li><a href = ${"\"https://www.youtube.com/watch?v=jUoamicYtjk\""}> Package creation </a></li>
         <li><a href = ${"\"https://www.youtube.com/watch?v=jUoamicYtjk\""}> Sound modding </a></li>
     </body>

@@ -27,7 +27,7 @@ namespace WolvenKit.Forms
             UIController.InitForm(this);
 
             this.labelVersion.Text = "Version " + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-            this.labelGit.Text = "https://github.com/Traderain/Wolven-kit";
+            this.labelGit.Text = "https://github.com/WolvenKit/WolvenKit-7";
 
         }
 
@@ -84,6 +84,6 @@ namespace WolvenKit.Forms
 
         private void SetStatusLabelText(string text) => labelLoading.Text = text;
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => System.Diagnostics.Process.Start("https://github.com/Traderain/Wolven-kit");
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => System.Diagnostics.Process.Start("https://github.com/WolvenKit/WolvenKit-7");
     }
 }

@@ -74,7 +74,7 @@
             this.labelGit.Size = new System.Drawing.Size(236, 17);
             this.labelGit.TabIndex = 4;
             this.labelGit.TabStop = true;
-            this.labelGit.Text = "https://github.com/Traderain/Wolven-kit";
+            this.labelGit.Text = "https://github.com/WolvenKit/WolvenKit-7";
             this.labelGit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
