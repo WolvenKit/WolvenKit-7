@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -277,8 +277,8 @@ namespace WolvenKit.CR2W.SRT
         private int pad;
 
         private int Idx { get => idx; set => idx = value; }
-        private int Pad { get => pad; set => pad = value; }
-        public string Val { get; private set; }
+        public int Pad { get => pad; set => pad = value; }
+        public string Val { get; set; }
 
         public void Read(BinaryReader br, List<string> stringtable)
         {
@@ -455,10 +455,17 @@ namespace WolvenKit.CR2W.SRT
         public SVertexDecl SVertexDecl { get => m_sVertexDecl; set => m_sVertexDecl = value; }
         public CPaddedPtr PDescription { get => m_pDescription; set => m_pDescription = value; }
         public CPaddedPtr PUserData { get => m_pUserData; set => m_pUserData = value; }
+
+        // ? can be zeros, but have some other bytes in vanilla .srt
+        public List<byte> WolvenKit_AlignedBytes { get; set; }
+        private int WolvenKit_AlignedBytesPosition;
         #endregion
 
         public void Read(BinaryReader br, List<string> stringtable)
         {
+            if (WolvenKit_AlignedBytes == null)
+                WolvenKit_AlignedBytes = new List<byte>();
+            WolvenKit_AlignedBytes.Clear();
             var startpos = br.BaseStream.Position;
 
             m_apTextures = new CPaddedPtr[(int)ETextureLayer.TL_NUM_TEX_LAYERS];
@@ -467,15 +474,17 @@ namespace WolvenKit.CR2W.SRT
                 m_apTextures[i].Read(br, stringtable);
             }
             m_eLightingModel = (ELightingModel)br.ReadInt32();
-             m_vAmbientColor = ReadStruct<Vec3>(br);
+            m_vAmbientColor = ReadStruct<Vec3>(br);
             m_eAmbientContrast = (ELightingEffect)br.ReadInt32();
             m_fAmbientContrastFactor = br.ReadSingle();
-            m_bAmbientOcclusion = br.ReadBoolean(); br.ParseUntilAligned();
+            m_bAmbientOcclusion = br.ReadBoolean();
+            ParseUntilAligned(br);
 
             // diffuse
              m_vDiffuseColor = ReadStruct<Vec3>(br);
             m_fDiffuseScalar = br.ReadSingle();
-            m_bDiffuseAlphaMaskIsOpaque = br.ReadBoolean(); br.ParseUntilAligned();
+            m_bDiffuseAlphaMaskIsOpaque = br.ReadBoolean();
+            ParseUntilAligned(br);
 
             // detail
             m_eDetailLayer = (ELightingEffect)br.ReadInt32();
@@ -499,13 +508,16 @@ namespace WolvenKit.CR2W.SRT
             m_eLodMethod = (ELodMethod)br.ReadInt32();
             m_bFadeToBillboard = br.ReadBoolean(); 
             m_bVertBillboard = br.ReadBoolean(); 
-            m_bHorzBillboard = br.ReadBoolean(); br.ParseUntilAligned();
+            m_bHorzBillboard = br.ReadBoolean();
+            ParseUntilAligned(br);
 
             // render states
             m_eShaderGenerationMode = (EShaderGenerationMode)br.ReadInt32();
-            m_bUsedAsGrass = br.ReadBoolean(); br.ParseUntilAligned();
+            m_bUsedAsGrass = br.ReadBoolean();
+            ParseUntilAligned(br);
             m_eFaceCulling = (ECullType)br.ReadInt32();
-            m_bBlending = br.ReadBoolean(); br.ParseUntilAligned();
+            m_bBlending = br.ReadBoolean();
+            ParseUntilAligned(br);
             m_eAmbientImageLighting = (ELightingEffect)br.ReadInt32();
              m_eHueVariation = (ELightingEffect)br.ReadInt32();
 
@@ -514,7 +526,8 @@ namespace WolvenKit.CR2W.SRT
              m_eFogColorStyle = (EFogColorType)br.ReadInt32();
             m_bCastsShadows = br.ReadBoolean();
             m_bReceivesShadows = br.ReadBoolean(); 
-            m_bShadowSmoothing = br.ReadBoolean(); br.ParseUntilAligned();
+            m_bShadowSmoothing = br.ReadBoolean();
+            ParseUntilAligned(br);
 
             // alpha effects
             m_fAlphaScalar = br.ReadSingle();
@@ -534,7 +547,7 @@ namespace WolvenKit.CR2W.SRT
 
             // vertex format data
             m_sVertexDecl = ReadStruct<SVertexDecl>(br);
-            br.ParseUntilAligned();
+            ParseUntilAligned(br);
 
             // misc
             m_pDescription.Read(br, stringtable);
@@ -554,20 +567,24 @@ namespace WolvenKit.CR2W.SRT
 
         internal void Write(BinaryWriter file, List<string> stringtable)
         {
-            for (int i = 0; i < m_apTextures.Length; i++)
+            WolvenKit_AlignedBytesPosition = 0;
+            for (int i = 0; i < (int)ETextureLayer.TL_NUM_TEX_LAYERS; i++)
             {
                 m_apTextures[i].Write(file, stringtable);
             }
-            file.Write((int)m_eLightingModel);
+            file.Write((Int32)m_eLightingModel);
             WriteStruct<Vec3>(m_vAmbientColor, file.BaseStream);
-            file.Write((int)m_eAmbientContrast);
+            file.Write((Int32)m_eAmbientContrast);
             file.Write(m_fAmbientContrastFactor);
-            file.Write(m_bAmbientOcclusion); file.WriteUntilAligned();
+            file.Write(m_bAmbientOcclusion);
+			WriteUntilAligned(file);
+			
 
             // diffuse
             WriteStruct<Vec3>(m_vDiffuseColor, file.BaseStream);
             file.Write(m_fDiffuseScalar);
-            file.Write(m_bDiffuseAlphaMaskIsOpaque); file.WriteUntilAligned();
+            file.Write(m_bDiffuseAlphaMaskIsOpaque);
+            WriteUntilAligned(file);
 
             // detail
             file.Write((int)m_eDetailLayer);
@@ -591,13 +608,16 @@ namespace WolvenKit.CR2W.SRT
             file.Write((int)m_eLodMethod);
             file.Write(m_bFadeToBillboard);
             file.Write(m_bVertBillboard);
-            file.Write(m_bHorzBillboard); file.WriteUntilAligned();
+            file.Write(m_bHorzBillboard);
+            WriteUntilAligned(file);
 
             // render states
             file.Write((int)m_eShaderGenerationMode);
-            file.Write(m_bUsedAsGrass); file.WriteUntilAligned();
+            file.Write(m_bUsedAsGrass);
+            WriteUntilAligned(file);
             file.Write((int)m_eFaceCulling);
-            file.Write(m_bBlending); file.WriteUntilAligned();
+            file.Write(m_bBlending);
+            WriteUntilAligned(file);
             file.Write((int)m_eAmbientImageLighting);
             file.Write((int)m_eHueVariation);
 
@@ -606,7 +626,8 @@ namespace WolvenKit.CR2W.SRT
             file.Write((int)m_eFogColorStyle);
             file.Write(m_bCastsShadows);
             file.Write(m_bReceivesShadows);
-            file.Write(m_bShadowSmoothing); file.WriteUntilAligned();
+            file.Write(m_bShadowSmoothing);
+            WriteUntilAligned(file);
 
             // alpha effects
             file.Write(m_fAlphaScalar);
@@ -626,7 +647,7 @@ namespace WolvenKit.CR2W.SRT
 
             // vertex format data
             WriteStruct<SVertexDecl>(m_sVertexDecl, file.BaseStream);
-            file.WriteUntilAligned();
+            WriteUntilAligned(file);
 
             // misc
             m_pDescription.Write(file, stringtable);
@@ -656,6 +677,40 @@ namespace WolvenKit.CR2W.SRT
             stream.Write(m_temp, 0, m_temp.Length);
 
             handle.Free();
+        }
+        private void ParseUntilAligned(BinaryReader br, bool save = true)
+        {
+            // read padding
+            int uiPadSize = 4 - (int)br.BaseStream.Position % 4;
+            if (uiPadSize < 4)
+            {
+                while (uiPadSize > 0)
+                {
+                    byte b = br.ReadByte();
+                    if (save)
+                        WolvenKit_AlignedBytes.Add(b);
+                    uiPadSize -= 1;
+                }
+            }
+        }
+        private void WriteUntilAligned(BinaryWriter bw, bool load = true)
+        {
+            // read padding
+            int uiPadSize = 4 - (int)bw.BaseStream.Position % 4;
+            if (uiPadSize < 4)
+            {
+                while (uiPadSize > 0)
+                {
+                    byte b = 0x00;
+                    if (load)
+                    {
+                        b = WolvenKit_AlignedBytes.ElementAtOrDefault(WolvenKit_AlignedBytesPosition);
+                        WolvenKit_AlignedBytesPosition += 1;
+                    }
+                    bw.Write(b);
+                    uiPadSize -= 1;
+                }
+            }
         }
     }
 

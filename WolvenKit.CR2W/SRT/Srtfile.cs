@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,6 +33,8 @@ namespace WolvenKit.CR2W.SRT
 
             PUserStrings = new string[(int)EUserStringOrdinal.USER_STRING_COUNT];
             Geometry = new SGeometry();
+            WolvenKit_AlignedBytes = new List<byte>();
+            WolvenKit_AlignedBytesPosition = 0;
         }
 
 
@@ -49,9 +51,11 @@ namespace WolvenKit.CR2W.SRT
         public SHorizontalBillboard HorizontalBillboard { get; set; }
 
         public string[] PUserStrings { get; set; }
-
         public SGeometry Geometry { get; set; }
 
+        // ?? can be zeros, but have some other bytes in vanilla .srt
+        public List<byte> WolvenKit_AlignedBytes { get; set; }
+        private int WolvenKit_AlignedBytesPosition;
 
         [Browsable(false)]
         public string FileName { get; set; }
@@ -59,6 +63,7 @@ namespace WolvenKit.CR2W.SRT
 
 
         #region Fields
+        public long debug_remainingbytes;
         private Stream m_stream;
         private bool m_bFileIsBigEndian;
         private bool m_bTexCoordsFlipped;
@@ -72,33 +77,60 @@ namespace WolvenKit.CR2W.SRT
         #region Read
         public EFileReadErrorCodes Read(BinaryReader br)
         {
+            WolvenKit_AlignedBytes.Clear();
             m_stream = br.BaseStream;
 
-
-            if (ParseHeader(br) &&
-                    ParsePlatform(br) &&
-                    ParseExtents(br) &&
-                    ParseLOD(br) &&
-                    ParseWind(br))
-            {
-                if (ParseStringTable(br) &&
-                    ParseCollisionObjects(br) &&
-                    ParseBillboards(br) &&
-                    ParseCustomData(br) &&
-                    ParseRenderStates(br) &&
-                    Parse3dGeometry(br))
-                {
-                    if (ParseVertexAndIndexData(br))
-                    {
-                        var remainingbytes = GetRemainingLength();
-                        if (remainingbytes > 0)
-                            Debugger.Break();
-                    }
-                }
-            }
-
+            ParseHeader(br);
+            ParsePlatform(br);
+            ParseExtents(br);
+            ParseLOD(br);
+            ParseWind(br);
+            ParseStringTable(br);
+            ParseCollisionObjects(br);
+            ParseBillboards(br);
+            ParseCustomData(br);
+            ParseRenderStates(br);
+            Parse3dGeometry(br);
+            ParseVertexAndIndexData(br);
+            debug_remainingbytes = GetRemainingLength();
             return EFileReadErrorCodes.NoError;
         }
+        /*string glog = "";
+        public EFileReadErrorCodes ReadDebug(BinaryReader br)
+        {
+            WolvenKit_AlignedBytes.Clear();
+            m_stream = br.BaseStream;
+            glog = "";
+            ParseHeader(br);
+            glog += $"ParseHeader: {m_stream.Position}\n";
+            ParsePlatform(br);
+            glog += $"ParsePlatform: {m_stream.Position}\n";
+            ParseExtents(br);
+            glog += $"ParseExtents: {m_stream.Position}\n";
+            ParseLOD(br);
+            glog += $"ParseLOD: {m_stream.Position}\n";
+            ParseWind(br);
+            glog += $"ParseWind: {m_stream.Position}\n";
+            ParseStringTable(br);
+            glog += $"ParseStringTable: {m_stream.Position}\n";
+            ParseCollisionObjects(br);
+            glog += $"ParseCollisionObjects: {m_stream.Position}\n";
+            ParseBillboards(br);
+            glog += $"ParseBillboards: {m_stream.Position}\n";
+            ParseCustomData(br);
+            glog += $"ParseCustomData: {m_stream.Position}\n";
+            ParseRenderStates(br);
+            glog += $"ParseRenderStates: {m_stream.Position}\n";
+            Parse3dGeometry(br);
+            glog += $"Parse3dGeometry: {m_stream.Position}\n";
+            ParseVertexAndIndexData(br);
+            glog += $"ParseVertexAndIndexData: {m_stream.Position}\n";
+            debug_remainingbytes = GetRemainingLength();
+            glog += $"debug_remainingbytes: {debug_remainingbytes}, TOTAL: {m_stream.Length}\n";
+            File.WriteAllText("C:/w3.modding/w3.tools/w3.wkit_projects/srt_test/files/Mod/Cooked/logRead.txt", glog);
+            return EFileReadErrorCodes.NoError;
+            //return EFileReadErrorCodes.UnsupportedVersion;
+        }*/
 
         private long GetRemainingLength() => m_stream.Length - m_stream.Position;
 
@@ -155,7 +187,7 @@ namespace WolvenKit.CR2W.SRT
                 br.ReadByte();  // reserved
 
                 bSuccess = true;
-                if (br.BaseStream.Position - startpos !=  c_nSizeOfInt)     
+                if (br.BaseStream.Position - startpos != c_nSizeOfInt)     
                     throw new NotImplementedException();
             }
             //else
@@ -175,17 +207,14 @@ namespace WolvenKit.CR2W.SRT
             {
 
                 // min
-                Extents.m_cExtents[0] = br.ReadSingle();
-                Extents.m_cExtents[1] = br.ReadSingle();
-                Extents.m_cExtents[2] = br.ReadSingle();
+                Extents.m_cMin[0] = br.ReadSingle();
+                Extents.m_cMin[1] = br.ReadSingle();
+                Extents.m_cMin[2] = br.ReadSingle();
 
                 // max
-                Extents.m_cExtents[3] = br.ReadSingle();
-                Extents.m_cExtents[4] = br.ReadSingle();
-                Extents.m_cExtents[5] = br.ReadSingle();
-
-                // make sure the mins are <= max values; if not, swap them
-                Array.Sort(Extents.m_cExtents);
+                Extents.m_cMax[0] = br.ReadSingle();
+                Extents.m_cMax[1] = br.ReadSingle();
+                Extents.m_cMax[2] = br.ReadSingle();
 
                 bSuccess = true;
                 if (br.BaseStream.Position - startpos != 6 * c_nSizeOfFloat)
@@ -229,7 +258,7 @@ namespace WolvenKit.CR2W.SRT
         {
             bool bSuccess = false;
             var startpos = br.BaseStream.Position;
-            if (GetRemainingLength() >= Marshal.SizeOf<CWind.SParams>())
+            if (GetRemainingLength() >= /*Marshal.SizeOf<CWind.SParams>()*/ 1332)
             {
                 try
                 {
@@ -237,7 +266,7 @@ namespace WolvenKit.CR2W.SRT
                     CWind.SParams p = br.BaseStream.ReadStruct<CWind.SParams>();
                     Wind.Params = p;
 
-                    if (br.BaseStream.Position - startpos != Marshal.SizeOf<CWind.SParams>())
+                    if (br.BaseStream.Position - startpos != /*Marshal.SizeOf<CWind.SParams>()*/ 1332)
                         throw new NotImplementedException();
                     startpos = br.BaseStream.Position;
 
@@ -363,7 +392,7 @@ namespace WolvenKit.CR2W.SRT
                     throw new NotImplementedException();
                 startpos = br.BaseStream.Position;
 
-                if (GetRemainingLength() >= m_nNumCollisionObjects * Marshal.SizeOf<SCollisionObject>())
+                if (GetRemainingLength() >= m_nNumCollisionObjects * /*Marshal.SizeOf<SCollisionObject>()*/ 36)
                 {
                     CollisionObjects = new SCollisionObject[m_nNumCollisionObjects];
                     for (int i = 0; i < m_nNumCollisionObjects; i++)
@@ -372,7 +401,7 @@ namespace WolvenKit.CR2W.SRT
                     }
 
                     bSuccess = true;
-                    if (br.BaseStream.Position - startpos != m_nNumCollisionObjects * Marshal.SizeOf<SCollisionObject>())
+                    if (br.BaseStream.Position - startpos != m_nNumCollisionObjects * /*Marshal.SizeOf<SCollisionObject>()*/ 36)
                         throw new NotImplementedException();
                 }
 
@@ -573,7 +602,7 @@ namespace WolvenKit.CR2W.SRT
         {
             bool bSuccess = false;
             var startpos = m_stream.Position;
-            var t = Marshal.SizeOf<SRenderState>();
+            //var t = Marshal.SizeOf<SRenderState>();
             if (GetRemainingLength() >= 720 * nNumStates)
             {
                 for (int i = 0; i < nNumStates; i++)
@@ -698,7 +727,8 @@ namespace WolvenKit.CR2W.SRT
                                 drawCall.NNumVertices = br.ReadInt32();
                                 br.ReadBytes(8);                                // CBytePointer m_pVertexData
                                 drawCall.NNumIndices = br.ReadInt32();
-                                drawCall.B32BitIndices = br.ReadBytes(4).First() != 0x00;
+                                drawCall.B32BitIndices = br.ReadBoolean();
+                                ParseUntilAligned(br);
                                 br.ReadBytes(8);                                // CBytePointer m_pIndexData
                                 plod.PDrawCalls[j] = drawCall;
 
@@ -795,25 +825,75 @@ namespace WolvenKit.CR2W.SRT
 
         public void Write(BinaryWriter file)
         {
-            if (WriteHeader(file) &&
-                    WritePlatform(file) &&
-                    WriteExtents(file) &&
-                    WriteLOD(file) &&
-                    WriteWind(file))
-            {
-                if (WriteStringTable(file) &&
-                    WriteCollisionObjects(file) &&
-                    WriteBillboards(file) &&
-                    WriteCustomData(file) &&
-                    WriteRenderStates(file) &&
-                    Write3dGeometry(file))
-                {
-                    if (WriteVertexAndIndexData(file))
-                    { }
-                }
-            }
+            WolvenKit_AlignedBytesPosition = 0;
 
+            WriteHeader(file);
+            WritePlatform(file);
+            WriteExtents(file);
+            WriteLOD(file);
+            WriteWind(file);
+            WriteStringTable(file);
+            WriteCollisionObjects(file);
+            WriteBillboards(file);
+            WriteCustomData(file);
+            WriteRenderStates(file);
+            Write3dGeometry(file);
+            WriteVertexAndIndexData(file);
         }
+        public bool Write2(BinaryWriter file)
+        {
+            WolvenKit_AlignedBytesPosition = 0;
+            bool ret = true;
+
+            ret &= WriteHeader(file);
+            ret &= WritePlatform(file);
+            ret &= WriteExtents(file);
+            ret &= WriteLOD(file);
+            ret &= WriteWind(file);
+            ret &= WriteStringTable(file);
+            ret &= WriteCollisionObjects(file);
+            ret &= WriteBillboards(file);
+            ret &= WriteCustomData(file);
+            ret &= WriteRenderStates(file);
+            ret &= Write3dGeometry(file);
+            ret &= WriteVertexAndIndexData(file);
+            return ret;
+        }
+        
+        /*public bool WriteDebug(FileStream fstream)
+        {
+            WolvenKit_AlignedBytesPosition = 0;
+            var file = new MyBinaryWriter(fstream);
+            file.SetStopPoint(2136);
+            glog = "";
+            WriteHeader(file);
+            glog += $"WriteHeader: {fstream.Length}\n";
+            WritePlatform(file);
+            glog += $"WritePlatform: {fstream.Length}\n";
+            WriteExtents(file);
+            glog += $"WriteExtents: {fstream.Length}\n";
+            WriteLOD(file);
+            glog += $"WriteLOD: {fstream.Length}\n";
+            WriteWind(file);
+            glog += $"WriteWind: {fstream.Length}\n";
+            WriteStringTable(file);
+            glog += $"WriteStringTable: {fstream.Length}\n";
+            WriteCollisionObjects(file);
+            glog += $"WriteCollisionObjects: {fstream.Length}\n";
+            WriteBillboards(file);
+            glog += $"WriteBillboards: {fstream.Length}\n";
+            WriteCustomData(file);
+            glog += $"WriteCustomData: {fstream.Length}\n";
+            WriteRenderStates(file);
+            glog += $"WriteRenderStates: {fstream.Length}\n";
+            Write3dGeometry(file);
+            glog += $"Write3dGeometry: {fstream.Length}\n";
+            WriteVertexAndIndexData(file);
+            glog += $"WriteVertexAndIndexData: {fstream.Length}\n";
+            glog += $"Position: {WolvenKit_AlignedBytesPosition} of {WolvenKit_AlignedBytes.Count}\n";
+            File.WriteAllText("C:/w3.modding/w3.tools/w3.wkit_projects/srt_test/files/Mod/Cooked/logWrite.txt", glog);
+            return true;
+        }*/
 
         private bool WriteVertexAndIndexData(BinaryWriter file)
         {
@@ -823,6 +903,7 @@ namespace WolvenKit.CR2W.SRT
                 {
                     file.Write(Geometry.PLods[i].PDrawCalls[j].PVertexData);
                     file.Write(Geometry.PLods[i].PDrawCalls[j].PIndexData);
+                    WriteUntilAligned(file);
                 }
             }
 
@@ -850,7 +931,7 @@ namespace WolvenKit.CR2W.SRT
                     file.Write(new byte[8]);
                     file.Write(Geometry.PLods[i].PDrawCalls[j].NNumIndices);
                     file.Write(Geometry.PLods[i].PDrawCalls[j].B32BitIndices);
-                    file.WriteUntilAligned();
+                    WriteUntilAligned(file);
                     file.Write(new byte[8]);
                 }
                 if (Geometry.PLods[i].NNumBones > 0)
@@ -940,10 +1021,10 @@ namespace WolvenKit.CR2W.SRT
             {
                 file.Write(VerticalBillboards.PRotated[i]);
             }
-            file.WriteUntilAligned();
+            WriteUntilAligned(file);
 
-            file.Write(VerticalBillboards.PCutoutVertices.Length);
-            file.Write(VerticalBillboards.PCutoutIndices.Length);
+            file.Write(VerticalBillboards.NNumCutoutVertices);
+            file.Write(VerticalBillboards.NNumCutoutIndices);
             for (int i = 0; i < VerticalBillboards.PCutoutVertices.Length; i++)
             {
                 file.Write(VerticalBillboards.PCutoutVertices[i]);
@@ -953,7 +1034,7 @@ namespace WolvenKit.CR2W.SRT
             {
                 file.Write(VerticalBillboards.PCutoutIndices[i]);
             }
-            file.WriteUntilAligned();
+            WriteUntilAligned(file);
 
 
             file.Write(HorizontalBillboard.BPresent ? (int)1 : (int)0);
@@ -1007,7 +1088,7 @@ namespace WolvenKit.CR2W.SRT
             {
                 file.Write(Encoding.GetEncoding("ISO-8859-1").GetBytes(StringTable[i]));
                 file.Write((byte)0x00);
-                file.WriteUntilAligned();
+                WriteUntilAligned(file, false);
             }
             return true;
         }
@@ -1022,7 +1103,7 @@ namespace WolvenKit.CR2W.SRT
             {
                 file.Write(Wind.m_abOptions[i]);
             }
-            file.WriteUntilAligned();
+            WriteUntilAligned(file);
 
             for (int i = 0; i < Wind.m_afBranchWindAnchor.Length; i++)
             {
@@ -1066,8 +1147,8 @@ namespace WolvenKit.CR2W.SRT
 
         private bool WriteHeader(BinaryWriter file)
         {
-            file.Write(c_pSrtHeader);
-            file.Write(new byte[15 - c_pSrtHeader.Length]);
+            file.Write( Encoding.GetEncoding("ISO-8859-1").GetBytes(c_pSrtHeader) );
+            file.Write(new byte[16 - c_pSrtHeader.Length]);
 
             return true;
         }
@@ -1089,20 +1170,39 @@ namespace WolvenKit.CR2W.SRT
 
         #endregion
 
-        private void ParseUntilAligned(BinaryReader br)
+        private void ParseUntilAligned(BinaryReader br, bool save = true)
         {
             // read padding
-            int uiPadSize = 4 - (int)m_stream.Position % 4;
+            int uiPadSize = 4 - (int)br.BaseStream.Position % 4;
             if (uiPadSize < 4)
-                br.ReadBytes(uiPadSize);
+            {
+                while (uiPadSize > 0)
+                {
+                    byte b = br.ReadByte();
+                    if (save)
+                        WolvenKit_AlignedBytes.Add(b);
+                    uiPadSize -= 1;
+                }
+            }
         }
-
-        public void SerializeToXml(Stream writer)
+        private void WriteUntilAligned(BinaryWriter bw, bool load = true)
         {
-
+            // read padding
+            int uiPadSize = 4 - (int)bw.BaseStream.Position % 4;
+            if (uiPadSize < 4)
+            {
+                while (uiPadSize > 0)
+                {
+                    byte b = 0x00;
+                    if (load)
+                    {
+                        b = WolvenKit_AlignedBytes.ElementAtOrDefault(WolvenKit_AlignedBytesPosition);
+                        WolvenKit_AlignedBytesPosition += 1;
+                    }
+                    bw.Write(b);
+                    uiPadSize -= 1;
+                }
+            }
         }
-
-        
-
     }
 }

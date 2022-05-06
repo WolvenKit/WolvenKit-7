@@ -1,4 +1,4 @@
-﻿using System;
+/*using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,4 +28,4 @@ namespace WolvenKit.CR2W.SRT
                 bw.Write(new byte[uiPadSize]);
         }
     }
-}
+}*/

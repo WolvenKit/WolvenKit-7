@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -108,8 +108,9 @@ namespace WolvenKit.CR2W.SRT
 
             // oscillation components
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)EOscillationComponents.NUM_OSC_COMPONENTS * c_nNumWindPointsInCurves)]
-            private float[,] afFrequencies;
-			public float[,] AfFrequencies { get => afFrequencies; set => afFrequencies = value; }
+            private float[] afFrequencies;
+            // [System.Text.Json.Serialization.JsonIgnore]
+            public float[] AfFrequencies { get => afFrequencies; set => afFrequencies = value; }
 
 			// global motion
 			/*[MarshalAs(UnmanagedType.R4)]*/
