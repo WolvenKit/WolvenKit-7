@@ -20,6 +20,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using WeifenLuo.WinFormsUI.Docking;
 using WolvenKit.App.Model;
+using WolvenKit.Forms.Editors;
 using SearchOption = System.IO.SearchOption;
 
 namespace WolvenKit
@@ -1342,6 +1343,9 @@ namespace WolvenKit
                 case ".USM":
                     LoadUsmFile(fullpath);
                     break;
+                case ".SRT":
+                    LoadSrtFile(fullpath);
+                    break;
                 case ".BNK":
                     {
                         using (var sp = new frmAudioPlayer(fullpath))
@@ -1394,6 +1398,14 @@ namespace WolvenKit
                     return;
                 var usmplayer = new frmUsmPlayer(path);
                 usmplayer.Show(dockPanel, DockState.Document);
+
+            }
+            void LoadSrtFile(string path)
+            {
+                if (!File.Exists(path) || Path.GetExtension(path) != ".srt")
+                    return;
+                var srtEditor = new frmSrtEditor(path);
+                srtEditor.Show(dockPanel, DockState.Document);
 
             }
         }

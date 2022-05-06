@@ -200,6 +200,7 @@
     <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
@@ -246,6 +247,12 @@
     </Compile>
     <Compile Update="Forms\Editors\frmCsvEditor.Designer.cs">
       <DependentUpon>frmCsvEditor.cs</DependentUpon>
+    </Compile>
+	<Compile Update="Forms\frmSrtEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\frmSrtEditor.Designer.cs">
+      <DependentUpon>frmSrtEditor.cs</DependentUpon>
     </Compile>
     <Compile Update="Forms\Editors\IdTagEditor.cs">
       <SubType>UserControl</SubType>
