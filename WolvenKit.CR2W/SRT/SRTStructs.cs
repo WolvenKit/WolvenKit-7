@@ -727,7 +727,7 @@ namespace WolvenKit.CR2W.SRT
 	{
 		[StructLayout(LayoutKind.Sequential, Pack = 1)] //Size = 14
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public struct SAttribute
+        public struct SProperty
 		{
 
 			sbyte m_uiStream;
@@ -747,7 +747,7 @@ namespace WolvenKit.CR2W.SRT
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)] //Size = 13
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public struct SProperty
+        public struct SAttribute
 		{
 
 			EVertexFormat m_eFormat;                                   // all four components in attribute have to be the same format
@@ -781,12 +781,12 @@ namespace WolvenKit.CR2W.SRT
         //          EVertexFormat m_eFormat;
         //          sbyte m_uiNumComponents; // e.g., 3 for (x,y,z)
 
-        //          public struct SPropertyComponent
+        //          public struct SAttributeComponent
         //	{
         //		EVertexProperty m_eProperty;
         //              EVertexComponent m_eComponent;
         //	}
-        //	SPropertyComponent[] m_asProperties/*[VERTEX_COMPONENT_COUNT]*/;
+        //	SAttributeComponent[] m_asAttributes/*[VERTEX_COMPONENT_COUNT]*/;
         //}
 
 
@@ -794,18 +794,18 @@ namespace WolvenKit.CR2W.SRT
 
 
         // vertex data organized by attributes
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)EVertexAttribute.VERTEX_ATTRIB_COUNT)] SAttribute[] m_asAttributes/*[VERTEX_ATTRIB_COUNT]*/;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)EVertexAttribute.VERTEX_ATTRIB_COUNT)] SProperty[] m_asProperties/*[VERTEX_ATTRIB_COUNT]*/;
 
         // same vertex data, but organized by properties
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)EVertexProperty.VERTEX_PROPERTY_COUNT)] SProperty[] m_asProperties/*[VERTEX_PROPERTY_COUNT]*/;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)EVertexProperty.VERTEX_PROPERTY_COUNT)] SAttribute[] m_asAttributes/*[VERTEX_PROPERTY_COUNT]*/;
 
         // shared by both organizations
         sbyte m_uiVertexSize;
 
 
         #region Properties
-        public SAttribute[] AsAttributes { get => m_asAttributes; set => m_asAttributes = value; }
         public SProperty[] AsProperties { get => m_asProperties; set => m_asProperties = value; }
+        public SAttribute[] AsAttributes { get => m_asAttributes; set => m_asAttributes = value; }
         public sbyte UiVertexSize { get => m_uiVertexSize; set => m_uiVertexSize = value; }
         #endregion
     }
