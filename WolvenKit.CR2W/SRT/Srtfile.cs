@@ -797,13 +797,104 @@ namespace WolvenKit.CR2W.SRT
                         // vertex data
                         if (m_stream.Position % 4 != 0)
                             return false;
-                        pDrawCall.PVertexData = br.ReadBytes(uiVertexDataSize);
 
+                        pDrawCall.PVertexData = new SVertex[pDrawCall.NNumVertices];
+                        SVertexDecl vertexDecl = pDrawCall.PRenderState.SVertexDecl;
+                        for (int vi = 0; vi < pDrawCall.NNumVertices; ++vi)
+                        {
+                            byte[] vertexBytes = br.ReadBytes(vertexDecl.UiVertexSize);
+                            //int byteOffset = 0;
+
+                            // init new SVertex and its property array
+                            pDrawCall.PVertexData[vi] = new SVertex();
+
+                            // READ: iterate through all properties
+                            for (int vj = 0; vj < vertexDecl.AsProperties.Length; ++vj)
+                            {
+                                EVertexFormat vertexValueFormat = vertexDecl.AsProperties[vj].EFormat;
+                                if (vertexValueFormat == EVertexFormat.VERTEX_FORMAT_UNASSIGNED)
+                                    continue;
+
+                                for (int vk = 0; vk < /*4*/ vertexDecl.AsProperties[vj].AeProperties.Length; ++vk)
+                                {
+                                    EVertexProperty vertexPropFormat = vertexDecl.AsProperties[vj].AeProperties[vk];
+                                    EVertexComponent vertexCompFormat = vertexDecl.AsProperties[vj].AePropertyComponents[vk];
+                                    if (vertexPropFormat == EVertexProperty.VERTEX_PROPERTY_UNASSIGNED || vertexCompFormat == EVertexComponent.VERTEX_COMPONENT_UNASSIGNED)
+                                        continue;
+
+                                    if (vertexPropFormat == EVertexProperty.VERTEX_PROPERTY_PAD) // ignore this
+                                        continue;
+
+                                    sbyte byteOffset = vertexDecl.AsProperties[vj].AuiVertexOffsets[vk];
+                                    switch (vertexValueFormat)
+                                    {
+                                        case EVertexFormat.VERTEX_FORMAT_FULL_FLOAT:
+                                            float val_float = BitConverter.ToSingle(vertexBytes, byteOffset);
+                                            Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: FULL: {val_float} [{vertexPropFormat}]<{vertexCompFormat}>");
+                                            pDrawCall.PVertexData[vi].SetFloatValue((int)vertexPropFormat, (int)vertexCompFormat, byteOffset, val_float);
+                                            break;
+
+                                        case EVertexFormat.VERTEX_FORMAT_HALF_FLOAT:
+                                            float val_half = (float)Half.ToHalf(vertexBytes, byteOffset);
+                                            Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: HALF: {val_half} [{vertexPropFormat}]<{vertexCompFormat}>");
+                                            pDrawCall.PVertexData[vi].SetHalfValue((int)vertexPropFormat, (int)vertexCompFormat, byteOffset, val_half);
+
+                                            break;
+                                        case EVertexFormat.VERTEX_FORMAT_BYTE:
+                                            byte val_byte = vertexBytes[byteOffset];
+                                            Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: BYTE: {val_byte} [{vertexPropFormat}]<{vertexCompFormat}>");
+                                            pDrawCall.PVertexData[vi].SetByteValue((int)vertexPropFormat, (int)vertexCompFormat, byteOffset, val_byte);
+
+                                            break;
+                                        default: // VERTEX_FORMAT_UNASSIGNED
+                                            Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: Can't decode value type: {vertexValueFormat}.");
+                                            break;
+                                    }
+                                }
+                            }
+
+                            // remove excess elements (?)
+                            for (int vj = 0; vj < pDrawCall.PVertexData[vi].VertexProperties.Length; ++vj)
+                            {
+                                EVertexFormat vertexValueFormat = pDrawCall.PVertexData[vi].VertexProperties[vj].PropertyFormat;
+                                int count = pDrawCall.PVertexData[vi].VertexProperties[vj].ValueCount;
+
+                                if (vertexValueFormat == EVertexFormat.VERTEX_FORMAT_FULL_FLOAT || vertexValueFormat == EVertexFormat.VERTEX_FORMAT_HALF_FLOAT)
+                                {
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ByteValues = null;
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues = new ArraySegment<float>(pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues, 0, count).ToArray();
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset = new ArraySegment<sbyte>(pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset, 0, count).ToArray();
+                                }
+                                else if (vertexValueFormat == EVertexFormat.VERTEX_FORMAT_BYTE)
+                                {
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues = null;
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ByteValues = new ArraySegment<byte>(pDrawCall.PVertexData[vi].VertexProperties[vj].ByteValues, 0, count).ToArray();
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset = new ArraySegment<sbyte>(pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset, 0, count).ToArray();
+                                }
+                                else
+                                {
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ByteValues = null;
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues = null;
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset = null;
+                                }
+                            }
+                        }
                         // index data
                         if (m_stream.Position % 4 != 0)
                             return false;
-                        pDrawCall.PIndexData = br.ReadBytes(uiIndexDataSize);
 
+                        pDrawCall.PIndexData = new Int32[pDrawCall.NNumIndices];
+                        for (int ii = 0; ii < pDrawCall.NNumIndices; ++ii)
+                        {
+                            if (pDrawCall.B32BitIndices)
+                            {
+                                pDrawCall.PIndexData[ii] = BitConverter.ToInt32(br.ReadBytes(4), 0);
+                            }
+                            else
+                            {
+                                pDrawCall.PIndexData[ii] = (Int32)BitConverter.ToInt16(br.ReadBytes(2), 0);
+                            }
+                        }
                         ParseUntilAligned(br);
                     }
                     //else
@@ -901,8 +992,66 @@ namespace WolvenKit.CR2W.SRT
             {
                 for (int j = 0; j < Geometry.PLods[i].NNumDrawCalls; j++)
                 {
-                    file.Write(Geometry.PLods[i].PDrawCalls[j].PVertexData);
-                    file.Write(Geometry.PLods[i].PDrawCalls[j].PIndexData);
+                    SDrawCall pDrawCall = Geometry.PLods[i].PDrawCalls[j];
+
+                    // vertex data
+                    SVertexDecl vertexDecl = pDrawCall.PRenderState.SVertexDecl;
+                    for (int vi = 0; vi < pDrawCall.NNumVertices; ++vi)
+                    {
+                        byte[] vertexBytes = new byte[vertexDecl.UiVertexSize];
+
+                        for (int vj = 0; vj < /*4*/ pDrawCall.PVertexData[vi].VertexProperties.Length; ++vj)
+                        {
+                            SVertexProperty vertProp = pDrawCall.PVertexData[vi].VertexProperties[vj];
+                            EVertexFormat vertexValueFormat = vertProp.PropertyFormat;
+
+                            if (vertexValueFormat == EVertexFormat.VERTEX_FORMAT_UNASSIGNED)
+                                continue;
+
+                            for (int vk = 0; vk < /*4*/ vertProp.ValueCount; ++vk)
+                            {
+                                sbyte byteOffset = vertProp.ValueOffset[vk];
+                                switch (vertexValueFormat)
+                                {
+                                    case EVertexFormat.VERTEX_FORMAT_FULL_FLOAT:
+                                        float val_float = vertProp.FloatValues[vk];
+                                        BitConverter.GetBytes(val_float).CopyTo(vertexBytes, byteOffset);
+                                        Debug.WriteLine($"WRITE Vertex[{vi}], Property[{vj}]: FULL: {val_float} [{vj}]<{vk}>");
+                                        break;
+
+                                    case EVertexFormat.VERTEX_FORMAT_HALF_FLOAT:
+                                        Half val_half = new Half(vertProp.FloatValues[vk]);
+                                        Half.GetBytes(val_half).CopyTo(vertexBytes, byteOffset);
+                                        Debug.WriteLine($"WRITE Vertex[{vi}], Property[{vj}]: HALF: {val_half} [{vj}]<{vk}>");
+
+                                        break;
+                                    case EVertexFormat.VERTEX_FORMAT_BYTE:
+                                        byte val_byte = vertProp.ByteValues[vk];
+                                        vertexBytes[byteOffset] = val_byte;
+                                        Debug.WriteLine($"WRITE Vertex[{vi}], Property[{vj}]: BYTE: {val_byte} [{vj}]<{vk}>");
+
+                                        break;
+                                    default: // VERTEX_FORMAT_UNASSIGNED
+                                        Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: Can't encode value type: {vertexValueFormat}.");
+                                        break;
+                                }
+                            }
+                        }
+                        file.Write(vertexBytes);
+                    }
+
+                    // index data
+                    for (int ii = 0; ii < pDrawCall.NNumIndices; ++ii)
+                    {
+                        if (pDrawCall.B32BitIndices)
+                        {
+                            file.Write(BitConverter.GetBytes(pDrawCall.PIndexData[ii]));
+                        } else
+                        {
+                            Int16 val_half = (Int16)pDrawCall.PIndexData[ii];
+                            file.Write(BitConverter.GetBytes(val_half));
+                        }
+                    }
                     WriteUntilAligned(file);
                 }
             }

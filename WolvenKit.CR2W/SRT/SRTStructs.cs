@@ -207,17 +207,73 @@ namespace WolvenKit.CR2W.SRT
 
     //   };
 
+    public class SVertexProperty
+    {
+        public EVertexProperty PropertyName { get; set; }
+        public EVertexFormat PropertyFormat { get; set; }
+        public int ValueCount { get; set; }
+        public sbyte[] ValueOffset { get; set; }
+        public float[] FloatValues { get; set; }
+        public byte[] ByteValues { get; set; }
+        public SVertexProperty() {
+            ValueCount = 0;
+            PropertyFormat = EVertexFormat.VERTEX_FORMAT_UNASSIGNED;
+            ValueOffset = new sbyte[(int)EVertexComponent.VERTEX_COMPONENT_COUNT] { -1, -1, -1, -1 };
+
+            FloatValues = new float[(int)EVertexComponent.VERTEX_COMPONENT_COUNT] { float.NaN, float.NaN, float.NaN, float.NaN };
+            ByteValues = new byte[(int)EVertexComponent.VERTEX_COMPONENT_COUNT] { 0, 0, 0, 0 };
+        }
+    }
+
+    public class SVertex
+    {
+        public SVertexProperty[] VertexProperties { get; set; }
+        public SVertex()
+        {
+            VertexProperties = new SVertexProperty[(int)EVertexProperty.VERTEX_PROPERTY_COUNT + 1];
+            for (int i = 0; i < VertexProperties.Length; ++i)
+            {
+                VertexProperties[i] = new SVertexProperty();
+                VertexProperties[i].PropertyName = (EVertexProperty)i;
+            }
+        }
+        public void SetValue(int propIndex, int valueIndex, sbyte valueOffset, EVertexFormat valueFormat)
+        {
+            if (VertexProperties[propIndex].PropertyFormat != EVertexFormat.VERTEX_FORMAT_UNASSIGNED && VertexProperties[propIndex].PropertyFormat != valueFormat)
+            {
+                throw new Exception($"Incorrect format! [{((EVertexProperty)propIndex).ToString()}] Old type: {VertexProperties[propIndex].PropertyFormat}, new type: {valueFormat}.");
+            }
+            VertexProperties[propIndex].PropertyFormat = valueFormat;
+            VertexProperties[propIndex].ValueOffset[valueIndex] = valueOffset;
+            VertexProperties[propIndex].ValueCount = Math.Max(VertexProperties[propIndex].ValueCount, valueIndex + 1);
+        }
+        public void SetFloatValue(int propIndex, int valueIndex, sbyte valueOffset, float value)
+        {
+            SetValue(propIndex, valueIndex, valueOffset, EVertexFormat.VERTEX_FORMAT_FULL_FLOAT);
+            VertexProperties[propIndex].FloatValues[valueIndex] = value;
+        }
+        public void SetHalfValue(int propIndex, int valueIndex, sbyte valueOffset, float value)
+        {
+            SetValue(propIndex, valueIndex, valueOffset, EVertexFormat.VERTEX_FORMAT_HALF_FLOAT);
+            VertexProperties[propIndex].FloatValues[valueIndex] = value;
+        }
+        public void SetByteValue(int propIndex, int valueIndex, sbyte valueOffset, byte value)
+        {
+            SetValue(propIndex, valueIndex, valueOffset, EVertexFormat.VERTEX_FORMAT_BYTE);
+            VertexProperties[propIndex].ByteValues[valueIndex] = value;
+        }
+    }
+
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class SDrawCall
     {
         public SRenderState PRenderState { get; set; }
         public int NRenderStateIndex { get; set; }
         public int NNumVertices { get; set; }
-        public byte[] PVertexData { get; set; }
+        public SVertex[] PVertexData { get; set; }
         public int NNumIndices { get; set; }
         public bool B32BitIndices { get; set; }
-        public byte[] PIndexData { get; set; }
-
+        public Int32[] PIndexData { get; set; }
     };
 
     ///////////////////////////////////////////////////////////////////////  
@@ -881,9 +937,9 @@ namespace WolvenKit.CR2W.SRT
 		VERTEX_PROPERTY_AMBIENT_OCCLUSION,              // 1 component
 		VERTEX_PROPERTY_MISC_SEMANTIC = VERTEX_PROPERTY_AMBIENT_OCCLUSION,
 
-		VERTEX_PROPERTY_COUNT,
-		VERTEX_PROPERTY_PAD = VERTEX_PROPERTY_COUNT
-	};
+        VERTEX_PROPERTY_PAD,
+        VERTEX_PROPERTY_COUNT = VERTEX_PROPERTY_PAD
+    };
     //typedef Enumeration<EVertexPropertyUntyped, st_int8> EVertexProperty;
 
 
