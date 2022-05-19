@@ -100,7 +100,7 @@ namespace WolvenKit.Forms.Editors
             sfd.Filter = "JSON|*.json";
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                var options = new JsonSerializerOptions { WriteIndented = true, Converters = { new JsonStringEnumConverter() } };
+                var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter(), new JsonFloatNaNConverter() } };
                 byte[] jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(SRT, options);
                 File.WriteAllBytes(sfd.FileName, jsonUtf8Bytes);
                 AppendLine($"[SerializeSRT] Written {jsonUtf8Bytes.Length} bytes to {sfd.FileName}");
@@ -120,7 +120,7 @@ namespace WolvenKit.Forms.Editors
                 if (of.ShowDialog() == DialogResult.OK)
                 {
                     byte[] jsonUtf8Bytes = File.ReadAllBytes(of.FileName);
-                    var options = new JsonSerializerOptions { WriteIndented = true, Converters = { new JsonStringEnumConverter() } };
+                    var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter(), new JsonFloatNaNConverter() } };
                     var utf8Reader = new Utf8JsonReader(jsonUtf8Bytes);
                     SRT = JsonSerializer.Deserialize<Srtfile>(ref utf8Reader, options);
                     AppendLine($"[DeserializeSRT] Read {jsonUtf8Bytes.Length} bytes from {of.FileName}");
@@ -175,13 +175,16 @@ namespace WolvenKit.Forms.Editors
                     bB.Clear();
                     wrong = false;
                 }
-                //if (wrongCount > 10)
-                //   return;
+                if (wrongCount > 50)
+                {
+                    AppendLine($".. Too many differences. Finish here.");
+                    return;
+                }
             }
-            if (wrong)
+            /*if (wrong)
             {
                 AppendLine($"WRONG: [{wrongA} - {wrongB}]");
-            }
+            }*/
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
