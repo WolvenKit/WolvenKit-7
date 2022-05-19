@@ -211,17 +211,16 @@ namespace WolvenKit.CR2W.SRT
     {
         public EVertexProperty PropertyName { get; set; }
         public EVertexFormat PropertyFormat { get; set; }
-        public int ValueCount { get; set; }
-        public sbyte[] ValueOffset { get; set; }
-        public float[] FloatValues { get; set; }
-        public byte[] ByteValues { get; set; }
+        public int ValueCount => ValueOffset.Count;
+        public List<float> FloatValues { get; set; }
+        public List<byte> ByteValues { get; set; }
+        public List<sbyte> ValueOffset { get; set; }
         public SVertexProperty() {
-            ValueCount = 0;
             PropertyFormat = EVertexFormat.VERTEX_FORMAT_UNASSIGNED;
-            ValueOffset = new sbyte[(int)EVertexComponent.VERTEX_COMPONENT_COUNT] { -1, -1, -1, -1 };
+            ValueOffset = new List<sbyte>();
 
-            FloatValues = new float[(int)EVertexComponent.VERTEX_COMPONENT_COUNT] { float.NaN, float.NaN, float.NaN, float.NaN };
-            ByteValues = new byte[(int)EVertexComponent.VERTEX_COMPONENT_COUNT] { 0, 0, 0, 0 };
+            FloatValues = new List<float>();
+            ByteValues = new List<byte>();
         }
     }
 
@@ -244,22 +243,33 @@ namespace WolvenKit.CR2W.SRT
                 throw new Exception($"Incorrect format! [{((EVertexProperty)propIndex).ToString()}] Old type: {VertexProperties[propIndex].PropertyFormat}, new type: {valueFormat}.");
             }
             VertexProperties[propIndex].PropertyFormat = valueFormat;
+            // kinda resize
+            while (VertexProperties[propIndex].ValueOffset.Count() < valueIndex + 1)
+                VertexProperties[propIndex].ValueOffset.Add(-1);
             VertexProperties[propIndex].ValueOffset[valueIndex] = valueOffset;
-            VertexProperties[propIndex].ValueCount = Math.Max(VertexProperties[propIndex].ValueCount, valueIndex + 1);
         }
         public void SetFloatValue(int propIndex, int valueIndex, sbyte valueOffset, float value)
         {
             SetValue(propIndex, valueIndex, valueOffset, EVertexFormat.VERTEX_FORMAT_FULL_FLOAT);
+            // kinda resize
+            while (VertexProperties[propIndex].FloatValues.Count() < valueIndex + 1)
+                VertexProperties[propIndex].FloatValues.Add(float.NaN);
             VertexProperties[propIndex].FloatValues[valueIndex] = value;
         }
         public void SetHalfValue(int propIndex, int valueIndex, sbyte valueOffset, float value)
         {
             SetValue(propIndex, valueIndex, valueOffset, EVertexFormat.VERTEX_FORMAT_HALF_FLOAT);
+            // kinda resize
+            while (VertexProperties[propIndex].FloatValues.Count() < valueIndex + 1)
+                VertexProperties[propIndex].FloatValues.Add(float.NaN);
             VertexProperties[propIndex].FloatValues[valueIndex] = value;
         }
         public void SetByteValue(int propIndex, int valueIndex, sbyte valueOffset, byte value)
         {
             SetValue(propIndex, valueIndex, valueOffset, EVertexFormat.VERTEX_FORMAT_BYTE);
+            // kinda resize
+            while (VertexProperties[propIndex].ByteValues.Count() < valueIndex + 1)
+                VertexProperties[propIndex].ByteValues.Add(0);
             VertexProperties[propIndex].ByteValues[valueIndex] = value;
         }
     }

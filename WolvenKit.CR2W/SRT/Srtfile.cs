@@ -852,32 +852,6 @@ namespace WolvenKit.CR2W.SRT
                                     }
                                 }
                             }
-
-                            // remove excess elements (?)
-                            for (int vj = 0; vj < pDrawCall.PVertexData[vi].VertexProperties.Length; ++vj)
-                            {
-                                EVertexFormat vertexValueFormat = pDrawCall.PVertexData[vi].VertexProperties[vj].PropertyFormat;
-                                int count = pDrawCall.PVertexData[vi].VertexProperties[vj].ValueCount;
-
-                                if (vertexValueFormat == EVertexFormat.VERTEX_FORMAT_FULL_FLOAT || vertexValueFormat == EVertexFormat.VERTEX_FORMAT_HALF_FLOAT)
-                                {
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ByteValues = null;
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues = new ArraySegment<float>(pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues, 0, count).ToArray();
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset = new ArraySegment<sbyte>(pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset, 0, count).ToArray();
-                                }
-                                else if (vertexValueFormat == EVertexFormat.VERTEX_FORMAT_BYTE)
-                                {
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues = null;
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ByteValues = new ArraySegment<byte>(pDrawCall.PVertexData[vi].VertexProperties[vj].ByteValues, 0, count).ToArray();
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset = new ArraySegment<sbyte>(pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset, 0, count).ToArray();
-                                }
-                                else
-                                {
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ByteValues = null;
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues = null;
-                                    pDrawCall.PVertexData[vi].VertexProperties[vj].ValueOffset = null;
-                                }
-                            }
                         }
                         // index data
                         if (m_stream.Position % 4 != 0)
