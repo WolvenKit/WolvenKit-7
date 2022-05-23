@@ -357,8 +357,9 @@ namespace WolvenKit
 
         private void OpenEmbeddedFile(string key, byte[] bytesource, object saveTarget)
         {
+            var dockPanel = MockKernel.Get().Window.GetDockPanel();
             // check if already open
-            var opendocs = FormPanel.Documents
+            var opendocs = dockPanel.Documents
                 .Where(_ => _.GetType() == typeof(frmCR2WDocument))
                 .Cast<frmCR2WDocument>()
                 .Where(_ => _.FileName == key)
@@ -375,6 +376,10 @@ namespace WolvenKit
             {
                 Text = Path.GetFileName(key) + " [" + key + "]"
             };
+
+            // points to parent doc for correct saving
+            doc.vm.TopParentForSave = this.vm.TopParentForSave;
+
             using (var ms = new MemoryStream(bytesource))
             {
                 switch (doc.vm.LoadFile(key, UIController.Get(), docLoggerService, ms))
@@ -390,7 +395,8 @@ namespace WolvenKit
 
             PostLoadFile(key);
 
-            doc.Show(FormPanel, DockState.Document);
+            doc.Show(dockPanel, DockState.Document);
+            
             doc.vm.SaveTarget = saveTarget;
             //doc.FormClosed += vm.RemoveEmbedded;
             doc.FormClosed += (sender2, e2) => vm.RemoveEmbedded(sender2, e2, doc.vm);

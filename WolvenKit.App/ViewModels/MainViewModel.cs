@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -1185,7 +1185,19 @@ namespace WolvenKit.App.ViewModels
                 ActiveDocument = null;
         }
 
-        public void SaveActiveFile() => ActiveDocument?.SaveFile();
+        public void SaveActiveFile()
+        {
+            if (ActiveDocument != null)
+            {
+                if (ActiveDocument is CR2WDocumentViewModel)
+                {
+                    ((CR2WDocumentViewModel)ActiveDocument).TopParentForSave.SaveFile();
+                } else
+                {
+                    ActiveDocument?.SaveFile();
+                }
+            }
+        }
         public void SaveAllFiles()
         {
             if (GetOpenDocuments().Count <= 0) return;

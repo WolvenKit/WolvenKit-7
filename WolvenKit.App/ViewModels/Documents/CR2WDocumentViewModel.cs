@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +24,7 @@ namespace WolvenKit.App.ViewModels
             PasteVariableCommand = new RelayCommand(PasteVariable, CanPasteVariable);
 
             _openEmbedded =new Dictionary<string, CR2WDocumentViewModel>();
+            TopParentForSave = this;
         }
         #region Fields
         
@@ -58,6 +59,8 @@ namespace WolvenKit.App.ViewModels
                 }
             }
         }
+
+        public CR2WDocumentViewModel TopParentForSave { get; set; }
 
         public void RemoveEmbedded(object sender, EventArgs e, CR2WDocumentViewModel embVM)
         {
@@ -263,7 +266,7 @@ namespace WolvenKit.App.ViewModels
         public override void SaveFile()
         {
             // save all open embedded files
-            // TODO: save them inside their viewmodels?
+
             foreach (CR2WDocumentViewModel model in OpenEmbedded.Values)
             {
                 if (model.SaveTarget is CR2WEmbeddedWrapper embedded)
