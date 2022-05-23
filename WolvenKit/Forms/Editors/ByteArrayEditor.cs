@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using WolvenKit.App.Model;
@@ -23,8 +23,11 @@ namespace WolvenKit.Forms.Editors
             get => bytes;
             set
             {
-                bytes = value;
-                lblSize.Text = value.GetBytes().Length + " bytes";
+                if (value != null && value.GetBytes() != null)
+                {
+                    bytes = value;
+                    lblSize.Text = value.GetBytes().Length + " bytes";
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows.Forms;
 using System.ComponentModel;
@@ -208,6 +208,10 @@ namespace WolvenKit
 
         public void ExportBytes(IByteSource editvar)
         {
+            if (editvar == null || editvar.GetBytes() == null)
+            {
+                return;
+            }
             var dlg = new SaveFileDialog();
             var bytes = editvar.GetBytes();
 
