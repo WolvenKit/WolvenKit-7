@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -419,18 +419,12 @@ namespace WolvenKit.Forms
         private void copyTextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var node = (IEditableVariable) treeView.SelectedObject;
-            if (node?.ParentVar == null)
-                return;
-            switch (node.REDValue)
+            if (node != null)
             {
-                case null:
-                    return;
-                case "":
-                    Clipboard.SetText(node.REDType + ":??");
-                    break;
-                default:
-                    Clipboard.SetText(node.REDValue);
-                    break;
+                if (string.IsNullOrEmpty(node.REDValue))
+                    Clipboard.SetText($"{node.REDName} <{node.REDType}>");
+                else
+                    Clipboard.SetText($"{node.REDName} <{node.REDType}> = {node.REDValue}");
             }
         }
 
