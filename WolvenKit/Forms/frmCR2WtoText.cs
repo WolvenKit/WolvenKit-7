@@ -1,4 +1,4 @@
-﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1030,7 +1030,7 @@ namespace WolvenKit.Forms
                 string ret = value.Replace(',', '.');
                 foreach (char c in ret) // check if it is correct number
                 {
-                    if ((c < '0' || c > '9') && c != '-' && c != '.')
+                    if ((c < '0' || c > '9') && c != '-' && c != '.' && c != 'E')
                     {
                         ret = "0.0";
                         break;
