@@ -517,5 +517,18 @@ namespace WolvenKit.Forms
                 ihdl.ChangeHandleType();
             }
         }
+
+        private void resetVariableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView.SelectedObject is CVariable)
+            {
+                var node = (CVariable)treeView.SelectedObject;
+                if (node.IsSerialized)
+                {
+                    node.IsSerialized = false;
+                    UpdateTreeListView();
+                }
+            }
+        }
     }
 }

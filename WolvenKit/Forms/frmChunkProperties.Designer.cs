@@ -46,6 +46,7 @@ namespace WolvenKit.Forms
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.addVariableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeVariableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetVariableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +54,7 @@ namespace WolvenKit.Forms
             this.toolSplitPtr = new System.Windows.Forms.ToolStripSeparator();
             this.deleteChunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goToChunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeHandleTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSearchBox = new System.Windows.Forms.ToolStripTextBox();
@@ -61,7 +63,6 @@ namespace WolvenKit.Forms
             this.toolStripButtonColorPicker = new System.Windows.Forms.ToolStripButton();
             this.ExpandBTN = new System.Windows.Forms.ToolStripButton();
             this.CollapseBTN = new System.Windows.Forms.ToolStripButton();
-            this.changeHandleTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.treeView)).BeginInit();
             this.contextMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -125,6 +126,7 @@ namespace WolvenKit.Forms
             // 
             // contextMenu
             // 
+            this.contextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.expandAllToolStripMenuItem,
             this.expandAllChildrenToolStripMenuItem,
@@ -133,6 +135,7 @@ namespace WolvenKit.Forms
             this.toolStripMenuItem1,
             this.addVariableToolStripMenuItem,
             this.removeVariableToolStripMenuItem,
+            this.resetVariableToolStripMenuItem,
             this.toolStripMenuItem2,
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem,
@@ -142,21 +145,21 @@ namespace WolvenKit.Forms
             this.goToChunkToolStripMenuItem,
             this.changeHandleTypeToolStripMenuItem});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(255, 308);
+            this.contextMenu.Size = new System.Drawing.Size(307, 360);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // expandAllToolStripMenuItem
             // 
             this.expandAllToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.ExpandAll_16x;
             this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
-            this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.expandAllToolStripMenuItem.Text = "Expand All";
             this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.expandAllToolStripMenuItem_Click);
             // 
             // expandAllChildrenToolStripMenuItem
             // 
             this.expandAllChildrenToolStripMenuItem.Name = "expandAllChildrenToolStripMenuItem";
-            this.expandAllChildrenToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.expandAllChildrenToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.expandAllChildrenToolStripMenuItem.Text = "Expand All Children";
             this.expandAllChildrenToolStripMenuItem.Click += new System.EventHandler(this.expandAllChildrenToolStripMenuItem_Click);
             // 
@@ -164,28 +167,28 @@ namespace WolvenKit.Forms
             // 
             this.collapseAllToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.CollapseAll_16x;
             this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
-            this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.collapseAllToolStripMenuItem.Text = "Collapse All";
             this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
             // 
             // collapseAllChildrenToolStripMenuItem
             // 
             this.collapseAllChildrenToolStripMenuItem.Name = "collapseAllChildrenToolStripMenuItem";
-            this.collapseAllChildrenToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.collapseAllChildrenToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.collapseAllChildrenToolStripMenuItem.Text = "Collapse All Children";
             this.collapseAllChildrenToolStripMenuItem.Click += new System.EventHandler(this.collapseAllChildrenToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(251, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(303, 6);
             // 
             // addVariableToolStripMenuItem
             // 
             this.addVariableToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Add_16x;
             this.addVariableToolStripMenuItem.Name = "addVariableToolStripMenuItem";
             this.addVariableToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.Insert)));
-            this.addVariableToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.addVariableToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.addVariableToolStripMenuItem.Text = "Add List Element";
             this.addVariableToolStripMenuItem.Click += new System.EventHandler(this.addVariableToolStripMenuItem_Click);
             // 
@@ -194,20 +197,30 @@ namespace WolvenKit.Forms
             this.removeVariableToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Remove_color_16x;
             this.removeVariableToolStripMenuItem.Name = "removeVariableToolStripMenuItem";
             this.removeVariableToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.Delete)));
-            this.removeVariableToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.removeVariableToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.removeVariableToolStripMenuItem.Text = "Remove List Element";
             this.removeVariableToolStripMenuItem.Click += new System.EventHandler(this.removeVariableToolStripMenuItem_Click);
+            // 
+            // resetVariableToolStripMenuItem
+            // 
+            this.resetVariableToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.ExitIcon;
+            this.resetVariableToolStripMenuItem.Name = "resetVariableToolStripMenuItem";
+            this.resetVariableToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.R)));
+            this.resetVariableToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
+            this.resetVariableToolStripMenuItem.Text = "Reset Value";
+            this.resetVariableToolStripMenuItem.Click += new System.EventHandler(this.resetVariableToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(251, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(303, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Copy_16x;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.copyToolStripMenuItem.Text = "Copy Variable";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -215,29 +228,28 @@ namespace WolvenKit.Forms
             // 
             this.pasteToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Paste_16x;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.pasteToolStripMenuItem.Text = "Paste Variable";
-            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // copyTextToolStripMenuItem
             // 
             this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
             this.copyTextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
-            this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.copyTextToolStripMenuItem.Text = "Copy Text";
             this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.copyTextToolStripMenuItem_Click);
             // 
             // toolSplitPtr
             // 
             this.toolSplitPtr.Name = "toolSplitPtr";
-            this.toolSplitPtr.Size = new System.Drawing.Size(251, 6);
+            this.toolSplitPtr.Size = new System.Drawing.Size(303, 6);
             // 
             // deleteChunkToolStripMenuItem
             // 
             this.deleteChunkToolStripMenuItem.Name = "deleteChunkToolStripMenuItem";
             this.deleteChunkToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.deleteChunkToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.deleteChunkToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.deleteChunkToolStripMenuItem.Text = "Delete Chunk Target";
             this.deleteChunkToolStripMenuItem.Click += new System.EventHandler(this.DeleteChunkToolStripMenuItem_Click);
             // 
@@ -246,9 +258,16 @@ namespace WolvenKit.Forms
             this.goToChunkToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Open_16x;
             this.goToChunkToolStripMenuItem.Name = "goToChunkToolStripMenuItem";
             this.goToChunkToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.goToChunkToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.goToChunkToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.goToChunkToolStripMenuItem.Text = "Go to Chunk Target (Alt click)";
             this.goToChunkToolStripMenuItem.Click += new System.EventHandler(this.GotoChunkToolStripMenuItem_Click);
+            // 
+            // changeHandleTypeToolStripMenuItem
+            // 
+            this.changeHandleTypeToolStripMenuItem.Name = "changeHandleTypeToolStripMenuItem";
+            this.changeHandleTypeToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
+            this.changeHandleTypeToolStripMenuItem.Text = "Change Handle Type";
+            this.changeHandleTypeToolStripMenuItem.Click += new System.EventHandler(this.changeHandleTypeToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -288,7 +307,7 @@ namespace WolvenKit.Forms
             this.toolStripClearButton.Image = global::WolvenKit.Properties.Resources.Close_red_16x;
             this.toolStripClearButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripClearButton.Name = "toolStripClearButton";
-            this.toolStripClearButton.Size = new System.Drawing.Size(28, 28);
+            this.toolStripClearButton.Size = new System.Drawing.Size(29, 28);
             this.toolStripClearButton.Text = "Clear";
             this.toolStripClearButton.Click += new System.EventHandler(this.toolStripClearButton_Click);
             // 
@@ -298,7 +317,7 @@ namespace WolvenKit.Forms
             this.toolStripButtonShowSerialized.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonShowSerialized.Image")));
             this.toolStripButtonShowSerialized.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonShowSerialized.Name = "toolStripButtonShowSerialized";
-            this.toolStripButtonShowSerialized.Size = new System.Drawing.Size(149, 28);
+            this.toolStripButtonShowSerialized.Size = new System.Drawing.Size(191, 28);
             this.toolStripButtonShowSerialized.Text = "Show all editable variables";
             this.toolStripButtonShowSerialized.Click += new System.EventHandler(this.toolStripButtonShowSerialized_Click);
             // 
@@ -307,7 +326,7 @@ namespace WolvenKit.Forms
             this.toolStripButtonColorPicker.Image = global::WolvenKit.Properties.Resources.Preferences_dark_64x;
             this.toolStripButtonColorPicker.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonColorPicker.Name = "toolStripButtonColorPicker";
-            this.toolStripButtonColorPicker.Size = new System.Drawing.Size(212, 28);
+            this.toolStripButtonColorPicker.Size = new System.Drawing.Size(256, 28);
             this.toolStripButtonColorPicker.Text = "Choose your own highlight color!";
             this.toolStripButtonColorPicker.Click += new System.EventHandler(this.toolStripButtonColorPicker_Click);
             // 
@@ -318,7 +337,7 @@ namespace WolvenKit.Forms
             this.ExpandBTN.Image = ((System.Drawing.Image)(resources.GetObject("ExpandBTN.Image")));
             this.ExpandBTN.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ExpandBTN.Name = "ExpandBTN";
-            this.ExpandBTN.Size = new System.Drawing.Size(28, 28);
+            this.ExpandBTN.Size = new System.Drawing.Size(29, 28);
             this.ExpandBTN.Text = "Expand all";
             this.ExpandBTN.Click += new System.EventHandler(this.ExpandBTN_Click);
             // 
@@ -329,21 +348,14 @@ namespace WolvenKit.Forms
             this.CollapseBTN.Image = ((System.Drawing.Image)(resources.GetObject("CollapseBTN.Image")));
             this.CollapseBTN.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CollapseBTN.Name = "CollapseBTN";
-            this.CollapseBTN.Size = new System.Drawing.Size(28, 28);
+            this.CollapseBTN.Size = new System.Drawing.Size(29, 28);
             this.CollapseBTN.Text = "Collapse all";
             this.CollapseBTN.ToolTipText = "Collapse all";
             this.CollapseBTN.Click += new System.EventHandler(this.CollapseBTN_Click);
             // 
-            // changeHandleTypeToolStripMenuItem
-            // 
-            this.changeHandleTypeToolStripMenuItem.Name = "changeHandleTypeToolStripMenuItem";
-            this.changeHandleTypeToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.changeHandleTypeToolStripMenuItem.Text = "Change Handle Type";
-            this.changeHandleTypeToolStripMenuItem.Click += new System.EventHandler(this.changeHandleTypeToolStripMenuItem_Click);
-            // 
             // frmChunkProperties
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(813, 493);
             this.CloseButton = false;
@@ -376,7 +388,6 @@ namespace WolvenKit.Forms
         private ToolStripSeparator toolStripMenuItem1;
         private ToolStripSeparator toolStripMenuItem2;
         private ToolStripMenuItem copyToolStripMenuItem;
-        private ToolStripMenuItem pasteToolStripMenuItem;
         private ToolStripSeparator toolSplitPtr;
         private ToolStripMenuItem goToChunkToolStripMenuItem;
         private ToolStripMenuItem copyTextToolStripMenuItem;
@@ -393,5 +404,7 @@ namespace WolvenKit.Forms
         private ToolStripButton ExpandBTN;
         private ToolStripButton CollapseBTN;
         private ToolStripMenuItem changeHandleTypeToolStripMenuItem;
+        private ToolStripMenuItem pasteToolStripMenuItem;
+        private ToolStripMenuItem resetVariableToolStripMenuItem;
     }
 }
