@@ -1005,7 +1005,7 @@ namespace WolvenKit.CR2W.SRT
 
                             for (int vk = 0; vk < /*4*/ vertProp.ValueCount; ++vk)
                             {
-                                sbyte byteOffset = vertProp.ValueOffset[vk];
+                                sbyte byteOffset = vertProp.ValueOffsets[vk];
                                 switch (vertexValueFormat)
                                 {
                                     case EVertexFormat.VERTEX_FORMAT_FULL_FLOAT:

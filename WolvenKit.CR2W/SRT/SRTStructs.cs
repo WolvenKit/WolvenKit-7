@@ -212,14 +212,14 @@ namespace WolvenKit.CR2W.SRT
         public EVertexProperty PropertyName { get; set; }
         public EVertexFormat PropertyFormat { get; set; }
         public bool UseFloatValuesForBytes { get; set; }
-        public int ValueCount => ValueOffset.Count;
+        public int ValueCount => ValueOffsets.Count;
         public List<float> FloatValues { get; set; }
         public List<byte> ByteValues { get; set; }
-        public List<sbyte> ValueOffset { get; set; }
+        public List<sbyte> ValueOffsets { get; set; }
         public SVertexProperty() {
             PropertyFormat = EVertexFormat.VERTEX_FORMAT_UNASSIGNED;
             UseFloatValuesForBytes = false;
-            ValueOffset = new List<sbyte>();
+            ValueOffsets = new List<sbyte>();
 
             FloatValues = new List<float>();
             ByteValues = new List<byte>();
@@ -255,9 +255,9 @@ namespace WolvenKit.CR2W.SRT
             }
             VertexProperties[propIndex].PropertyFormat = valueFormat;
             // kinda resize
-            while (VertexProperties[propIndex].ValueOffset.Count() < valueIndex + 1)
-                VertexProperties[propIndex].ValueOffset.Add(-1);
-            VertexProperties[propIndex].ValueOffset[valueIndex] = valueOffset;
+            while (VertexProperties[propIndex].ValueOffsets.Count() < valueIndex + 1)
+                VertexProperties[propIndex].ValueOffsets.Add(-1);
+            VertexProperties[propIndex].ValueOffsets[valueIndex] = valueOffset;
         }
         public void SetFloatValue(int propIndex, int valueIndex, sbyte valueOffset, float value)
         {
