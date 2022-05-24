@@ -852,6 +852,27 @@ namespace WolvenKit.CR2W.SRT
                                     }
                                 }
                             }
+
+                            // normalize xyz vector
+                            for (int vj = 0; vj < pDrawCall.PVertexData[vi].VertexProperties.Length; ++vj)
+                            {
+                                if (pDrawCall.PVertexData[vi].VertexProperties[vj].UseFloatValuesForBytes && pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues.Count >= 3)
+                                {
+                                    float x = pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues[0];
+                                    float y = pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues[1];
+                                    float z = pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues[2];
+
+                                    var vec = new System.Numerics.Vector3(x, y, z);
+                                    //Debug.WriteLine($"Vertex[{vi}], Property[{((EVertexProperty)vj)}], x {x} y {y} z {z}");
+                                    //Debug.WriteLine($"Vertex[{vi}], Property[{((EVertexProperty)vj)}], Lenght BEFORE: {vec.Length()}");
+
+                                    var vecN = System.Numerics.Vector3.Normalize(vec);
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues[0] = vecN.X;
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues[1] = vecN.Y;
+                                    pDrawCall.PVertexData[vi].VertexProperties[vj].FloatValues[2] = vecN.Z;
+                                    //Debug.WriteLine($"Vertex[{vi}], Property[{((EVertexProperty)vj)}], xN {vecN.X} yN {vecN.Y} zN {vecN.Z}");
+                                }
+                            }
                         }
                         // index data
                         if (m_stream.Position % 4 != 0)
@@ -1000,6 +1021,10 @@ namespace WolvenKit.CR2W.SRT
 
                                         break;
                                     case EVertexFormat.VERTEX_FORMAT_BYTE:
+                                        if (vertProp.UseFloatValuesForBytes)
+                                        {
+                                            pDrawCall.PVertexData[vi].SetByteValueFromFloat(vj, vk);
+                                        }
                                         byte val_byte = vertProp.ByteValues[vk];
                                         vertexBytes[byteOffset] = val_byte;
                                         Debug.WriteLine($"WRITE Vertex[{vi}], Property[{vj}]: BYTE: {val_byte} [{vj}]<{vk}>");

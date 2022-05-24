@@ -211,12 +211,14 @@ namespace WolvenKit.CR2W.SRT
     {
         public EVertexProperty PropertyName { get; set; }
         public EVertexFormat PropertyFormat { get; set; }
+        public bool UseFloatValuesForBytes { get; set; }
         public int ValueCount => ValueOffset.Count;
         public List<float> FloatValues { get; set; }
         public List<byte> ByteValues { get; set; }
         public List<sbyte> ValueOffset { get; set; }
         public SVertexProperty() {
             PropertyFormat = EVertexFormat.VERTEX_FORMAT_UNASSIGNED;
+            UseFloatValuesForBytes = false;
             ValueOffset = new List<sbyte>();
 
             FloatValues = new List<float>();
@@ -234,6 +236,15 @@ namespace WolvenKit.CR2W.SRT
             {
                 VertexProperties[i] = new SVertexProperty();
                 VertexProperties[i].PropertyName = (EVertexProperty)i;
+                switch ((EVertexProperty)i)
+                {
+                    case EVertexProperty.VERTEX_PROPERTY_TANGENT:
+                    case EVertexProperty.VERTEX_PROPERTY_NORMAL:
+                        VertexProperties[i].UseFloatValuesForBytes = true;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         public void SetValue(int propIndex, int valueIndex, sbyte valueOffset, EVertexFormat valueFormat)
@@ -252,6 +263,11 @@ namespace WolvenKit.CR2W.SRT
         {
             SetValue(propIndex, valueIndex, valueOffset, EVertexFormat.VERTEX_FORMAT_FULL_FLOAT);
             // kinda resize
+            SetFloatValue_Internal(propIndex, valueIndex, value);
+        }
+        // set float value but doesn't change value type
+        private void SetFloatValue_Internal(int propIndex, int valueIndex, float value)
+        {
             while (VertexProperties[propIndex].FloatValues.Count() < valueIndex + 1)
                 VertexProperties[propIndex].FloatValues.Add(float.NaN);
             VertexProperties[propIndex].FloatValues[valueIndex] = value;
@@ -271,6 +287,24 @@ namespace WolvenKit.CR2W.SRT
             while (VertexProperties[propIndex].ByteValues.Count() < valueIndex + 1)
                 VertexProperties[propIndex].ByteValues.Add(0);
             VertexProperties[propIndex].ByteValues[valueIndex] = value;
+
+            int int_val = value;
+            float float_val = ((float)int_val / 255.0f - 0.5f) * 2.0f;
+            SetFloatValue_Internal(propIndex, valueIndex, float_val);
+        }
+        public void SetByteValueFromFloat(int propIndex, int valueIndex)
+        {
+
+            if (valueIndex + 1 > VertexProperties[propIndex].FloatValues.Count)
+            {
+                return;
+            }
+            if (valueIndex + 1 > VertexProperties[propIndex].ByteValues.Count)
+            {
+                VertexProperties[propIndex].ByteValues.Add(0);
+            }
+            int int_val = (int)Math.Round( (VertexProperties[propIndex].FloatValues[valueIndex] * 0.5f + 0.5f) * 255f );
+            VertexProperties[propIndex].ByteValues[valueIndex] = (byte)int_val;
         }
     }
 
