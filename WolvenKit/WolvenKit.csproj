@@ -33,8 +33,8 @@
     <Product>Wolven kit</Product>
     <Description>Wolven kit a tool to operate with the game \"The Witcher 3: Wild Hunt\" in various ways.</Description>
     <Copyright>Copyright © 2015-2022</Copyright>
-    <AssemblyVersion>7.0.4</AssemblyVersion>
-    <FileVersion>7.0.4</FileVersion>
+    <AssemblyVersion>7.0.5</AssemblyVersion>
+    <FileVersion>7.0.5</FileVersion>
     <NoWarn>1591</NoWarn>
     <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
     <PostBuildEvent />
