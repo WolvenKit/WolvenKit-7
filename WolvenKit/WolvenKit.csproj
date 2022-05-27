@@ -999,4 +999,9 @@
   <ItemGroup>
     <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\ApxTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

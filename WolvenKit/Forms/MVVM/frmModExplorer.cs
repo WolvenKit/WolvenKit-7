@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using WolvenKit.Common.Services;
 using WolvenKit.Common.Wcc;
 using WolvenKit.Properties;
 using WolvenKit.Services;
+using WolvenKit.Forms;
 using MessageBoxButtons = System.Windows.Forms.MessageBoxButtons;
 using MessageBoxIcon = System.Windows.Forms.MessageBoxIcon;
 
@@ -465,14 +467,15 @@ namespace WolvenKit
                         ;
 
                 createW2animsToolStripMenuItem.Enabled = !isToplevelDir;
-                exportToolStripMenuItem.Enabled = !isToplevelDir && (ext == "w3fac" || ext == "w2cutscene" || ext == "w2anims" || ext == "w2rig" || ext == "xbm"
-                    || Enum.GetNames(typeof(EExportable)).Contains(ext));
 
-                exportW2animsjsonToolStripMenuItem.Visible = ext == "w2anims";
-                exportW2cutscenejsonToolStripMenuItem.Visible = ext == "w2cutscene";
-                exportw2rigjsonToolStripMenuItem.Visible = ext == "w2rig";
-                exportW3facjsonToolStripMenuItem.Visible = ext == "w3fac";
+                //exportW2animsjsonToolStripMenuItem.Visible = ext == "w2anims";
+                //exportW2cutscenejsonToolStripMenuItem.Visible = ext == "w2cutscene";
+                //exportw2rigjsonToolStripMenuItem.Visible = ext == "w2rig";
+                //exportW3facjsonToolStripMenuItem.Visible = ext == "w3fac";
                 exportWithWccToolStripMenuItem.Visible = Enum.GetNames(typeof(EExportable)).Contains(ext) || ext == "xbm";
+                exportRedfurapxToolStripMenuItem.Visible = true; //(ext == "redfur");
+
+                exportToolStripMenuItem.Enabled = true;
 
                 removeFileToolStripMenuItem.Enabled = !isToplevelDir;
                 renameToolStripMenuItem.Enabled = !isToplevelDir;
@@ -786,8 +789,101 @@ namespace WolvenKit
 
 
 
-#endregion
 
+        #endregion
 
+        private void exportRedfurapxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string scriptName = "ExportAPX"; // save folder suffix
+            string supportedExtension = ".redfur"; // ext for files to process
+            LoggerService logger = MainController.Get().Logger;
+            //StreamWriter logFile = new StreamWriter($"{ActiveMod.FileDirectory}\\Mod\\LOG_{scriptName}.txt");
+
+            MainController.Get().ProjectStatus = EProjectStatus.Busy;
+
+            if (treeListView.SelectedObject is FileSystemInfo selectedobject)
+            {
+                var filename = selectedobject.FullName;
+                var fullpath = Path.Combine(ActiveMod.FileDirectory, filename);
+                List<string> cr2wPaths = new List<string>();
+                string rootDir = "";
+                
+                if (Directory.Exists(fullpath))
+                {
+                    cr2wPaths = new List<string>(Directory.EnumerateFiles(fullpath, $"*{supportedExtension}", SearchOption.AllDirectories));
+                    rootDir = fullpath;
+                    logger?.LogString($"[{scriptName}] Files to process: {cr2wPaths.Count}", Logtype.Important);
+                }
+                else if (File.Exists(fullpath) && Path.GetExtension(fullpath) == supportedExtension)
+                {
+                    cr2wPaths.Add(fullpath);
+                }
+                else
+                {
+                    logger?.LogString($"[{scriptName}] No valid files to process.", Logtype.Important);
+                    MainController.Get().ProjectStatus = EProjectStatus.Ready;
+                    return;
+                }
+
+                bool scalePoses = MessageBox.Show($"Scale bones poses by x100?\n(Yes for vanilla refur)", "Scale x100?",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Question) == DialogResult.Yes;
+
+                //logFile.WriteLine($"Processed files ({cr2wPaths.Count}):");
+                CustomScripts CS = new CustomScripts(false);
+                string savePath;
+                int percent_old = -1;
+                Task.Run(() => //Run the method in another thread to prevent freezing UI
+                {
+                    List<string> errors = new List<string>();
+                    for (int i = 0; i < cr2wPaths.Count; ++i)
+                    {
+                        //Debug.WriteLine($"[{i}]: {fullpath}");
+                        string ext = Path.GetExtension(cr2wPaths[i]);
+                        int percent = (int)((i + 1.0f) / (float)cr2wPaths.Count * 100.0);
+                        if (percent > percent_old)
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) Processing: {cr2wPaths[i]}..", Logtype.Normal);
+                            logger?.LogProgress(percent);
+                            percent_old = percent;
+                        }
+
+                        var load_res = CS.LoadCR2W(cr2wPaths[i]);
+                        if (load_res != EFileReadErrorCodes.NoError)
+                        {
+                            errors.Add($"{cr2wPaths[i]}: {load_res}.");
+                            continue;
+                        }
+                        if (string.IsNullOrEmpty(rootDir))
+                        {
+                            //savePath = $"{cr2wPaths[i].Substring(0, cr2wPaths[i].Length - ext.Length)}_{scriptName}.apx";
+                            savePath = $"{cr2wPaths[i].Substring(0, cr2wPaths[i].Length - ext.Length)}.apx";
+                        }
+                        else
+                        {
+                            savePath = $"{rootDir}_{scriptName}\\{cr2wPaths[i].Substring(rootDir.Length + 1, cr2wPaths[i].Length - (rootDir.Length + 1) - ext.Length)}.apx";
+                            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+                        }
+                        if (CS.ExportApx(savePath, scalePoses) > 0)
+                        {
+                            //CS.SaveCR2W(savePath);
+                            //logFile.WriteLine(savePath);
+                        } else
+                        {
+                            errors.Add($"{cr2wPaths[i]}: No CFurMeshResource found.");
+                        }
+                    }
+                    //logFile.Close();
+                    if (errors.Count > 0)
+                    {
+                        logger?.LogString($"[{scriptName}] Finished with errors:\n\t{String.Join("\n\t", errors)}", Logtype.Error);
+                    } else
+                    {
+                        logger?.LogString($"[{scriptName}] Finished.", Logtype.Success);
+                    }
+                    MainController.Get().ProjectStatus = EProjectStatus.Ready;
+                });
+            }
+        }
     }
 }
