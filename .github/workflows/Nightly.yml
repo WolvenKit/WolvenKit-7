@@ -1,10 +1,18 @@
 name: WolvenKit-Nightly
 on:
-  schedule:
-    - cron: "0 12 * * *"
+  push:
+    branches: [master]
   workflow_dispatch:
-    branches:
-      - master
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: false
+        default: 'warning' 
+        type: choice
+        options:
+        - info
+        - warning
+        - debug 
 
 jobs:
   build:
@@ -32,12 +40,13 @@ jobs:
         cd $Env:GITHUB_WORKSPACE\\WolvenKit\bin
         Compress-Archive -Path ./Release/ -DestinationPath WolvenKit.zip
     - name: Deploy Nightly
-      uses: Maxzor/deploy-nightly@v1.0.4
+      uses: WebFreak001/deploy-nightly@v1.1.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
       with:
-        upload_url: https://uploads.github.com/repos/WolvenKit/WolvenKit-7/releases/66231466/assets{?name,label}
+        upload_url: https://uploads.github.com/repos/WolvenKit/WolvenKit-7/releases/66231466/assets{?name,label} # find out this value by opening https://api.github.com/repos/<owner>/<repo>/releases in your browser and copy the full "upload_url" value including the {?name,label} part
         release_id: 66231466
-        asset_path: WolvenKit\bin\WolvenKit.zip
-        asset_name: WolvenKit-Nightly-$$.zip
-        asset_content_type: application/zip
+        asset_path: WolvenKit/bin/WolvenKit.zip
+        asset_name: WolvenKit-Nightly-$$.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
+        asset_content_type: application/zip # required by GitHub API
+        max_releases: 5 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
