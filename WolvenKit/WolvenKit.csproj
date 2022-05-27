@@ -121,6 +121,12 @@
       <MoveToLibFolder Include="$(OutputPath)*.dll ; $(OutputPath)*.pdb ; $(OutputPath)*.xml" />
     </ItemGroup>
   </Target>
+  <Target Name="Date" BeforeTargets="BeforeBuild">
+    <WriteLinesToFile File="$(IntermediateOutputPath)gen.cs" Lines="static partial class Builtin { public static long CompileTime = $([System.DateTime]::UtcNow.Ticks) %3B }" Overwrite="true" />
+    <ItemGroup>
+        <Compile Include="$(IntermediateOutputPath)gen.cs" />
+    </ItemGroup>
+  </Target>
   <ItemGroup>
     <PackageReference Include="AutoCompleteMenu-ScintillaNET" Version="1.6.2" />
     <PackageReference Include="Autoupdater.NET.Official" Version="1.6.4" />

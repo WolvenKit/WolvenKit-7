@@ -773,7 +773,8 @@ namespace WolvenKit
 
         private void UpdateTitle()
         {
-            wkitVersionToolStripLabel.Text = $"v{Version}: {Assembly.GetExecutingAssembly().GetLinkerTime().ToString("yyyy MMMM dd")}";
+            var compileTime = new DateTime(Builtin.CompileTime, DateTimeKind.Utc);
+            wkitVersionToolStripLabel.Text = $"v{Version}: {compileTime.ToString("yyyy MMMM dd")}";
 
             modNameToolStripLabel.Text = ActiveMod != null ? ActiveMod.Name : "No Mod Loaded!";
 
