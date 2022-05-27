@@ -44,8 +44,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
       with:
-        upload_url: https://uploads.github.com/repos/WolvenKit/WolvenKit-7/releases/66231466/assets{?name,label} # find out this value by opening https://api.github.com/repos/<owner>/<repo>/releases in your browser and copy the full "upload_url" value including the {?name,label} part
-        release_id: 66231466
+        upload_url: https://uploads.github.com/repos/WolvenKit/WolvenKit-7/releases/68038231/assets{?name,label} # find out this value by opening https://api.github.com/repos/<owner>/<repo>/releases in your browser and copy the full "upload_url" value including the {?name,label} part
+        release_id: 68038231
         asset_path: WolvenKit/bin/WolvenKit.zip
         asset_name: WolvenKit-Nightly-$$.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
         asset_content_type: application/zip # required by GitHub API
