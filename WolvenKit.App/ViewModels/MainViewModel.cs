@@ -1181,7 +1181,7 @@ namespace WolvenKit.App.ViewModels
                 throw new NullReferenceException();
             _openDocuments.Remove(key);
             // update Active Document
-            if (ActiveDocument.FileName == key)
+            if (ActiveDocument != null && ActiveDocument.FileName == key)
                 ActiveDocument = null;
         }
 
