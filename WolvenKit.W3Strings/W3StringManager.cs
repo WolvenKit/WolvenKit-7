@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ProtoBuf;
@@ -114,7 +114,7 @@ namespace WolvenKit.W3Strings
             {
                 foreach (var dir in Directory.GetDirectories(dlc))
                 {
-                    var strs = GetdirectoriesDebug(dir, Language + ".w3strings", SearchOption.AllDirectories);
+                    var strs = Directory.GetFiles(dir, Language + ".w3strings", SearchOption.AllDirectories);
                     foreach (var file in strs)
                     {
                         OpenFile(file);
