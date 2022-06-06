@@ -303,13 +303,16 @@ namespace WolvenKit
                 switch (child.Reference.REDType)
                 {
                     case "CJournalQuestMapPin":
+                        var pin = child as CJournalQuestMapPin;
+                        if (pin != null)
                         {
                             var pinnode = new TreeNode("Map pin");
-                            pinnode.Nodes.Add(new TreeNode("Name: " + (child as CJournalQuestMapPin).MapPinID));
-                            pinnode.Nodes.Add(new TreeNode("Radius: " + (child as CJournalQuestMapPin).Radius));
+                            pinnode.Nodes.Add(new TreeNode("Name: " + pin.MapPinID));
+                            pinnode.Nodes.Add(new TreeNode("Radius: " + pin.Radius));
                             result.Nodes.Add(pinnode);
                             break;
                         }
+                        break;
                 }
             }
             return result;
