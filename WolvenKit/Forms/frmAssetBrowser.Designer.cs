@@ -80,6 +80,7 @@ namespace WolvenKit
             this.limitUpDown = new System.Windows.Forms.NumericUpDown();
             this.checkBoxUncook = new System.Windows.Forms.CheckBox();
             this.checkBoxExport = new System.Windows.Forms.CheckBox();
+            this.checkUseLastBundle = new System.Windows.Forms.CheckBox();
             this.filebrowserMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileSplitContainer)).BeginInit();
@@ -93,9 +94,10 @@ namespace WolvenKit
             // 
             this.btOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btOpen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btOpen.Location = new System.Drawing.Point(9, 499);
+            this.btOpen.Location = new System.Drawing.Point(12, 462);
+            this.btOpen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btOpen.Name = "btOpen";
-            this.btOpen.Size = new System.Drawing.Size(145, 23);
+            this.btOpen.Size = new System.Drawing.Size(193, 28);
             this.btOpen.TabIndex = 3;
             this.btOpen.TabStop = false;
             this.btOpen.Text = "Add marked files to mod";
@@ -117,8 +119,9 @@ namespace WolvenKit
             this.fileListView.HideSelection = false;
             this.fileListView.LargeImageList = this.treeImages;
             this.fileListView.Location = new System.Drawing.Point(0, 0);
+            this.fileListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fileListView.Name = "fileListView";
-            this.fileListView.Size = new System.Drawing.Size(522, 374);
+            this.fileListView.Size = new System.Drawing.Size(696, 308);
             this.fileListView.SmallImageList = this.treeImages;
             this.fileListView.TabIndex = 5;
             this.fileListView.UseCompatibleStateImageBehavior = false;
@@ -160,26 +163,26 @@ namespace WolvenKit
             this.markToolStripMenuItem,
             this.markAllFilesOfFolderToolStripMenuItem});
             this.filebrowserMenuStrip.Name = "filebrowserMenuStrip";
-            this.filebrowserMenuStrip.Size = new System.Drawing.Size(189, 70);
+            this.filebrowserMenuStrip.Size = new System.Drawing.Size(225, 76);
             // 
             // copyPathToolStripMenuItem
             // 
             this.copyPathToolStripMenuItem.Name = "copyPathToolStripMenuItem";
-            this.copyPathToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.copyPathToolStripMenuItem.Size = new System.Drawing.Size(224, 24);
             this.copyPathToolStripMenuItem.Text = "Copy Path";
             this.copyPathToolStripMenuItem.Click += new System.EventHandler(this.copyPathToolStripMenuItem_Click);
             // 
             // markToolStripMenuItem
             // 
             this.markToolStripMenuItem.Name = "markToolStripMenuItem";
-            this.markToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.markToolStripMenuItem.Size = new System.Drawing.Size(224, 24);
             this.markToolStripMenuItem.Text = "Mark";
             this.markToolStripMenuItem.Click += new System.EventHandler(this.markToolStripMenuItem_Click);
             // 
             // markAllFilesOfFolderToolStripMenuItem
             // 
             this.markAllFilesOfFolderToolStripMenuItem.Name = "markAllFilesOfFolderToolStripMenuItem";
-            this.markAllFilesOfFolderToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.markAllFilesOfFolderToolStripMenuItem.Size = new System.Drawing.Size(224, 24);
             this.markAllFilesOfFolderToolStripMenuItem.Text = "Mark all files of folder";
             this.markAllFilesOfFolderToolStripMenuItem.Click += new System.EventHandler(this.markAllFilesOfFolderToolStripMenuItem_Click);
             // 
@@ -210,9 +213,10 @@ namespace WolvenKit
             this.pathPanel.BackColor = System.Drawing.SystemColors.Window;
             this.pathPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pathPanel.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.pathPanel.Location = new System.Drawing.Point(38, 42);
+            this.pathPanel.Location = new System.Drawing.Point(51, 52);
+            this.pathPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pathPanel.Name = "pathPanel";
-            this.pathPanel.Size = new System.Drawing.Size(762, 20);
+            this.pathPanel.Size = new System.Drawing.Size(1015, 24);
             this.pathPanel.TabIndex = 6;
             this.pathPanel.Click += new System.EventHandler(this.pathPanel_Click);
             // 
@@ -223,9 +227,10 @@ namespace WolvenKit
             this.SearchBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.SearchBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.SearchBox.CausesValidation = false;
-            this.SearchBox.Location = new System.Drawing.Point(72, 72);
+            this.SearchBox.Location = new System.Drawing.Point(96, 89);
+            this.SearchBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SearchBox.Name = "SearchBox";
-            this.SearchBox.Size = new System.Drawing.Size(291, 20);
+            this.SearchBox.Size = new System.Drawing.Size(387, 22);
             this.SearchBox.TabIndex = 7;
             this.SearchBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.SearchBox_PreviewKeyDown);
             // 
@@ -234,18 +239,20 @@ namespace WolvenKit
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 76);
+            this.label1.Location = new System.Drawing.Point(19, 94);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(57, 17);
             this.label1.TabIndex = 8;
             this.label1.Text = "Search:";
             // 
             // ClearFiles
             // 
             this.ClearFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ClearFiles.Location = new System.Drawing.Point(583, 499);
+            this.ClearFiles.Location = new System.Drawing.Point(777, 462);
+            this.ClearFiles.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ClearFiles.Name = "ClearFiles";
-            this.ClearFiles.Size = new System.Drawing.Size(105, 23);
+            this.ClearFiles.Size = new System.Drawing.Size(140, 28);
             this.ClearFiles.TabIndex = 9;
             this.ClearFiles.TabStop = false;
             this.ClearFiles.Text = "Unmark selected";
@@ -255,9 +262,10 @@ namespace WolvenKit
             // MarkSelected
             // 
             this.MarkSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.MarkSelected.Location = new System.Drawing.Point(694, 499);
+            this.MarkSelected.Location = new System.Drawing.Point(925, 462);
+            this.MarkSelected.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MarkSelected.Name = "MarkSelected";
-            this.MarkSelected.Size = new System.Drawing.Size(105, 23);
+            this.MarkSelected.Size = new System.Drawing.Size(140, 28);
             this.MarkSelected.TabIndex = 10;
             this.MarkSelected.TabStop = false;
             this.MarkSelected.Text = "Mark selected";
@@ -271,17 +279,19 @@ namespace WolvenKit
             this.fileExtensionsCB.FormattingEnabled = true;
             this.fileExtensionsCB.Items.AddRange(new object[] {
             "Any"});
-            this.fileExtensionsCB.Location = new System.Drawing.Point(605, 72);
+            this.fileExtensionsCB.Location = new System.Drawing.Point(807, 89);
+            this.fileExtensionsCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fileExtensionsCB.Name = "fileExtensionsCB";
-            this.fileExtensionsCB.Size = new System.Drawing.Size(104, 21);
+            this.fileExtensionsCB.Size = new System.Drawing.Size(137, 24);
             this.fileExtensionsCB.TabIndex = 11;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(713, 70);
+            this.button1.Location = new System.Drawing.Point(951, 86);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 23);
+            this.button1.Size = new System.Drawing.Size(115, 28);
             this.button1.TabIndex = 12;
             this.button1.Text = "Search";
             this.button1.UseVisualStyleBackColor = true;
@@ -291,9 +301,10 @@ namespace WolvenKit
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(543, 76);
+            this.label2.Location = new System.Drawing.Point(724, 94);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.Size = new System.Drawing.Size(73, 17);
             this.label2.TabIndex = 13;
             this.label2.Text = "Extension:";
             // 
@@ -302,9 +313,10 @@ namespace WolvenKit
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(734, 105);
+            this.label3.Location = new System.Drawing.Point(979, 129);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 13);
+            this.label3.Size = new System.Drawing.Size(88, 17);
             this.label3.TabIndex = 15;
             this.label3.Text = "Marked files:";
             // 
@@ -312,9 +324,10 @@ namespace WolvenKit
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(623, 96);
+            this.button2.Location = new System.Drawing.Point(831, 118);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(105, 23);
+            this.button2.Size = new System.Drawing.Size(140, 28);
             this.button2.TabIndex = 17;
             this.button2.TabStop = false;
             this.button2.Text = "Clear marks";
@@ -332,9 +345,10 @@ namespace WolvenKit
             this.pathlistview.HideSelection = false;
             this.pathlistview.LargeImageList = this.treeImages;
             this.pathlistview.Location = new System.Drawing.Point(0, 0);
+            this.pathlistview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pathlistview.Name = "pathlistview";
             this.pathlistview.ShowItemToolTips = true;
-            this.pathlistview.Size = new System.Drawing.Size(266, 374);
+            this.pathlistview.Size = new System.Drawing.Size(355, 308);
             this.pathlistview.SmallImageList = this.treeImages;
             this.pathlistview.TabIndex = 14;
             this.pathlistview.UseCompatibleStateImageBehavior = false;
@@ -351,10 +365,10 @@ namespace WolvenKit
             this.clearSearch.BackColor = System.Drawing.Color.Transparent;
             this.clearSearch.BackgroundImage = global::WolvenKit.Properties.Resources.ExitIcon;
             this.clearSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.clearSearch.Location = new System.Drawing.Point(366, 70);
-            this.clearSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.clearSearch.Location = new System.Drawing.Point(488, 86);
+            this.clearSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.clearSearch.Name = "clearSearch";
-            this.clearSearch.Size = new System.Drawing.Size(22, 24);
+            this.clearSearch.Size = new System.Drawing.Size(29, 30);
             this.clearSearch.TabIndex = 18;
             this.clearSearch.UseVisualStyleBackColor = false;
             this.clearSearch.Click += new System.EventHandler(this.clearSearch_Click);
@@ -362,9 +376,10 @@ namespace WolvenKit
             // regexCheckbox
             // 
             this.regexCheckbox.AutoSize = true;
-            this.regexCheckbox.Location = new System.Drawing.Point(17, 98);
+            this.regexCheckbox.Location = new System.Drawing.Point(23, 121);
+            this.regexCheckbox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.regexCheckbox.Name = "regexCheckbox";
-            this.regexCheckbox.Size = new System.Drawing.Size(57, 17);
+            this.regexCheckbox.Size = new System.Drawing.Size(70, 21);
             this.regexCheckbox.TabIndex = 21;
             this.regexCheckbox.Text = "Regex";
             this.regexCheckbox.UseVisualStyleBackColor = true;
@@ -372,9 +387,10 @@ namespace WolvenKit
             // currentfolderCheckBox
             // 
             this.currentfolderCheckBox.AutoSize = true;
-            this.currentfolderCheckBox.Location = new System.Drawing.Point(80, 98);
+            this.currentfolderCheckBox.Location = new System.Drawing.Point(107, 121);
+            this.currentfolderCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.currentfolderCheckBox.Name = "currentfolderCheckBox";
-            this.currentfolderCheckBox.Size = new System.Drawing.Size(181, 17);
+            this.currentfolderCheckBox.Size = new System.Drawing.Size(240, 21);
             this.currentfolderCheckBox.TabIndex = 22;
             this.currentfolderCheckBox.Text = "Search only in current mod folder";
             this.currentfolderCheckBox.UseVisualStyleBackColor = true;
@@ -382,10 +398,10 @@ namespace WolvenKit
             // caseCheckBox
             // 
             this.caseCheckBox.AutoSize = true;
-            this.caseCheckBox.Location = new System.Drawing.Point(266, 97);
-            this.caseCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.caseCheckBox.Location = new System.Drawing.Point(355, 119);
+            this.caseCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.caseCheckBox.Name = "caseCheckBox";
-            this.caseCheckBox.Size = new System.Drawing.Size(94, 17);
+            this.caseCheckBox.Size = new System.Drawing.Size(121, 21);
             this.caseCheckBox.TabIndex = 23;
             this.caseCheckBox.Text = "Case sensitive";
             this.caseCheckBox.UseVisualStyleBackColor = true;
@@ -400,8 +416,8 @@ namespace WolvenKit
             this.tabsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(811, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1081, 28);
             this.menuStrip1.TabIndex = 24;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -414,41 +430,41 @@ namespace WolvenKit
             this.listToolStripMenuItem,
             this.tileToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "View";
             // 
             // detailsToolStripMenuItem
             // 
             this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
-            this.detailsToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.detailsToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
             this.detailsToolStripMenuItem.Text = "Details";
             this.detailsToolStripMenuItem.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
             // 
             // largeIconToolStripMenuItem
             // 
             this.largeIconToolStripMenuItem.Name = "largeIconToolStripMenuItem";
-            this.largeIconToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.largeIconToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
             this.largeIconToolStripMenuItem.Text = "LargeIcon";
             this.largeIconToolStripMenuItem.Click += new System.EventHandler(this.largeIconToolStripMenuItem_Click);
             // 
             // smallIconToolStripMenuItem
             // 
             this.smallIconToolStripMenuItem.Name = "smallIconToolStripMenuItem";
-            this.smallIconToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.smallIconToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
             this.smallIconToolStripMenuItem.Text = "SmallIcon";
             this.smallIconToolStripMenuItem.Click += new System.EventHandler(this.smallIconToolStripMenuItem_Click);
             // 
             // listToolStripMenuItem
             // 
             this.listToolStripMenuItem.Name = "listToolStripMenuItem";
-            this.listToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.listToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
             this.listToolStripMenuItem.Text = "List";
             this.listToolStripMenuItem.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
             // 
             // tileToolStripMenuItem
             // 
             this.tileToolStripMenuItem.Name = "tileToolStripMenuItem";
-            this.tileToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.tileToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
             this.tileToolStripMenuItem.Text = "Tile";
             this.tileToolStripMenuItem.Click += new System.EventHandler(this.tileToolStripMenuItem_Click);
             // 
@@ -456,30 +472,31 @@ namespace WolvenKit
             // 
             this.editToolStripMenuItem.Enabled = false;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // bookmarkToolStripMenuItem
             // 
             this.bookmarkToolStripMenuItem.Enabled = false;
             this.bookmarkToolStripMenuItem.Name = "bookmarkToolStripMenuItem";
-            this.bookmarkToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.bookmarkToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
             this.bookmarkToolStripMenuItem.Text = "Bookmark";
             // 
             // tabsToolStripMenuItem
             // 
             this.tabsToolStripMenuItem.Enabled = false;
             this.tabsToolStripMenuItem.Name = "tabsToolStripMenuItem";
-            this.tabsToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
+            this.tabsToolStripMenuItem.Size = new System.Drawing.Size(52, 24);
             this.tabsToolStripMenuItem.Text = "Tabs";
             // 
             // lExtension
             // 
             this.lExtension.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lExtension.AutoSize = true;
-            this.lExtension.Location = new System.Drawing.Point(393, 76);
+            this.lExtension.Location = new System.Drawing.Point(524, 94);
+            this.lExtension.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lExtension.Name = "lExtension";
-            this.lExtension.Size = new System.Drawing.Size(34, 13);
+            this.lExtension.Size = new System.Drawing.Size(44, 17);
             this.lExtension.TabIndex = 25;
             this.lExtension.Text = "Type:";
             // 
@@ -490,9 +507,10 @@ namespace WolvenKit
             this.bundleExtensionCB.FormattingEnabled = true;
             this.bundleExtensionCB.Items.AddRange(new object[] {
             "Any"});
-            this.bundleExtensionCB.Location = new System.Drawing.Point(433, 72);
+            this.bundleExtensionCB.Location = new System.Drawing.Point(577, 89);
+            this.bundleExtensionCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.bundleExtensionCB.Name = "bundleExtensionCB";
-            this.bundleExtensionCB.Size = new System.Drawing.Size(104, 21);
+            this.bundleExtensionCB.Size = new System.Drawing.Size(137, 24);
             this.bundleExtensionCB.TabIndex = 26;
             this.bundleExtensionCB.SelectionChangeCommitted += new System.EventHandler(this.bundleExtensionCB_SelectionChangeCommitted);
             // 
@@ -500,9 +518,10 @@ namespace WolvenKit
             // 
             this.addDLCFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.addDLCFile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.addDLCFile.Location = new System.Drawing.Point(160, 499);
+            this.addDLCFile.Location = new System.Drawing.Point(213, 462);
+            this.addDLCFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.addDLCFile.Name = "addDLCFile";
-            this.addDLCFile.Size = new System.Drawing.Size(145, 23);
+            this.addDLCFile.Size = new System.Drawing.Size(193, 28);
             this.addDLCFile.TabIndex = 27;
             this.addDLCFile.TabStop = false;
             this.addDLCFile.Text = "Add marked files to DLC";
@@ -513,9 +532,10 @@ namespace WolvenKit
             // 
             this.homeBTN.BackgroundImage = global::WolvenKit.Properties.Resources.home;
             this.homeBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.homeBTN.Location = new System.Drawing.Point(9, 40);
+            this.homeBTN.Location = new System.Drawing.Point(12, 49);
+            this.homeBTN.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.homeBTN.Name = "homeBTN";
-            this.homeBTN.Size = new System.Drawing.Size(28, 23);
+            this.homeBTN.Size = new System.Drawing.Size(37, 28);
             this.homeBTN.TabIndex = 28;
             this.homeBTN.UseVisualStyleBackColor = true;
             this.homeBTN.Click += new System.EventHandler(this.Home_Click);
@@ -525,8 +545,8 @@ namespace WolvenKit
             this.fileSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.fileSplitContainer.Location = new System.Drawing.Point(9, 120);
-            this.fileSplitContainer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.fileSplitContainer.Location = new System.Drawing.Point(12, 148);
+            this.fileSplitContainer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.fileSplitContainer.Name = "fileSplitContainer";
             // 
             // fileSplitContainer.Panel1
@@ -536,9 +556,8 @@ namespace WolvenKit
             // fileSplitContainer.Panel2
             // 
             this.fileSplitContainer.Panel2.Controls.Add(this.pathlistview);
-            this.fileSplitContainer.Size = new System.Drawing.Size(791, 374);
-            this.fileSplitContainer.SplitterDistance = 522;
-            this.fileSplitContainer.SplitterWidth = 3;
+            this.fileSplitContainer.Size = new System.Drawing.Size(1055, 308);
+            this.fileSplitContainer.SplitterDistance = 696;
             this.fileSplitContainer.TabIndex = 29;
             // 
             // limitCheckBox
@@ -546,23 +565,25 @@ namespace WolvenKit
             this.limitCheckBox.AutoSize = true;
             this.limitCheckBox.Checked = true;
             this.limitCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.limitCheckBox.Location = new System.Drawing.Point(366, 97);
+            this.limitCheckBox.Location = new System.Drawing.Point(488, 119);
+            this.limitCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.limitCheckBox.Name = "limitCheckBox";
-            this.limitCheckBox.Size = new System.Drawing.Size(98, 17);
+            this.limitCheckBox.Size = new System.Drawing.Size(129, 21);
             this.limitCheckBox.TabIndex = 30;
             this.limitCheckBox.Text = "Limit results to :";
             this.limitCheckBox.UseVisualStyleBackColor = true;
             // 
             // limitUpDown
             // 
-            this.limitUpDown.Location = new System.Drawing.Point(464, 96);
+            this.limitUpDown.Location = new System.Drawing.Point(619, 118);
+            this.limitUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.limitUpDown.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
             this.limitUpDown.Name = "limitUpDown";
-            this.limitUpDown.Size = new System.Drawing.Size(64, 20);
+            this.limitUpDown.Size = new System.Drawing.Size(85, 22);
             this.limitUpDown.TabIndex = 32;
             this.limitUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.limitUpDown.Value = new decimal(new int[] {
@@ -575,9 +596,10 @@ namespace WolvenKit
             // 
             this.checkBoxUncook.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxUncook.AutoSize = true;
-            this.checkBoxUncook.Location = new System.Drawing.Point(314, 503);
+            this.checkBoxUncook.Location = new System.Drawing.Point(419, 467);
+            this.checkBoxUncook.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxUncook.Name = "checkBoxUncook";
-            this.checkBoxUncook.Size = new System.Drawing.Size(64, 17);
+            this.checkBoxUncook.Size = new System.Drawing.Size(78, 21);
             this.checkBoxUncook.TabIndex = 33;
             this.checkBoxUncook.Text = "Uncook";
             this.checkBoxUncook.UseVisualStyleBackColor = true;
@@ -586,19 +608,33 @@ namespace WolvenKit
             // 
             this.checkBoxExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxExport.AutoSize = true;
-            this.checkBoxExport.Location = new System.Drawing.Point(384, 503);
+            this.checkBoxExport.Location = new System.Drawing.Point(512, 467);
+            this.checkBoxExport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxExport.Name = "checkBoxExport";
-            this.checkBoxExport.Size = new System.Drawing.Size(56, 17);
+            this.checkBoxExport.Size = new System.Drawing.Size(70, 21);
             this.checkBoxExport.TabIndex = 34;
             this.checkBoxExport.Text = "Export";
             this.checkBoxExport.UseVisualStyleBackColor = true;
             this.checkBoxExport.CheckedChanged += new System.EventHandler(this.checkBoxExport_CheckedChanged);
             // 
+            // checkUseLastBundle
+            // 
+            this.checkUseLastBundle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkUseLastBundle.AutoSize = true;
+            this.checkUseLastBundle.Location = new System.Drawing.Point(590, 467);
+            this.checkUseLastBundle.Margin = new System.Windows.Forms.Padding(4);
+            this.checkUseLastBundle.Name = "checkUseLastBundle";
+            this.checkUseLastBundle.Size = new System.Drawing.Size(173, 21);
+            this.checkUseLastBundle.TabIndex = 35;
+            this.checkUseLastBundle.Text = "Always use last bundle";
+            this.checkUseLastBundle.UseVisualStyleBackColor = true;
+            // 
             // frmAssetBrowser
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 525);
+            this.ClientSize = new System.Drawing.Size(1081, 494);
+            this.Controls.Add(this.checkUseLastBundle);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.checkBoxExport);
             this.Controls.Add(this.checkBoxUncook);
@@ -625,6 +661,7 @@ namespace WolvenKit
             this.Controls.Add(this.pathPanel);
             this.Controls.Add(this.btOpen);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmAssetBrowser";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -692,5 +729,6 @@ namespace WolvenKit
         private NumericUpDown limitUpDown;
         private CheckBox checkBoxUncook;
         private CheckBox checkBoxExport;
+        private CheckBox checkUseLastBundle;
     }
 }

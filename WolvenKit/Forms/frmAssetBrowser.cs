@@ -531,7 +531,7 @@ namespace WolvenKit
                     }
                 }
             }
-            RequestFileAdd?.Invoke(this, new AddFileArgs(Managers, SelectedPaths, false, checkBoxUncook.Checked, checkBoxExport.Checked));
+            RequestFileAdd?.Invoke(this, new AddFileArgs(Managers, SelectedPaths, false, checkBoxUncook.Checked, checkBoxExport.Checked, checkUseLastBundle.Checked));
             pathlistview.Items.Clear();
         }
 
@@ -568,7 +568,7 @@ namespace WolvenKit
                     }
                 }
             }
-            RequestFileAdd?.Invoke(this, new AddFileArgs(Managers, SelectedPaths, true, checkBoxUncook.Checked, checkBoxExport.Checked));
+            RequestFileAdd?.Invoke(this, new AddFileArgs(Managers, SelectedPaths, true, checkBoxUncook.Checked, checkBoxExport.Checked, checkUseLastBundle.Checked));
             pathlistview.Items.Clear();
         }
 

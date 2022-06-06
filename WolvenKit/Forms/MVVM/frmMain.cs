@@ -1103,6 +1103,17 @@ namespace WolvenKit
 
             var count = Details.SelectedPaths.Count;
             List<string> prioritizedBundles = new List<string>();
+			
+            BundleManager BundleManager = (BundleManager)Details.Managers.First(_ => _.TypeName == EBundleType.Bundle);
+            if (Details.UseLastBundle && BundleManager != null)
+            {
+                foreach (var bundle in BundleManager.Bundles.Values)
+                {
+                    prioritizedBundles.Add(bundle.ArchiveAbsolutePath);
+                }
+                prioritizedBundles.Sort((a, b) => b.CompareTo(a)); // descending sort -> first will be selected
+            }
+
             for (int i = 0; i < count; i++)
             {
                 if (bwAsync.CancellationPending || ProgressForm.Cancel)

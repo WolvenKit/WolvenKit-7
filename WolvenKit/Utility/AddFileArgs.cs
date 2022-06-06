@@ -12,14 +12,16 @@ namespace WolvenKit
         public bool AddAsDLC { get; }
         public bool Uncook { get; }
         public bool Export { get; }
+        public bool UseLastBundle { get; }
 
-        public AddFileArgs(IEnumerable<IWitcherArchiveManager> managers, List<WitcherListViewItem> selectedPaths, bool addAsDLC, bool uncook, bool export)
+        public AddFileArgs(IEnumerable<IWitcherArchiveManager> managers, List<WitcherListViewItem> selectedPaths, bool addAsDLC, bool uncook, bool export, bool lastBundle)
         {
             Managers = managers;
             SelectedPaths = selectedPaths;
             AddAsDLC = addAsDLC;
             Uncook = uncook;
             Export = export;
+            UseLastBundle = lastBundle;
         }
     }
 }
