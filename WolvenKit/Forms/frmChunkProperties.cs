@@ -376,7 +376,11 @@ namespace WolvenKit.Forms
             }
         }
 
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e) => CopyVariable(null);
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copyTextToolStripMenuItem_Click(null, null);
+            CopyVariable(null);
+        }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e) => PasteVariable(null);
 
