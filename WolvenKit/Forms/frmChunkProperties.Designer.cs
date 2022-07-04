@@ -230,6 +230,7 @@ namespace WolvenKit.Forms
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(306, 26);
             this.pasteToolStripMenuItem.Text = "Paste Variable";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // copyTextToolStripMenuItem
             // 

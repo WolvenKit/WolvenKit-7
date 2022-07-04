@@ -207,11 +207,11 @@ namespace WolvenKit.CR2W
         public string GetFullChunkTypeDependencyString()
         {
             var depstr = this.REDName;
-            var par = this.VirtualParentChunk;
+            var par = this.ParentChunk;
             while (par != null)
             {
                 depstr = $"{par.REDName}.{depstr}";
-                par = par.VirtualParentChunk;
+                par = par.ParentChunk;
             }
 
             return depstr;
