@@ -1,7 +1,7 @@
 name: WolvenKit-Nightly
 on:
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
     inputs:
       logLevel:
@@ -19,12 +19,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout github repo (+ download lfs dependencies)
+    - name: Checkout github repo
       uses: actions/checkout@v2
-      with:
-        lfs: true
-    - name: Checkout LFS objects
-      run: git lfs checkout
     - name: Setup NuGet.exe for use with actions
       uses: NuGet/setup-nuget@v1.0.5
       with:
