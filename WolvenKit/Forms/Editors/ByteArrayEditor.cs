@@ -34,7 +34,16 @@ namespace WolvenKit.Forms.Editors
         private void btOpen_Click(object sender, EventArgs e) =>
             RequestBytesOpen?.Invoke(this, new RequestByteArrayFileOpenArgs((CVariable) Variable));
 
-        private void btImport_Click(object sender, EventArgs e) => UIController.Get().ImportBytes((CVariable)Variable);
+        private void btImport_Click(object sender, EventArgs e)
+        {
+            if (Variable == null)
+            {
+                //System.Diagnostics.Debug.WriteLine($"byte source null.");
+                return;
+            }
+            //System.Diagnostics.Debug.WriteLine($"byte source: {Variable.ToString()}");
+            UIController.Get().ImportBytes((CVariable)Variable);
+        }
 
         private void btExport_Click(object sender, EventArgs e) => UIController.Get().ExportBytes(Variable);
     }
