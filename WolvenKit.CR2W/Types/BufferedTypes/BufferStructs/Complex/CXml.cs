@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,7 +73,7 @@ namespace WolvenKit.CR2W.Types
 
         public override string ToString()
         {
-            return Data.ToString().Length + " chars";
+            return Data.ToString().Length + " chars:\n" + Data;
         }
 
         //public override void SerializeToXml(XmlWriter xw)
