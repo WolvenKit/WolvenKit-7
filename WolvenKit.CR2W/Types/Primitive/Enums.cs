@@ -685,17 +685,17 @@ namespace WolvenKit.CR2W.Types
 
         public enum BlockDataObjectType
         {
-            Invalid = 0x1,
-            Mesh = 0x2,
-            Collision = 0x3,
-            Decal = 0x4,
-            Dimmer = 0x5,
-            PointLight = 0x6,
-            SpotLight = 0x7,
-            RigidBody = 0x8,
-            Cloth = 0x9,
-            Destruction = 0xA,
-            Particles = 0xB,
+            Invalid = 0,
+            Mesh = 1,
+            Collision = 2,
+            Decal = 3,
+            Dimmer = 4,
+            PointLight = 5,
+            SpotLight = 6,
+            RigidBody = 7,
+            Cloth = 8,
+            Destruction = 9,
+            Particles = 10,
         };
 
         public enum EFactValueChangeMethod
