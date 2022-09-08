@@ -14,7 +14,7 @@ namespace WolvenKit.CR2W.Types
     class SBlockDataDimmer : CVariable
     {
         [Ordinal(0)] [RED] public CFloat ambienLevel { get; set; }
-        [Ordinal(1)] [RED] public CUInt16 marginFactor { get; set; }
+        [Ordinal(1)] [RED] public CFloat marginFactor { get; set; }
         [Ordinal(2)] [RED] public CUInt8 dimmerType { get; set; }
         [Ordinal(3)] [RED] public CUInt8 paddin1 { get; set; }
         [Ordinal(4)] [RED] public CUInt16 paddin2 { get; set; }
