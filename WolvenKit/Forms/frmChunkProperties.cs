@@ -527,6 +527,11 @@ namespace WolvenKit.Forms
             if (treeView.SelectedObject is CVariable)
             {
                 var node = (CVariable)treeView.SelectedObject;
+                if (node is CBytes)
+                {
+                    var cbytes = (CBytes)node;
+                    cbytes.SetValue(new byte[0]);
+                }
                 if (node.IsSerialized)
                 {
                     node.IsSerialized = false;
