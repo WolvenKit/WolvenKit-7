@@ -66,7 +66,7 @@
     <PackageReference Include="DockPanelSuite" Version="3.0.6" />
     <PackageReference Include="DockPanelSuite.ThemeVS2015" Version="3.0.6" />
     <PackageReference Include="FSharp.Core" Version="5.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="SharpDX" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
     <PackageReference Include="SharpDX.DXGI" Version="4.2.0" />
