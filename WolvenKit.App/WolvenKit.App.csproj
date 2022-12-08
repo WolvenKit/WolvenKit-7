@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="5.0.2" />
     <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Pfim" Version="0.10.0" />
     <PackageReference Include="protobuf-net" Version="3.0.101" />
     <PackageReference Include="protobuf-net.Core" Version="3.0.101" />
