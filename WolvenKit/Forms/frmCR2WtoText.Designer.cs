@@ -1,4 +1,4 @@
-﻿namespace WolvenKit.Forms
+namespace WolvenKit.Forms
 {
     partial class frmCR2WtoText
     {
@@ -35,6 +35,10 @@
             this.btnRun = new System.Windows.Forms.Button();
             this.rtfDescription = new System.Windows.Forms.RichTextBox();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.chkAddPreviewVal = new System.Windows.Forms.CheckBox();
+            this.labelFloatPrec = new System.Windows.Forms.Label();
+            this.numericFloatPrec = new System.Windows.Forms.NumericUpDown();
+            this.chkAddFilePath = new System.Windows.Forms.CheckBox();
             this.chkDumpYML = new System.Windows.Forms.CheckBox();
             this.chkDumpOnlyEdited = new System.Windows.Forms.CheckBox();
             this.chkLocalizedString = new System.Windows.Forms.CheckBox();
@@ -70,7 +74,9 @@
             this.colSkipped = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colExceptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtLog = new System.Windows.Forms.TextBox();
+            this.chkDotInsteadComma = new System.Windows.Forms.CheckBox();
             this.pnlControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericFloatPrec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).BeginInit();
             this.grpExistingFiles.SuspendLayout();
             this.grpRadioOutputMode.SuspendLayout();
@@ -110,6 +116,11 @@
             // 
             // pnlControls
             // 
+            this.pnlControls.Controls.Add(this.chkDotInsteadComma);
+            this.pnlControls.Controls.Add(this.chkAddPreviewVal);
+            this.pnlControls.Controls.Add(this.labelFloatPrec);
+            this.pnlControls.Controls.Add(this.numericFloatPrec);
+            this.pnlControls.Controls.Add(this.chkAddFilePath);
             this.pnlControls.Controls.Add(this.chkDumpYML);
             this.pnlControls.Controls.Add(this.chkDumpOnlyEdited);
             this.pnlControls.Controls.Add(this.chkLocalizedString);
@@ -137,15 +148,68 @@
             this.pnlControls.Size = new System.Drawing.Size(987, 386);
             this.pnlControls.TabIndex = 21;
             // 
+            // chkAddPreviewVal
+            // 
+            this.chkAddPreviewVal.AutoSize = true;
+            this.chkAddPreviewVal.Location = new System.Drawing.Point(603, 214);
+            this.chkAddPreviewVal.Margin = new System.Windows.Forms.Padding(4);
+            this.chkAddPreviewVal.Name = "chkAddPreviewVal";
+            this.chkAddPreviewVal.Size = new System.Drawing.Size(266, 21);
+            this.chkAddPreviewVal.TabIndex = 43;
+            this.chkAddPreviewVal.Text = "Add preview values for complex types";
+            this.chkAddPreviewVal.UseVisualStyleBackColor = true;
+            // 
+            // labelFloatPrec
+            // 
+            this.labelFloatPrec.AutoSize = true;
+            this.labelFloatPrec.Location = new System.Drawing.Point(601, 239);
+            this.labelFloatPrec.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelFloatPrec.Name = "labelFloatPrec";
+            this.labelFloatPrec.Size = new System.Drawing.Size(104, 17);
+            this.labelFloatPrec.TabIndex = 42;
+            this.labelFloatPrec.Text = "Float precision:";
+            // 
+            // numericFloatPrec
+            // 
+            this.numericFloatPrec.Location = new System.Drawing.Point(713, 237);
+            this.numericFloatPrec.Margin = new System.Windows.Forms.Padding(4);
+            this.numericFloatPrec.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericFloatPrec.Name = "numericFloatPrec";
+            this.numericFloatPrec.Size = new System.Drawing.Size(48, 22);
+            this.numericFloatPrec.TabIndex = 41;
+            this.numericFloatPrec.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericFloatPrec.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            // 
+            // chkAddFilePath
+            // 
+            this.chkAddFilePath.AutoSize = true;
+            this.chkAddFilePath.Checked = true;
+            this.chkAddFilePath.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAddFilePath.Location = new System.Drawing.Point(603, 185);
+            this.chkAddFilePath.Margin = new System.Windows.Forms.Padding(4);
+            this.chkAddFilePath.Name = "chkAddFilePath";
+            this.chkAddFilePath.Size = new System.Drawing.Size(191, 21);
+            this.chkAddFilePath.TabIndex = 40;
+            this.chkAddFilePath.Text = "Add file path as top string";
+            this.chkAddFilePath.UseVisualStyleBackColor = true;
+            // 
             // chkDumpYML
             // 
             this.chkDumpYML.AutoSize = true;
             this.chkDumpYML.Checked = true;
             this.chkDumpYML.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDumpYML.Location = new System.Drawing.Point(604, 202);
+            this.chkDumpYML.Location = new System.Drawing.Point(623, 299);
             this.chkDumpYML.Margin = new System.Windows.Forms.Padding(4);
             this.chkDumpYML.Name = "chkDumpYML";
-            this.chkDumpYML.Size = new System.Drawing.Size(176, 20);
+            this.chkDumpYML.Size = new System.Drawing.Size(186, 21);
             this.chkDumpYML.TabIndex = 39;
             this.chkDumpYML.Text = "Dump YML (radish-style)";
             this.chkDumpYML.UseVisualStyleBackColor = true;
@@ -158,7 +222,7 @@
             this.chkDumpOnlyEdited.Location = new System.Drawing.Point(604, 156);
             this.chkDumpOnlyEdited.Margin = new System.Windows.Forms.Padding(4);
             this.chkDumpOnlyEdited.Name = "chkDumpOnlyEdited";
-            this.chkDumpOnlyEdited.Size = new System.Drawing.Size(178, 20);
+            this.chkDumpOnlyEdited.Size = new System.Drawing.Size(185, 21);
             this.chkDumpOnlyEdited.TabIndex = 38;
             this.chkDumpOnlyEdited.Text = "Dump only edited values";
             this.chkDumpOnlyEdited.UseVisualStyleBackColor = true;
@@ -171,7 +235,7 @@
             this.chkLocalizedString.Location = new System.Drawing.Point(192, 282);
             this.chkLocalizedString.Margin = new System.Windows.Forms.Padding(4);
             this.chkLocalizedString.Name = "chkLocalizedString";
-            this.chkLocalizedString.Size = new System.Drawing.Size(249, 20);
+            this.chkLocalizedString.Size = new System.Drawing.Size(262, 21);
             this.chkLocalizedString.TabIndex = 15;
             this.chkLocalizedString.Text = "Dump localized strings instead of IDs";
             this.chkLocalizedString.UseVisualStyleBackColor = true;
@@ -182,7 +246,7 @@
             this.labNumThreads.Location = new System.Drawing.Point(407, 66);
             this.labNumThreads.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labNumThreads.Name = "labNumThreads";
-            this.labNumThreads.Size = new System.Drawing.Size(121, 16);
+            this.labNumThreads.Size = new System.Drawing.Size(130, 17);
             this.labNumThreads.TabIndex = 37;
             this.labNumThreads.Text = "Number of threads:";
             // 
@@ -213,7 +277,7 @@
             this.chkCreateFolders.Location = new System.Drawing.Point(192, 156);
             this.chkCreateFolders.Margin = new System.Windows.Forms.Padding(4);
             this.chkCreateFolders.Name = "chkCreateFolders";
-            this.chkCreateFolders.Size = new System.Drawing.Size(191, 20);
+            this.chkCreateFolders.Size = new System.Drawing.Size(201, 21);
             this.chkCreateFolders.TabIndex = 10;
             this.chkCreateFolders.Text = "Create intermediate folders";
             this.chkCreateFolders.UseVisualStyleBackColor = true;
@@ -224,7 +288,7 @@
             this.chkDumpEmbedded.Location = new System.Drawing.Point(192, 206);
             this.chkDumpEmbedded.Margin = new System.Windows.Forms.Padding(4);
             this.chkDumpEmbedded.Name = "chkDumpEmbedded";
-            this.chkDumpEmbedded.Size = new System.Drawing.Size(147, 20);
+            this.chkDumpEmbedded.Size = new System.Drawing.Size(152, 21);
             this.chkDumpEmbedded.TabIndex = 12;
             this.chkDumpEmbedded.Text = "List embedded files";
             this.chkDumpEmbedded.UseVisualStyleBackColor = true;
@@ -247,7 +311,7 @@
             this.radExistingSkip.Location = new System.Drawing.Point(8, 41);
             this.radExistingSkip.Margin = new System.Windows.Forms.Padding(4);
             this.radExistingSkip.Name = "radExistingSkip";
-            this.radExistingSkip.Size = new System.Drawing.Size(131, 20);
+            this.radExistingSkip.Size = new System.Drawing.Size(136, 21);
             this.radExistingSkip.TabIndex = 22;
             this.radExistingSkip.TabStop = true;
             this.radExistingSkip.Text = "Skip existing files";
@@ -260,7 +324,7 @@
             this.radExistingOverwrite.Location = new System.Drawing.Point(8, 14);
             this.radExistingOverwrite.Margin = new System.Windows.Forms.Padding(4);
             this.radExistingOverwrite.Name = "radExistingOverwrite";
-            this.radExistingOverwrite.Size = new System.Drawing.Size(160, 20);
+            this.radExistingOverwrite.Size = new System.Drawing.Size(169, 21);
             this.radExistingOverwrite.TabIndex = 21;
             this.radExistingOverwrite.TabStop = true;
             this.radExistingOverwrite.Text = "Overwrite existing files";
@@ -272,7 +336,7 @@
             this.chkPrefixFileName.Location = new System.Drawing.Point(192, 182);
             this.chkPrefixFileName.Margin = new System.Windows.Forms.Padding(4);
             this.chkPrefixFileName.Name = "chkPrefixFileName";
-            this.chkPrefixFileName.Size = new System.Drawing.Size(202, 20);
+            this.chkPrefixFileName.Size = new System.Drawing.Size(215, 21);
             this.chkPrefixFileName.TabIndex = 11;
             this.chkPrefixFileName.Text = "Prefix each line with file name";
             this.chkPrefixFileName.UseVisualStyleBackColor = true;
@@ -283,7 +347,7 @@
             this.chkDumpFCD.Location = new System.Drawing.Point(192, 258);
             this.chkDumpFCD.Margin = new System.Windows.Forms.Padding(4);
             this.chkDumpFCD.Name = "chkDumpFCD";
-            this.chkDumpFCD.Size = new System.Drawing.Size(173, 20);
+            this.chkDumpFCD.Size = new System.Drawing.Size(178, 21);
             this.chkDumpFCD.TabIndex = 14;
             this.chkDumpFCD.Text = "Dump flatCompiledData";
             this.chkDumpFCD.UseVisualStyleBackColor = true;
@@ -296,7 +360,7 @@
             this.chkDumpSDB.Location = new System.Drawing.Point(192, 233);
             this.chkDumpSDB.Margin = new System.Windows.Forms.Padding(4);
             this.chkDumpSDB.Name = "chkDumpSDB";
-            this.chkDumpSDB.Size = new System.Drawing.Size(219, 20);
+            this.chkDumpSDB.Size = new System.Drawing.Size(233, 21);
             this.chkDumpSDB.TabIndex = 13;
             this.chkDumpSDB.Text = "Dump SharedDataBuffer buffers";
             this.chkDumpSDB.UseVisualStyleBackColor = true;
@@ -307,7 +371,7 @@
             this.labOutputFileMode.Location = new System.Drawing.Point(73, 66);
             this.labOutputFileMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labOutputFileMode.Name = "labOutputFileMode";
-            this.labOutputFileMode.Size = new System.Drawing.Size(107, 16);
+            this.labOutputFileMode.Size = new System.Drawing.Size(116, 17);
             this.labOutputFileMode.TabIndex = 30;
             this.labOutputFileMode.Text = "Output file mode:";
             this.labOutputFileMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -329,7 +393,7 @@
             this.labOverwrite.Location = new System.Drawing.Point(83, 342);
             this.labOverwrite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labOverwrite.Name = "labOverwrite";
-            this.labOverwrite.Size = new System.Drawing.Size(100, 16);
+            this.labOverwrite.Size = new System.Drawing.Size(106, 17);
             this.labOverwrite.TabIndex = 22;
             this.labOverwrite.Text = "File overwriting:";
             this.labOverwrite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -340,7 +404,7 @@
             this.labDumpOptions.Location = new System.Drawing.Point(89, 206);
             this.labDumpOptions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labDumpOptions.Name = "labDumpOptions";
-            this.labDumpOptions.Size = new System.Drawing.Size(94, 16);
+            this.labDumpOptions.Size = new System.Drawing.Size(99, 17);
             this.labDumpOptions.TabIndex = 22;
             this.labDumpOptions.Text = "Dump options:";
             this.labDumpOptions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -351,7 +415,7 @@
             this.labOutputFile.Location = new System.Drawing.Point(73, 119);
             this.labOutputFile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labOutputFile.Name = "labOutputFile";
-            this.labOutputFile.Size = new System.Drawing.Size(105, 16);
+            this.labOutputFile.Size = new System.Drawing.Size(117, 17);
             this.labOutputFile.TabIndex = 23;
             this.labOutputFile.Text = "Output results to:";
             this.labOutputFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -362,7 +426,7 @@
             this.labPath.Location = new System.Drawing.Point(92, 18);
             this.labPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labPath.Name = "labPath";
-            this.labPath.Size = new System.Drawing.Size(91, 16);
+            this.labPath.Size = new System.Drawing.Size(97, 17);
             this.labPath.TabIndex = 21;
             this.labPath.Text = "Source folder:";
             this.labPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -416,7 +480,7 @@
             this.radOutputModeSeparateFiles.Location = new System.Drawing.Point(8, 14);
             this.radOutputModeSeparateFiles.Margin = new System.Windows.Forms.Padding(4);
             this.radOutputModeSeparateFiles.Name = "radOutputModeSeparateFiles";
-            this.radOutputModeSeparateFiles.Size = new System.Drawing.Size(161, 20);
+            this.radOutputModeSeparateFiles.Size = new System.Drawing.Size(172, 21);
             this.radOutputModeSeparateFiles.TabIndex = 4;
             this.radOutputModeSeparateFiles.TabStop = true;
             this.radOutputModeSeparateFiles.Text = "One file per source file";
@@ -429,7 +493,7 @@
             this.radOutputModeSingleFile.Location = new System.Drawing.Point(8, 36);
             this.radOutputModeSingleFile.Margin = new System.Windows.Forms.Padding(4);
             this.radOutputModeSingleFile.Name = "radOutputModeSingleFile";
-            this.radOutputModeSingleFile.Size = new System.Drawing.Size(87, 20);
+            this.radOutputModeSingleFile.Size = new System.Drawing.Size(90, 21);
             this.radOutputModeSingleFile.TabIndex = 5;
             this.radOutputModeSingleFile.Text = "Single file";
             this.radOutputModeSingleFile.UseVisualStyleBackColor = true;
@@ -589,6 +653,19 @@
             this.txtLog.TabStop = false;
             this.txtLog.WordWrap = false;
             // 
+            // chkDotInsteadComma
+            // 
+            this.chkDotInsteadComma.AutoSize = true;
+            this.chkDotInsteadComma.Checked = true;
+            this.chkDotInsteadComma.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDotInsteadComma.Location = new System.Drawing.Point(603, 260);
+            this.chkDotInsteadComma.Margin = new System.Windows.Forms.Padding(4);
+            this.chkDotInsteadComma.Name = "chkDotInsteadComma";
+            this.chkDotInsteadComma.Size = new System.Drawing.Size(206, 21);
+            this.chkDotInsteadComma.TabIndex = 44;
+            this.chkDotInsteadComma.Text = "Float: Dot instead of comma";
+            this.chkDotInsteadComma.UseVisualStyleBackColor = true;
+            // 
             // frmCR2WtoText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -611,6 +688,7 @@
             this.Load += new System.EventHandler(this.frmCR2WtoText_Load);
             this.pnlControls.ResumeLayout(false);
             this.pnlControls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericFloatPrec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).EndInit();
             this.grpExistingFiles.ResumeLayout(false);
             this.grpExistingFiles.PerformLayout();
@@ -663,5 +741,10 @@
         private System.Windows.Forms.CheckBox chkLocalizedString;
         private System.Windows.Forms.CheckBox chkDumpOnlyEdited;
         private System.Windows.Forms.CheckBox chkDumpYML;
+        private System.Windows.Forms.CheckBox chkAddFilePath;
+        private System.Windows.Forms.Label labelFloatPrec;
+        private System.Windows.Forms.NumericUpDown numericFloatPrec;
+        private System.Windows.Forms.CheckBox chkAddPreviewVal;
+        private System.Windows.Forms.CheckBox chkDotInsteadComma;
     }
 }

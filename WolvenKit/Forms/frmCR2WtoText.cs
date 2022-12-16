@@ -84,6 +84,10 @@ namespace WolvenKit.Forms
             radOutputModeSeparateFiles.Checked = !OutputSingleFile;
             chkDumpSDB.Checked = true;
             chkDumpYML.Checked = true;
+            chkAddFilePath.Checked = true;
+            chkAddPreviewVal.Checked = true;
+            chkDotInsteadComma.Checked = true;
+            numericFloatPrec.Value = 4;
             chkDumpOnlyEdited.Checked = true;
             chkDumpFCD.Checked = false;
             chkDumpEmbedded.Checked = false;
@@ -176,6 +180,10 @@ namespace WolvenKit.Forms
                     DumpFCD = chkDumpFCD.Checked,
                     DumpSDB = chkDumpSDB.Checked,
                     DumpYML = chkDumpYML.Checked,
+                    AddFilePath = chkAddFilePath.Checked,
+                    AddPreviewValue = chkAddPreviewVal.Checked,
+                    FloatDot = chkDotInsteadComma.Checked,
+                    FloatPrec = (int)numericFloatPrec.Value,
                     DumpTXT = true,
                     DumpOnlyEdited = chkDumpOnlyEdited.Checked,
                     LocalizeStrings = chkLocalizedString.Checked
@@ -563,11 +571,17 @@ namespace WolvenKit.Forms
             try
             {
                 var lCR2W = new LoggerCR2W(fileName, outputFile, outputFileYml, CR2WOptions);
-                outputFile.WriteLine("FILE: " + fileName);
+                if (CR2WOptions.AddFilePath)
+                {
+                    outputFile.WriteLine("FILE: " + fileName);
+                }
                 if (CR2WOptions.DumpYML)
                 {
                     outputFileYml.WriteLine("templates:");
-                    outputFileYml.WriteLine("  ### FILE: " + fileName);
+                    if (CR2WOptions.AddFilePath)
+                    {
+                        outputFileYml.WriteLine("  ### FILE: " + fileName);
+                    }
                 }
                 lCR2W.OnException += (msg, ex) =>
                 {
@@ -694,6 +708,10 @@ namespace WolvenKit.Forms
         public bool DumpSDB { get; set; }
         public bool DumpFCD { get; set; }
         public bool DumpYML { get; set; }
+        public bool AddPreviewValue { get; set; }
+        public bool AddFilePath { get; set; }
+        public bool FloatDot { get; set; }
+        public int FloatPrec { get; set; }
         public bool DumpTXT { get; set; }
         public bool DumpOnlyEdited { get; set; }
         public bool LocalizeStrings { get; set; }
@@ -808,7 +826,7 @@ namespace WolvenKit.Forms
                 Writer.Write("Embedded files:", level);
                 ProcessEmbedded(level);
             }
-            Writer.Write("Chunks:", level);
+            //Writer.Write("Chunks:", level);
 
             foreach (var chunk in Chunks)
             {
@@ -923,18 +941,24 @@ namespace WolvenKit.Forms
             if (node.REDName == "Parent" && node.ToString() == "NULL")
                 return;
 
+            bool hasChildren = node.GetEditableVariables().Count > 0;
             if (node.REDName != node.ToString()) // Chunk node is already printed in processCR2W, so don't print it again.
             {
-                Writer.Write(node.REDName + " (" + node.REDType + ") : " + node.ToString(), level);
+                if (!hasChildren || Options.AddPreviewValue)
+                    Writer.Write(node.REDName + " (" + prepareType(node) + ") : " + prepareValue(node), level);
+                else
+                    Writer.Write(node.REDName + " (" + prepareType(node) + ")", level);
                 level++;
             }
 
-            if (node.GetEditableVariables().Count > 0)
+            if (hasChildren)
+            {
                 foreach (var child in node.GetEditableVariables())
                 {
                     if (!Options.DumpOnlyEdited || child.IsSerialized)
                         ProcessNode(child, level);
                 }
+            }
 
 
             if ( ( (node.REDType == "SharedDataBuffer" || node.REDType == "DataBuffer") && Options.DumpSDB) 
@@ -995,6 +1019,26 @@ namespace WolvenKit.Forms
             else
                 return name;
         }
+        string prepareType(IEditableVariable node)
+        {
+            string type = node.REDType;
+            if (type == "CVariantSizeType")
+            {
+                node = (node as WolvenKit.CR2W.Types.CVariantSizeType).Variant;
+                type = node.REDType;
+            }
+            else if (type == "CVariantSizeNameType")
+            {
+                node = (node as WolvenKit.CR2W.Types.CVariantSizeNameType).Variant;
+                type = node.REDType;
+            }
+            else if (type == "CVariantSizeTypeName")
+            {
+                node = (node as WolvenKit.CR2W.Types.CVariantSizeTypeName).Variant;
+                type = node.REDType;
+            }
+            return type;
+        }
         bool isArrayType(string type)
         {
             return !string.IsNullOrEmpty(type) && (type.StartsWith("array:") || type.StartsWith("CBuffer"));
@@ -1003,6 +1047,22 @@ namespace WolvenKit.Forms
         {
             if (type == "")
                 type = node.REDType;
+
+            if (type == "CVariantSizeType")
+            {
+                node = (node as WolvenKit.CR2W.Types.CVariantSizeType).Variant;
+                type = node.REDType;
+            }
+            else if (type == "CVariantSizeNameType")
+            {
+                node = (node as WolvenKit.CR2W.Types.CVariantSizeNameType).Variant;
+                type = node.REDType;
+            }
+            else if (type == "CVariantSizeTypeName")
+            {
+                node = (node as WolvenKit.CR2W.Types.CVariantSizeTypeName).Variant;
+                type = node.REDType;
+            }
             string value = string.IsNullOrEmpty(node.REDValue) ? "" : node.REDValue;
 
             Func<string, string> wrapValue = x =>
@@ -1027,18 +1087,11 @@ namespace WolvenKit.Forms
             }
             else if (type == "Float")
             {
-                string ret = value.Replace(',', '.');
-                foreach (char c in ret) // check if it is correct number
+                
+                string ret = (node as WolvenKit.CR2W.Types.CFloat).val.ToString($"0.{new string('0', Options.FloatPrec)}");
+                if (Options.FloatDot)
                 {
-                    if ((c < '0' || c > '9') && c != '-' && c != '.' && c != 'E')
-                    {
-                        ret = "0.0";
-                        break;
-                    }
-                }
-                if (!ret.Contains('.'))
-                {
-                    ret += ".0";
+                    ret = ret.Replace(',', '.');
                 }
                 return ret;
             }
