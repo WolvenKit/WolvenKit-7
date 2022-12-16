@@ -10,6 +10,9 @@ using WolvenKit.App;
 using WolvenKit.Common.Model;
 using WolvenKit.Common.Services;
 using WolvenKit.CR2W;
+using WolvenKit.CR2W.SRT;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MessageBoxButtons = System.Windows.Forms.MessageBoxButtons;
 using MessageBoxIcon = System.Windows.Forms.MessageBoxIcon;
 
@@ -19,7 +22,7 @@ namespace WolvenKit.Forms
     {
         private readonly string[] extExclude = { ".txt", ".json", ".csv", ".xml", ".jpg", ".png", ".buffer", ".navgraph", ".navtile",
                                                  ".usm", ".wem", ".dds", ".bnk", ".xbm", ".bundle", ".w3strings", ".store", ".navconfig",
-                                                 ".srt", ".naviobstacles", ".navmesh", ".sav", ".subs", ".yml" };
+                                                 ".naviobstacles", ".navmesh", ".sav", ".subs", ".yml" };
         private StatusController statusController;
         private readonly List<string> Files = new List<string>();
 
@@ -454,6 +457,7 @@ namespace WolvenKit.Forms
                         string outputDestinationYml;
                         string fileBaseName = Path.GetFileName(fileName);
                         string fileNameNoSourcePath = FileNameNoSourcePath(fileName, WriterData.SourcePath);
+                        bool isSRT = fileName.EndsWith(".srt");
 
                         if (WriterData.CreateFolders)
                         {   // Recreate the file structure of the source folder in the destination folder.
@@ -466,7 +470,7 @@ namespace WolvenKit.Forms
                         else
                             outputDestination = WriterData.OutputLocation;
 
-                        outputDestinationTxt = outputDestination + "\\" + fileBaseName + ".txt";
+                        outputDestinationTxt = outputDestination + "\\" + fileBaseName + (!isSRT ? ".txt" : ".json");
                         outputDestinationYml = outputDestination + "\\" + fileBaseName + ".yml";
 
                         try
@@ -480,12 +484,23 @@ namespace WolvenKit.Forms
 
                             if (!skip)
                             {
-                                using (StreamWriter streamDestination = new StreamWriter(outputDestinationTxt, false))
-                                using (StreamWriter streamDestinationYml = new StreamWriter(outputDestinationYml, false))
-                                {
+                                StreamWriter streamDestination = new StreamWriter(outputDestinationTxt, false);
+                                StreamWriter streamDestinationYml = null;
+                                if (CR2WOptions.DumpYML)
+                                    streamDestinationYml = new StreamWriter(outputDestinationYml, false);
+
+                                if (!isSRT)
                                     await Dump(streamDestination, streamDestinationYml, fileName);
-                                    lock (statusLock)
-                                        WriterData.Status.Processed++;
+                                else
+                                    await DumpSRT(streamDestination, fileName);
+                                lock (statusLock)
+                                    WriterData.Status.Processed++;
+                                await streamDestination.FlushAsync();
+                                streamDestination.Close();
+                                if (CR2WOptions.DumpYML)
+                                {
+                                    await streamDestinationYml.FlushAsync();
+                                    streamDestinationYml.Close();
                                 }
                             }
                             else
@@ -566,8 +581,9 @@ namespace WolvenKit.Forms
         {
             LoggerOutputFileTxt outputFile = new LoggerOutputFileTxt(streamDestination, WriterData.PrefixFileName,
                 Path.GetFileName(fileName));
-            LoggerOutputFileYml outputFileYml = new LoggerOutputFileYml(streamDestinationYml, WriterData.PrefixFileName,
-                Path.GetFileName(fileName));
+            LoggerOutputFileYml outputFileYml = null;
+            if (streamDestinationYml != null)
+                outputFileYml = new LoggerOutputFileYml(streamDestinationYml, WriterData.PrefixFileName, Path.GetFileName(fileName));
             try
             {
                 var lCR2W = new LoggerCR2W(fileName, outputFile, outputFileYml, CR2WOptions);
@@ -613,6 +629,52 @@ namespace WolvenKit.Forms
             {
                 string msg = fileName + ": Exception: " + ex.ToString();
                 outputFile.WriteLine(msg);
+                Console.WriteLine(msg);
+                ExceptionOccurred(fileName, "An exception occurred processing this file. Skipping. Details: " + ex.Message);
+            }
+        }
+#pragma warning disable CS1998
+        protected async Task DumpSRT(StreamWriter streamDestination, string fileName)
+#pragma warning restore CS1998
+        {
+            try
+            {
+                using (var fstream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                {
+                    using (var reader = new BinaryReader(fstream))
+                    {
+                        var SRT = new Srtfile()
+                        {
+                            FileName = Path.GetFileName(fileName)
+                        };
+                        var res = SRT.Read(reader);
+                        var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter(), new JsonFloatNaNConverter() } };
+                        byte[] jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(SRT, options);
+                        await streamDestination.BaseStream.WriteAsync(jsonUtf8Bytes, 0, jsonUtf8Bytes.Length);
+                    }
+                }
+            }
+            catch (FormatException)
+            {   // Non CR2W SRT file.
+                string msg = fileName + ": Not a valid SRT file, or file is damaged.";
+                Console.WriteLine(msg);
+                lock (statusLock)
+                {   // File wasn't CR2W SRT, so move its count from Matching to NonCR2W.
+                    WriterData.Status.NonCR2W++;
+                    WriterData.Status.Matching--;
+                }
+                var fileNameNoSourcePath = FileNameNoSourcePath(fileName, WriterData.SourcePath);
+                OnNonCR2WFile?.Invoke(fileNameNoSourcePath);
+            }
+            catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
+            {
+                string msg = "Could not find file or directory - did it get deleted? Skipping.";
+                ExceptionOccurred(fileName, msg);
+            }
+            catch (Exception ex)
+            {
+                string msg = fileName + ": Exception: " + ex.ToString();
+                streamDestination.WriteLineAsync(msg);
                 Console.WriteLine(msg);
                 ExceptionOccurred(fileName, "An exception occurred processing this file. Skipping. Details: " + ex.Message);
             }
