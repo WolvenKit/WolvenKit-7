@@ -235,6 +235,7 @@ namespace WolvenKit.CR2W.Types
 
         public void Add(T item)
         {
+            SetIsSerialized();
             AddVariable(item as CVariable);
         }
 
@@ -263,6 +264,7 @@ namespace WolvenKit.CR2W.Types
             if (value is T tvar)
             {
                 AddVariable(tvar as CVariable);
+                SetIsSerialized();
                 return Elements.Count;
             }
             return -1;

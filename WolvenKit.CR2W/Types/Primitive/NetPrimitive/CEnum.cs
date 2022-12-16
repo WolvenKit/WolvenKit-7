@@ -34,6 +34,7 @@ namespace WolvenKit.CR2W.Types
             set
             {
                 wrappedEnum = value;
+                SetIsSerialized();
                 UpdateStringList();
             }
         }
