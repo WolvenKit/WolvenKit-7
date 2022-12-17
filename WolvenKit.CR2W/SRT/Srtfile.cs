@@ -830,19 +830,19 @@ namespace WolvenKit.CR2W.SRT
                                     {
                                         case EVertexFormat.VERTEX_FORMAT_FULL_FLOAT:
                                             float val_float = BitConverter.ToSingle(vertexBytes, byteOffset);
-                                            Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: FULL: {val_float} [{vertexPropFormat}]<{vertexCompFormat}>");
+                                            //Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: FULL: {val_float} [{vertexPropFormat}]<{vertexCompFormat}>");
                                             pDrawCall.PVertexData[vi].SetFloatValue((int)vertexPropFormat, (int)vertexCompFormat, byteOffset, val_float);
                                             break;
 
                                         case EVertexFormat.VERTEX_FORMAT_HALF_FLOAT:
                                             float val_half = (float)Half.ToHalf(vertexBytes, byteOffset);
-                                            Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: HALF: {val_half} [{vertexPropFormat}]<{vertexCompFormat}>");
+                                            //Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: HALF: {val_half} [{vertexPropFormat}]<{vertexCompFormat}>");
                                             pDrawCall.PVertexData[vi].SetHalfValue((int)vertexPropFormat, (int)vertexCompFormat, byteOffset, val_half);
 
                                             break;
                                         case EVertexFormat.VERTEX_FORMAT_BYTE:
                                             byte val_byte = vertexBytes[byteOffset];
-                                            Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: BYTE: {val_byte} [{vertexPropFormat}]<{vertexCompFormat}>");
+                                            //Debug.WriteLine($"Vertex[{vi}], Property[{vj}]: BYTE: {val_byte} [{vertexPropFormat}]<{vertexCompFormat}>");
                                             pDrawCall.PVertexData[vi].SetByteValue((int)vertexPropFormat, (int)vertexCompFormat, byteOffset, val_byte);
 
                                             break;

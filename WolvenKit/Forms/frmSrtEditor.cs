@@ -69,6 +69,8 @@ namespace WolvenKit.Forms.Editors
         }
          public void AppendLine(string line)
         {
+            if (textBox1 == null)
+                return;
             if (textBox1.Text.Length == 0)
                 textBox1.Text = line;
             else
