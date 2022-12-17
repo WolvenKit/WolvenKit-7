@@ -20,6 +20,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(4)] [RED("radiusScale")] 		public CFloat RadiusScale { get; set;}
 
 		[Ordinal(5)] [RED("density")] 		public CFloat Density { get; set;}
+#if NGE_VERSION
+		[Ordinal(6)] [RED("offsetCenter")] 		public CFloat OffsetCenter { get; set;}
+#endif
 
 		public CVegetationBrushEntry(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

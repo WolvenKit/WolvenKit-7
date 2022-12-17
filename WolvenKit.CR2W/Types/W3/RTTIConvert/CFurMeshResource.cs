@@ -41,7 +41,11 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(15)] [RED("boneCapsuleIndices", 2,0)] 		public CArray<CUInt32> BoneCapsuleIndices { get; set;}
 
+#if NGE_VERSION
+        [Ordinal(16)] [RED("boneVertexEpsilons", 71,0)] 		public CArray<CFloat> BoneVertexEpsilons { get; set;}
+#else
 		[Ordinal(16)] [RED("boneVertexEpsilons", 69,0)] 		public CArray<CFloat> BoneVertexEpsilons { get; set;}
+#endif
 
 		[Ordinal(17)] [RED("pinConstraintsLocalPosArray", 2,0)] 		public CArray<Vector> PinConstraintsLocalPosArray { get; set;}
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,8 +15,13 @@ namespace WolvenKit.CR2W.Types
     [REDMeta]
     class CIndexed2dArray : CVariable
     {
+#if NGE_VERSION
+        [Ordinal(0)] [RED("headers", 13, 0)] public CArray<CString> Headers { get; set; }
+        [Ordinal(1)] [RED("data", 13, 0, 13, 0)] public CArray<CArray<CString>> Data { get; set; }
+#else
         [Ordinal(0)] [RED("headers", 12, 0)] public CArray<CString> Headers { get; set; }
         [Ordinal(1)] [RED("data", 12, 0, 12, 0)] public CArray<CArray<CString>> Data { get; set; }
+#endif
 
         [Ordinal(1001)] [REDBuffer] public CBufferVLQInt32<CString> Strings1 { get; set; }
         [Ordinal(1002)] [REDBuffer] public CBufferVLQInt32<CBufferVLQInt32<CString>> Strings2 { get; set; }

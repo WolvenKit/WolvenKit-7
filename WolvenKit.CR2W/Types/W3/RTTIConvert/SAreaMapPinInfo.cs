@@ -17,11 +17,17 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(3)] [RED("worldPath")] 		public CString WorldPath { get; set;}
 
+#if NGE_VERSION
+		[Ordinal(4)] [RED("localisationName")] 		public CName LocalisationName { get; set;}
+
+		[Ordinal(5)] [RED("localisationDescription")] 		public CName LocalisationDescription { get; set;}
+#else
 		[Ordinal(4)] [RED("requiredChunk")] 		public CName RequiredChunk { get; set;}
 
 		[Ordinal(5)] [RED("localisationName")] 		public CName LocalisationName { get; set;}
 
 		[Ordinal(6)] [RED("localisationDescription")] 		public CName LocalisationDescription { get; set;}
+#endif
 
 		public SAreaMapPinInfo(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

@@ -11,9 +11,15 @@ namespace WolvenKit.CR2W.Types
 	[REDMeta]
 	public class SBehaviorScriptContext : CVariable
 	{
+#if NGE_VERSION
+		[Ordinal(1)] [RED("poseLS", 138,0)] 		public CArray<EngineQsTransform> PoseLS { get; set;}
+
+		[Ordinal(2)] [RED("poseMS", 138,0)] 		public CArray<EngineQsTransform> PoseMS { get; set;}
+#else
 		[Ordinal(1)] [RED("poseLS", 133,0)] 		public CArray<EngineQsTransform> PoseLS { get; set;}
 
 		[Ordinal(2)] [RED("poseMS", 133,0)] 		public CArray<EngineQsTransform> PoseMS { get; set;}
+#endif
 
 		[Ordinal(3)] [RED("floatTracks", 2,0)] 		public CArray<CFloat> FloatTracks { get; set;}
 
@@ -27,7 +33,11 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(8)] [RED("localParamsM", 2,0)] 		public CArray<CMatrix> LocalParamsM { get; set;}
 
+#if NGE_VERSION
+		[Ordinal(9)] [RED("localParamsT", 138,0)] 		public CArray<EngineQsTransform> LocalParamsT { get; set;}
+#else
 		[Ordinal(9)] [RED("localParamsT", 133,0)] 		public CArray<EngineQsTransform> LocalParamsT { get; set;}
+#endif
 
 		[Ordinal(10)] [RED("timeDelta")] 		public CFloat TimeDelta { get; set;}
 

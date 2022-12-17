@@ -16,6 +16,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(2)] [RED("slotType")] 		public CEnum<ESaveGameType> SlotType { get; set;}
 
 		[Ordinal(3)] [RED("slotIndex")] 		public CInt32 SlotIndex { get; set;}
+#if NGE_VERSION
+		[Ordinal(4)] [RED("comboStatus")] 		public CEnum<ESaveComboStatus> ComboStatus { get; set;}
+#endif
 
 		public SSavegameInfo(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

@@ -23,7 +23,11 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(6)] [RED("pointToTriMapping", 2,0)] 		public CArray<CArray<CInt32>> PointToTriMapping { get; set;}
 
+#if NGE_VERSION
+		[Ordinal(7)] [RED("refPose", 138,0)] 		public CArray<EngineQsTransform> RefPose { get; set;}
+#else
 		[Ordinal(7)] [RED("refPose", 133,0)] 		public CArray<EngineQsTransform> RefPose { get; set;}
+#endif
 
 		public CAnimPointCloudLookAtParam(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

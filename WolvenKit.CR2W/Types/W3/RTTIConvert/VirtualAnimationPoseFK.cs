@@ -17,7 +17,11 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(3)] [RED("indices", 2,0)] 		public CArray<CInt32> Indices { get; set;}
 
+#if NGE_VERSION
+		[Ordinal(4)] [RED("transforms", 138,0)] 		public CArray<EngineQsTransform> Transforms { get; set;}
+#else
 		[Ordinal(4)] [RED("transforms", 133,0)] 		public CArray<EngineQsTransform> Transforms { get; set;}
+#endif
 
 		public VirtualAnimationPoseFK(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

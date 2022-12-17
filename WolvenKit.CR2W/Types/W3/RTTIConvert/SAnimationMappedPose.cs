@@ -11,7 +11,11 @@ namespace WolvenKit.CR2W.Types
 	[REDMeta]
 	public class SAnimationMappedPose : CVariable
 	{
+#if NGE_VERSION
+		[Ordinal(1)] [RED("bones", 138,0)] 		public CArray<EngineQsTransform> Bones { get; set;}
+#else
 		[Ordinal(1)] [RED("bones", 133,0)] 		public CArray<EngineQsTransform> Bones { get; set;}
+#endif
 
 		[Ordinal(2)] [RED("tracks", 2,0)] 		public CArray<CFloat> Tracks { get; set;}
 

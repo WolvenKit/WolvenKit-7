@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <AssemblyTitle>W3Edit.CR2W</AssemblyTitle>
@@ -10,6 +10,7 @@
     <DebugType>full</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <NoWarn>CS1591</NoWarn>
+    <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

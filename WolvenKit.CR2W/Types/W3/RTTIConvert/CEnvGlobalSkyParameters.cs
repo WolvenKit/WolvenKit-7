@@ -52,6 +52,12 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(20)] [RED("moonInfluence")] 		public SSimpleCurve MoonInfluence { get; set;}
 
 		[Ordinal(21)] [RED("globalSkyBrightness")] 		public SSimpleCurve GlobalSkyBrightness { get; set;}
+#if NGE_VERSION
+        [Ordinal(7)] [RED("skyGIInfluence")] 		public SSimpleCurve SkyGIInfluence { get; set;}
+        [Ordinal(7)] [RED("skyGISaturationCoef")] 		public SSimpleCurve skyGISaturationCoef { get; set;}
+        [Ordinal(7)] [RED("skyGIBrighthessCoef")] 		public SSimpleCurve skyGIBrighthessCoef { get; set;}
+        [Ordinal(7)] [RED("globalLightGIInfluence")] 		public SSimpleCurve globalLightGIInfluence { get; set;}
+#endif
 
 		public CEnvGlobalSkyParameters(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

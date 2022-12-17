@@ -13,7 +13,11 @@ namespace WolvenKit.CR2W.Types
 	{
 		[Ordinal(1)] [RED("mimicSkeleton")] 		public CHandle<CSkeleton> MimicSkeleton { get; set;}
 
-		[Ordinal(2)] [RED("mimicPoses", 2,0)] 		public CArray<CArray<EngineQsTransform>> MimicPoses { get; set;}
+#if NGE_VERSION
+		[Ordinal(3)] [RED("mimicPoses", 2,0, 138,0)] 		public CArray<CArray<EngineQsTransform>> MimicPoses { get; set;}
+#else
+		[Ordinal(3)] [RED("mimicPoses", 2,0, 133,0)] 		public CArray<CArray<EngineQsTransform>> MimicPoses { get; set;}
+#endif
 
 		[Ordinal(3)] [RED("mapping", 2,0)] 		public CArray<CInt32> Mapping { get; set;}
 

@@ -24,6 +24,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(6)] [RED("isBackgroundLine")] 		public CBool IsBackgroundLine { get; set;}
 
 		[Ordinal(7)] [RED("alternativeUI")] 		public CBool AlternativeUI { get; set;}
+#if NGE_VERSION
+		[Ordinal(8)] [RED("isSilent")] public CBool IsSilent { get; set; }
+#endif
 
 		public CStorySceneLine(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

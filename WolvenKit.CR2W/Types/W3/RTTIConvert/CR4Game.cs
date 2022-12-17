@@ -124,6 +124,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(56)] [RED("menuToOpen")] 		public CName MenuToOpen { get; set;}
 
 		[Ordinal(57)] [RED("postponedPreAttackEvents", 2,0)] 		public CArray<SPostponedPreAttackEvent> PostponedPreAttackEvents { get; set;}
+#if NGE_VERSION
+		[Ordinal(58)] [RED("photomodeEffects")] 		public CHandle<CR4PhotomodeEffects> PhotomodeEffects { get; set;}
+#endif
 
 		public CR4Game(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

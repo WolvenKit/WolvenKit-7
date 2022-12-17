@@ -15,11 +15,19 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(2)] [RED("dropOffset")] 		public Vector DropOffset { get; set;}
 
-		[Ordinal(3)] [RED("bonePositions", 46,0)] 		public CArray<Vector> BonePositions { get; set;}
+#if NGE_VERSION
+		[Ordinal(3)] [RED("bonePositions", 47,0)] 		public CArray<Vector> BonePositions { get; set;}
+
+		[Ordinal(4)] [RED("renderLODs", 47,0)] 		public CArray<CFloat> RenderLODs { get; set;}
+
+		[Ordinal(5)] [RED("renderChunks", 47,0)] 		public CByteArray RenderChunks { get; set;}
+#else
+		[Ordinal(3)] [RED("bonePositions", 47,0)] 		public CArray<Vector> BonePositions { get; set;}
 
 		[Ordinal(4)] [RED("renderLODs", 46,0)] 		public CArray<CFloat> RenderLODs { get; set;}
 
 		[Ordinal(5)] [RED("renderChunks", 46,0)] 		public CByteArray RenderChunks { get; set;}
+#endif
 
 		[Ordinal(6)] [RED("renderBuffer")] 		public DeferredDataBuffer RenderBuffer { get; set;}
 
@@ -32,6 +40,11 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(10)] [RED("indexBufferSize")] 		public CUInt32 IndexBufferSize { get; set;}
 
 		[Ordinal(11)] [RED("indexBufferOffset")] 		public CUInt32 IndexBufferOffset { get; set;}
+#if NGE_VERSION
+		[Ordinal(12)] [RED("blasLODsOffsets", 47,0)] 		public CArray<CUInt32> BlasLODsOffsets { get; set;}
+
+		[Ordinal(13)] [RED("blasBuffer")] 		public DeferredDataBuffer BlasBuffer { get; set;}
+#endif
 
 		public SMeshCookedData(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

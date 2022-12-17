@@ -9,11 +9,21 @@ namespace WolvenKit.CR2W.Types
 {
 	[DataContract(Namespace = "")]
 	[REDMeta]
+#if NGE_VERSION
+    public class CMergedMeshComponent : CDrawableComponent
+#else
 	public class CMergedMeshComponent : CMeshComponent
+#endif
 	{
+#if NGE_VERSION
+        [Ordinal(1)] [RED("objects", 69, 0)] public CArray<GlobalVisID> Objects { get; set; }
+
+        [Ordinal(2)] [RED("meshlet")] public CHandle<CMeshletMesh> Meshlet { get; set; }
+#else
 		[Ordinal(1)] [RED("objects", 67,0)] 		public CArray<GlobalVisID> Objects { get; set;}
 
 		[Ordinal(2)] [RED("renderMask")] 		public CUInt8 RenderMask { get; set;}
+#endif
 
 		[Ordinal(3)] [RED("streamingDistance")] 		public CFloat StreamingDistance { get; set;}
 

@@ -16,6 +16,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(2)] [RED("expireTime")] 		public CInt32 ExpireTime { get; set;}
 
 		[Ordinal(3)] [RED("factValue")] 		public CInt32 FactValue { get; set;}
+#if NGE_VERSION
+		[Ordinal(4)] [RED("telemetryEvent")] 		public CBool TelemetryEvent { get; set;}
+#endif
 
 		public CStorySceneAddFactEvent(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

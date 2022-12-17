@@ -13,7 +13,11 @@ namespace WolvenKit.CR2W.Types
 	{
 		[Ordinal(1)] [RED("scopeBlockGUID")] 		public CGUID ScopeBlockGUID { get; set;}
 
+#if NGE_VERSION
+		[Ordinal(2)] [RED("scopeData", 159,0)] 		public CByteArray ScopeData { get; set;}
+#else
 		[Ordinal(2)] [RED("scopeData", 154,0)] 		public CByteArray ScopeData { get; set;}
+#endif
 
 		public SQuestThreadSuspensionData(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

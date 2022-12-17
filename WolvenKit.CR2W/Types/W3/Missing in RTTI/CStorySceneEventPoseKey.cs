@@ -43,7 +43,11 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(15)] [RED("cachedBones", 2, 0)] public CArray<CInt32> CachedBones { get; set; }
 
+#if NGE_VERSION
+		[Ordinal(16)] [RED("cachedTransforms", 138, 0)] public CArray<EngineQsTransform> CachedTransforms { get; set; }
+#else
 		[Ordinal(16)] [RED("cachedTransforms", 133, 0)] public CArray<EngineQsTransform> CachedTransforms { get; set; }
+#endif
 
 		[Ordinal(17)] [RED("editorCachedHandTracks", 2, 0)] public CArray<CFloat> EditorCachedHandTracks { get; set; }
 

@@ -240,6 +240,11 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(114)] [RED("cachedDoTDamage")] 		public CFloat CachedDoTDamage { get; set;}
 
 		[Ordinal(115)] [RED("hudModuleDoTScheduledUpdate")] 		public CBool HudModuleDoTScheduledUpdate { get; set;}
+#if NGE_VERSION
+        [Ordinal(116)] [RED("keepUseHiResShadows")] 		public CBool KeepUseHiResShadows { get; set;}
+
+        [Ordinal(117)] [RED("isInCutsceneIntro")] 		public CBool IsInCutsceneIntro { get; set;}
+#endif
 
 		public CActor(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

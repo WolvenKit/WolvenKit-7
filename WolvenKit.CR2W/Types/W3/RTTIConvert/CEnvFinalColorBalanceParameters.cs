@@ -29,9 +29,15 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(9)] [RED("balanceMapAmount")] 		public SSimpleCurve BalanceMapAmount { get; set;}
 
+#if NGE_VERSION
+        [Ordinal(10)] [RED("balanceMap0")] 		public CHandle<CBitmapTexture> BalanceMap0 { get; set;}
+
+		[Ordinal(11)] [RED("balanceMap1")] 		public CHandle<CBitmapTexture> BalanceMap1 { get; set;}
+#else
 		[Ordinal(10)] [RED("balanceMap0")] 		public CSoft<CBitmapTexture> BalanceMap0 { get; set;}
 
 		[Ordinal(11)] [RED("balanceMap1")] 		public CSoft<CBitmapTexture> BalanceMap1 { get; set;}
+#endif
 
 		[Ordinal(12)] [RED("balancePostBrightness")] 		public SSimpleCurve BalancePostBrightness { get; set;}
 

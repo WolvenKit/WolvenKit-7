@@ -11,7 +11,11 @@ namespace WolvenKit.CR2W.Types
 	[REDMeta]
 	public class CApexResource : CMeshTypeResource
 	{
+#if NGE_VERSION
+        [Ordinal(1)] [RED("apexBinaryAsset", 100,0)] 		public CByteArray ApexBinaryAsset { get; set;}
+#else
 		[Ordinal(1)] [RED("apexBinaryAsset", 95,0)] 		public CByteArray ApexBinaryAsset { get; set;}
+#endif
 
 		[Ordinal(2)] [RED("apexMaterialNames", 2,0)] 		public CArray<CString> ApexMaterialNames { get; set;}
 

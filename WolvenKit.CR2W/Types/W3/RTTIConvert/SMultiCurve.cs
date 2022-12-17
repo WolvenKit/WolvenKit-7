@@ -39,9 +39,15 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(14)] [RED("curves", 2,0)] 		public CArray<SCurveData> Curves { get; set;}
 
+#if NGE_VERSION
+		[Ordinal(15)] [RED("leftTangents", 147,0)] 		public CArray<Vector> LeftTangents { get; set;}
+
+		[Ordinal(16)] [RED("rightTangents", 147,0)] 		public CArray<Vector> RightTangents { get; set;}
+#else
 		[Ordinal(15)] [RED("leftTangents", 142,0)] 		public CArray<Vector> LeftTangents { get; set;}
 
 		[Ordinal(16)] [RED("rightTangents", 142,0)] 		public CArray<Vector> RightTangents { get; set;}
+#endif
 
 		[Ordinal(17)] [RED("easeParams", 2,0)] 		public CArray<SCurveEaseParam> EaseParams { get; set;}
 

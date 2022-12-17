@@ -13,7 +13,11 @@ namespace WolvenKit.CR2W.Types
     [REDMeta]
     public class SCurveData : CVariable
     {
+#if NGE_VERSION
+        [Ordinal(1)] [RED("Curve Values", 147, 0)] public CArray<SCurveDataEntry> Curve_Values { get; set; }
+#else
         [Ordinal(1)] [RED("Curve Values", 142, 0)] public CArray<SCurveDataEntry> Curve_Values { get; set; }
+#endif
 
         [Ordinal(2)] [RED("value type")] public CEnum<ECurveValueType> Value_type { get; set; }
 

@@ -170,6 +170,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(79)] [RED("isRagdollOn")] 		public CBool IsRagdollOn { get; set;}
 
 		[Ordinal(80)] [RED("m_storedInteractionPri")] 		public CEnum<EInteractionPriority> M_storedInteractionPri { get; set;}
+#if NGE_VERSION
+		[Ordinal(81)] [RED("IsMountedByPlayer")] 		public CBool IsMountedByPlayer { get; set;}
+#endif
 
 		public CNewNPC(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

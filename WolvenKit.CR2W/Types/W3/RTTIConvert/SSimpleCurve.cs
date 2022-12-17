@@ -17,7 +17,11 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(3)] [RED("ScalarEditOrigin")] 		public CFloat ScalarEditOrigin { get; set;}
 
+#if NGE_VERSION
+		[Ordinal(4)] [RED("dataCurveValues", 147,0)] 		public CArray<SCurveDataEntry> DataCurveValues { get; set;}
+#else
 		[Ordinal(4)] [RED("dataCurveValues", 142,0)] 		public CArray<SCurveDataEntry> DataCurveValues { get; set;}
+#endif
 
 		[Ordinal(5)] [RED("dataBaseType")] 		public CEnum<ECurveBaseType> DataBaseType { get; set;}
 

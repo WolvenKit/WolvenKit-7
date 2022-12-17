@@ -19,6 +19,15 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(4)] [RED("version")] 		public CUInt32 Version { get; set;}
 
+#if NGE_VERSION
+        [Ordinal(5)] [RED("bones", 134,0)] 		public CArray<SAnimationBufferBitwiseCompressedBoneTrack> Bones { get; set;}
+
+		[Ordinal(6)] [RED("tracks", 134,0)] 		public CArray<SAnimationBufferBitwiseCompressedData> Tracks { get; set;}
+
+		[Ordinal(7)] [RED("data", 134,0)] 		public CByteArray Data { get; set;}
+
+		[Ordinal(8)] [RED("fallbackData", 134,0)] 		public CByteArray FallbackData { get; set;}
+#else
 		[Ordinal(5)] [RED("bones", 129,0)] 		public CArray<SAnimationBufferBitwiseCompressedBoneTrack> Bones { get; set;}
 
 		[Ordinal(6)] [RED("tracks", 129,0)] 		public CArray<SAnimationBufferBitwiseCompressedData> Tracks { get; set;}
@@ -26,6 +35,7 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(7)] [RED("data", 129,0)] 		public CByteArray Data { get; set;}
 
 		[Ordinal(8)] [RED("fallbackData", 129,0)] 		public CByteArray FallbackData { get; set;}
+#endif
 
 		[Ordinal(9)] [RED("deferredData")] 		public DeferredDataBuffer DeferredData { get; set;}
 

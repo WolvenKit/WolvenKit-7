@@ -11,7 +11,11 @@ namespace WolvenKit.CR2W.Types
 	[REDMeta]
 	public class CLayer : CResource
 	{
+#if NGE_VERSION
+        [Ordinal(1)] [RED("entities", 33, 0)]       public CArray<CPtr<CEntity>> Entities { get; set; }
+#else
 		[Ordinal(1)] [RED("entities", 32,0)] 		public CArray<CPtr<CEntity>> Entities { get; set;}
+#endif
 
 		[Ordinal(2)] [RED("sectorData")] 		public CHandle<CSectorData> SectorData { get; set;}
 
