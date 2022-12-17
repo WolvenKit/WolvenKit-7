@@ -51,7 +51,7 @@ namespace WolvenKit
             RootNode.Name = "Root";
             foreach (var manager in managers)
             {
-                if (manager == null)
+                if (manager == null || manager.RootNode == null)
                     continue;
 
                 FileList.AddRange(manager.FileList.Where(_ => _ != null));
