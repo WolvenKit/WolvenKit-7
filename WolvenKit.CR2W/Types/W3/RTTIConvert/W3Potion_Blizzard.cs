@@ -18,6 +18,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(3)] [RED("currentSlowMoDuration")] 		public CFloat CurrentSlowMoDuration { get; set;}
 
 		[Ordinal(4)] [RED("SLOW_MO_DURATION")] 		public CFloat SLOW_MO_DURATION { get; set;}
+#if NGE_VERSION
+        [Ordinal(5)] [RED("isScreenFxActive")] public CBool IsScreenFxActive { get; set; }
+#endif
 
 		public W3Potion_Blizzard(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

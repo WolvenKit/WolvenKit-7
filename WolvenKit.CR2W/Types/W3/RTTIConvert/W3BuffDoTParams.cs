@@ -14,6 +14,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(1)] [RED("isEnvironment")] 		public CBool IsEnvironment { get; set;}
 
 		[Ordinal(2)] [RED("isPerk20Active")] 		public CBool IsPerk20Active { get; set;}
+#if NGE_VERSION
+        [Ordinal(3)] [RED("isFromBomb")] public CBool isFromBomb { get; set; }
+#endif
 
 		public W3BuffDoTParams(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

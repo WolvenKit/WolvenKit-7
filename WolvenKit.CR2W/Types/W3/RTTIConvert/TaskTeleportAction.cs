@@ -90,6 +90,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(39)] [RED("lastPos")] 		public Vector LastPos { get; set;}
 
 		[Ordinal(40)] [RED("guardArea")] 		public CHandle<CAreaComponent> GuardArea { get; set;}
+#if NGE_VERSION
+        [Ordinal(41)] [RED("forceFacePlayer")] public CBool ForceFacePlayer { get; set; }
+#endif
 
 		public TaskTeleportAction(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

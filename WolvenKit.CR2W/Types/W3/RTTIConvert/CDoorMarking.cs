@@ -26,6 +26,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(7)] [RED("checkState")] 		public CEnum<EDoorMarkingState> CheckState { get; set;}
 
 		[Ordinal(8)] [RED("initialized")] 		public CBool Initialized { get; set;}
+#if NGE_VERSION
+        [Ordinal(9)] [RED("doCalculations")] 		public CBool DoCalculations { get; set;}
+#endif
 
 		public CDoorMarking(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

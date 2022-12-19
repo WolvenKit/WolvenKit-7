@@ -38,6 +38,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(13)] [RED("showForceFinishedFX")] 		public CBool ShowForceFinishedFX { get; set;}
 
 		[Ordinal(14)] [RED("freeFromBearSetBonus")] 		public CBool FreeFromBearSetBonus { get; set;}
+#if NGE_VERSION
+		[Ordinal(15)] [RED("wasSignSupercharged")]      public CBool WasSignSupercharged { get; set; }
+#endif
 
 		public W3QuenEntity(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

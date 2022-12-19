@@ -70,6 +70,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(29)] [RED("minDistanceFromEnititesWithTag")] 		public CName MinDistanceFromEnititesWithTag { get; set;}
 
 		[Ordinal(30)] [RED("minDistanceFromTaggedEntities")] 		public CFloat MinDistanceFromTaggedEntities { get; set;}
+#if NGE_VERSION
+        [Ordinal(31)] [RED("forceFacePlayer")] public CBool ForceFacePlayer { get; set; }
+#endif
 
 		public TaskTeleportActionDef(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

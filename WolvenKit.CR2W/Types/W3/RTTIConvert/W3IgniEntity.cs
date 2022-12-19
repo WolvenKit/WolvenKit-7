@@ -32,6 +32,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(10)] [RED("hitEntities", 2,0)] 		public CArray<CHandle<CGameplayEntity>> HitEntities { get; set;}
 
 		[Ordinal(11)] [RED("lastFxSpawnTime")] 		public CFloat LastFxSpawnTime { get; set;}
+#if NGE_VERSION
+        [Ordinal(12)] [RED("burnEffectPlayed")] public CBool BurnEffectPlayed { get; set; }
+#endif
 
 		public W3IgniEntity(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

@@ -16,6 +16,9 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(2)] [RED("dlcManager")] 		public CPtr<CDLCManager> DlcManager { get; set;}
 
 		[Ordinal(3)] [RED("tooltipSettings")] 		public CHandle<C2dArray> TooltipSettings { get; set;}
+#if NGE_VERSION
+        [Ordinal(4)] [RED("m_voiceLangDownloadStatusListener")] public CHandle<CScriptedFlashValueStorage> M_voiceLangDownloadStatusListener { get; set; }
+#endif
 
 		public CCommonGame(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 

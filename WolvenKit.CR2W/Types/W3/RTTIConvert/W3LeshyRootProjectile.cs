@@ -15,7 +15,11 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(2)] [RED("fxEntity")] 		public CHandle<CEntity> FxEntity { get; set;}
 
+#if NGE_VERSION
+		[Ordinal(3)] [RED("action")] 		public CHandle<W3Action_Attack> Action { get; set;}
+#else
 		[Ordinal(3)] [RED("action")] 		public CHandle<W3DamageAction> Action { get; set;}
+#endif
 
 		[Ordinal(4)] [RED("owner")] 		public CHandle<CActor> Owner { get; set;}
 

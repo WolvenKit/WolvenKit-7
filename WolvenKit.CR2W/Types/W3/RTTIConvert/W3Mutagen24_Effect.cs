@@ -11,6 +11,9 @@ namespace WolvenKit.CR2W.Types
 	[REDMeta]
 	public class W3Mutagen24_Effect : W3Mutagen_Effect
 	{
+#if NGE_VERSION
+        [Ordinal(1)] [RED("hasAbility")] public CBool HasAbility { get; set; }
+#endif
 		public W3Mutagen24_Effect(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 
 		public static new CVariable Create(CR2WFile cr2w, CVariable parent, string name) => new W3Mutagen24_Effect(cr2w, parent, name);
