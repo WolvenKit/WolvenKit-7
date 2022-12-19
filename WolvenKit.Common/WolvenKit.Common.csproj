@@ -10,10 +10,13 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <NoWarn>CS1591</NoWarn>
     <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />

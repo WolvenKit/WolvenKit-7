@@ -2485,8 +2485,13 @@ namespace WolvenKit
             {
 
             });
+#if NGE_VERSION
+            var dlc = Path.Combine(new FileInfo(MainController.Get().Configuration.ExecutablePath).Directory.Parent.Parent.FullName, "dlc");
+            string[] vanillaDLClist = new string[] { "dlc1", "dlc2", "dlc3", "dlc4", "dlc5", "dlc6", "dlc7", "dlc8", "dlc9", "dlc10", "dlc11", "dlc12", "dlc13", "dlc14", "dlc15", "dlc16", "dlc17", "dlc18", "dlc20", "bob", "ep1" };
+#else
             var dlc = Path.Combine(new FileInfo(MainController.Get().Configuration.ExecutablePath).Directory.Parent.Parent.FullName, "DLC");
             string[] vanillaDLClist = new string[] { "DLC1", "DLC2", "DLC3", "DLC4", "DLC5", "DLC6", "DLC7", "DLC8", "DLC9", "DLC10", "DLC11", "DLC12", "DLC13", "DLC14", "DLC15", "DLC16", "bob", "ep1" };
+#endif
             foreach (var item in vanillaDLClist)
             {
                 var dlcdir = Path.Combine(dlc, item);

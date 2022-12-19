@@ -38,7 +38,11 @@ namespace WolvenKit.Cache
 
         public SoundBanksInfoXML soundBanksInfo;
 
-        private readonly string[] vanillaDLClist = new string[] { "DLC1", "DLC2", "DLC3", "DLC4", "DLC5", "DLC6", "DLC7", "DLC8", "DLC9", "DLC10", "DLC11", "DLC12", "DLC13", "DLC14", "DLC15", "DLC16", "bob", "ep1" };
+#if NGE_VERSION
+        protected readonly string[] vanillaDLClist = new string[] { "dlc1", "dlc2", "dlc3", "dlc4", "dlc5", "dlc6", "dlc7", "dlc8", "dlc9", "dlc10", "dlc11", "dlc12", "dlc13", "dlc14", "dlc15", "dlc16", "dlc17", "dlc18", "dlc20", "bob", "ep1" };
+#else
+        protected readonly string[] vanillaDLClist = new string[] { "DLC1", "DLC2", "DLC3", "DLC4", "DLC5", "DLC6", "DLC7", "DLC8", "DLC9", "DLC10", "DLC11", "DLC12", "DLC13", "DLC14", "DLC15", "DLC16", "bob", "ep1" };
+#endif
 
 
         /// <summary>
@@ -94,7 +98,11 @@ namespace WolvenKit.Cache
             var di = new DirectoryInfo(exedir);
             if (!di.Exists)
                 return;
+#if NGE_VERSION
+            var dlc = Path.Combine(di.Parent.Parent.FullName, "dlc");
+#else
             var dlc = Path.Combine(di.Parent.Parent.FullName, "DLC");
+#endif
             var content = Path.Combine(di.Parent.Parent.FullName, "content");
 
             var contentdirs = new List<string>(Directory.GetDirectories(content, "content*"));

@@ -451,7 +451,11 @@ namespace WolvenKit.Forms
                     var tw3Directory = tw3ExeDirectory?.Parent?.Parent;
                     if (tw3Directory != null)
                     {
+#if NGE_VERSION
+                        var gamedlcdir = Path.Combine(tw3Directory.FullName, "dlc");
+#else
                         var gamedlcdir = Path.Combine(tw3Directory.FullName, "DLC");
+#endif
                         if (Directory.Exists(gamedlcdir))
                         {
                             config.GameDlcDir = gamedlcdir;

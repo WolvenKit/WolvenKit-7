@@ -80,7 +80,11 @@ namespace WolvenKit.Cache
             var di = new DirectoryInfo(exedir);
             if (!di.Exists)
                 return;
+#if NGE_VERSION
+            var dlc = Path.Combine(di.Parent.Parent.FullName, "dlc");
+#else
             var dlc = Path.Combine(di.Parent.Parent.FullName, "DLC");
+#endif
             var content = Path.Combine(di.Parent.Parent.FullName, "content");
 
             var contentdirs = new List<string>(Directory.GetDirectories(content, "content*"));

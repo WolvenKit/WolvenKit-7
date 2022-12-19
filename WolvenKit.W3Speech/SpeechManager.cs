@@ -31,7 +31,12 @@ namespace WolvenKit.W3Speech
         public List<string> Extensions { get; set; }
         public AutoCompleteStringCollection AutocompleteSource { get; set; }
 
-        private readonly string[] vanillaDLClist = new string[] { "DLC1", "DLC2", "DLC3", "DLC4", "DLC5", "DLC6", "DLC7", "DLC8", "DLC9", "DLC10", "DLC11", "DLC12", "DLC13", "DLC14", "DLC15", "DLC16", "bob", "ep1" };
+#if NGE_VERSION
+        protected readonly string[] vanillaDLClist = new string[] { "dlc1", "dlc2", "dlc3", "dlc4", "dlc5", "dlc6", "dlc7", "dlc8", "dlc9", "dlc10", "dlc11", "dlc12", "dlc13", "dlc14", "dlc15", "dlc16", "dlc17", "dlc18", "dlc20", "bob", "ep1" };
+#else
+        protected readonly string[] vanillaDLClist = new string[] { "DLC1", "DLC2", "DLC3", "DLC4", "DLC5", "DLC6", "DLC7", "DLC8", "DLC9", "DLC10", "DLC11", "DLC12", "DLC13", "DLC14", "DLC15", "DLC16", "bob", "ep1" };
+#endif
+
         public static string SerializationVersion => "1.0";
 
         /// <summary>
@@ -119,7 +124,11 @@ namespace WolvenKit.W3Speech
                 LoadBundle(file);
             }
 
+#if NGE_VERSION
+            var dlc = Path.Combine(di.Parent.Parent.FullName, "dlc");
+#else
             var dlc = Path.Combine(di.Parent.Parent.FullName, "DLC");
+#endif
             if (Directory.Exists(dlc))
             {
                 var dlcdirs = new List<string>(Directory.GetDirectories(dlc));
