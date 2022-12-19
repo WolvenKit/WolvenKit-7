@@ -12,7 +12,11 @@ namespace WolvenKit
             InitializeComponent();
             Text = string.Format("About {0}", AssemblyTitle);
             labelProductName.Text = AssemblyProduct;
+#if NGE_VERSION
+            labelVersion.Text = string.Format("Version {0} NG", AssemblyVersion);
+#else
             labelVersion.Text = string.Format("Version {0}", AssemblyVersion);
+#endif
             labelCopyright.Text = AssemblyCopyright;
             labelCompanyName.Text = AssemblyTrademark;
             

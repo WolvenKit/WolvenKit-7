@@ -25,8 +25,11 @@ namespace WolvenKit.Forms
             this.CenterToScreen();
             MainController.Get().PropertyChanged += MainControllerUpdated;
             UIController.InitForm(this);
-
+#if NGE_VERSION
+            this.labelVersion.Text = "Version " + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion + "[NextGen]";
+#else
             this.labelVersion.Text = "Version " + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+#endif
             this.labelGit.Text = "https://github.com/WolvenKit/WolvenKit-7";
 
         }

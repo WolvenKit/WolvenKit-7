@@ -41,11 +41,12 @@
             this.labelVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.labelVersion.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.labelVersion.Location = new System.Drawing.Point(667, 454);
+            this.labelVersion.Location = new System.Drawing.Point(785, 558);
+            this.labelVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(127, 20);
+            this.labelVersion.Size = new System.Drawing.Size(255, 25);
             this.labelVersion.TabIndex = 0;
-            this.labelVersion.Text = "Version {version}";
+            this.labelVersion.Text = "Version {version} [NextGen]";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelLoading
@@ -55,9 +56,10 @@
             this.labelLoading.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.labelLoading.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLoading.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.labelLoading.Location = new System.Drawing.Point(317, 302);
+            this.labelLoading.Location = new System.Drawing.Point(423, 372);
+            this.labelLoading.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelLoading.Name = "labelLoading";
-            this.labelLoading.Size = new System.Drawing.Size(78, 20);
+            this.labelLoading.Size = new System.Drawing.Size(97, 25);
             this.labelLoading.TabIndex = 1;
             this.labelLoading.Text = "Loading...";
             // 
@@ -69,9 +71,10 @@
             this.labelGit.Font = new System.Drawing.Font("Calibri Light", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelGit.ForeColor = System.Drawing.SystemColors.ButtonShadow;
             this.labelGit.LinkColor = System.Drawing.Color.DarkGray;
-            this.labelGit.Location = new System.Drawing.Point(24, 457);
+            this.labelGit.Location = new System.Drawing.Point(32, 562);
+            this.labelGit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelGit.Name = "labelGit";
-            this.labelGit.Size = new System.Drawing.Size(236, 17);
+            this.labelGit.Size = new System.Drawing.Size(305, 21);
             this.labelGit.TabIndex = 4;
             this.labelGit.TabStop = true;
             this.labelGit.Text = "https://github.com/WolvenKit/WolvenKit-7";
@@ -80,17 +83,18 @@
             // 
             // frmLoading
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::WolvenKit.Properties.Resources.wkit_splash;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(816, 491);
+            this.ClientSize = new System.Drawing.Size(1088, 604);
             this.Controls.Add(this.labelGit);
             this.Controls.Add(this.labelLoading);
             this.Controls.Add(this.labelVersion);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmLoading";
             this.Text = "Loading";
             this.TransparencyKey = System.Drawing.Color.Black;
