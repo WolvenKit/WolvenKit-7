@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using WolvenKit.CR2W.Reflection;
@@ -90,7 +90,12 @@ namespace WolvenKit.CR2W.Types
         }
 
         //public override List<IEditableVariable> GetEditableVariables() => new List<IEditableVariable> { Variant};
-        public override List<IEditableVariable> GetEditableVariables() => Variant?.GetEditableVariables();
+        public override List<IEditableVariable> GetEditableVariables()
+        {
+            if (Variant == null)
+                return new List<IEditableVariable>();
+            return Variant.GetEditableVariables();
+        }
 
         public override string ToString()
         {
