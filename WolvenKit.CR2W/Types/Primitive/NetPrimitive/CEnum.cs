@@ -85,7 +85,7 @@ namespace WolvenKit.CR2W.Types
                 while (true)
                 {
                     var idx = file.ReadUInt16();
-                    if (idx == 0)
+                    if (idx <= 0 || idx >= cr2w.names.Count)
                         break;
 
                     string s = cr2w.names[idx].Str;
@@ -97,9 +97,12 @@ namespace WolvenKit.CR2W.Types
             {
                 var idx = file.ReadUInt16();
 
-                string s = cr2w.names[idx].Str;
+                if (idx < cr2w.names.Count && idx >= 0)
+                {
+                    string s = cr2w.names[idx].Str;
 
-                strings.Add(s);
+                    strings.Add(s);
+                }
             }
 
             SetValue(strings);
