@@ -257,6 +257,7 @@ namespace WolvenKit.Forms
         {
             FilesAll.Clear();
             statusController.UpdateAll(0,0,0,0,0,0); // Clear stats
+            int filtered = 0, non_cr2w = 0, matching = 0;
             if (Directory.Exists(path))
             {
                 btnRun.Enabled = false;
@@ -272,16 +273,19 @@ namespace WolvenKit.Forms
                             if (string.IsNullOrEmpty(textExtFilter.Text) || file.EndsWith(textExtFilter.Text, StringComparison.OrdinalIgnoreCase))
                             {
                                 FilesMatching.Add(file);
-                                statusController.Matching++;
+                                matching++;
                             }
                             else
                             {
-                                statusController.FilteredByExt++;
+                                filtered++;
                             }
                         }
                         else
-                            statusController.NonCR2W++;
+                            non_cr2w++;
                     }
+                    statusController.Matching = matching;
+                    statusController.NonCR2W = non_cr2w;
+                    statusController.FilteredByExt = filtered;
                 });
 
                 ResetProgressBar(FilesMatching.Count());
@@ -298,6 +302,7 @@ namespace WolvenKit.Forms
             btnRun.Enabled = false;
             pnlControls.Enabled = false;
             LogLine("Checking matching files...");
+            int filtered = 0, matching = 0;
             await Task.Run(() =>
             {
                 foreach (var file in FilesAll)
@@ -305,13 +310,15 @@ namespace WolvenKit.Forms
                     if (string.IsNullOrEmpty(textExtFilter.Text) || file.EndsWith(textExtFilter.Text, StringComparison.OrdinalIgnoreCase))
                     {
                         FilesMatching.Add(file);
-                        statusController.Matching++;
+                        matching++;
                     }
                     else
                     {
-                        statusController.FilteredByExt++;
+                        filtered++;
                     }
                 }
+                statusController.Matching = matching;
+                statusController.FilteredByExt = filtered;
             });
 
             ResetProgressBar(FilesMatching.Count());
