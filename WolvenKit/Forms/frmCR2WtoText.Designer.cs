@@ -29,12 +29,16 @@ namespace WolvenKit.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCR2WtoText));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnRun = new System.Windows.Forms.Button();
             this.rtfDescription = new System.Windows.Forms.RichTextBox();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.buttonExtUpdate = new System.Windows.Forms.Button();
+            this.labelExtFilter = new System.Windows.Forms.Label();
+            this.textExtFilter = new System.Windows.Forms.TextBox();
+            this.chkDotInsteadComma = new System.Windows.Forms.CheckBox();
             this.chkAddPreviewVal = new System.Windows.Forms.CheckBox();
             this.labelFloatPrec = new System.Windows.Forms.Label();
             this.numericFloatPrec = new System.Windows.Forms.NumericUpDown();
@@ -74,7 +78,6 @@ namespace WolvenKit.Forms
             this.colSkipped = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colExceptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.chkDotInsteadComma = new System.Windows.Forms.CheckBox();
             this.pnlControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericFloatPrec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).BeginInit();
@@ -116,6 +119,9 @@ namespace WolvenKit.Forms
             // 
             // pnlControls
             // 
+            this.pnlControls.Controls.Add(this.buttonExtUpdate);
+            this.pnlControls.Controls.Add(this.labelExtFilter);
+            this.pnlControls.Controls.Add(this.textExtFilter);
             this.pnlControls.Controls.Add(this.chkDotInsteadComma);
             this.pnlControls.Controls.Add(this.chkAddPreviewVal);
             this.pnlControls.Controls.Add(this.labelFloatPrec);
@@ -147,6 +153,50 @@ namespace WolvenKit.Forms
             this.pnlControls.Name = "pnlControls";
             this.pnlControls.Size = new System.Drawing.Size(987, 386);
             this.pnlControls.TabIndex = 21;
+            // 
+            // buttonExtUpdate
+            // 
+            this.buttonExtUpdate.Location = new System.Drawing.Point(842, 62);
+            this.buttonExtUpdate.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonExtUpdate.Name = "buttonExtUpdate";
+            this.buttonExtUpdate.Size = new System.Drawing.Size(62, 25);
+            this.buttonExtUpdate.TabIndex = 47;
+            this.buttonExtUpdate.Text = "Update";
+            this.buttonExtUpdate.UseVisualStyleBackColor = true;
+            this.buttonExtUpdate.Click += new System.EventHandler(this.buttonExtUpdate_Click);
+            // 
+            // labelExtFilter
+            // 
+            this.labelExtFilter.AutoSize = true;
+            this.labelExtFilter.Location = new System.Drawing.Point(620, 66);
+            this.labelExtFilter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelExtFilter.Name = "labelExtFilter";
+            this.labelExtFilter.Size = new System.Drawing.Size(104, 17);
+            this.labelExtFilter.TabIndex = 46;
+            this.labelExtFilter.Text = "Extension filter:";
+            this.labelExtFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textExtFilter
+            // 
+            this.textExtFilter.Location = new System.Drawing.Point(727, 63);
+            this.textExtFilter.Margin = new System.Windows.Forms.Padding(4);
+            this.textExtFilter.Name = "textExtFilter";
+            this.textExtFilter.Size = new System.Drawing.Size(107, 22);
+            this.textExtFilter.TabIndex = 45;
+            this.textExtFilter.TextChanged += new System.EventHandler(this.textExtFilter_TextChanged);
+            // 
+            // chkDotInsteadComma
+            // 
+            this.chkDotInsteadComma.AutoSize = true;
+            this.chkDotInsteadComma.Checked = true;
+            this.chkDotInsteadComma.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDotInsteadComma.Location = new System.Drawing.Point(603, 260);
+            this.chkDotInsteadComma.Margin = new System.Windows.Forms.Padding(4);
+            this.chkDotInsteadComma.Name = "chkDotInsteadComma";
+            this.chkDotInsteadComma.Size = new System.Drawing.Size(206, 21);
+            this.chkDotInsteadComma.TabIndex = 44;
+            this.chkDotInsteadComma.Text = "Float: Dot instead of comma";
+            this.chkDotInsteadComma.UseVisualStyleBackColor = true;
             // 
             // chkAddPreviewVal
             // 
@@ -526,14 +576,14 @@ namespace WolvenKit.Forms
             this.dataStatus.AllowUserToResizeColumns = false;
             this.dataStatus.AllowUserToResizeRows = false;
             this.dataStatus.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataStatus.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataStatus.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataStatus.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colAllFiles,
@@ -547,24 +597,24 @@ namespace WolvenKit.Forms
             this.dataStatus.MultiSelect = false;
             this.dataStatus.Name = "dataStatus";
             this.dataStatus.ReadOnly = true;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataStatus.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataStatus.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataStatus.RowHeadersVisible = false;
             this.dataStatus.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.Format = "N0";
-            dataGridViewCellStyle6.NullValue = "-";
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            this.dataStatus.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.Format = "N0";
+            dataGridViewCellStyle3.NullValue = "-";
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            this.dataStatus.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataStatus.RowTemplate.ReadOnly = true;
             this.dataStatus.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataStatus.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -653,19 +703,6 @@ namespace WolvenKit.Forms
             this.txtLog.TabStop = false;
             this.txtLog.WordWrap = false;
             // 
-            // chkDotInsteadComma
-            // 
-            this.chkDotInsteadComma.AutoSize = true;
-            this.chkDotInsteadComma.Checked = true;
-            this.chkDotInsteadComma.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDotInsteadComma.Location = new System.Drawing.Point(603, 260);
-            this.chkDotInsteadComma.Margin = new System.Windows.Forms.Padding(4);
-            this.chkDotInsteadComma.Name = "chkDotInsteadComma";
-            this.chkDotInsteadComma.Size = new System.Drawing.Size(206, 21);
-            this.chkDotInsteadComma.TabIndex = 44;
-            this.chkDotInsteadComma.Text = "Float: Dot instead of comma";
-            this.chkDotInsteadComma.UseVisualStyleBackColor = true;
-            // 
             // frmCR2WtoText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -732,12 +769,6 @@ namespace WolvenKit.Forms
         private System.Windows.Forms.Label labNumThreads;
         private System.Windows.Forms.NumericUpDown numThreads;
         private System.Windows.Forms.TextBox txtLog;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAllFiles;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNonCR2W;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMatchingFiles;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProcessedFiles;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSkipped;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colExceptions;
         private System.Windows.Forms.CheckBox chkLocalizedString;
         private System.Windows.Forms.CheckBox chkDumpOnlyEdited;
         private System.Windows.Forms.CheckBox chkDumpYML;
@@ -746,5 +777,14 @@ namespace WolvenKit.Forms
         private System.Windows.Forms.NumericUpDown numericFloatPrec;
         private System.Windows.Forms.CheckBox chkAddPreviewVal;
         private System.Windows.Forms.CheckBox chkDotInsteadComma;
+        private System.Windows.Forms.Label labelExtFilter;
+        private System.Windows.Forms.TextBox textExtFilter;
+        private System.Windows.Forms.Button buttonExtUpdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAllFiles;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNonCR2W;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMatchingFiles;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProcessedFiles;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSkipped;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colExceptions;
     }
 }

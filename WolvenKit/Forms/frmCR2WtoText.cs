@@ -24,7 +24,8 @@ namespace WolvenKit.Forms
                                                  ".usm", ".wem", ".dds", ".bnk", ".xbm", ".bundle", ".w3strings", ".store", ".navconfig",
                                                  ".naviobstacles", ".navmesh", ".sav", ".subs", ".yml" };
         private StatusController statusController;
-        private readonly List<string> Files = new List<string>();
+        private readonly List<string> FilesAll = new List<string>();
+        private readonly List<string> FilesMatching = new List<string>();
 
         private CancellationTokenSource Cancel;
 
@@ -172,7 +173,7 @@ namespace WolvenKit.Forms
         {
             // Clear status prior to new run.
             statusController.Processed = statusController.Skipped = statusController.Exceptions = 0;
-            if (Files.Any())
+            if (FilesMatching.Any())
             {
                 string sourcePath = txtPath.Text;
 
@@ -210,9 +211,9 @@ namespace WolvenKit.Forms
                     LoggerWriter writer;
 
                     if (OutputSingleFile)
-                        writer = new LoggerWriterSingle(Files, loggerOptions, cr2wOptions);
+                        writer = new LoggerWriterSingle(FilesMatching, loggerOptions, cr2wOptions);
                     else
-                        writer = new LoggerWriterSeparate(Files, loggerOptions, cr2wOptions);
+                        writer = new LoggerWriterSeparate(FilesMatching, loggerOptions, cr2wOptions);
 
                     writer.OnExceptionFile += (fileName, msg) =>
                     {
@@ -250,12 +251,12 @@ namespace WolvenKit.Forms
         }
         private void CheckEnableRunButton()
         {
-            btnRun.Enabled = txtPath.Text != "" && txtOutputDestination.Text != "" && Files.Any();
+            btnRun.Enabled = txtPath.Text != "" && txtOutputDestination.Text != "" && FilesMatching.Any();
         }
         private async Task UpdateSourceFolder(string path)
         {
-            Files.Clear();
-            statusController.UpdateAll(0,0,0,0,0); // Clear stats
+            FilesAll.Clear();
+            statusController.UpdateAll(0,0,0,0,0,0); // Clear stats
             if (Directory.Exists(path))
             {
                 btnRun.Enabled = false;
@@ -267,19 +268,55 @@ namespace WolvenKit.Forms
                     {
                         if (!extExclude.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)))
                         {
-                            Files.Add(file);
-                            statusController.Matching++;
+                            FilesAll.Add(file);
+                            if (string.IsNullOrEmpty(textExtFilter.Text) || file.EndsWith(textExtFilter.Text, StringComparison.OrdinalIgnoreCase))
+                            {
+                                FilesMatching.Add(file);
+                                statusController.Matching++;
+                            }
+                            else
+                            {
+                                statusController.FilteredByExt++;
+                            }
                         }
                         else
                             statusController.NonCR2W++;
                     }
                 });
 
-                ResetProgressBar(Files.Count());
+                ResetProgressBar(FilesMatching.Count());
 
                 LogLine("Finished reading source folder.");
                 pnlControls.Enabled = true;
             }
+            CheckEnableRunButton();
+        }
+        private async Task FilterMatchingByExtension(string extension)
+        {
+            FilesMatching.Clear();
+            statusController.UpdateAll(statusController.NonCR2W, 0, 0, 0, 0, 0); // Clear stats
+            btnRun.Enabled = false;
+            pnlControls.Enabled = false;
+            LogLine("Checking matching files...");
+            await Task.Run(() =>
+            {
+                foreach (var file in FilesAll)
+                {
+                    if (string.IsNullOrEmpty(textExtFilter.Text) || file.EndsWith(textExtFilter.Text, StringComparison.OrdinalIgnoreCase))
+                    {
+                        FilesMatching.Add(file);
+                        statusController.Matching++;
+                    }
+                    else
+                    {
+                        statusController.FilteredByExt++;
+                    }
+                }
+            });
+
+            ResetProgressBar(FilesMatching.Count());
+            LogLine("Finished checking matching files.");
+            pnlControls.Enabled = true;
             CheckEnableRunButton();
         }
         private void ResetProgressBar(int filesCount)
@@ -356,6 +393,16 @@ namespace WolvenKit.Forms
         {
 
         }
+
+        private void buttonExtUpdate_Click(object sender, EventArgs e)
+        {
+            FilterMatchingByExtension(textExtFilter.Text);
+        }
+
+        private void textExtFilter_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
     internal class StatusController
     {
@@ -366,9 +413,10 @@ namespace WolvenKit.Forms
         public StatusDelegate OnProcessedUpdated;
         public StatusDelegate OnSkippedUpdated;
         public StatusDelegate OnExceptionsUpdated;
-        public void UpdateAll(int nonCR2W, int matching, int processed, int skipped, int exceptions)
+        public void UpdateAll(int nonCR2W, int filtered, int matching, int processed, int skipped, int exceptions)
         {
             NonCR2W = nonCR2W;
+            FilteredByExt = filtered;
             Matching = matching;
             Processed = processed;
             Skipped = skipped;
@@ -376,7 +424,7 @@ namespace WolvenKit.Forms
         }
         public int TotalFiles
         {
-            get => Matching + NonCR2W;
+            get => Matching + NonCR2W + FilteredByExt;
         }
         private int _nonCR2W;
         public int NonCR2W
@@ -386,6 +434,16 @@ namespace WolvenKit.Forms
             {
                 _nonCR2W = value;
                 OnNonCR2WUpdated?.Invoke(_nonCR2W);
+                OnTotalFilesUpdated?.Invoke(TotalFiles);
+            }
+        }
+        private int _filteredByExt;
+        public int FilteredByExt
+        {
+            get => _filteredByExt;
+            set
+            {
+                _filteredByExt = value;
                 OnTotalFilesUpdated?.Invoke(TotalFiles);
             }
         }
@@ -1098,6 +1156,10 @@ namespace WolvenKit.Forms
             {
                 node = (node as WolvenKit.CR2W.Types.CVariantSizeTypeName).Variant;
                 type = node.REDType;
+            }
+            else if (type.StartsWith("array:"))
+            {
+                type = $"array:{type.Split(',').Last()}";
             }
             return type;
         }
