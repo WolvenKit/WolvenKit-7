@@ -34,6 +34,8 @@
             this.saveImageAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImagePreviewControl = new Cyotek.Windows.Forms.ImageBox();
+            this.saveImageAsDdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaceImageWithDdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,28 +45,31 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyImageToolStripMenuItem,
             this.saveImageAsToolStripMenuItem,
-            this.replaceImageToolStripMenuItem});
+            this.replaceImageToolStripMenuItem,
+            this.saveImageAsDdsToolStripMenuItem,
+            this.replaceImageWithDdsToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(152, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(238, 152);
             // 
             // copyImageToolStripMenuItem
             // 
             this.copyImageToolStripMenuItem.Name = "copyImageToolStripMenuItem";
-            this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(237, 24);
             this.copyImageToolStripMenuItem.Text = "Copy Image";
             this.copyImageToolStripMenuItem.Click += new System.EventHandler(this.copyImageToolStripMenuItem_Click);
             // 
             // saveImageAsToolStripMenuItem
             // 
             this.saveImageAsToolStripMenuItem.Name = "saveImageAsToolStripMenuItem";
-            this.saveImageAsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.saveImageAsToolStripMenuItem.Text = "Save image as";
+            this.saveImageAsToolStripMenuItem.Size = new System.Drawing.Size(237, 24);
+            this.saveImageAsToolStripMenuItem.Text = "Save image";
             this.saveImageAsToolStripMenuItem.Click += new System.EventHandler(this.saveImageAsToolStripMenuItem_Click);
             // 
             // replaceImageToolStripMenuItem
             // 
+            this.replaceImageToolStripMenuItem.Enabled = false;
             this.replaceImageToolStripMenuItem.Name = "replaceImageToolStripMenuItem";
-            this.replaceImageToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.replaceImageToolStripMenuItem.Size = new System.Drawing.Size(237, 24);
             this.replaceImageToolStripMenuItem.Text = "Replace image";
             this.replaceImageToolStripMenuItem.Click += new System.EventHandler(this.replaceImageToolStripMenuItem_Click);
             // 
@@ -78,9 +83,25 @@
             this.ImagePreviewControl.Size = new System.Drawing.Size(657, 535);
             this.ImagePreviewControl.TabIndex = 1;
             // 
+            // saveImageAsDdsToolStripMenuItem
+            // 
+            this.saveImageAsDdsToolStripMenuItem.Enabled = false;
+            this.saveImageAsDdsToolStripMenuItem.Name = "saveImageAsDdsToolStripMenuItem";
+            this.saveImageAsDdsToolStripMenuItem.Size = new System.Drawing.Size(237, 24);
+            this.saveImageAsDdsToolStripMenuItem.Text = "Save image as dds";
+            this.saveImageAsDdsToolStripMenuItem.Click += new System.EventHandler(this.saveImageAsDdsToolStripMenuItem_Click);
+            // 
+            // replaceImageWithDdsToolStripMenuItem
+            // 
+            this.replaceImageWithDdsToolStripMenuItem.Enabled = false;
+            this.replaceImageWithDdsToolStripMenuItem.Name = "replaceImageWithDdsToolStripMenuItem";
+            this.replaceImageWithDdsToolStripMenuItem.Size = new System.Drawing.Size(237, 24);
+            this.replaceImageWithDdsToolStripMenuItem.Text = "Replace image with dds";
+            this.replaceImageWithDdsToolStripMenuItem.Click += new System.EventHandler(this.replaceImageWithDdsToolStripMenuItem_Click);
+            // 
             // frmImagePreview
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 535);
             this.Controls.Add(this.ImagePreviewControl);
@@ -100,5 +121,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveImageAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem replaceImageToolStripMenuItem;
         private Cyotek.Windows.Forms.ImageBox ImagePreviewControl;
+        private System.Windows.Forms.ToolStripMenuItem saveImageAsDdsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem replaceImageWithDdsToolStripMenuItem;
     }
 }
