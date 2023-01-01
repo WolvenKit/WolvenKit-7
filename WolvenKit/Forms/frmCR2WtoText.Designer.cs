@@ -78,6 +78,7 @@ namespace WolvenKit.Forms
             this.colSkipped = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colExceptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtLog = new System.Windows.Forms.TextBox();
+            this.chkDumpSwf = new System.Windows.Forms.CheckBox();
             this.pnlControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericFloatPrec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).BeginInit();
@@ -119,6 +120,7 @@ namespace WolvenKit.Forms
             // 
             // pnlControls
             // 
+            this.pnlControls.Controls.Add(this.chkDumpSwf);
             this.pnlControls.Controls.Add(this.buttonExtUpdate);
             this.pnlControls.Controls.Add(this.labelExtFilter);
             this.pnlControls.Controls.Add(this.textExtFilter);
@@ -703,6 +705,19 @@ namespace WolvenKit.Forms
             this.txtLog.TabStop = false;
             this.txtLog.WordWrap = false;
             // 
+            // chkDumpSwf
+            // 
+            this.chkDumpSwf.AutoSize = true;
+            this.chkDumpSwf.Checked = true;
+            this.chkDumpSwf.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDumpSwf.Location = new System.Drawing.Point(623, 338);
+            this.chkDumpSwf.Margin = new System.Windows.Forms.Padding(4);
+            this.chkDumpSwf.Name = "chkDumpSwf";
+            this.chkDumpSwf.Size = new System.Drawing.Size(282, 21);
+            this.chkDumpSwf.TabIndex = 48;
+            this.chkDumpSwf.Text = "Dump .swf and .dds from CSwfResource";
+            this.chkDumpSwf.UseVisualStyleBackColor = true;
+            // 
             // frmCR2WtoText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -786,5 +801,6 @@ namespace WolvenKit.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn colProcessedFiles;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSkipped;
         private System.Windows.Forms.DataGridViewTextBoxColumn colExceptions;
+        private System.Windows.Forms.CheckBox chkDumpSwf;
     }
 }

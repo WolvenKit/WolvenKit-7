@@ -2,6 +2,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using WolvenKit.Common.Model;
 using WolvenKit.Common.Services;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.SRT;
+using WolvenKit.App.Model;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MessageBoxButtons = System.Windows.Forms.MessageBoxButtons;
@@ -88,6 +90,7 @@ namespace WolvenKit.Forms
             radOutputModeSeparateFiles.Checked = !OutputSingleFile;
             chkDumpSDB.Checked = true;
             chkDumpYML.Checked = true;
+            chkDumpSwf.Checked = true;
             chkAddFilePath.Checked = true;
             chkAddPreviewVal.Checked = true;
             chkDotInsteadComma.Checked = true;
@@ -184,6 +187,7 @@ namespace WolvenKit.Forms
                     DumpFCD = chkDumpFCD.Checked,
                     DumpSDB = chkDumpSDB.Checked,
                     DumpYML = chkDumpYML.Checked,
+                    DumpSWF = chkDumpSwf.Checked,
                     AddFilePath = chkAddFilePath.Checked,
                     AddPreviewValue = chkAddPreviewVal.Checked,
                     FloatDot = chkDotInsteadComma.Checked,
@@ -518,6 +522,7 @@ namespace WolvenKit.Forms
                 Parallel.ForEach(Files, parOptions, async fileName =>
                     {
                         string outputDestination;
+                        string outputDestinationBase;
                         string outputDestinationTxt;
                         string outputDestinationYml;
                         string fileBaseName = Path.GetFileName(fileName);
@@ -535,8 +540,9 @@ namespace WolvenKit.Forms
                         else
                             outputDestination = WriterData.OutputLocation;
 
-                        outputDestinationTxt = outputDestination + "\\" + fileBaseName + (!isSRT ? ".txt" : ".json");
-                        outputDestinationYml = outputDestination + "\\" + fileBaseName + ".yml";
+                        outputDestinationBase = outputDestination + "\\" + fileBaseName;
+                        outputDestinationTxt = outputDestinationBase + (isSRT ? ".json" : ".txt");
+                        outputDestinationYml = outputDestinationBase + ".yml";
 
                         try
                         {
@@ -555,7 +561,7 @@ namespace WolvenKit.Forms
                                     streamDestinationYml = new StreamWriter(outputDestinationYml, false);
 
                                 if (!isSRT)
-                                    await Dump(streamDestination, streamDestinationYml, fileName);
+                                    await Dump(streamDestination, streamDestinationYml, fileName, outputDestinationBase);
                                 else
                                     await DumpSRT(streamDestination, fileName);
                                 lock (statusLock)
@@ -591,7 +597,8 @@ namespace WolvenKit.Forms
             : base(files, writerData, cr2wOptions) { }
         public override async Task StartDump()
         {
-            string outputDestination = WriterData.OutputLocation;
+            string outputDestinationBase = WriterData.OutputLocation;
+            string outputDestination = WriterData.OutputLocation + ".txt";
             string outputDestinationYml = WriterData.OutputLocation + ".yml";
             if (File.Exists(outputDestination))
                 File.Delete(outputDestination);
@@ -602,7 +609,7 @@ namespace WolvenKit.Forms
                 {
                     if (WriterData.CancelToken.IsCancellationRequested)
                         break;
-                    await Dump(streamDestination, streamDestinationYml, fileName);
+                    await Dump(streamDestination, streamDestinationYml, fileName, outputDestinationBase);
                     WriterData.Status.Processed++;
                 }
         }
@@ -641,7 +648,7 @@ namespace WolvenKit.Forms
             OnExceptionFile?.Invoke(fileName, msg);
         }
 #pragma warning disable CS1998
-        protected async Task Dump(StreamWriter streamDestination, StreamWriter streamDestinationYml, string fileName)
+        protected async Task Dump(StreamWriter streamDestination, StreamWriter streamDestinationYml, string fileName, string outputDestinationBase)
 #pragma warning restore CS1998
         {
             LoggerOutputFileTxt outputFile = new LoggerOutputFileTxt(streamDestination, WriterData.PrefixFileName,
@@ -651,7 +658,7 @@ namespace WolvenKit.Forms
                 outputFileYml = new LoggerOutputFileYml(streamDestinationYml, WriterData.PrefixFileName, Path.GetFileName(fileName));
             try
             {
-                var lCR2W = new LoggerCR2W(fileName, outputFile, outputFileYml, CR2WOptions);
+                var lCR2W = new LoggerCR2W(fileName, outputFile, outputFileYml, CR2WOptions, outputDestinationBase);
                 if (CR2WOptions.AddFilePath)
                 {
                     outputFile.WriteLine("FILE: " + fileName);
@@ -835,6 +842,7 @@ namespace WolvenKit.Forms
         public bool DumpSDB { get; set; }
         public bool DumpFCD { get; set; }
         public bool DumpYML { get; set; }
+        public bool DumpSWF { get; set; }
         public bool AddPreviewValue { get; set; }
         public bool AddFilePath { get; set; }
         public bool FloatDot { get; set; }
@@ -853,6 +861,7 @@ namespace WolvenKit.Forms
         private LoggerOutputFile Writer { get; }
         private LoggerOutputFile WriterYml { get; }
         private LoggerCR2WOptions Options { get; }
+        private string OutputDestinationBase { get; }
         private List<CR2WExportWrapper> Chunks { get; }
         private List<CR2WEmbeddedWrapper> Embedded { get; }
         private HashSet<string> wasDumped = new HashSet<string>();
@@ -879,10 +888,10 @@ namespace WolvenKit.Forms
             }
                      
         }
-        internal LoggerCR2W(string fileName, LoggerOutputFile writer, LoggerOutputFile writerYml, LoggerCR2WOptions options)
-            : this(LoadCR2W(fileName), fileName, writer, writerYml, options) {}
+        internal LoggerCR2W(string fileName, LoggerOutputFile writer, LoggerOutputFile writerYml, LoggerCR2WOptions options, string outputDestinationBase)
+            : this(LoadCR2W(fileName), fileName, writer, writerYml, options, outputDestinationBase) {}
         internal LoggerCR2W(CR2WFile cr2wFile, string filePath, 
-            LoggerOutputFile writer, LoggerOutputFile writerYml, LoggerCR2WOptions options)
+            LoggerOutputFile writer, LoggerOutputFile writerYml, LoggerCR2WOptions options, string outputDestinationBase)
         {
             CR2W = cr2wFile;
             CR2WFilePath = filePath;
@@ -891,6 +900,7 @@ namespace WolvenKit.Forms
             Writer = writer;
             WriterYml = writerYml;
             Options = options;
+            OutputDestinationBase = outputDestinationBase;
             if (Options.LocalizeStrings)
                 CR2W.LocalizedStringSource = MainController.Get();
 
@@ -969,6 +979,19 @@ namespace WolvenKit.Forms
                         if (!Options.DumpOnlyEdited || item.IsSerialized)
                             ProcessNode(item, level + 1);
                     }
+                    if (Options.DumpSWF && chunk.data is CR2W.Types.CSwfTexture swfTexture)
+                    {
+                        string linkageName = swfTexture.LinkageName.val ?? "_texture.dds";
+                        if (swfTexture.GetBytes() != null)
+                        {
+                            // dds
+                            byte[] ddsBytes = ImageUtility.Xbm2DdsBytes(swfTexture);
+                            System.IO.File.WriteAllBytes(OutputDestinationBase + linkageName, ddsBytes);
+                            // png
+                            //Bitmap Image = ImageUtility.Xbm2Bmp(swfTexture) ?? SystemIcons.Warning.ToBitmap();
+                            //Image.Save(OutputDestinationBase + linkageName + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                        }
+                    }
                 }
                 if (dumpYml)
                 {
@@ -1032,7 +1055,7 @@ namespace WolvenKit.Forms
                             newOptions.DumpTXT = false;
                         else
                             newOptions.DumpYML = false;
-                        var lc = new LoggerCR2W(embedcr2w, node.REDName, Writer, WriterYml, newOptions);
+                        var lc = new LoggerCR2W(embedcr2w, node.REDName, Writer, WriterYml, newOptions, OutputDestinationBase);
                         lc.processCR2W(level);
 
                         break;
@@ -1087,6 +1110,13 @@ namespace WolvenKit.Forms
                 }
             }
 
+            if (Options.DumpSWF && node.REDName == "SwfResource" && node is CR2W.Types.CByteArray CBA)
+            {
+                if (CBA.GetBytes() != null)
+                {
+                    System.IO.File.WriteAllBytes(OutputDestinationBase + ".swf", CBA.GetBytes());
+                }
+            }
 
             if ( ( (node.REDType == "SharedDataBuffer" || node.REDType == "DataBuffer") && Options.DumpSDB) 
                 || (node.REDType == "array:2,0,Uint8" && node.REDName != "deltaTimes") ) 
