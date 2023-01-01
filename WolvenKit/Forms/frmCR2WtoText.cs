@@ -1210,7 +1210,7 @@ namespace WolvenKit.Forms
             }
             else if (isArrayType(type))
             {
-                return "# " + type;
+                return "# " + prepareType(node);
             }
             else if (type == "Bool")
             {
