@@ -11,7 +11,8 @@ namespace WolvenKit.CR2W.Types
 	[REDMeta]
 	public class CMeshSkinningAttachment : CSkinningAttachment
 	{
-		public CMeshSkinningAttachment(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
+        [Ordinal(1)] [RED("boneMapping", 2, 0)] public CArray<CInt32> BoneMapping { get; set; }
+        public CMeshSkinningAttachment(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 
 		public static new CVariable Create(CR2WFile cr2w, CVariable parent, string name) => new CMeshSkinningAttachment(cr2w, parent, name);
 

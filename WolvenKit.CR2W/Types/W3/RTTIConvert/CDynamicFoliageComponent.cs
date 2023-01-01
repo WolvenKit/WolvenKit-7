@@ -15,6 +15,8 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(2)] [RED("minimumStreamingDistance")] 		public CUInt32 MinimumStreamingDistance { get; set;}
 
+		[Ordinal(3)] [RED("isInteractive")] 		public CBool IsInteractive { get; set;}
+
 		public CDynamicFoliageComponent(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 
 		public static new CVariable Create(CR2WFile cr2w, CVariable parent, string name) => new CDynamicFoliageComponent(cr2w, parent, name);
