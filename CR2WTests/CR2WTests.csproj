@@ -33,7 +33,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <ItemGroup>
-    <PackageReference Include="DockPanelSuite" Version="3.0.6" />
+    <PackageReference Include="DockPanelSuite" Version="3.1.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.4" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
@@ -44,9 +44,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="frmUnitTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="frmUnitTest.cs" />
     <Compile Update="frmUnitTest.Designer.cs">
       <DependentUpon>frmUnitTest.cs</DependentUpon>
     </Compile>

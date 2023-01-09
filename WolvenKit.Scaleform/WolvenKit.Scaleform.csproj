@@ -37,7 +37,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DockPanelSuite" Version="3.0.6" />
+    <PackageReference Include="DockPanelSuite" Version="3.1.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
@@ -46,9 +46,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="frmUsmPlayer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="frmUsmPlayer.cs" />
     <Compile Update="frmUsmPlayer.Designer.cs">
       <DependentUpon>frmUsmPlayer.cs</DependentUpon>
     </Compile>
