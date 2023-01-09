@@ -44,5 +44,10 @@ namespace WolvenKit.CR2W.Types
         {
             return $"[{handlename.ToString()}]:{handle.ToString()}";
         }
+
+        public override List<IEditableVariable> GetEditableVariables()
+        {
+            return new List<IEditableVariable>() { handlename, handle };
+        }
     }
 }
