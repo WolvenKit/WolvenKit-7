@@ -238,7 +238,7 @@ namespace WolvenKit.CR2W.JSON
                     PrintError($"{LogIndent(logLevel)}[DewalkNode] {m_varChunkHandle} param not found in {extension}{cvar.GetFullName()} ({cvar.REDType})");
                     return;
                 }
-                var isChunkHandle = Convert.ToBoolean((map.vars[m_varChunkHandle] as CR2WJsonScalar).value);
+                var isChunkHandle = Convert.ToBoolean((map.vars[m_varChunkHandle] as CR2WJsonScalar)?.value);
                 if (isChunkHandle)
                     DewalkPtrNode(cvar, map, chunkByKey, extension, logLevel, options);
                 else
@@ -399,7 +399,7 @@ namespace WolvenKit.CR2W.JSON
                 PrintError($"{LogIndent(logLevel)}[DewalkPtrNode] \"{m_varReference}\" not found in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
                 return false;
             }
-            var referenceKey = (map.vars[m_varReference] as CR2WJsonScalar).value as string;
+            var referenceKey = (map.vars[m_varReference] as CR2WJsonScalar)?.value as string;
             if (string.IsNullOrEmpty(referenceKey))
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkPtrNode] Invalid \"{m_varReference}\" in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
@@ -423,7 +423,7 @@ namespace WolvenKit.CR2W.JSON
                 PrintError($"{LogIndent(logLevel)}[DewalkSoftNode] \"{m_varClassName}\" not found in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
                 return false;
             }
-            var className = (map.vars[m_varClassName] as CR2WJsonScalar).value as string;
+            var className = (map.vars[m_varClassName] as CR2WJsonScalar)?.value as string;
             if (string.IsNullOrEmpty(className))
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkSoftNode] Invalid \"{m_varClassName}\" in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
@@ -435,7 +435,7 @@ namespace WolvenKit.CR2W.JSON
                 PrintError($"{LogIndent(logLevel)}[DewalkSoftNode] \"{m_varDepotPath}\" not found in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
                 return false;
             }
-            var depotPath = (map.vars[m_varDepotPath] as CR2WJsonScalar).value as string;
+            var depotPath = (map.vars[m_varDepotPath] as CR2WJsonScalar)?.value as string;
             if (string.IsNullOrEmpty(className))
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkSoftNode] Invalid \"{m_varDepotPath}\" in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
@@ -445,7 +445,7 @@ namespace WolvenKit.CR2W.JSON
             ushort flags = 0;
             if (map.vars.ContainsKey(m_varFlags))
             {
-                flags = Convert.ToUInt16((map.vars[m_varFlags] as CR2WJsonScalar).value);
+                flags = Convert.ToUInt16((map.vars[m_varFlags] as CR2WJsonScalar)?.value);
             }
             else
             {
