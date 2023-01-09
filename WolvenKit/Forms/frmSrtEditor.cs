@@ -15,6 +15,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using WolvenKit.App;
 using WolvenKit.Common;
 using WolvenKit.Common.Services;
+using WolvenKit.CR2W;
 using WolvenKit.CR2W.SRT;
 using WolvenKit.CR2W.Types;
 using WolvenKit.Services;

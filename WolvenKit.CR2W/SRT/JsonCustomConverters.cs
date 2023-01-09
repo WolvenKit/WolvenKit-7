@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace WolvenKit.CR2W.SRT
+namespace WolvenKit.CR2W
 {
     public class JsonByteArrayConverter : JsonConverter<byte[]>
     {
