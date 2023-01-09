@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WolvenKit.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "--json2cr2w --input=\"D:\\w3.modding\\w3.projects\\w3.wkit_projects\\nge_compare\\files\\Mod\\Cooked\\dlc\\ep1\\data\\quests\\main_npcs\\olgierd2.w2ent.json\""
+    }
+  }
+}
