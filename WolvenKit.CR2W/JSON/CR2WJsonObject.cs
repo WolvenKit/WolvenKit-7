@@ -40,6 +40,8 @@ namespace WolvenKit.CR2W.JSON
     public class CR2WJsonArray : CR2WJsonObject
     {
         #region Properties
+        [JsonProperty("_bufferPadding")]
+        public float? bufferPadding { get; set; }
         [JsonProperty("_elements")]
         public List<CR2WJsonObject> elements { get; set; }
         #endregion
@@ -47,6 +49,7 @@ namespace WolvenKit.CR2W.JSON
         public CR2WJsonArray(string _type) : base(_type)
         {
             elements = new List<CR2WJsonObject>();
+            bufferPadding = null;  // won't be serialized without need
         }
     }
     public class CR2WJsonMap : CR2WJsonObject

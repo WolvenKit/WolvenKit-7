@@ -323,6 +323,16 @@ namespace WolvenKit.CR2W.JSON
                         if (options.Verbose)
                             Print($"{LogIndent(logLevel)}[DewalkNode] ARRAY {extension}{cvar.GetFullName()} ({cvar.REDType}) - {array.elements.Count} items");
                         int index = 0;
+                        // special cases
+                        if (cvar.REDType.StartsWith("CPaddedBuffer"))
+                        {
+                            if (array.bufferPadding == null)
+                            {
+                                PrintError($"{LogIndent(logLevel)}[DewalkNode] bufferPadding var expected for array: {extension}{cvar.GetFullName()} ({cvar.REDType}), defaulting to 0");
+                                array.bufferPadding = 0.f;
+                            }
+                            (cvar.accessor[cvar, "padding"] as CFloat)?.SetValue(array.bufferPadding);
+                        }
                         foreach (var obj in array.elements)
                         {
                             // auto-renamed on AddVariable
@@ -621,6 +631,11 @@ namespace WolvenKit.CR2W.JSON
                     {
                         if (!cvar.IsSerialized)
                             continue;
+                        if (node.REDType.StartsWith("CPaddedBuffer") && cvar.REDName == "padding")
+                        {
+                            array.bufferPadding = (cvar as CFloat)?.val;
+                            continue;
+                        }
                         array.elements.Add(WalkNode(cvar, extension, logLevel + 1, options));
                     }
                     return array;
