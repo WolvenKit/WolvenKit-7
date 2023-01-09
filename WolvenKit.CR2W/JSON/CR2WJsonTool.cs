@@ -122,15 +122,15 @@ namespace WolvenKit.CR2W.JSON
             return true;
         }
 
-        protected static CR2WFile DewalkCR2W(CR2WJsonData data, int logLevel, CR2WJsonToolOptions options)
+        protected static CR2WFile DewalkCR2W(CR2WJsonData jsonCR2W, int logLevel, CR2WJsonToolOptions options)
         {
             var cr2w = new CR2WFile();
-            if (data == null)
+            if (jsonCR2W == null)
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkCR2W] Invaid json node");
                 return cr2w;
             }
-            PrintOK($"{LogIndent(logLevel)}CR2W: {(data.extension != "" ? data.extension : "<root>")}");
+            PrintOK($"{LogIndent(logLevel)}CR2W: {(jsonCR2W.extension != "" ? jsonCR2W.extension : "<root>")}");
             logLevel += 1;
 
             /* CR2W Names - skip, will be generated automatically */
@@ -138,7 +138,7 @@ namespace WolvenKit.CR2W.JSON
             /* CR2W Imports - Skip, will be generated automatically? */
 
             /* CR2W Embedds - CHECKME ? */
-            foreach (var embed in data.embedded)
+            foreach (var embed in jsonCR2W.embedded)
             {
                 var wrapper = new CR2WEmbeddedWrapper();
                 wrapper.ClassName = embed["className"] as string;
@@ -148,14 +148,14 @@ namespace WolvenKit.CR2W.JSON
                 cr2w.embedded.Add(wrapper);
             }
             /* CR2W Properties - CHECKME ? */
-            cr2w.properties = data.properties;
+            cr2w.properties = jsonCR2W.properties;
 
             /* CR2W Buffers - CHECKME ? */
-            cr2w.buffers = data.buffers;
+            cr2w.buffers = jsonCR2W.buffers;
 
             /* CR2W Chunks */
             var chunkByKey = new Dictionary<string, CR2WExportWrapper>();
-            foreach (var kv_chunk in data.chunks)
+            foreach (var kv_chunk in jsonCR2W.chunks)
             {
                 var chunk = kv_chunk.Value;
                 CR2WExportWrapper cr2wChunk = null;
@@ -184,12 +184,12 @@ namespace WolvenKit.CR2W.JSON
                 }
                 chunkByKey[kv_chunk.Key] = cr2wChunk;
             }
-            foreach (var kv_chunk in data.chunks)
+            foreach (var kv_chunk in jsonCR2W.chunks)
             {
                 var jsonChunk = kv_chunk.Value;
                 var cr2wChunk = chunkByKey[kv_chunk.Key];
                 PrintOK($"{LogIndent(logLevel)}[DewalkCR2W] Chunk {kv_chunk.Key} ({cr2wChunk.REDType})");
-                DewalkNode(cr2wChunk.data, jsonChunk, chunkByKey, data.extension, logLevel + 1, options);
+                DewalkNode(cr2wChunk.data, jsonChunk, chunkByKey, jsonCR2W.extension, logLevel + 1, options);
                 cr2wChunk.REDObjectFlags = jsonChunk.flags;
                 if (jsonChunk.unknownBytes != null && jsonChunk.unknownBytes.Length > 0)
                 {
