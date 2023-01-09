@@ -25,7 +25,7 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(7)] [RED("usedHealthType")] 		public CEnum<EBaseCharacterStats> UsedHealthType { get; set;}
 
-		[Ordinal(8)] [RED("difficultyAbilities", 2,0)] 		public CArray<CArray<CName>> DifficultyAbilities { get; set;}
+		[Ordinal(8)] [RED("difficultyAbilities", 2,0, 2,0)] 		public CArray<CArray<CName>> DifficultyAbilities { get; set;}
 
 		[Ordinal(9)] [RED("ignoresDifficultySettings")] 		public CBool IgnoresDifficultySettings { get; set;}
 
