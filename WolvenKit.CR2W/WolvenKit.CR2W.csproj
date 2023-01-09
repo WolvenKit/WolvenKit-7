@@ -5,8 +5,9 @@
     <Product>W3Edit.CR2W</Product>
     <Copyright>Copyright ©  2015-2020</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebugType>full</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <NoWarn>CS1591</NoWarn>
@@ -14,7 +15,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <Optimize>true</Optimize>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>pdbonly</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DefineConstants>TRACE;NGE_VERSION</DefineConstants>

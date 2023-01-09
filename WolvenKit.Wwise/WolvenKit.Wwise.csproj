@@ -6,6 +6,7 @@
     <AssemblyTitle>WolvenKit.Wwise</AssemblyTitle>
     <Product>WolvenKit.Wwise</Product>
     <Copyright>Copyright ©  2017-2020</Copyright>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -14,7 +15,20 @@
     <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugType>full</DebugType>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <NoWarn>CS1591</NoWarn>
+    <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>pdbonly</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
