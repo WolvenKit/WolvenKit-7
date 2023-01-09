@@ -79,13 +79,13 @@ namespace WolvenKit.CR2W
 
         // Tables
         public List<CR2WNameWrapper> names { get; private set; }
-        public List<CR2WImportWrapper> imports { get; private set; }
-        public List<CR2WPropertyWrapper> properties { get; private set; }
+        public List<CR2WImportWrapper> imports { get; set; }
+        public List<CR2WPropertyWrapper> properties { get; set; }
 
         //[DataMember(Order = 2)]
-        public List<CR2WExportWrapper> chunks { get; private set; }
-        public List<CR2WBufferWrapper> buffers { get; private set; }
-        public List<CR2WEmbeddedWrapper> embedded { get; private set; }
+        public List<CR2WExportWrapper> chunks { get; set; }
+        public List<CR2WBufferWrapper> buffers { get; set; }
+        public List<CR2WEmbeddedWrapper> embedded { get; set; }
 
         public void GenerateChunksDict() => chunksdict = chunks.ToDictionary(_ => _.ChunkIndex, _ => _);
         public Dictionary<int, CR2WExportWrapper> chunksdict { get; private set; }
