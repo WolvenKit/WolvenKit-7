@@ -130,14 +130,8 @@ namespace WolvenKit.CR2W
         public CR2WExportWrapper CreateChunk(string type, int chunkindex=0, CR2WExportWrapper parent = null, CR2WExportWrapper virtualparent = null, CVariable cvar = null)
         {
             var chunk = new CR2WExportWrapper(this, type, parent);
-            if (cvar != null)
-            {
-                chunk.CreateDefaultData();
-            }
-            else
-            {
-                chunk.CreateDefaultData(cvar);
-            }
+            chunk.CreateDefaultData(cvar);
+            chunk.data.VarChunkIndex = chunkindex;
 
             if (parent!=null)
             {
@@ -161,6 +155,7 @@ namespace WolvenKit.CR2W
 
             var chunk = new CR2WExportWrapper(this, cvar.REDType, parent);
             chunk.CreateDefaultData(cvar);
+            chunk.data.VarChunkIndex = chunkindex;
 
             if (parent != null)
             {
@@ -654,7 +649,6 @@ namespace WolvenKit.CR2W
             // update data
             //m_fileheader.timeStamp = CDateTime.Now.ToUInt64();    //this will change any vanilla assets simply by opening and saving in wkit
             //m_fileheader.numChunks = (uint)chunks.Count;          //this is weird, I don't think it actually is the number of chunks
-            var nn = new List<CR2WNameWrapper>(names);
 
             #region Update Tables
 
@@ -880,7 +874,7 @@ namespace WolvenKit.CR2W
             }
         }
 
-        public void Write(byte[] ba)
+        public void Write(ref byte[] ba)
         {
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
