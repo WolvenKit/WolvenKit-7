@@ -99,7 +99,8 @@ namespace WolvenKit.CR2W.JSON
 
             var deserializeSettings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.None
+                TypeNameHandling = TypeNameHandling.None,
+                NullValueHandling = NullValueHandling.Ignore
             };
             deserializeSettings.Converters.Add(JsonSubtypesWithPropertyConverterBuilder
                                                 .Of(typeof(CR2WJsonObject))
@@ -190,6 +191,11 @@ namespace WolvenKit.CR2W.JSON
                 var cr2wChunk = chunkByKey[kv_chunk.Key];
                 PrintOK($"{LogIndent(logLevel)}[DewalkCR2W] Chunk {kv_chunk.Key} ({cr2wChunk.REDType})");
                 DewalkNode(cr2wChunk.data, kv_chunk.Value, chunkByKey, data.extension, logLevel + 1, options);
+                if (kv_chunk.Value.unknownBytes != null && kv_chunk.Value.unknownBytes.Length > 0)
+                {
+                    cr2wChunk.unknownBytes = new CBytes(cr2w, cr2wChunk.data, "unknownBytes");
+                    cr2wChunk.unknownBytes.Bytes = kv_chunk.Value.unknownBytes;
+                }
             }
 
             return cr2w;
@@ -209,7 +215,7 @@ namespace WolvenKit.CR2W.JSON
                 PrintError($"{LogIndent(logLevel)}[DewalkNode] Invaid CVariable {extension}{cvar.GetFullName()} ({cvar.REDType})");
                 return;
             }
-            if (!(node is CR2WJsonData) && cvar.REDType != node.type)
+            if (cvar.REDType != node.type && !(node is CR2WJsonData) && !(cvar is CByteArray))
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkNode] Json node type ({node.type}) don't match {extension}{cvar.GetFullName()} ({cvar.REDType})");
             }
@@ -476,7 +482,8 @@ namespace WolvenKit.CR2W.JSON
             /* Write JSON */
             var serializeSettings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.None
+                TypeNameHandling = TypeNameHandling.None,
+                NullValueHandling = NullValueHandling.Ignore
             };
             if (options.BytesAsIntList)
             {
@@ -559,6 +566,10 @@ namespace WolvenKit.CR2W.JSON
                     if (!cvar.IsSerialized)
                         continue;
                     jsonChunk.vars[cvar.REDName] = WalkNode(cvar, extension, logLevel + 1, options);
+                }
+                if (chunk.unknownBytes != null && chunk.unknownBytes.Bytes != null && chunk.unknownBytes.Bytes.Length > 0)
+                {
+                    jsonChunk.unknownBytes = chunk.unknownBytes.Bytes;
                 }
             }
             return jsonCR2W;

@@ -68,12 +68,15 @@ namespace WolvenKit.CR2W.JSON
         public string chunkKey { get; set; }
         [JsonProperty("_parentKey")]
         public string parentKey { get; set; }
+		[JsonProperty("_unknownBytes")]
+        public byte[] unknownBytes { get; set; }
         [JsonProperty("_vars")]
         public Dictionary<string, CR2WJsonObject> vars { get; set; }
         #endregion
         public CR2WJsonChunkMap() { }
         public CR2WJsonChunkMap(string _type) : base(_type)
         {
+			unknownBytes = null;  // won't be serialized without need
             vars = new Dictionary<string, CR2WJsonObject>();
         }
     }
