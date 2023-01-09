@@ -33,7 +33,7 @@ namespace WolvenKit.CR2W.Types
     /// Represents a REDEngine compatible datetime value.
     /// </summary>
     [REDMeta()]
-    public sealed class CDateTime : CVariable/*, IEquatable<CDateTime>*/
+    public sealed class CDateTime : CVariable, IREDPrimitive /*, IEquatable<CDateTime>*/
     {
         /// <summary>
         /// The CDateTime value as a .NET <see cref="System.DateTime"/> object.
@@ -160,6 +160,8 @@ namespace WolvenKit.CR2W.Types
 
         //    return m_value.Equals(this);
         //}
+
+        public object GetValueObject() => m_value;
 
         /// <summary>
         /// Returns a string representation of this instance.

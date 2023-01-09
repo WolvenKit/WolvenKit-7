@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.Serialization;
 using WolvenKit.CR2W.Reflection;
@@ -32,8 +33,12 @@ namespace WolvenKit.CR2W.Types
         {
             switch (val)
             {
-                case float o:
-                    this.val = o;
+                case double d:
+                    this.val = Convert.ToSingle(d);
+                    SetIsSerialized();
+                    break;
+                case float f:
+                    this.val = f;
 					SetIsSerialized();
                     break;
                 case CFloat cvar:
@@ -51,6 +56,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +49,7 @@ namespace WolvenKit.CR2W.Types
 
     public interface IREDPrimitive
     {
-
+        object GetValueObject();
     }
 
     public interface IArrayAccessor : IEditableVariable, IList

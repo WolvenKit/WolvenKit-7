@@ -1,4 +1,5 @@
-﻿using System.IO;
+using System;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
 using WolvenKit.Common.Model;
@@ -7,7 +8,7 @@ using WolvenKit.CR2W.Reflection;
 namespace WolvenKit.CR2W.Types
 {
     [REDMeta()]
-    public class CByteArray : CVariable, IByteSource
+    public class CByteArray : CVariable, IByteSource, IREDPrimitive
     {
         public string InternalType { get; set; }
         public override string REDType => string.IsNullOrEmpty(InternalType) ? base.REDType : InternalType;
@@ -70,9 +71,24 @@ namespace WolvenKit.CR2W.Types
         public override string ToString()
         {
             if (Bytes == null)
-                return "0 bytes";
-            else
-                return  Bytes.Length + " bytes";
+                Bytes = Array.Empty<byte>();
+
+            return  Bytes.Length + " bytes, MD5: " + MD5String();
+        }
+
+        public object GetValueObject() => Bytes;
+
+        public string MD5String()
+        {
+            MemoryStream stream = new MemoryStream();
+            stream.Write(Bytes, 0, Bytes.Length);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            using (var MD5Instance = System.Security.Cryptography.MD5.Create())
+            {
+                var hashResult = MD5Instance.ComputeHash(stream);
+                return BitConverter.ToString(hashResult).Replace("-", "").ToLowerInvariant();
+            }
         }
     }
 }

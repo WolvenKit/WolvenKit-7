@@ -10,7 +10,7 @@ using WolvenKit.CR2W.Reflection;
 namespace WolvenKit.CR2W.Types
 {
     [REDMeta()]
-    public class IdTag : CVariable
+    public class IdTag : CVariable, IREDPrimitive
     {
         public byte _type { get; set; }
         public byte[] _guid { get; set; }
@@ -66,21 +66,37 @@ namespace WolvenKit.CR2W.Types
 
         public override CVariable SetValue(object val)
         {
-            if(val is byte[])
+            switch (val)
             {
-                _guid = (byte[])val;
-				SetIsSerialized();
-            }
-            else if(val is byte)
-            {
-                _type = (byte)val;
-				SetIsSerialized();
-            }
-            else if (val is IdTag cvar)
-            {
-                _guid = cvar._guid;
-                _type = cvar._type;
-				SetIsSerialized();
+                case byte[] ba:
+                    _guid = ba;
+                    SetIsSerialized();
+                    break;
+                case byte b:
+                    _type = b;
+                    SetIsSerialized();
+                    break;
+                case IdTag cvar:
+                    _guid = cvar._guid;
+                    _type = cvar._type;
+                    SetIsSerialized();
+                    break;
+                case string s64:
+                    try
+                    {
+                        _guid = Convert.FromBase64String(s64);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
+                case long l:
+                case int i:
+                    try
+                    {
+                        _type = Convert.ToByte(val);
+                        SetIsSerialized();
+                    } catch (Exception e) {}
+                    break;
             }
 
             return this;
@@ -91,11 +107,32 @@ namespace WolvenKit.CR2W.Types
             if (_guid == null)
             {
                 var buffer = new byte[16];
+                for (int i = 0; i < 16; i += 1)
+                {
+                    buffer[i] = 0x0;
+                }
                 return $"[ {_type} ] {new Guid(buffer)}";
             }
             else
             {
                 return $"[ {_type} ] {new Guid(_guid)}";
+            }
+        }
+
+        public object GetValueObject()
+        {
+            if (_guid == null)
+            {
+                var buffer = new byte[16];
+                for (int i = 0; i < 16; i += 1)
+                {
+                    buffer[i] = 0x0;
+                }
+                return $"{Convert.ToInt32(_type)}:{Convert.ToBase64String(buffer)}";
+            }
+            else
+            {
+                return $"{Convert.ToInt32(_type)}:{Convert.ToBase64String(_guid)}";
             }
         }
     }

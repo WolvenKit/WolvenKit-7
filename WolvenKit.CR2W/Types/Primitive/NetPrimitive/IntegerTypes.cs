@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -50,6 +50,14 @@ namespace WolvenKit.CR2W.Types
                     this.val = v.val;
 					SetIsSerialized();
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToUInt64(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -61,6 +69,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -107,6 +117,14 @@ namespace WolvenKit.CR2W.Types
                 case CUInt32 v:
                     this.val = v.val;
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToUInt32(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -118,6 +136,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -165,6 +185,14 @@ namespace WolvenKit.CR2W.Types
                 case CUInt16 v:
                     this.val = v.val;
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToUInt16(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -176,6 +204,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -224,6 +254,13 @@ namespace WolvenKit.CR2W.Types
                     this.val = v.val;
 					SetIsSerialized();
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToByte(val);
+                        SetIsSerialized();
+                    } catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -235,6 +272,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -283,6 +322,14 @@ namespace WolvenKit.CR2W.Types
                     this.val = v.val;
 					SetIsSerialized();
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToInt64(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -294,6 +341,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -330,6 +379,7 @@ namespace WolvenKit.CR2W.Types
 
         public override CVariable SetValue(object val)
         {
+
             switch (val)
             {
                 case int o:
@@ -344,6 +394,14 @@ namespace WolvenKit.CR2W.Types
                     this.val = v.val;
 					SetIsSerialized();
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToInt32(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -356,6 +414,7 @@ namespace WolvenKit.CR2W.Types
             return var;
         }
 
+        public object GetValueObject() => val;
         public override string ToString()
         {
             return val.ToString();
@@ -403,6 +462,14 @@ namespace WolvenKit.CR2W.Types
                     this.val = v.val;
 					SetIsSerialized();
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToInt16(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -414,6 +481,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -462,6 +531,14 @@ namespace WolvenKit.CR2W.Types
                     this.val = v.val;
 					SetIsSerialized();
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToSByte(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -473,6 +550,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -521,6 +600,14 @@ namespace WolvenKit.CR2W.Types
                     this.val = v.val;
 					SetIsSerialized();
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToInt32(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -532,6 +619,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -587,6 +676,14 @@ namespace WolvenKit.CR2W.Types
                     this.val = v.val;
 					SetIsSerialized();
                     break;
+                default:
+                    try
+                    {
+                        this.val = Convert.ToInt32(val);
+                        SetIsSerialized();
+                    }
+                    catch (Exception e) { }
+                    break;
             }
 
             return this;
@@ -598,6 +695,8 @@ namespace WolvenKit.CR2W.Types
             var.val = val;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
@@ -666,6 +765,8 @@ namespace WolvenKit.CR2W.Types
             var.backingField = backingField;
             return var;
         }
+
+        public object GetValueObject() => val;
 
         public override string ToString()
         {
