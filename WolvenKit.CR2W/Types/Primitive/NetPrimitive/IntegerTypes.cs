@@ -515,9 +515,9 @@ namespace WolvenKit.CR2W.Types
             file.Write(val);
         }
 
-        public override CVariable SetValue(object newval)
+        public override CVariable SetValue(object val)
         {
-            switch (newval)
+            switch (val)
             {
                 case sbyte o:
                     this.val = o;
