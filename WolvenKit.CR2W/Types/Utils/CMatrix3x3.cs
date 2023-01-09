@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,10 +22,10 @@ namespace WolvenKit.CR2W.Types
                 ax = new CFloat(cr2w, this, nameof(ax)),
                 ay = new CFloat(cr2w, this, nameof(ay)),
                 az = new CFloat(cr2w, this, nameof(az)),
-                bx = new CFloat(cr2w, this, nameof(by)),
-                by = new CFloat(cr2w, this, nameof(bz)),
-                bz = new CFloat(cr2w, this, nameof(by)),
-                cx = new CFloat(cr2w, this, nameof(cz)),
+                bx = new CFloat(cr2w, this, nameof(bx)),
+                by = new CFloat(cr2w, this, nameof(by)),
+                bz = new CFloat(cr2w, this, nameof(bz)),
+                cx = new CFloat(cr2w, this, nameof(cx)),
                 cy = new CFloat(cr2w, this, nameof(cy)),
                 cz = new CFloat(cr2w, this, nameof(cz)),
             };
