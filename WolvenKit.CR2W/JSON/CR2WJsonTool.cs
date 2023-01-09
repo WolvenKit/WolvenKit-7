@@ -301,8 +301,6 @@ namespace WolvenKit.CR2W.JSON
                         }
                         break;
                     }
-                    if (scalar.type == "Int8")
-                        Debugger.Break();
                     cvar.SetValue(scalar.value);
                     break;
                 case CR2WJsonArray array:
