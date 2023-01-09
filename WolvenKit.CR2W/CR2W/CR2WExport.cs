@@ -151,6 +151,8 @@ namespace WolvenKit.CR2W
         /// </summary>
         public List<IChunkPtrAccessor> AbReferences;
 
+        public ushort REDObjectFlags { get => _export.objectFlags; set => _export.objectFlags = value; }
+
         public string REDType { get; private set; }
 
 
