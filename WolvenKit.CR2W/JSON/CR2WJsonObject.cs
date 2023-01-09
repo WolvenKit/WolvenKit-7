@@ -96,6 +96,8 @@ namespace WolvenKit.CR2W.JSON
         public List<CR2WBufferWrapper> buffers { get; set; }
         [JsonProperty("_embedded")]
         public List<Dictionary<string, object>> embedded { get; set; }
+        [JsonProperty("_additionalBytes")]
+        public byte[] additionalBytes { get; set; }
         [JsonProperty("_chunks")]
         public Dictionary<string, CR2WJsonChunkMap> chunks { get; set; }
         #endregion
@@ -108,6 +110,7 @@ namespace WolvenKit.CR2W.JSON
             buffers = new List<CR2WBufferWrapper>();
             embedded = new List<Dictionary<string, object>>();
             extension = _extension;
+            additionalBytes = null;  // won't be serialized without need
         }
     }
 }

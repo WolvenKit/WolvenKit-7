@@ -198,6 +198,10 @@ namespace WolvenKit.CR2W.JSON
                 }
             }
 
+            /* Additional bytes */
+            if (jsonCR2W.additionalBytes != null && jsonCR2W.additionalBytes.Length > 0)
+                cr2w.AdditionalCr2WFileBytes = jsonCR2W.additionalBytes;
+
             return cr2w;
         }
 
@@ -573,6 +577,10 @@ namespace WolvenKit.CR2W.JSON
                     jsonChunk.unknownBytes = chunk.unknownBytes.Bytes;
                 }
             }
+            /* CR2W Additional bytes */
+            if (cr2w.AdditionalCr2WFileBytes != null && cr2w.AdditionalCr2WFileBytes.Length > 0)
+                jsonCR2W.additionalBytes = cr2w.AdditionalCr2WFileBytes;
+
             return jsonCR2W;
         }
 
