@@ -44,6 +44,7 @@ namespace WolvenKit
             this.exportW3facjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportW3facposejsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportWithWccToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.FileActionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addAllDependenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +71,7 @@ namespace WolvenKit
             this.resetfilesButton = new System.Windows.Forms.ToolStripButton();
             this.treeListView = new BrightIdeasSoftware.TreeListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.createCr2wFromJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.searchstrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
@@ -80,6 +82,7 @@ namespace WolvenKit
             this.contextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.createW2animsToolStripMenuItem,
+            this.createCr2wFromJSONToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.toolStripSeparator3,
             this.FileActionsToolStripMenuItem,
@@ -95,7 +98,7 @@ namespace WolvenKit
             this.toolStripSeparator4,
             this.showFileInExplorerToolStripMenuItem});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(295, 342);
+            this.contextMenu.Size = new System.Drawing.Size(295, 368);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             this.contextMenu.Opened += new System.EventHandler(this.contextMenu_Opened);
             // 
@@ -115,7 +118,8 @@ namespace WolvenKit
             this.exportw2rigjsonToolStripMenuItem,
             this.exportW3facjsonToolStripMenuItem,
             this.exportW3facposejsonToolStripMenuItem,
-            this.exportWithWccToolStripMenuItem});
+            this.exportWithWccToolStripMenuItem,
+            this.exportJSONToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(294, 26);
             this.exportToolStripMenuItem.Text = "Export";
@@ -170,6 +174,13 @@ namespace WolvenKit
             this.exportWithWccToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
             this.exportWithWccToolStripMenuItem.Text = "Export with wcc_lite";
             this.exportWithWccToolStripMenuItem.Click += new System.EventHandler(this.exportW2meshToFbxToolStripMenuItem_Click);
+            // 
+            // exportJSONToolStripMenuItem
+            // 
+            this.exportJSONToolStripMenuItem.Name = "exportJSONToolStripMenuItem";
+            this.exportJSONToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.exportJSONToolStripMenuItem.Text = "Export JSON";
+            this.exportJSONToolStripMenuItem.Click += new System.EventHandler(this.exportJSONToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -417,6 +428,13 @@ namespace WolvenKit
             this.olvColumnName.FillsFreeSpace = true;
             this.olvColumnName.Text = "Name";
             // 
+            // createCr2wFromJSONToolStripMenuItem
+            // 
+            this.createCr2wFromJSONToolStripMenuItem.Name = "createCr2wFromJSONToolStripMenuItem";
+            this.createCr2wFromJSONToolStripMenuItem.Size = new System.Drawing.Size(294, 26);
+            this.createCr2wFromJSONToolStripMenuItem.Text = "Create cr2w from JSON";
+            this.createCr2wFromJSONToolStripMenuItem.Click += new System.EventHandler(this.createCr2wFromJSONToolStripMenuItem_Click);
+            // 
             // frmModExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -481,5 +499,7 @@ namespace WolvenKit
         private ToolStripMenuItem addAllDependenciesToolStripMenuItem;
         private ToolStripMenuItem listAllDependenciesToolStripMenuItem;
         private ToolStripMenuItem exportRedfurapxToolStripMenuItem;
+        private ToolStripMenuItem exportJSONToolStripMenuItem;
+        private ToolStripMenuItem createCr2wFromJSONToolStripMenuItem;
     }
 }
