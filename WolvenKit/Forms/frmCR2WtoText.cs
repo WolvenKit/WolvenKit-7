@@ -1084,8 +1084,8 @@ namespace WolvenKit.Forms
         private void ProcessNode(IEditableVariable node, int level)
         {
             //Console.WriteLine(new String(' ', level) + "> node: " + node.REDName + ", type: " + node.REDType + ", value: " + node.REDValue);
-            if (node.REDName == "unknownBytes" && node.ToString() == "0 bytes"
-                || node.REDName == "unk1" && node.ToString() == "0")
+            if ((node.REDName == "unknownBytes" && node.ToString() == "0 bytes")
+                || (node.REDName == "unk1" && node.ToString() == "0"))
                 return;
 
             if (node.REDName == "Parent" && node.ToString() == "NULL")
@@ -1230,7 +1230,7 @@ namespace WolvenKit.Forms
             {
                 string ret = x.Replace('\\', '/');
                 int pos = ret.LastIndexOf(": ");
-                if (pos > 0)
+                if (pos > 0 && !ret.Contains("MD5:"))
                     ret = ret.Substring(pos + 2);
                 return ret;
             };
