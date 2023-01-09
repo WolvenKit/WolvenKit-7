@@ -283,6 +283,10 @@ namespace WolvenKit.CR2W.JSON
                     }
                     else if (cvar is IByteSource || cvar is CGUID)
                     {
+                        if (cvar is CByteArray cba)
+                        {
+                            cba.InternalType = scalar.type;
+                        }
                         if (scalar.value is string base64str)
                         {
                             cvar.SetValue(Convert.FromBase64String(base64str));
