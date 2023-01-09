@@ -51,6 +51,7 @@ namespace WolvenKit.CR2W.Types
             {
                 var tag = (CName) var;
                 tags.Add(tag);
+                SetIsSerialized();
             }
         }
 
