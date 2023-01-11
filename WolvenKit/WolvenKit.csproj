@@ -664,7 +664,6 @@
     <ProjectReference Include="..\WolvenKit.W3Strings\WolvenKit.W3Strings.csproj" />
     <ProjectReference Include="..\WolvenKit.Save\WolvenKit.Save.csproj" />
     <ProjectReference Include="..\WolvenKit.Wwise\WolvenKit.Wwise.csproj" />
-    <ProjectReference Include="..\WolvenKit.CLI\WolvenKit.CLI.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Legacy\geralt.jpg" />
