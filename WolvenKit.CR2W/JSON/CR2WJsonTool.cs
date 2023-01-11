@@ -50,7 +50,11 @@ namespace WolvenKit.CR2W.JSON
             Console.ForegroundColor = oldColor;
         }
         public static void Print(string text) => PrintColor(ConsoleColor.Yellow, text);
-        public static void PrintError(string text) => PrintColor(ConsoleColor.Red, text);
+        public static void PrintError(string text)
+        {
+            Debug.WriteLine(text);
+            PrintColor(ConsoleColor.Red, text);
+        }
         public static void PrintOK(string text) => PrintColor(ConsoleColor.Green, text);
 
         public CR2WJsonTool() {}
