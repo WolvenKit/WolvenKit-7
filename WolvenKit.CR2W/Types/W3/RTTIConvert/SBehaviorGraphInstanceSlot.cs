@@ -19,8 +19,6 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(4)] [RED("alwaysLoaded")] 		public CBool AlwaysLoaded { get; set;}
 
-		[Ordinal(5)] [RED("graph")] 		public CSoft<CBehaviorGraph> Graph_Soft { get; set;}
-
 		[Ordinal(5)] [RED("permanentGraph")] 		public CHandle<CBehaviorGraph> PermanentGraph { get; set;}
 
 		public SBehaviorGraphInstanceSlot(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
