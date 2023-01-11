@@ -52,16 +52,13 @@ namespace WolvenKit.CR2W.Types
         {
             base.Write(file);
 
-            if (buffername != null)
+            if (buffername.Value != null)
+            {
                 buffername.Write(file);
-            if (count != null)
                 count.Write(file);
-            if (buffername != null)
                 unk.Write(file);
-            if (buffer != null)
                 buffer.Write(file);
+            }
         }
-
-
     }
 }
