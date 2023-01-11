@@ -329,7 +329,7 @@ namespace WolvenKit.CR2W.JSON
                             if (array.bufferPadding == null)
                             {
                                 PrintError($"{LogIndent(logLevel)}[DewalkNode] bufferPadding var expected for array: {extension}{cvar.GetFullName()} ({cvar.REDType}), defaulting to 0");
-                                array.bufferPadding = 0.f;
+                                array.bufferPadding = 0;
                             }
                             (cvar.accessor[cvar, "padding"] as CFloat)?.SetValue(array.bufferPadding);
                         }
