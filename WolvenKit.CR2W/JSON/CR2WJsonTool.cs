@@ -630,7 +630,7 @@ namespace WolvenKit.CR2W.JSON
                         {
                             if (options.Verbose)
                                 Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> CR2W ({extraCR2WBytes.Length} bytes)");
-                            return WalkCR2W(extraCR2W, $"{extension}{node.REDName}:", logLevel + 1, options);
+                            return WalkCR2W(extraCR2W, $"{extension}{node.REDName}::", logLevel + 1, options);
                         }
                     }
                     if (options.Verbose)
