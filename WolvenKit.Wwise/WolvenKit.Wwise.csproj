@@ -41,14 +41,14 @@
   <ItemGroup>
     <PackageReference Include="ini-parser" Version="2.5.2" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-    <PackageReference Include="NAudio" Version="2.0.0" />
-    <PackageReference Include="NAudio.Asio" Version="2.0.0" />
-    <PackageReference Include="NAudio.Core" Version="2.0.0" />
-    <PackageReference Include="NAudio.Midi" Version="2.0.0" />
-    <PackageReference Include="NAudio.Wasapi" Version="2.0.0" />
-    <PackageReference Include="NAudio.WinForms" Version="2.0.0" />
-    <PackageReference Include="NAudio.WinMM" Version="2.0.0" />
-    <PackageReference Include="System.Security.AccessControl" Version="5.0.0" />
+    <PackageReference Include="NAudio" Version="2.1.0" />
+    <PackageReference Include="NAudio.Asio" Version="2.1.0" />
+    <PackageReference Include="NAudio.Core" Version="2.1.0" />
+    <PackageReference Include="NAudio.Midi" Version="2.1.0" />
+    <PackageReference Include="NAudio.Wasapi" Version="2.1.0" />
+    <PackageReference Include="NAudio.WinForms" Version="2.1.0" />
+    <PackageReference Include="NAudio.WinMM" Version="2.1.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="6.0.0" />
     <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
     <PackageReference Include="VGMToolbox" Version="1.0.0.1040" />
     <PackageReference Include="WindowsBase" Version="4.6.1055.0" />

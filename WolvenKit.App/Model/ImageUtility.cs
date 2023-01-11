@@ -1,22 +1,22 @@
-﻿using System;
+using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using WolvenKit.CR2W.Types;
-using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using Pfim;
+using WolvenKit.Common;
+using WolvenKit.Common.Model;
+using WolvenKit.Common.Tools;
 using WolvenKit.Common.Tools.DDS;
-using static WolvenKit.CR2W.Types.Enums;
+using WolvenKit.Common.Wcc;
+using WolvenKit.CR2W.Types;
 using static WolvenKit.Common.Tools.DDS.TexconvWrapper;
+using static WolvenKit.CR2W.Types.Enums;
+using ImageFormat = Pfim.ImageFormat;
 
 namespace WolvenKit.App.Model
 {
-    using WolvenKit.Common;
-    using WolvenKit.Common.Model;
-    using WolvenKit.Common.Tools;
-    using WolvenKit.Common.Wcc;
-    using ImageFormat = Pfim.ImageFormat;
-
     public static class ImageUtility
     {
         /// <summary>
@@ -34,7 +34,7 @@ namespace WolvenKit.App.Model
                 // missing:  0x0    //EFormat.R8G8B8A8_UNORM
                 case ETextureCompression.TCM_None:
                     return EFormat.R8G8B8A8_UNORM;
-                
+
 
                 //0x07 // exception: characters\models\animals\goose\model\t_01__goose_d01.xbm has 0x07 but TCM_DXTAlpha
                 case ETextureCompression.TCM_DXTNoAlpha:
@@ -45,7 +45,7 @@ namespace WolvenKit.App.Model
                 case ETextureCompression.TCM_DXTAlpha:
                 case ETextureCompression.TCM_NormalsHigh:
                 case ETextureCompression.TCM_NormalsGloss:
-                    return EFormat.BC3_UNORM; 
+                    return EFormat.BC3_UNORM;
 
 
                 case ETextureCompression.TCM_QualityColor:
@@ -151,7 +151,7 @@ namespace WolvenKit.App.Model
         /// <returns></returns>
         public static Bitmap FromFile(string path)
         {
-            using (var image = Pfim.Pfim.FromFile(path))
+            using (var image = Pfimage.FromFile(path))
             {
                 PixelFormat format;
 
@@ -224,7 +224,7 @@ namespace WolvenKit.App.Model
         /// <returns></returns>
         private static Bitmap FromStream(Stream stream)
         {
-            using (var image = Pfim.Pfim.FromStream(stream))
+            using (var image = Pfimage.FromStream(stream))
             {
                 PixelFormat format;
 
@@ -285,7 +285,9 @@ namespace WolvenKit.App.Model
         public static Bitmap Xbm2Bmp(CBitmapTexture xbm)
         {
             if (xbm == null)
+            {
                 return null;
+            }
 
             using (var ms = new MemoryStream(Xbm2DdsBytes(xbm)))
             {
@@ -301,9 +303,9 @@ namespace WolvenKit.App.Model
         public static byte[] Xbm2DdsBytes(CBitmapTexture xbm)
         {
             if (xbm == null)
+            {
                 return null;
-
-            
+            }
 
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
@@ -326,13 +328,13 @@ namespace WolvenKit.App.Model
         private static DDSMetadata GetDDSMetadata(CBitmapTexture xbm)
         {
             int residentMipIndex = xbm.ResidentMipIndex?.val ?? 0;
-                
-            int mipcount = xbm.Mipdata.elements.Count - residentMipIndex;
 
-            uint width = xbm.Mipdata.elements[residentMipIndex].Width.val;
-            uint height = xbm.Mipdata.elements[residentMipIndex].Height.val;
+            var mipcount = xbm.Mipdata.elements.Count - residentMipIndex;
 
-            ETextureCompression compression = xbm.Compression.WrappedEnum;
+            var width = xbm.Mipdata.elements[residentMipIndex].Width.val;
+            var height = xbm.Mipdata.elements[residentMipIndex].Height.val;
+
+            var compression = xbm.Compression.WrappedEnum;
 
             var ddsformat = ImageUtility.GetEFormatFromCompression(compression);
 
@@ -340,10 +342,10 @@ namespace WolvenKit.App.Model
             // TODO: TEST THIS
             if (ddsformat == EFormat.R8G8B8A8_UNORM)
             {
-                ETextureRawFormat format = xbm.Format.WrappedEnum;
+                var format = xbm.Format.WrappedEnum;
                 switch (format)
                 {
-                    
+
                     case ETextureRawFormat.TRF_Grayscale:   // only this is ever used
                         break;
                     case ETextureRawFormat.TRF_TrueColor:   // this is set if format is NULL
@@ -365,9 +367,6 @@ namespace WolvenKit.App.Model
         /// </summary>
         /// <param name="ddsImage"></param>
         /// <returns></returns>
-        public static byte[] Dds2Bytes(byte[] ddsImage)
-        {
-            return ddsImage.Length > 128 ? ddsImage.Skip(128).ToArray() : new byte[0];
-        }
+        public static byte[] Dds2Bytes(byte[] ddsImage) => ddsImage.Length > 128 ? ddsImage.Skip(128).ToArray() : new byte[0];
     }
 }
