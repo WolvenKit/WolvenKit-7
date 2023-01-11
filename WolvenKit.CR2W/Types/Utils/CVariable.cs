@@ -418,10 +418,7 @@ namespace WolvenKit.CR2W.Types
                         newHandle.IsSerialized = true;
                         if (newHandle is IHandleAccessor handleAccessor)
                         {
-                            handleAccessor.ChunkHandle = false;
-                            handleAccessor.DepotPath = softAccessor.DepotPath;
-                            handleAccessor.ClassName = softAccessor.ClassName;
-                            handleAccessor.Flags = softAccessor.Flags;
+                            newHandle.SetValue(softAccessor);
                             accessor[this, member.Name] = newHandle;
                             return true;
                         }
