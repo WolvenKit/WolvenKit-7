@@ -6,7 +6,7 @@
     <Product>W3Edit.Textures</Product>
     <Copyright>Copyright ©  2017-2020</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebugType>full</DebugType>

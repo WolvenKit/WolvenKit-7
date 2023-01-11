@@ -4,7 +4,7 @@
     <AssemblyTitle>W3Edit.Scaleform</AssemblyTitle>
     <Product>W3Edit.Scaleform</Product>
     <Copyright>Copyright ©  2017-2020</Copyright>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
