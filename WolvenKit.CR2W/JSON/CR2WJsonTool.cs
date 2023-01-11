@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using JsonSubTypes;
+using Newtonsoft.Json;
 using WolvenKit.Common.Model;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.JSON;
 using WolvenKit.CR2W.Types;
-using Newtonsoft.Json;
-using JsonSubTypes;
-using System.Diagnostics;
 
 namespace WolvenKit.CR2W.JSON
 {
     public class CR2WJsonToolOptions
     {
-        public CR2WJsonToolOptions() {}
+        public CR2WJsonToolOptions() { }
         public CR2WJsonToolOptions(bool verbose, bool bytesAsIntList, bool ignoreEmbeddedCR2W)
         {
             Verbose = verbose;
@@ -44,7 +44,7 @@ namespace WolvenKit.CR2W.JSON
 
         public static void PrintColor(ConsoleColor color, string text)
         {
-            ConsoleColor oldColor = Console.ForegroundColor;
+            var oldColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
             Console.WriteLine(text);
             Console.ForegroundColor = oldColor;
@@ -53,12 +53,9 @@ namespace WolvenKit.CR2W.JSON
         public static void PrintError(string text) => PrintColor(ConsoleColor.Red, text);
         public static void PrintOK(string text) => PrintColor(ConsoleColor.Green, text);
 
-        public CR2WJsonTool() {}
+        public CR2WJsonTool() { }
 
-        public static string LogIndent(int level)
-        {
-            return new string(' ', level * 2);
-        }
+        public static string LogIndent(int level) => new string(' ', level * 2);
 
         public static CR2WFile ReadCR2W(string cr2wPath)
         {
@@ -76,7 +73,7 @@ namespace WolvenKit.CR2W.JSON
                 }
                 else
                 {
-                    PrintError($"[ReadCR2W] ERROR ({ret.ToString()})");
+                    PrintError($"[ReadCR2W] ERROR ({ret})");
                     return null;
                 }
             }
@@ -93,9 +90,11 @@ namespace WolvenKit.CR2W.JSON
 
         public static bool ImportJSON(string jsonPath, string cr2wPath, CR2WJsonToolOptions options)
         {
-            string jsonText = File.ReadAllText(jsonPath);
+            var jsonText = File.ReadAllText(jsonPath);
             if (string.IsNullOrEmpty(jsonText))
+            {
                 return false;
+            }
 
             var deserializeSettings = new JsonSerializerSettings
             {
@@ -111,13 +110,18 @@ namespace WolvenKit.CR2W.JSON
                                                 .RegisterSubtypeWithProperty(typeof(CR2WJsonData), "_extension")
                                                 .Build());
 
-            CR2WJsonData jsonRoot = JsonConvert.DeserializeObject<CR2WJsonData>(jsonText, deserializeSettings);
+            var jsonRoot = JsonConvert.DeserializeObject<CR2WJsonData>(jsonText, deserializeSettings);
             if (jsonRoot == null)
+            {
                 return false;
+            }
 
             var cr2w = DewalkCR2W(jsonRoot, 0, options);
             if (cr2w == null)
+            {
                 return false;
+            }
+
             WriteCR2W(cr2w, cr2wPath);
             return true;
         }
@@ -140,11 +144,13 @@ namespace WolvenKit.CR2W.JSON
             /* CR2W Embedds - CHECKME ? */
             foreach (var embed in jsonCR2W.embedded)
             {
-                var wrapper = new CR2WEmbeddedWrapper();
-                wrapper.ClassName = embed["className"] as string;
-                wrapper.ImportClass = embed["importClass"] as string;
-                wrapper.ImportPath = embed["importPath"] as string;
-                wrapper.Handle = embed["handle"] as string;
+                var wrapper = new CR2WEmbeddedWrapper
+                {
+                    ClassName = embed["className"] as string,
+                    ImportClass = embed["importClass"] as string,
+                    ImportPath = embed["importPath"] as string,
+                    Handle = embed["handle"] as string
+                };
                 cr2w.embedded.Add(wrapper);
             }
             /* CR2W Properties - CHECKME ? */
@@ -163,7 +169,9 @@ namespace WolvenKit.CR2W.JSON
                 {
                     cr2wChunk = cr2w.CreateChunk(chunk.type, cr2w.chunks.Count);
                     if (options.Verbose)
+                    {
                         PrintOK($"{LogIndent(logLevel)}[DewalkCR2W] Create top chunk #{cr2w.chunks.Count}: {chunk.chunkKey}");
+                    }
                 }
                 else
                 {
@@ -175,7 +183,9 @@ namespace WolvenKit.CR2W.JSON
                     cr2wChunk = cr2w.CreateChunk(chunk.type, cr2w.chunks.Count, chunkByKey[chunk.parentKey], chunkByKey[chunk.parentKey]);
                     // ? data.SetREDFlags(Export.objectFlags);
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}[DewalkCR2W] Create chunk #{cr2w.chunks.Count}: {chunk.chunkKey} with parent = {chunk.parentKey}");
+                    }
                 }
                 if (cr2wChunk == null)
                 {
@@ -193,14 +203,18 @@ namespace WolvenKit.CR2W.JSON
                 cr2wChunk.REDObjectFlags = jsonChunk.flags;
                 if (jsonChunk.unknownBytes != null && jsonChunk.unknownBytes.Length > 0)
                 {
-                    cr2wChunk.unknownBytes = new CBytes(cr2w, cr2wChunk.data, "unknownBytes");
-                    cr2wChunk.unknownBytes.Bytes = jsonChunk.unknownBytes;
+                    cr2wChunk.unknownBytes = new CBytes(cr2w, cr2wChunk.data, "unknownBytes")
+                    {
+                        Bytes = jsonChunk.unknownBytes
+                    };
                 }
             }
 
             /* Additional bytes */
             if (jsonCR2W.additionalBytes != null && jsonCR2W.additionalBytes.Length > 0)
+            {
                 cr2w.AdditionalCr2WFileBytes = jsonCR2W.additionalBytes;
+            }
 
             return cr2w;
         }
@@ -208,7 +222,10 @@ namespace WolvenKit.CR2W.JSON
         protected static void DewalkNode(CVariable cvar, CR2WJsonObject node, Dictionary<string, CR2WExportWrapper> chunkByKey, string extension, int logLevel, CR2WJsonToolOptions options)
         {
             if (options.Verbose)
+            {
                 Print($"{LogIndent(logLevel)}[DewalkNode] {extension}{cvar.GetFullName()} ({cvar.REDType})");
+            }
+
             if (node == null)
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkNode] Invaid json node for {extension}{cvar.GetFullName()} ({cvar.REDType})");
@@ -223,7 +240,7 @@ namespace WolvenKit.CR2W.JSON
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkNode] Json node type ({node.type}) don't match {extension}{cvar.GetFullName()} ({cvar.REDType})");
             }
-            
+
             // wrap special types first
             if (cvar is IPtrAccessor)
             {
@@ -232,34 +249,38 @@ namespace WolvenKit.CR2W.JSON
             }
             else if (cvar is IHandleAccessor)
             {
-                var map = node as CR2WJsonMap;
-                if (map == null || !map.vars.ContainsKey(m_varChunkHandle))
+                if (!(node is CR2WJsonMap map) || !map.vars.ContainsKey(m_varChunkHandle))
                 {
                     PrintError($"{LogIndent(logLevel)}[DewalkNode] {m_varChunkHandle} param not found in {extension}{cvar.GetFullName()} ({cvar.REDType})");
                     return;
                 }
                 var isChunkHandle = Convert.ToBoolean((map.vars[m_varChunkHandle] as CR2WJsonScalar)?.value);
                 if (isChunkHandle)
+                {
                     DewalkPtrNode(cvar, map, chunkByKey, extension, logLevel, options);
+                }
                 else
+                {
                     DewalkSoftNode(cvar, map, chunkByKey, extension, logLevel, options);
+                }
+
                 return;
             }
             else if (cvar is ISoftAccessor)
             {
-                var map = node as CR2WJsonMap;
-                if (map == null)
+                if (!(node is CR2WJsonMap map))
                 {
                     PrintError($"{LogIndent(logLevel)}[DewalkNode] {m_varChunkHandle} param not found in {extension}{cvar.GetFullName()} ({cvar.REDType})");
                     return;
                 }
                 DewalkSoftNode(cvar, map, chunkByKey, extension, logLevel, options);
                 return;
-            } else if (cvar is IVariantAccessor)
+            }
+            else if (cvar is IVariantAccessor)
             {
                 var map = node as CR2WJsonMap;
-                string variantName = (map.vars[m_varName] as CR2WJsonScalar).value as string;
-                IVariantAccessor variantAccessor = cvar as IVariantAccessor;
+                var variantName = (map.vars[m_varName] as CR2WJsonScalar).value as string;
+                var variantAccessor = cvar as IVariantAccessor;
                 variantAccessor.Variant = CR2WTypeManager.Create(map.vars[m_varVariant].type, variantName, cvar.cr2w, cvar);
                 variantAccessor.Variant.SetIsSerialized();
                 cvar.SetREDName(variantName);
@@ -272,10 +293,13 @@ namespace WolvenKit.CR2W.JSON
             {
                 case CR2WJsonScalar scalar:
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}[DewalkNode] PRIMITIVE {extension}{cvar.GetFullName()} ({cvar.REDType}) = {scalar.value}");
+                    }
+
                     if (cvar is IEnumAccessor)
                     {
-                        string enumStr = scalar.value as string;
+                        var enumStr = scalar.value as string;
                         cvar.SetValue(enumStr.Split('|').ToList());
                         break;
                     }
@@ -300,13 +324,14 @@ namespace WolvenKit.CR2W.JSON
                         if (scalar.value is string base64str)
                         {
                             cvar.SetValue(Convert.FromBase64String(base64str));
-                        } else if (scalar.value is byte[] byteArray)
+                        }
+                        else if (scalar.value is byte[] byteArray)
                         {
                             cvar.SetValue(byteArray);
                         }
                         else if (scalar.value is Newtonsoft.Json.Linq.JArray jArray)
                         {
-                            byte[] byteArray2 = jArray.ToObject<byte[]>();
+                            var byteArray2 = jArray.ToObject<byte[]>();
                             cvar.SetValue(byteArray2);
                         }
                         else
@@ -321,15 +346,18 @@ namespace WolvenKit.CR2W.JSON
                     if (cvar is IArrayAccessor arrayAccessor)
                     {
                         if (options.Verbose)
+                        {
                             Print($"{LogIndent(logLevel)}[DewalkNode] ARRAY {extension}{cvar.GetFullName()} ({cvar.REDType}) - {array.elements.Count} items");
-                        int index = 0;
+                        }
+
+                        var index = 0;
                         // special cases
                         if (cvar.REDType.StartsWith("CPaddedBuffer"))
                         {
                             if (array.bufferPadding == null)
                             {
                                 PrintError($"{LogIndent(logLevel)}[DewalkNode] bufferPadding var expected for array: {extension}{cvar.GetFullName()} ({cvar.REDType}), defaulting to 0");
-                                array.bufferPadding = 0.f;
+                                array.bufferPadding = 0.0f;
                             }
                             (cvar.accessor[cvar, "padding"] as CFloat)?.SetValue(array.bufferPadding);
                         }
@@ -388,7 +416,10 @@ namespace WolvenKit.CR2W.JSON
                     byte[] subCR2WBytes = null;
                     subCR2W.Write(ref subCR2WBytes);
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}[DewalkNode] Write CR2W ({subCR2WBytes.Length} bytes) to var {cvar.GetFullName()} ({cvar.REDType})");
+                    }
+
                     cvar.SetValue(subCR2WBytes);
                     break;
             }
@@ -403,7 +434,10 @@ namespace WolvenKit.CR2W.JSON
         protected static bool DewalkPtrNode(CVariable cvar, CR2WJsonMap map, Dictionary<string, CR2WExportWrapper> chunkByKey, string extension, int logLevel, CR2WJsonToolOptions options)
         {
             if (options.Verbose)
+            {
                 Print($"{LogIndent(logLevel)}[DewalkPtrNode] {extension}{cvar.GetFullName()} ({cvar.REDType})");
+            }
+
             if (!map.vars.ContainsKey(m_varReference))
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkPtrNode] \"{m_varReference}\" not found in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
@@ -427,7 +461,10 @@ namespace WolvenKit.CR2W.JSON
         protected static bool DewalkSoftNode(CVariable cvar, CR2WJsonMap map, Dictionary<string, CR2WExportWrapper> chunkByKey, string extension, int logLevel, CR2WJsonToolOptions options)
         {
             if (options.Verbose)
+            {
                 Print($"{LogIndent(logLevel)}[DewalkSoftNode] {extension}{cvar.GetFullName()} ({cvar.REDType})");
+            }
+
             if (!map.vars.ContainsKey(m_varClassName))
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkSoftNode] \"{m_varClassName}\" not found in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
@@ -461,7 +498,7 @@ namespace WolvenKit.CR2W.JSON
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkSoftNode] \"{m_varFlags}\" not found in var {extension}{cvar.GetFullName()} ({cvar.REDType}) => Defaulting to 0");
             }
-            
+
             if (cvar is IHandleAccessor handleAccessor)
             {
                 handleAccessor.ChunkHandle = false;
@@ -469,7 +506,8 @@ namespace WolvenKit.CR2W.JSON
                 handleAccessor.ClassName = className;
                 handleAccessor.DepotPath = depotPath;
                 cvar.SetIsSerialized();
-            } else if (cvar is ISoftAccessor softAccessor)
+            }
+            else if (cvar is ISoftAccessor softAccessor)
             {
                 softAccessor.Flags = flags;
                 softAccessor.ClassName = className;
@@ -480,7 +518,7 @@ namespace WolvenKit.CR2W.JSON
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkSoftNode] Can't cast to handle/soft accessor {extension}{cvar.GetFullName()} ({cvar.REDType})");
                 return false;
-            } 
+            }
             return true;
         }
 
@@ -491,7 +529,7 @@ namespace WolvenKit.CR2W.JSON
             {
                 return false;
             }
-            CR2WJsonData jsonRoot = WalkCR2W(cr2w, /*Path.GetExtension(cr2wPath).Remove(0, 1)*/ "", 0, options);
+            var jsonRoot = WalkCR2W(cr2w, /*Path.GetExtension(cr2wPath).Remove(0, 1)*/ "", 0, options);
 
             /* Write JSON */
             var serializeSettings = new JsonSerializerSettings
@@ -512,7 +550,7 @@ namespace WolvenKit.CR2W.JSON
                                             .RegisterSubtypeWithProperty(typeof(CR2WJsonData), "_extension")
                                             .Build());
 
-            string jsonText = JsonConvert.SerializeObject(jsonRoot, Newtonsoft.Json.Formatting.Indented, serializeSettings);
+            var jsonText = JsonConvert.SerializeObject(jsonRoot, Newtonsoft.Json.Formatting.Indented, serializeSettings);
             File.WriteAllText(jsonPath, jsonText);
             // Works badly with abtract classes -> string jsonText2 = System.Text.Json.JsonSerializer.Serialize<CR2WJsonData>(jsonRoot);
             return true;
@@ -520,7 +558,7 @@ namespace WolvenKit.CR2W.JSON
 
         protected static CR2WJsonData WalkCR2W(CR2WFile cr2w, string extension, int logLevel, CR2WJsonToolOptions options)
         {
-            CR2WJsonData jsonCR2W = new CR2WJsonData(extension);
+            var jsonCR2W = new CR2WJsonData(extension);
             PrintOK($"{LogIndent(logLevel)}[CR2W] {(extension != "" ? extension : "<root>")}");
             logLevel += 1;
             /* CR2W Names - skip, will be generated automatically */
@@ -528,10 +566,12 @@ namespace WolvenKit.CR2W.JSON
             /* CR2W Imports */
             foreach (var import in cr2w.imports)
             {
-                var importMap = new Dictionary<string, object>();
-                importMap[m_varClassName] = import.ClassNameStr;
-                importMap[m_varDepotPath] = import.DepotPathStr;
-                importMap[m_varFlags] = import.Flags;
+                var importMap = new Dictionary<string, object>
+                {
+                    [m_varClassName] = import.ClassNameStr,
+                    [m_varDepotPath] = import.DepotPathStr,
+                    [m_varFlags] = import.Flags
+                };
                 jsonCR2W.imports.Add(importMap);
             }
 
@@ -544,26 +584,34 @@ namespace WolvenKit.CR2W.JSON
             /* CR2W Embedded */
             foreach (var embed in cr2w.embedded)
             {
-                var embedMap = new Dictionary<string, object>();
-                embedMap["className"] = embed.ClassName;
-                embedMap["importPath"] = embed.ImportPath;
-                embedMap["importClass"] = embed.ImportClass;
-                embedMap["handle"] = embed.Handle;
-                embedMap["rawBytes"] = embed.GetRawEmbeddedData();
+                var embedMap = new Dictionary<string, object>
+                {
+                    ["className"] = embed.ClassName,
+                    ["importPath"] = embed.ImportPath,
+                    ["importClass"] = embed.ImportClass,
+                    ["handle"] = embed.Handle,
+                    ["rawBytes"] = embed.GetRawEmbeddedData()
+                };
                 jsonCR2W.embedded.Add(embedMap);
             }
             if (options.Verbose)
+            {
                 Print($"{LogIndent(logLevel)}[WalkCR2W] {cr2w.chunks.Count} Chunks, {jsonCR2W.imports.Count} Imports, {jsonCR2W.properties.Count} Properties, {jsonCR2W.buffers.Count} Buffers, {jsonCR2W.embedded.Count} Embedded");
+            }
 
             /* CR2W Chunks - add dummy objects with index first */
             var keyByChunk = new Dictionary<CR2WExportWrapper, string>();
             foreach (var chunk in cr2w.chunks)
             {
-                CR2WJsonChunkMap jsonChunk = new CR2WJsonChunkMap(chunk.REDType);
-                jsonChunk.chunkKey = $"{extension}{chunk.REDName}";  // unique key for references
+                var jsonChunk = new CR2WJsonChunkMap(chunk.REDType)
+                {
+                    chunkKey = $"{extension}{chunk.REDName}"  // unique key for references
+                };
                 keyByChunk[chunk] = jsonChunk.chunkKey;
                 if (options.Verbose)
+                {
                     Print($"{LogIndent(logLevel)}Init Chunk ({chunk.REDType}): {jsonChunk.chunkKey}");
+                }
 
                 jsonCR2W.chunks[jsonChunk.chunkKey] = jsonChunk;
             }
@@ -571,14 +619,17 @@ namespace WolvenKit.CR2W.JSON
             /* CR2W Chunks - add vars */
             foreach (var chunk in cr2w.chunks)
             {
-                CR2WJsonChunkMap jsonChunk = jsonCR2W.chunks[keyByChunk[chunk]];
+                var jsonChunk = jsonCR2W.chunks[keyByChunk[chunk]];
                 jsonChunk.parentKey = (chunk.ParentChunk != null && keyByChunk.ContainsKey(chunk.ParentChunk)) ? keyByChunk[chunk.ParentChunk] : "";
                 var chunkVars = chunk.data.GetEditableVariables();
                 PrintOK($"{LogIndent(logLevel)}[WalkCR2W] Chunk {extension}{jsonChunk.chunkKey} => {chunkVars.Count} vars");
                 foreach (var cvar in chunkVars)
                 {
                     if (!cvar.IsSerialized)
+                    {
                         continue;
+                    }
+
                     jsonChunk.vars[cvar.REDName] = WalkNode(cvar, extension, logLevel + 1, options);
                 }
                 jsonChunk.flags = chunk.REDObjectFlags;
@@ -589,16 +640,20 @@ namespace WolvenKit.CR2W.JSON
             }
             /* CR2W Additional bytes */
             if (cr2w.AdditionalCr2WFileBytes != null && cr2w.AdditionalCr2WFileBytes.Length > 0)
+            {
                 jsonCR2W.additionalBytes = cr2w.AdditionalCr2WFileBytes;
+            }
 
             return jsonCR2W;
         }
 
         protected static CR2WJsonObject WalkNode(IEditableVariable node, string extension, int logLevel, CR2WJsonToolOptions options)
         {
-            string nodeTypeName = node.GetType().FullName;
+            var nodeTypeName = node.GetType().FullName;
             if (options.Verbose)
+            {
                 Print($"{LogIndent(logLevel)}[WalkNode] {node.REDName}, Type = {nodeTypeName}]");
+            }
 
             switch (node)
             {
@@ -616,21 +671,33 @@ namespace WolvenKit.CR2W.JSON
                         if (extraCR2W.Read(extraCR2WBytes) == EFileReadErrorCodes.NoError)
                         {
                             if (options.Verbose)
+                            {
                                 Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> CR2W ({extraCR2WBytes.Length} bytes)");
+                            }
+
                             return WalkCR2W(extraCR2W, $"{extension}{node.REDName}:", logLevel + 1, options);
                         }
                     }
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PRIMITIVE = {primitive.GetValueObject()}");
+                    }
+
                     return new CR2WJsonScalar(node.REDType, primitive.GetValueObject());
                 case IArrayAccessor arrayAccessor:
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> ARRAY");
+                    }
+
                     var array = new CR2WJsonArray(node.REDType);
                     foreach (var cvar in node.GetEditableVariables())
                     {
                         if (!cvar.IsSerialized)
+                        {
                             continue;
+                        }
+
                         if (node.REDType.StartsWith("CPaddedBuffer") && cvar.REDName == "padding")
                         {
                             array.bufferPadding = (cvar as CFloat)?.val;
@@ -641,7 +708,10 @@ namespace WolvenKit.CR2W.JSON
                     return array;
                 case ISoftAccessor softAccessor:
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> SOFT {softAccessor.ClassName}:{softAccessor.DepotPath}");
+                    }
+
                     var softMap = new CR2WJsonMap(node.REDType);
                     softMap.vars[m_varClassName] = new CR2WJsonScalar("string", softAccessor.ClassName);
                     softMap.vars[m_varDepotPath] = new CR2WJsonScalar("string", softAccessor.DepotPath);
@@ -652,15 +722,21 @@ namespace WolvenKit.CR2W.JSON
                     handleMap.vars[m_varChunkHandle] = new CR2WJsonScalar("bool", handleAccessor.ChunkHandle);
                     if (handleAccessor.ChunkHandle)
                     {
-                        string handleReferenceValue = handleAccessor.Reference == null ? "NULL" : $"{extension}{handleAccessor.Reference.REDName}";
+                        var handleReferenceValue = handleAccessor.Reference == null ? "NULL" : $"{extension}{handleAccessor.Reference.REDName}";
                         if (options.Verbose)
+                        {
                             Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE {handleReferenceValue}");
+                        }
+
                         handleMap.vars[m_varReference] = new CR2WJsonScalar("string", handleReferenceValue);
                     }
                     else
                     {
                         if (options.Verbose)
+                        {
                             Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> SOFT HANDLE {handleAccessor.ClassName}:{handleAccessor.DepotPath}");
+                        }
+
                         handleMap.vars[m_varClassName] = new CR2WJsonScalar("string", handleAccessor.ClassName);
                         handleMap.vars[m_varDepotPath] = new CR2WJsonScalar("string", handleAccessor.DepotPath);
                         handleMap.vars[m_varFlags] = new CR2WJsonScalar("uint16", handleAccessor.Flags);
@@ -668,30 +744,45 @@ namespace WolvenKit.CR2W.JSON
                     return handleMap;
                 case IPtrAccessor ptrAccessor:
                     var ptrMap = new CR2WJsonMap(node.REDType);
-                    string ptrReferenceValue = ptrAccessor.Reference == null ? "NULL" : $"{extension}{ptrAccessor.Reference.REDName}";
+                    var ptrReferenceValue = ptrAccessor.Reference == null ? "NULL" : $"{extension}{ptrAccessor.Reference.REDName}";
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR {ptrReferenceValue}");
+                    }
+
                     ptrMap.vars[m_varReference] = new CR2WJsonScalar("string", ptrReferenceValue);
                     return ptrMap;
                 case IVariantAccessor variantAccessor:
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> VARIANT {variantAccessor.Variant.REDName} ({variantAccessor.Variant.REDType})");
+                    }
+
                     var variantMap = new CR2WJsonMap(node.REDType);
                     variantMap.vars[m_varVariant] = WalkNode(variantAccessor.Variant, extension, logLevel + 1, options);
                     variantMap.vars[m_varName] = new CR2WJsonScalar("string", node.REDName);
                     return variantMap;
                 case IEnumAccessor enumAccessor:
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> ENUM = {string.Join("|", enumAccessor.Value)}");
+                    }
+
                     return new CR2WJsonScalar(node.REDType, string.Join("|", enumAccessor.Value));
                 default:
                     if (options.Verbose)
+                    {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> default MAP");
+                    }
+
                     var map = new CR2WJsonMap(node.REDType);
                     foreach (var cvar in node.GetEditableVariables())
                     {
                         if (!cvar.IsSerialized)
+                        {
                             continue;
+                        }
+
                         map.vars[cvar.REDName] = WalkNode(cvar, extension, logLevel + 1, options);
                     }
                     return map;
