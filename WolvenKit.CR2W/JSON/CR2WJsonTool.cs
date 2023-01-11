@@ -359,6 +359,7 @@ namespace WolvenKit.CR2W.JSON
                             DewalkNode(newElement, obj, chunkByKey, extension, logLevel + 1, options);
                             index += 1;
                         }
+                        cvar.SetIsSerialized();
                     }
                     else
                     {
@@ -375,6 +376,7 @@ namespace WolvenKit.CR2W.JSON
                         }
                         DewalkNode(cvarsByName[subnode.Key], subnode.Value, chunkByKey, extension, logLevel + 1, options);
                     }
+                    cvar.SetIsSerialized();
                     break;
                 case CR2WJsonMap map:
                     foreach (var subnode in map.vars)
@@ -395,6 +397,7 @@ namespace WolvenKit.CR2W.JSON
                         }
                         DewalkNode(cvarsByName[subnode.Key], subnode.Value, chunkByKey, extension, logLevel + 1, options);
                     }
+                    cvar.SetIsSerialized();
                     break;
                 case CR2WJsonData cr2wData:
                     var subCR2W = DewalkCR2W(cr2wData, logLevel + 1, options);
