@@ -156,6 +156,13 @@ namespace WolvenKit.CR2W.Types
                     this.Reference = cvar.Reference;
 					SetIsSerialized();
                     break;
+                case ISoftAccessor soft:
+                    this.ChunkHandle = false;
+                    this.DepotPath = soft.DepotPath;
+                    this.ClassName = soft.ClassName;
+                    this.Flags = soft.Flags;
+                    SetIsSerialized();
+                    break;
             }
 
             return this;

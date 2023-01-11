@@ -404,17 +404,27 @@ namespace WolvenKit.CR2W.Types
             varname = NormalizeName(varname);
             foreach (var member in this.accessor.GetMembers())
             {
-                if (member.Type == value.GetType())
+                if (member.Name == varname || member.Name == varname.FirstCharToLower())
                 {
-                    if (member.Name == varname)
+                    if (member.Type == value.GetType())
                     {
-                        accessor[this, varname] = value;
+                        accessor[this, member.Name] = value;
                         return true;
                     }
-                    else if (member.Name == varname.FirstCharToLower())
+                    else if (member.Type.GetInterfaces().Contains(typeof(IHandleAccessor)) && value is ISoftAccessor softAccessor)
                     {
-                        accessor[this, varname.FirstCharToLower()] = value;
-                        return true;
+                        // one more hell by CDPR..
+                        var newHandle = CR2WTypeManager.Create(value.REDType.Replace("soft", "handle"), value.REDName, value.cr2w, value.ParentVar as CVariable);
+                        newHandle.IsSerialized = true;
+                        if (newHandle is IHandleAccessor handleAccessor)
+                        {
+                            handleAccessor.ChunkHandle = false;
+                            handleAccessor.DepotPath = softAccessor.DepotPath;
+                            handleAccessor.ClassName = softAccessor.ClassName;
+                            handleAccessor.Flags = softAccessor.Flags;
+                            accessor[this, member.Name] = newHandle;
+                            return true;
+                        }
                     }
                 }
             }
