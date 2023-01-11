@@ -117,6 +117,7 @@ namespace WolvenKit.CR2W.Types
                 variable.SetREDName(Elements.Count.ToString());
                 tvar.IsSerialized = true;
                 Elements.Add(tvar);
+                SetIsSerialized();
             }
         }
         public override bool CanRemoveVariable(IEditableVariable child)

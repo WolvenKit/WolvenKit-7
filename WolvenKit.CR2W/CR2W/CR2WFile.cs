@@ -79,13 +79,13 @@ namespace WolvenKit.CR2W
 
         // Tables
         public List<CR2WNameWrapper> names { get; private set; }
-        public List<CR2WImportWrapper> imports { get; private set; }
-        public List<CR2WPropertyWrapper> properties { get; private set; }
+        public List<CR2WImportWrapper> imports { get; set; }
+        public List<CR2WPropertyWrapper> properties { get; set; }
 
         //[DataMember(Order = 2)]
-        public List<CR2WExportWrapper> chunks { get; private set; }
-        public List<CR2WBufferWrapper> buffers { get; private set; }
-        public List<CR2WEmbeddedWrapper> embedded { get; private set; }
+        public List<CR2WExportWrapper> chunks { get; set; }
+        public List<CR2WBufferWrapper> buffers { get; set; }
+        public List<CR2WEmbeddedWrapper> embedded { get; set; }
 
         public void GenerateChunksDict() => chunksdict = chunks.ToDictionary(_ => _.ChunkIndex, _ => _);
         public Dictionary<int, CR2WExportWrapper> chunksdict { get; private set; }
@@ -130,14 +130,8 @@ namespace WolvenKit.CR2W
         public CR2WExportWrapper CreateChunk(string type, int chunkindex=0, CR2WExportWrapper parent = null, CR2WExportWrapper virtualparent = null, CVariable cvar = null)
         {
             var chunk = new CR2WExportWrapper(this, type, parent);
-            if (cvar != null)
-            {
-                chunk.CreateDefaultData();
-            }
-            else
-            {
-                chunk.CreateDefaultData(cvar);
-            }
+            chunk.CreateDefaultData(cvar);
+            chunk.data.VarChunkIndex = chunkindex;
 
             if (parent!=null)
             {
@@ -161,6 +155,7 @@ namespace WolvenKit.CR2W
 
             var chunk = new CR2WExportWrapper(this, cvar.REDType, parent);
             chunk.CreateDefaultData(cvar);
+            chunk.data.VarChunkIndex = chunkindex;
 
             if (parent != null)
             {
@@ -654,7 +649,6 @@ namespace WolvenKit.CR2W
             // update data
             //m_fileheader.timeStamp = CDateTime.Now.ToUInt64();    //this will change any vanilla assets simply by opening and saving in wkit
             //m_fileheader.numChunks = (uint)chunks.Count;          //this is weird, I don't think it actually is the number of chunks
-            var nn = new List<CR2WNameWrapper>(names);
 
             #region Update Tables
 
@@ -880,7 +874,7 @@ namespace WolvenKit.CR2W
             }
         }
 
-        public void Write(byte[] ba)
+        public void Write(ref byte[] ba)
         {
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))

@@ -2,12 +2,13 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using WolvenKit.Common.Model;
 using WolvenKit.CR2W.Reflection;
 
 namespace WolvenKit.CR2W.Types
 {
     [REDMeta()]
-    public class CGUID : CVariable
+    public class CGUID : CVariable, IREDPrimitive
     {
         public byte[] guid;
 
@@ -29,8 +30,6 @@ namespace WolvenKit.CR2W.Types
                 }
             }
         }
-
-
 
         public override void Read(BinaryReader file, uint size)
         {
@@ -66,6 +65,8 @@ namespace WolvenKit.CR2W.Types
             var.guid = guid;
             return var;
         }
+
+        public object GetValueObject() => guid;
 
         public override string ToString()
         {

@@ -8,7 +8,7 @@ using WolvenKit.CR2W.Reflection;
 namespace WolvenKit.CR2W.Types
 {
     [REDMeta()]
-    public class CByteArray2 : CVariable, IByteSource
+    public class CByteArray2 : CVariable, IByteSource, IREDPrimitive
     {
         public CByteArray2(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name)
         {
@@ -73,7 +73,22 @@ namespace WolvenKit.CR2W.Types
             if (Bytes == null)
                 Bytes = Array.Empty<byte>();
 
-            return Bytes.Length + " bytes";
+            return Bytes.Length + " bytes, MD5: " + MD5String();
+        }
+
+        public object GetValueObject() => Bytes;
+
+        public string MD5String()
+        {
+            MemoryStream stream = new MemoryStream();
+            stream.Write(Bytes, 0, Bytes.Length);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            using (var MD5Instance = System.Security.Cryptography.MD5.Create())
+            {
+                var hashResult = MD5Instance.ComputeHash(stream);
+                return BitConverter.ToString(hashResult).Replace("-", "").ToLowerInvariant();
+            }
         }
         //public override void SerializeToXml(XmlWriter xw)
         //{

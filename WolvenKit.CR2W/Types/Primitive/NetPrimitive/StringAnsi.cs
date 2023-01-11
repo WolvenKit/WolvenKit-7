@@ -7,7 +7,7 @@ using WolvenKit.CR2W.Reflection;
 namespace WolvenKit.CR2W.Types
 {
     [REDMeta()]
-    public class StringAnsi : CVariable
+    public class StringAnsi : CVariable, IREDPrimitive
     {
        
 
@@ -55,7 +55,7 @@ namespace WolvenKit.CR2W.Types
             return var;
         }
 
-        
+        public object GetValueObject() => val;
 
         public override string ToString()
         {

@@ -144,21 +144,21 @@
   </Target>
   <ItemGroup>
     <PackageReference Include="AutoCompleteMenu-ScintillaNET" Version="1.6.2" />
-    <PackageReference Include="Autoupdater.NET.Official" Version="1.6.4" />
-    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.7.6" />
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="CSharpImageLibrary" Version="4.2.0" />
-    <PackageReference Include="CsvHelper" Version="27.1.0" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="CyotekImageBox" Version="1.3.0-Alpha1" />
     <PackageReference Include="DevZH.FlatBuffers" Version="1.4.0" />
     <PackageReference Include="Dfust.Hotkeys" Version="1.2.6206.24906" />
-    <PackageReference Include="DockPanelSuite" Version="3.0.6" />
-    <PackageReference Include="DockPanelSuite.ThemeVS2015" Version="3.0.6" />
+    <PackageReference Include="DockPanelSuite" Version="3.1.0" />
+    <PackageReference Include="DockPanelSuite.ThemeVS2015" Version="3.1.0" />
     <PackageReference Include="FastMember" Version="1.5.0" />
     <PackageReference Include="IniParserLTK" Version="1.1.5" />
     <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
     <PackageReference Include="lz4net" Version="1.0.15.93" />
     <PackageReference Include="MarkerMetro.Unity.Ionic.Zlib" Version="2.0.0.14" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.1.1" />
@@ -202,7 +202,7 @@
     <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
     <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
-    <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
     <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
     <PackageReference Include="System.Net.Sockets" Version="4.3.0" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
@@ -212,7 +212,7 @@
     <PackageReference Include="System.Reflection.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
     <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
@@ -222,7 +222,7 @@
     <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="System.Text.Json" Version="7.0.1" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
@@ -252,183 +252,117 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Forms\Editors\ArrayEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Forms\Editors\ArrayEditor.cs" />
     <Compile Update="Forms\Editors\ArrayEditor.Designer.cs">
       <DependentUpon>ArrayEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Editors\ByteArrayEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Forms\Editors\ByteArrayEditor.cs" />
     <Compile Update="Forms\Editors\ByteArrayEditor.Designer.cs">
       <DependentUpon>ByteArrayEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Editors\frmCsvEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\Editors\frmCsvEditor.cs" />
     <Compile Update="Forms\Editors\frmCsvEditor.Designer.cs">
       <DependentUpon>frmCsvEditor.cs</DependentUpon>
     </Compile>
-	<Compile Update="Forms\frmSrtEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
+	<Compile Update="Forms\frmSrtEditor.cs" />
     <Compile Update="Forms\frmSrtEditor.Designer.cs">
       <DependentUpon>frmSrtEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Editors\IdTagEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Forms\Editors\IdTagEditor.cs" />
     <Compile Update="Forms\Editors\IdTagEditor.Designer.cs">
       <DependentUpon>IdTagEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Editors\PtrEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Forms\Editors\PtrEditor.cs" />
     <Compile Update="Forms\Editors\PtrEditor.Designer.cs">
       <DependentUpon>PtrEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\MVVM\frmBulkEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MVVM\frmBulkEditor.cs" />
     <Compile Update="Forms\MVVM\frmBulkEditor.Designer.cs">
       <DependentUpon>frmBulkEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\MVVM\frmMain_FileSystemWatcher.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\MVVM\frmOtherDocument.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MVVM\frmMain_FileSystemWatcher.cs" />
+    <Compile Update="Forms\MVVM\frmOtherDocument.cs" />
     <Compile Update="Forms\MVVM\frmOtherDocument.Designer.cs">
       <DependentUpon>frmOtherDocument.cs</DependentUpon>
     </Compile>
-    <Compile Update="Extensions\CustomFloatWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="FlowTreeEditors\LinkEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="FlowTreeEditors\Quest\QuestPhaseEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="FlowTreeEditors\Quest\QuestPhaseInputEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="FlowTreeEditors\Quest\QuestScriptBlockEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="FlowTreeEditors\Scene\SceneChoiceEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Extensions\CustomFloatWindow.cs" />
+    <Compile Update="FlowTreeEditors\LinkEditor.cs" />
+    <Compile Update="FlowTreeEditors\Quest\QuestPhaseEditor.cs" />
+    <Compile Update="FlowTreeEditors\Quest\QuestPhaseInputEditor.cs" />
+    <Compile Update="FlowTreeEditors\Quest\QuestScriptBlockEditor.cs" />
+    <Compile Update="FlowTreeEditors\Scene\SceneChoiceEditor.cs" />
     <Compile Update="FlowTreeEditors\Scene\SceneChoiceEditor.Designer.cs">
       <DependentUpon>SceneChoiceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="FlowTreeEditors\Scene\SceneFlowConditionEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="FlowTreeEditors\Scene\SceneFlowConditionEditor.cs" />
     <Compile Update="FlowTreeEditors\Scene\SceneFlowConditionEditor.Designer.cs">
       <DependentUpon>SceneFlowConditionEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="FlowTreeEditors\Scene\SceneLinkEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="FlowTreeEditors\Scene\SceneLinkEditor.cs" />
     <Compile Update="FlowTreeEditors\Scene\SceneLinkEditor.Designer.cs">
       <DependentUpon>SceneLinkEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="FlowTreeEditors\Scene\SceneRandomizerEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="FlowTreeEditors\Scene\SceneRandomizerEditor.cs" />
     <Compile Update="FlowTreeEditors\Scene\SceneRandomizerEditor.Designer.cs">
       <DependentUpon>SceneRandomizerEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="FlowTreeEditors\Scene\SceneSectionEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="FlowTreeEditors\Scene\SceneSectionEditor.cs" />
     <Compile Update="FlowTreeEditors\Scene\SceneSectionEditor.Designer.cs">
       <DependentUpon>SceneSectionEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\MVVM\frmWcc.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MVVM\frmWcc.cs" />
     <Compile Update="Forms\MVVM\frmWcc.Designer.cs">
       <DependentUpon>frmWcc.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\UserControl\frmProgress.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\UserControl\frmProgress.cs" />
     <Compile Update="Forms\UserControl\frmProgress.Designer.cs">
       <DependentUpon>frmProgress.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\MVVM\frmRadish.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MVVM\frmRadish.cs" />
     <Compile Update="Forms\MVVM\frmRadish.Designer.cs">
       <DependentUpon>frmRadish.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmCR2WtoText.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmCR2WtoText.cs" />
     <Compile Update="Forms\frmCR2WtoText.Designer.cs">
       <DependentUpon>frmCR2WtoText.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\MVVM\frmImportUtility.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MVVM\frmImportUtility.cs" />
     <Compile Update="Forms\MVVM\frmImportUtility.Designer.cs">
       <DependentUpon>frmImportUtility.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmMimics.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmMimics.cs" />
     <Compile Update="Forms\frmMimics.Designer.cs">
       <DependentUpon>frmMimics.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\UserControl\frmLoading.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\UserControl\frmLoading.cs" />
     <Compile Update="Forms\UserControl\frmLoading.Designer.cs">
       <DependentUpon>frmLoading.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmChunkFlowDiagram.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmChunkFlowDiagram.cs" />
     <Compile Update="Forms\frmChunkFlowDiagram.Designer.cs">
       <DependentUpon>frmChunkFlowDiagram.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmMusicPlayer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmMusicPlayer.cs" />
     <Compile Update="Forms\frmMusicPlayer.Designer.cs">
       <DependentUpon>frmMusicPlayer.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmConsole.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmConsole.cs" />
     <Compile Update="Forms\frmConsole.Designer.cs">
       <DependentUpon>frmConsole.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmScriptEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmScriptEditor.cs" />
     <Compile Update="Forms\frmScriptEditor.Designer.cs">
       <DependentUpon>frmScriptEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmAnims.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmAnims.cs" />
     <Compile Update="Forms\frmAnims.Designer.cs">
       <DependentUpon>frmAnims.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Dialog\frmStringsGuiImporterIDDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\Dialog\frmStringsGuiImporterIDDialog.cs" />
     <Compile Update="Forms\Dialog\frmStringsGuiImporterIDDialog.Designer.cs">
       <DependentUpon>frmStringsGuiImporterIDDialog.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmWelcome.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmWelcome.cs" />
     <Compile Update="Forms\frmWelcome.Designer.cs">
       <DependentUpon>frmWelcome.cs</DependentUpon>
     </Compile>
@@ -437,171 +371,115 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Forms\UserControl\frmAbout.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\UserControl\frmAbout.cs" />
     <Compile Update="Forms\UserControl\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmDebug.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmDebug.cs" />
     <Compile Update="Forms\frmDebug.Designer.cs">
       <DependentUpon>frmDebug.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\UserControl\frmImagePreview.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\UserControl\frmImagePreview.cs" />
     <Compile Update="Forms\UserControl\frmImagePreview.Designer.cs">
       <DependentUpon>frmImagePreview.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmInstallPackage.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmInstallPackage.cs" />
     <Compile Update="Forms\frmInstallPackage.Designer.cs">
       <DependentUpon>frmInstallPackage.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmJournalEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmJournalEditor.cs" />
     <Compile Update="Forms\frmJournalEditor.Designer.cs">
       <DependentUpon>frmJournalEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmMenuCreator.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmMenuCreator.cs" />
     <Compile Update="Forms\frmMenuCreator.Designer.cs">
       <DependentUpon>frmMenuCreator.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\UserControl\frmPackSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\UserControl\frmPackSettings.cs" />
     <Compile Update="Forms\UserControl\frmPackSettings.Designer.cs">
       <DependentUpon>frmPackSettings.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmSaveEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmSaveEditor.cs" />
     <Compile Update="Forms\frmSaveEditor.Designer.cs">
       <DependentUpon>frmSaveEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmStringsGui.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmStringsGui.cs" />
     <Compile Update="Forms\frmStringsGui.Designer.cs">
       <DependentUpon>frmStringsGui.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmStringsGuiImporter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmStringsGuiImporter.cs" />
     <Compile Update="Forms\frmStringsGuiImporter.Designer.cs">
       <DependentUpon>frmStringsGuiImporter.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.cs" />
     <Compile Update="Forms\Dialog\frmStringsGuiScriptsPrefixDialog.Designer.cs">
       <DependentUpon>frmStringsGuiScriptsPrefixDialog.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Dialog\frmTextInput.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\Dialog\frmTextInput.cs" />
     <Compile Update="Forms\Dialog\frmTextInput.Designer.cs">
       <DependentUpon>frmTextInput.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\UserControl\frmWCCLicense.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\UserControl\frmWCCLicense.cs" />
     <Compile Update="Forms\UserControl\frmWCCLicense.Designer.cs">
       <DependentUpon>frmWCCLicense.cs</DependentUpon>
     </Compile>
-    <Compile Update="FlowTreeEditors\ChunkEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="FlowTreeEditors\ChunkEditor.cs" />
     <Compile Update="FlowTreeEditors\ChunkEditor.Designer.cs">
       <DependentUpon>ChunkEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Dialog\frmAddChunk.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\Dialog\frmAddChunk.cs" />
     <Compile Update="Forms\Dialog\frmAddChunk.Designer.cs">
       <DependentUpon>frmAddChunk.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmAssetBrowser.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmAssetBrowser.cs" />
     <Compile Update="Forms\frmAssetBrowser.Designer.cs">
       <DependentUpon>frmAssetBrowser.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmChunkList.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmChunkList.cs" />
     <Compile Update="Forms\frmChunkList.Designer.cs">
       <DependentUpon>frmChunkList.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmChunkProperties.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmChunkProperties.cs" />
     <Compile Update="Forms\frmChunkProperties.Designer.cs">
       <DependentUpon>frmChunkProperties.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\MVVM\frmCR2WDocument.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MVVM\frmCR2WDocument.cs" />
     <Compile Update="Forms\MVVM\frmCR2WDocument.Designer.cs">
       <DependentUpon>frmCR2WDocument.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmEmbeddedFiles.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmEmbeddedFiles.cs" />
     <Compile Update="Forms\frmEmbeddedFiles.Designer.cs">
       <DependentUpon>frmEmbeddedFiles.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Dialog\frmExtractAmbigious.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\Dialog\frmExtractAmbigious.cs" />
     <Compile Update="Forms\Dialog\frmExtractAmbigious.Designer.cs">
       <DependentUpon>frmExtractAmbigious.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmHexEditorView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmHexEditorView.cs" />
     <Compile Update="Forms\frmHexEditorView.Designer.cs">
       <DependentUpon>frmHexEditorView.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\MVVM\frmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MVVM\frmMain.cs" />
     <Compile Update="Forms\MVVM\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\MVVM\frmModExplorer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MVVM\frmModExplorer.cs" />
     <Compile Update="Forms\MVVM\frmModExplorer.Designer.cs">
       <DependentUpon>frmModExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\UserControl\frmModSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\UserControl\frmModSettings.cs" />
     <Compile Update="Forms\UserControl\frmModSettings.Designer.cs">
       <DependentUpon>frmModSettings.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\UserControl\frmOutput.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\UserControl\frmOutput.cs" />
     <Compile Update="Forms\UserControl\frmOutput.Designer.cs">
       <DependentUpon>frmOutput.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\Dialog\frmRenameDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\Dialog\frmRenameDialog.cs" />
     <Compile Update="Forms\Dialog\frmRenameDialog.Designer.cs">
       <DependentUpon>frmRenameDialog.cs</DependentUpon>
     </Compile>
-    <Compile Update="Forms\frmSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\frmSettings.cs" />
     <Compile Update="Forms\frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
@@ -809,6 +687,7 @@
     <ProjectReference Include="..\WolvenKit.W3Strings\WolvenKit.W3Strings.csproj" />
     <ProjectReference Include="..\WolvenKit.Save\WolvenKit.Save.csproj" />
     <ProjectReference Include="..\WolvenKit.Wwise\WolvenKit.Wwise.csproj" />
+    <ProjectReference Include="..\WolvenKit.CLI\WolvenKit.CLI.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Legacy\geralt.jpg" />

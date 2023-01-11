@@ -83,39 +83,27 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Player\AsioOutSettingsPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Player\AsioOutSettingsPanel.cs" />
     <Compile Update="Player\AsioOutSettingsPanel.Designer.cs">
       <DependentUpon>AsioOutSettingsPanel.cs</DependentUpon>
     </Compile>
-    <Compile Update="Player\AudioPlaybackPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Player\AudioPlaybackPanel.cs" />
     <Compile Update="Player\AudioPlaybackPanel.Designer.cs">
       <DependentUpon>AudioPlaybackPanel.cs</DependentUpon>
     </Compile>
-    <Compile Update="Player\DirectSoundOutSettingsPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Player\DirectSoundOutSettingsPanel.cs" />
     <Compile Update="Player\DirectSoundOutSettingsPanel.Designer.cs">
       <DependentUpon>DirectSoundOutSettingsPanel.cs</DependentUpon>
     </Compile>
-    <Compile Update="Player\frmAudioPlayer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Player\frmAudioPlayer.cs" />
     <Compile Update="Player\frmAudioPlayer.Designer.cs">
       <DependentUpon>frmAudioPlayer.cs</DependentUpon>
     </Compile>
-    <Compile Update="Player\WasapiOutSettingsPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Player\WasapiOutSettingsPanel.cs" />
     <Compile Update="Player\WasapiOutSettingsPanel.Designer.cs">
       <DependentUpon>WasapiOutSettingsPanel.cs</DependentUpon>
     </Compile>
-    <Compile Update="Player\WaveOutSettingsPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Player\WaveOutSettingsPanel.cs" />
     <Compile Update="Player\WaveOutSettingsPanel.Designer.cs">
       <DependentUpon>WaveOutSettingsPanel.cs</DependentUpon>
     </Compile>

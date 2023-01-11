@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using WolvenKit.Common.Services;
 using WolvenKit.Common.Wcc;
+using WolvenKit.CR2W.JSON;
 using WolvenKit.Properties;
 using WolvenKit.Services;
 using WolvenKit.Forms;
@@ -450,6 +451,7 @@ namespace WolvenKit
                 var fi = new FileInfo(selectedobject.FullName);
 
                 var ext = fi.Extension.TrimStart('.');
+                bool isDir = fi.IsDirectory();
                 bool isbundle = Path.Combine(ActiveMod.FileDirectory, fi.ToString())
                     .Contains(Path.Combine(ActiveMod.ModDirectory, EBundleType.Bundle.ToString()));
                 bool israw = Path.Combine(ActiveMod.FileDirectory, fi.ToString())
@@ -476,6 +478,7 @@ namespace WolvenKit
                 exportRedfurapxToolStripMenuItem.Visible = true; //(ext == "redfur");
 
                 exportToolStripMenuItem.Enabled = true;
+                createCr2wFromJSONToolStripMenuItem.Enabled = (isDir || ext == "json");
 
                 removeFileToolStripMenuItem.Enabled = !isToplevelDir;
                 renameToolStripMenuItem.Enabled = !isToplevelDir;
@@ -878,6 +881,167 @@ namespace WolvenKit
                     {
                         logger?.LogString($"[{scriptName}] Finished with errors:\n\t{String.Join("\n\t", errors)}", Logtype.Error);
                     } else
+                    {
+                        logger?.LogString($"[{scriptName}] Finished.", Logtype.Success);
+                    }
+                    MainController.Get().ProjectStatus = EProjectStatus.Ready;
+                });
+            }
+        }
+
+        private void exportJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string scriptName = "ExportJSON"; // save folder suffix
+            LoggerService logger = MainController.Get().Logger;
+            //logger.LogProgress(1, "Exporting JSON..");
+            MainController.Get().ProjectStatus = EProjectStatus.Busy;
+
+            if (treeListView.SelectedObject is FileSystemInfo selectedobject)
+            {
+                var filename = selectedobject.FullName;
+                var fullpath = Path.Combine(ActiveMod.FileDirectory, filename);
+                List<string> cr2wPaths = new List<string>();
+                string rootDir = "";
+
+                if (Directory.Exists(fullpath))
+                {
+                    cr2wPaths = new List<string>(Directory.EnumerateFiles(fullpath, "*", SearchOption.AllDirectories));
+                    rootDir = fullpath;
+                    logger?.LogString($"[{scriptName}] Files to process: {cr2wPaths.Count}", Logtype.Important);
+                }
+                else if (File.Exists(fullpath))
+                {
+                    cr2wPaths.Add(fullpath);
+                }
+                else
+                {
+                    logger?.LogString($"[{scriptName}] No valid files to process.", Logtype.Important);
+                    MainController.Get().ProjectStatus = EProjectStatus.Ready;
+                    return;
+                }
+
+                string savePath;
+                int percent_old = -1;
+                Task.Run(() => //Run the method in another thread to prevent freezing UI
+                {
+                    List<string> errors = new List<string>();
+                    for (int i = 0; i < cr2wPaths.Count; ++i)
+                    {
+                        Debug.WriteLine($"[{i}]: {fullpath}");
+                        string ext = Path.GetExtension(cr2wPaths[i]);
+                        int percent = (int)((i) / (float)cr2wPaths.Count * 100.0);
+                        if (percent > percent_old)
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) Processing: {cr2wPaths[i]}..", Logtype.Normal);
+                            //logger?.LogProgress(percent);
+                            percent_old = percent;
+                        }
+
+                        if (string.IsNullOrEmpty(rootDir))
+                        {
+                            savePath = $"{cr2wPaths[i]}.json";
+                        }
+                        else
+                        {
+                            savePath = $"{rootDir}_{scriptName}\\{cr2wPaths[i].Substring(rootDir.Length + 1, cr2wPaths[i].Length - (rootDir.Length + 1))}.json";
+                            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+                        }
+                        if (CR2WJsonTool.ExportJSON(cr2wPaths[i], savePath, new CR2WJsonToolOptions()))
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) OK exported JSON: {cr2wPaths[i]}..", Logtype.Success);
+                        }
+                        else
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) Can't export JSON: {cr2wPaths[i]}..", Logtype.Error);
+                            errors.Add($"{cr2wPaths[i]}: Can't export JSON.");
+                        } 
+                    }
+                    //logFile.Close();
+                    if (errors.Count > 0)
+                    {
+                        logger?.LogString($"[{scriptName}] Finished with errors:\n\t{String.Join("\n\t", errors)}", Logtype.Error);
+                    }
+                    else
+                    {
+                        logger?.LogString($"[{scriptName}] Finished.", Logtype.Success);
+                    }
+                    MainController.Get().ProjectStatus = EProjectStatus.Ready;
+                });
+            }
+        }
+
+        private void createCr2wFromJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string scriptName = "ImportJSON"; // save folder suffix
+            LoggerService logger = MainController.Get().Logger;
+            //logger.LogProgress(1, "Importing JSON..");
+            MainController.Get().ProjectStatus = EProjectStatus.Busy;
+
+            if (treeListView.SelectedObject is FileSystemInfo selectedobject)
+            {
+                var filename = selectedobject.FullName;
+                var fullpath = Path.Combine(ActiveMod.FileDirectory, filename);
+                List<string> jsonPaths = new List<string>();
+                string rootDir = "";
+
+                if (Directory.Exists(fullpath))
+                {
+                    jsonPaths = new List<string>(Directory.EnumerateFiles(fullpath, "*.json", SearchOption.AllDirectories));
+                    rootDir = fullpath;
+                    logger?.LogString($"[{scriptName}] Files to process: {jsonPaths.Count}", Logtype.Important);
+                }
+                else if (File.Exists(fullpath))
+                {
+                    jsonPaths.Add(fullpath);
+                }
+                else
+                {
+                    logger?.LogString($"[{scriptName}] No valid files to process.", Logtype.Important);
+                    MainController.Get().ProjectStatus = EProjectStatus.Ready;
+                    return;
+                }
+
+                string savePath;
+                int percent_old = -1;
+                Task.Run(() => //Run the method in another thread to prevent freezing UI
+                {
+                    List<string> errors = new List<string>();
+                    for (int i = 0; i < jsonPaths.Count; ++i)
+                    {
+                        Debug.WriteLine($"[{i}]: {fullpath}");
+                        int percent = (int)((i) / (float)jsonPaths.Count * 100.0);
+                        if (percent > percent_old)
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) Processing: {jsonPaths[i]}..", Logtype.Normal);
+                            //logger?.LogProgress(percent);
+                            percent_old = percent;
+                        }
+
+                        if (string.IsNullOrEmpty(rootDir))
+                        {
+                            savePath = $"{jsonPaths[i].TrimEnd(".json")}";
+                        }
+                        else
+                        {
+                            savePath = $"{rootDir}_{scriptName}\\{jsonPaths[i].Substring(rootDir.Length + 1, jsonPaths[i].Length - (rootDir.Length + 1)).TrimEnd(".json")}";
+                            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+                        }
+                        if (CR2WJsonTool.ImportJSON(jsonPaths[i], savePath, new CR2WJsonToolOptions()))
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) OK imported JSON: {jsonPaths[i]}..", Logtype.Success);
+                        }
+                        else
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) Can't import JSON: {jsonPaths[i]}..", Logtype.Error);
+                            errors.Add($"{jsonPaths[i]}: Can't import JSON.");
+                        }
+                    }
+                    //logFile.Close();
+                    if (errors.Count > 0)
+                    {
+                        logger?.LogString($"[{scriptName}] Finished with errors:\n\t{String.Join("\n\t", errors)}", Logtype.Error);
+                    }
+                    else
                     {
                         logger?.LogString($"[{scriptName}] Finished.", Logtype.Success);
                     }

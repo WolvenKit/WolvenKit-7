@@ -77,6 +77,8 @@ namespace WolvenKit.CR2W.Types
         {
             return Value;
         }
+
+        public object GetValueObject() => Value;
         #endregion
 
     }

@@ -22,7 +22,7 @@ namespace WolvenKit.CR2W.Types
 
 		[Ordinal(5)] [RED("renderChunks", 47,0)] 		public CByteArray RenderChunks { get; set;}
 #else
-		[Ordinal(3)] [RED("bonePositions", 47,0)] 		public CArray<Vector> BonePositions { get; set;}
+		[Ordinal(3)] [RED("bonePositions", 46,0)] 		public CArray<Vector> BonePositions { get; set;}
 
 		[Ordinal(4)] [RED("renderLODs", 46,0)] 		public CArray<CFloat> RenderLODs { get; set;}
 
