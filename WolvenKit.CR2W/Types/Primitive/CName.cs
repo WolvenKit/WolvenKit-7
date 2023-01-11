@@ -29,7 +29,7 @@ namespace WolvenKit.CR2W.Types
         public override void Read(BinaryReader file, uint size)
         {
             var idx = file.ReadUInt16();
-            Value = cr2w.names[idx].Str;
+            Value = (idx < cr2w.names.Count) ? cr2w.names[idx].Str : "";
             SetIsSerialized();
         }
 
