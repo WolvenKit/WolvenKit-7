@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <AssemblyTitle>W3Edit.W3Strings</AssemblyTitle>
@@ -6,13 +6,7 @@
     <Copyright>Copyright ©  2015-2020</Copyright>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <NoWarn>CS1591</NoWarn>
-    <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebugType>full</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -20,29 +14,14 @@
     <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>pdbonly</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <NoWarn>CS1591</NoWarn>
-    <DebugType>full</DebugType>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <DebugType>pdbonly</DebugType>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <NoWarn>CS1591</NoWarn>
