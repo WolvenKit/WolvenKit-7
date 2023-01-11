@@ -646,7 +646,9 @@ namespace WolvenKit.CR2W.JSON
                         continue;
                     }
 
-                    jsonChunk.vars[cvar.REDName] = WalkNode(cvar, extension, logLevel + 1, options);
+                    var newElement = WalkNode(cvar, extension, logLevel + 1, options);
+                    if (newElement != null)
+                        jsonChunk.vars[cvar.REDName] = newElement;
                 }
                 jsonChunk.flags = chunk.REDObjectFlags;
                 if (chunk.unknownBytes != null && chunk.unknownBytes.Bytes != null && chunk.unknownBytes.Bytes.Length > 0)
@@ -694,12 +696,13 @@ namespace WolvenKit.CR2W.JSON
                             return WalkCR2W(extraCR2W, $"{extension}{node.REDName}::", logLevel + 1, options);
                         }
                     }
+                    var primitiveValue = primitive.GetValueObject();
                     if (options.Verbose)
                     {
-                        Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PRIMITIVE = {primitive.GetValueObject()}");
+                        Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PRIMITIVE = {primitiveValue}");
                     }
-
-                    return new CR2WJsonScalar(node.REDType, primitive.GetValueObject());
+                    
+                    return primitiveValue == null ? null : new CR2WJsonScalar(node.REDType, primitiveValue);
                 case IArrayAccessor arrayAccessor:
                     if (options.Verbose)
                     {
@@ -719,7 +722,9 @@ namespace WolvenKit.CR2W.JSON
                             array.bufferPadding = (cvar as CFloat)?.val;
                             continue;
                         }
-                        array.elements.Add(WalkNode(cvar, extension, logLevel + 1, options));
+                        var newElement = WalkNode(cvar, extension, logLevel + 1, options);
+                        if (newElement != null)
+                            array.elements.Add(newElement);
                     }
                     return array;
                 case ISoftAccessor softAccessor:
@@ -805,7 +810,9 @@ namespace WolvenKit.CR2W.JSON
                             continue;
                         }
 
-                        map.vars[cvar.REDName] = WalkNode(cvar, extension, logLevel + 1, options);
+                        var newElement = WalkNode(cvar, extension, logLevel + 1, options);
+                        if (newElement != null)
+                            map.vars[cvar.REDName] = newElement;
                     }
                     return map;
             }
