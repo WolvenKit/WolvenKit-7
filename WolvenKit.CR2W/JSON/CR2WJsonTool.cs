@@ -223,7 +223,7 @@ namespace WolvenKit.CR2W.JSON
                 PrintError($"{LogIndent(logLevel)}[DewalkNode] Invaid CVariable {extension}{cvar.GetFullName()} ({cvar.REDType})");
                 return;
             }
-            if (cvar.REDType != node.type && !(node is CR2WJsonData) && !(cvar is CByteArray))
+            if (cvar.REDType != node.type && !(node is CR2WJsonData) && !(cvar is CByteArray) && cvar.REDName != "SBlockDataPackedObject")
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkNode] Json node type ({node.type}) don't match {extension}{cvar.GetFullName()} ({cvar.REDType})");
             }
@@ -379,6 +379,15 @@ namespace WolvenKit.CR2W.JSON
                 case CR2WJsonMap map:
                     foreach (var subnode in map.vars)
                     {
+                        // hack for SBlockDataPackedObject..
+                        if (subnode.Key == "SBlockDataPackedObject" && cvar is SBlockData blockData)
+                        {
+                            var enumType = (subnode.Value.type as string).Split(':').First();
+                            Enum.TryParse<Enums.BlockDataObjectType>(enumType, out Enums.BlockDataObjectType objType);
+                            blockData.packedObjectType = objType;
+                            blockData.CreatePackedObject();
+                            cvarsByName[subnode.Key] = blockData.SBlockDataPackedObject;
+                        }
                         if (!cvarsByName.ContainsKey(subnode.Key))
                         {
                             PrintError($"{LogIndent(logLevel)}[DewalkNode] Var {subnode.Key} not found in {extension}{cvar.GetFullName()} ({cvar.REDType})");
@@ -691,7 +700,13 @@ namespace WolvenKit.CR2W.JSON
                 default:
                     if (options.Verbose)
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> default MAP");
-                    var map = new CR2WJsonMap(node.REDType);
+                    var REDMapType = node.REDType;
+                    // hack for SBlockDataPackedObject..
+                    if (node.REDName == "SBlockDataPackedObject" && node.ParentVar is SBlockData packedObj)
+                    {
+                        REDMapType = $"{packedObj.packedObjectType.ToString()}:{REDMapType}";
+                    }
+                    var map = new CR2WJsonMap(REDMapType);
                     foreach (var cvar in node.GetEditableVariables())
                     {
                         if (!cvar.IsSerialized)
