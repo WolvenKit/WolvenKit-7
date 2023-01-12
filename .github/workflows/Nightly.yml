@@ -28,7 +28,9 @@ jobs:
     - name: Restore packages
       run: nuget restore WolvenKit.sln
     - name: setup-msbuild
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v1.1
+        with:
+          msbuild-architecture: x64
     - name: Build with MSBuild
       run: msbuild  WolvenKit.sln -p:Configuration=Release  -p:Platform=x64 -m
     - name: Zip Release
