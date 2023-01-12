@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
- 
+
 jobs:
   build:
     runs-on: windows-latest
@@ -27,5 +27,8 @@ jobs:
     - name: Restore packages
       run: dotnet restore --packages .nuget --runtime win-x64
     
-    - name: Build with MSBuild
-      run: msbuild  WolvenKit.sln -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64
+    - name: Build exe
+      run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal
+    
+    - name: Build cli
+      run: msbuild WolvenKit.CLI/WolvenKit.CLI.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal

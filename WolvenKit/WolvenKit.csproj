@@ -6,16 +6,7 @@
     <PublishUrl>./Publish/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Background</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <UpdateUrl>http://traderain.hu/Witcher/WolvenKit/Release/</UpdateUrl>
-    <SupportUrl>https://traderain.hu</SupportUrl>
-    <ErrorReportUrl>https://traderain.hu</ErrorReportUrl>
     <ProductName>WolvenKit</ProductName>
     <PublisherName>Traderain</PublisherName>
     <SuiteName>WolvenKit</SuiteName>
@@ -37,19 +28,12 @@
     <FileVersion>7.1.0</FileVersion>
     <NoWarn>1591</NoWarn>
     <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
-    <PostBuildEvent />
-    <PostBuildEvent />
-    <PostBuildEvent />
     <Platforms>x64</Platforms>
   </PropertyGroup>
 
 	<PropertyGroup>
 		<DefineConstants>USE_RENDER,NGE_VERSION</DefineConstants>
 	</PropertyGroup>
-	
-	
-
-	
 	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -119,7 +103,23 @@
         <Compile Include="$(IntermediateOutputPath)gen.cs" />
     </ItemGroup>
   </Target>
-  <ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\WolvenKit.App\WolvenKit.App.csproj" />
+        <ProjectReference Include="..\WolvenKit.Bundles\WolvenKit.Bundles.csproj" />
+        <ProjectReference Include="..\WolvenKit.Common\WolvenKit.Common.csproj" />
+        <ProjectReference Include="..\WolvenKit.CR2W\WolvenKit.CR2W.csproj" />
+        <ProjectReference Include="..\WolvenKit.Net\WolvenKit.Net.csproj" />
+        <ProjectReference Include="..\Wolvenkit.Radish\WolvenKit.Radish.csproj" />
+        <ProjectReference Include="..\WolvenKit.Scaleform\WolvenKit.Scaleform.csproj" />
+        <ProjectReference Include="..\WolvenKit.Cache\WolvenKit.Cache.csproj" />
+        <ProjectReference Include="..\WolvenKit.W3Strings\WolvenKit.W3Strings.csproj" />
+        <ProjectReference Include="..\WolvenKit.Save\WolvenKit.Save.csproj" />
+        <ProjectReference Include="..\WolvenKit.Wwise\WolvenKit.Wwise.csproj" />
+        
+    </ItemGroup>
+
+    <ItemGroup>
     <PackageReference Include="AutoCompleteMenu-ScintillaNET" Version="1.6.2" />
     <PackageReference Include="Autoupdater.NET.Official" Version="1.7.6" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
@@ -216,6 +216,7 @@
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
     <PackageReference Include="WinFormAnimation" Version="1.6.0.4" />
   </ItemGroup>
+    
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
@@ -228,6 +229,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
+    
   <ItemGroup>
     <Compile Update="Forms\Editors\ArrayEditor.cs" />
     <Compile Update="Forms\Editors\ArrayEditor.Designer.cs">
@@ -652,20 +654,7 @@
   <ItemGroup>
     <None Include="Resources\VisualStudio\FileGroup_10135_16x.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WolvenKit.App\WolvenKit.App.csproj" />
-    <ProjectReference Include="..\WolvenKit.Bundles\WolvenKit.Bundles.csproj" />
-    <ProjectReference Include="..\WolvenKit.Common\WolvenKit.Common.csproj" />
-    <ProjectReference Include="..\WolvenKit.CR2W\WolvenKit.CR2W.csproj" />
-    <ProjectReference Include="..\WolvenKit.Net\WolvenKit.Net.csproj" />
-    <ProjectReference Include="..\Wolvenkit.Radish\WolvenKit.Radish.csproj" />
-    <ProjectReference Include="..\WolvenKit.Scaleform\WolvenKit.Scaleform.csproj" />
-    <ProjectReference Include="..\WolvenKit.Cache\WolvenKit.Cache.csproj" />
-    <ProjectReference Include="..\WolvenKit.W3Strings\WolvenKit.W3Strings.csproj" />
-    <ProjectReference Include="..\WolvenKit.Save\WolvenKit.Save.csproj" />
-    <ProjectReference Include="..\WolvenKit.Wwise\WolvenKit.Wwise.csproj" />
-    <ProjectReference Include="..\WolvenKit.CLI\WolvenKit.CLI.csproj" />
-  </ItemGroup>
+
   <ItemGroup>
     <None Include="Resources\Legacy\geralt.jpg" />
   </ItemGroup>
