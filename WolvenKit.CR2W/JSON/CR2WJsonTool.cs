@@ -203,8 +203,17 @@ namespace WolvenKit.CR2W.JSON
                 var jsonChunk = kv_chunk.Value;
                 var cr2wChunk = chunkByKey[kv_chunk.Key];
                 PrintOK($"{LogIndent(logLevel)}[DewalkCR2W] Chunk {kv_chunk.Key} ({cr2wChunk.REDType})");
-                DewalkNode(cr2wChunk.data, jsonChunk, chunkByKey, jsonCR2W.extension, logLevel + 1, options);
                 cr2wChunk.REDObjectFlags = jsonChunk.flags;
+                if (jsonChunk.vars.ContainsKey("_unknownBytes") && cr2wChunk.data is CBytes dataBytes)
+                {
+                    // hack for unsupported custom classes
+                    DewalkNode(dataBytes, jsonChunk.vars["_unknownBytes"], chunkByKey, jsonCR2W.extension, logLevel + 1, options);
+                    dataBytes.OverrideREDType = jsonChunk.type;
+                }
+                else
+                {
+                    DewalkNode(cr2wChunk.data, jsonChunk, chunkByKey, jsonCR2W.extension, logLevel + 1, options);
+                }
                 if (jsonChunk.unknownBytes != null && jsonChunk.unknownBytes.Length > 0)
                 {
                     cr2wChunk.unknownBytes = new CBytes(cr2w, cr2wChunk.data, "unknownBytes");
@@ -649,6 +658,11 @@ namespace WolvenKit.CR2W.JSON
                     var newElement = WalkNode(cvar, extension, logLevel + 1, options);
                     if (newElement != null)
                         jsonChunk.vars[cvar.REDName] = newElement;
+                }
+                if (chunk.data.REDName == "unknownBytes" && chunk.data is CBytes dataBytes)
+                {
+                    // hack for unsupported custom classes
+                    jsonChunk.vars["_unknownBytes"] = WalkNode(chunk.data, extension, logLevel + 1, options);
                 }
                 jsonChunk.flags = chunk.REDObjectFlags;
                 if (chunk.unknownBytes != null && chunk.unknownBytes.Bytes != null && chunk.unknownBytes.Bytes.Length > 0)
