@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <AssemblyTitle>WolvenKit.Radish</AssemblyTitle>
     <Product>WolvenKit.Radish</Product>
     <Copyright>Copyright ©  2020</Copyright>

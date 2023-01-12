@@ -3,7 +3,6 @@
     <RootNamespace>WolvenKit.W3SavegameEditor.Core</RootNamespace>
     <AssemblyName>WolvenKit.W3SavegameEditor.Core</AssemblyName>
     <TargetFramework>net48</TargetFramework>
-	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>x64</Platforms>
   </PropertyGroup>

@@ -2,7 +2,6 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>
-	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>./Publish/</PublishUrl>
     <Install>true</Install>

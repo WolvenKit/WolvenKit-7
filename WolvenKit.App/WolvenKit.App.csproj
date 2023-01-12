@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <AssemblyTitle>WolvenKit.App</AssemblyTitle>
     <Product>WolvenKit.App</Product>
     <Copyright>Copyright ©  2020</Copyright>
