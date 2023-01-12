@@ -45,7 +45,7 @@ jobs:
     - name: Zip Release
       run: |
         cd $Env:GITHUB_WORKSPACE\\WolvenKit\bin
-        Compress-Archive -Path ./Release/ -DestinationPath WolvenKit.zip
+        Compress-Archive -Path ./x64/Release/net48/win-x64/ -DestinationPath WolvenKit.zip
     
     - name: Deploy Nightly
       uses: WebFreak001/deploy-nightly@v1.1.0
