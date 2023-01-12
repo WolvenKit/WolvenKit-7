@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
+	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <AssemblyTitle>W3Edit.Scaleform</AssemblyTitle>
     <Product>W3Edit.Scaleform</Product>
     <Copyright>Copyright ©  2017-2020</Copyright>

@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
+	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <AssemblyTitle>W3Edit.CR2W</AssemblyTitle>
     <Product>W3Edit.CR2W</Product>
     <Copyright>Copyright ©  2015-2020</Copyright>

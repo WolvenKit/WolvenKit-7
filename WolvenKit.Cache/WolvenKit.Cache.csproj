@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
+	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>W3Edit.Textures</AssemblyTitle>
     <Product>W3Edit.Textures</Product>
