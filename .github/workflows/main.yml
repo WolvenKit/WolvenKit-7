@@ -19,9 +19,13 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
       with:
         msbuild-architecture: x64
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.x
 
     - name: Restore packages
-      run: dotnet restore --packages .nuget --runtime win10-x64
+      run: dotnet restore --packages .nuget --runtime win-x64
     
     - name: Build with MSBuild
-      run: msbuild  WolvenKit.sln -p:Configuration=Release -p:Platform=x64 -m
+      run: msbuild  WolvenKit.sln -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64
