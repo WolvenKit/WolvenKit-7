@@ -207,17 +207,17 @@ namespace WolvenKit.CR2W.JSON
                 cr2wChunk.REDObjectFlags = jsonChunk.flags;
                 if (jsonChunk.unknownBytes != null && jsonChunk.unknownBytes.Length > 0)
                 {
-                    cr2wChunk.unknownBytes = new CBytes(cr2w, cr2wChunk.data, "unknownBytes")
-                    {
-                        Bytes = jsonChunk.unknownBytes
-                    };
+                    cr2wChunk.unknownBytes = new CBytes(cr2w, cr2wChunk.data, "unknownBytes");
+                    cr2wChunk.unknownBytes.Bytes = new byte[jsonChunk.unknownBytes.Length];
+                    jsonChunk.unknownBytes.CopyTo(cr2wChunk.unknownBytes.Bytes, 0);
                 }
             }
 
             /* Additional bytes */
             if (jsonCR2W.additionalBytes != null && jsonCR2W.additionalBytes.Length > 0)
             {
-                cr2w.AdditionalCr2WFileBytes = jsonCR2W.additionalBytes;
+                cr2w.AdditionalCr2WFileBytes = new byte[jsonCR2W.additionalBytes.Length];
+                jsonCR2W.additionalBytes.CopyTo(cr2w.AdditionalCr2WFileBytes, 0);
             }
 
             return cr2w;
@@ -612,7 +612,7 @@ namespace WolvenKit.CR2W.JSON
             }
             if (options.Verbose)
             {
-                Print($"{LogIndent(logLevel)}[WalkCR2W] {cr2w.chunks.Count} Chunks, {jsonCR2W.imports.Count} Imports, {jsonCR2W.properties.Count} Properties, {jsonCR2W.buffers.Count} Buffers, {jsonCR2W.embedded.Count} Embedded");
+                Print($"{LogIndent(logLevel)}[WalkCR2W] {cr2w.names.Count} CNames, {cr2w.chunks.Count} Chunks, {jsonCR2W.imports.Count} Imports, {jsonCR2W.properties.Count} Properties, {jsonCR2W.buffers.Count} Buffers, {jsonCR2W.embedded.Count} Embedded");
             }
 
             /* CR2W Chunks - add dummy objects with index first */
@@ -653,13 +653,17 @@ namespace WolvenKit.CR2W.JSON
                 jsonChunk.flags = chunk.REDObjectFlags;
                 if (chunk.unknownBytes != null && chunk.unknownBytes.Bytes != null && chunk.unknownBytes.Bytes.Length > 0)
                 {
-                    jsonChunk.unknownBytes = chunk.unknownBytes.Bytes;
+                    Print($"{LogIndent(logLevel)}[WalkCR2W] Chunk {extension}{jsonChunk.chunkKey} => {chunk.unknownBytes.Bytes.Length} unknownBytes");
+                    jsonChunk.unknownBytes = new byte[chunk.unknownBytes.Bytes.Length];
+                    chunk.unknownBytes.Bytes.CopyTo(jsonChunk.unknownBytes, 0);
                 }
             }
             /* CR2W Additional bytes */
             if (cr2w.AdditionalCr2WFileBytes != null && cr2w.AdditionalCr2WFileBytes.Length > 0)
             {
-                jsonCR2W.additionalBytes = cr2w.AdditionalCr2WFileBytes;
+                Print($"{LogIndent(logLevel)}[WalkCR2W] {extension} => {cr2w.AdditionalCr2WFileBytes.Length} AdditionalCr2WFileBytes");
+                jsonCR2W.additionalBytes = new byte[cr2w.AdditionalCr2WFileBytes.Length];
+                cr2w.AdditionalCr2WFileBytes.CopyTo(jsonCR2W.additionalBytes, 0);
             }
 
             return jsonCR2W;
