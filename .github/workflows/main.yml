@@ -23,7 +23,7 @@ jobs:
       run: nuget restore WolvenKit.sln
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.1
-        with:
-          msbuild-architecture: x64
+      with:
+        msbuild-architecture: x64
     - name: Build with MSBuild
       run: msbuild  WolvenKit.sln -p:Configuration=Release -p:Platform=x64 -m
