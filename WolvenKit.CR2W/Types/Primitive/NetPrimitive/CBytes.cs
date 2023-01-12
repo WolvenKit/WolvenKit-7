@@ -16,6 +16,9 @@ namespace WolvenKit.CR2W.Types
         public byte[] Bytes { get; set; }
         public byte[] GetBytes() => Bytes;
 
+        public string OverrideREDType { get; set; } = null;
+        public override string REDType => OverrideREDType ?? base.REDType;
+
         public override void Read(BinaryReader file, uint size)
         {
             Bytes = file.ReadBytes((int) size);
