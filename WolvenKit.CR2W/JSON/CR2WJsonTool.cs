@@ -126,6 +126,14 @@ namespace WolvenKit.CR2W.JSON
                 return false;
             }
 
+            for (int i = 0; i < cr2w.buffers.Count; i++)
+            {
+                if (cr2w.buffers[i].Data != null)
+                {
+                    cr2w.m_hasInternalBuffer = true;
+                    break;
+                }
+            }
             WriteCR2W(cr2w, cr2wPath);
             return true;
         }
