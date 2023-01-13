@@ -66,7 +66,7 @@ namespace WolvenKit.CR2W
 
         // misc
         private uint headerOffset = 0;
-        private bool m_hasInternalBuffer;
+        public bool m_hasInternalBuffer;
         //private Stream m_stream; //handle this better?
         // private string m_filePath;
 
