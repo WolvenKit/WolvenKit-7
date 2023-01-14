@@ -86,34 +86,17 @@ namespace WolvenKit.Forms
 
             File.GenerateChunksDict();
 
-            var dParentids = new Dictionary<int, int>();
-            if (viewModel.chunkDisplayMode == CR2WDocumentViewModel.EChunkDisplayMode.Parent)
-            {
-                dParentids = File.chunks.ToDictionary(_ => _.ChunkIndex, _ => _.ParentChunkIndex);
-            }
-            else if (viewModel.chunkDisplayMode == CR2WDocumentViewModel.EChunkDisplayMode.VirtualParent)
-            {
-                dParentids = File.chunks.ToDictionary(_ => _.ChunkIndex, _ => _.VirtualParentChunkIndex);
-            }
-
             foreach (var chunk in File.chunks)
             {
-                var childrenidxlist = dParentids.Where(_ => _.Value == chunk.ChunkIndex).Select(_ => _.Key);
-
-                IEnumerable<int> enumerable = childrenidxlist as int[] ?? childrenidxlist.ToArray();
-                if (enumerable.Any())
+                if (viewModel.chunkDisplayMode == CR2WDocumentViewModel.EChunkDisplayMode.Parent)
                 {
-                    List<CR2WExportWrapper> children = enumerable.Select(childid => File.chunksdict[childid]).ToList();
-                    childrenDict.Add(chunk.ChunkIndex, children);
-
-                    var c = children.Count;
-                    childrencountDict.Add(chunk.ChunkIndex, c);
+                    childrenDict.Add(chunk.ChunkIndex, chunk.ChildrenChunks);
+                    childrencountDict.Add(chunk.ChunkIndex, chunk.ChildrenChunks.Count);
                 }
-                else
+                else if (viewModel.chunkDisplayMode == CR2WDocumentViewModel.EChunkDisplayMode.VirtualParent)
                 {
-                    childrenDict.Add(chunk.ChunkIndex, new List<CR2WExportWrapper>());
-                    childrencountDict.Add(chunk.ChunkIndex, 0);
-
+                    childrenDict.Add(chunk.ChunkIndex, chunk.VirtualChildrenChunks);
+                    childrencountDict.Add(chunk.ChunkIndex, chunk.VirtualChildrenChunks.Count);
                 }
             }
 
