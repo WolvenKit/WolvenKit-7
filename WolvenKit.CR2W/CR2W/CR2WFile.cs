@@ -130,7 +130,7 @@ namespace WolvenKit.CR2W
         public CR2WExportWrapper CreateChunk(string type, int chunkindex=0, CR2WExportWrapper parent = null, CR2WExportWrapper virtualparent = null, CVariable cvar = null)
         {
             var chunk = new CR2WExportWrapper(this, type, parent);
-            chunk.CreateDefaultData(cvar);
+            chunk.CreateDefaultData();
             chunk.data.VarChunkIndex = chunkindex;
 
             if (parent!=null)
