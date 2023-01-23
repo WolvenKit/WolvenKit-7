@@ -423,6 +423,15 @@ namespace WolvenKit.CR2W.Types
                             return true;
                         }
                     }
+                    else if (member.Name == "MotionExtraction" && member.Type.GenericTypeArguments.Contains(typeof(IMotionExtraction)) && value.GetType().GenericTypeArguments.Contains(typeof(IAnimationBuffer)))
+                    {
+                        // fix bugged motionExtraction vars created by ding's wkit6..
+                        var newPtr = CR2WTypeManager.Create(value.REDType.Replace("IAnimationBuffer", "IMotionExtraction"), value.REDName, value.cr2w, value.ParentVar as CVariable);
+                        (newPtr as IPtrAccessor).Reference = (value as IPtrAccessor).Reference;
+                        newPtr.SetIsSerialized();
+                        accessor[this, member.Name] = newPtr;
+                        return true;
+                    }
                 }
             }
             Debug.WriteLine($"({value.REDType}){varname} not found in ({this.REDType}){this.REDName}");
