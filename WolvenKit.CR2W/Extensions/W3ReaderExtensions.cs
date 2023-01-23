@@ -189,8 +189,8 @@ namespace WolvenKit.CR2W
             else
                 readstring = Encoding.GetEncoding("ISO-8859-1").GetString(br.ReadBytes(len - 1));
 
-            if (br.ReadByte() != 0)
-                throw new NullReferenceException();
+            //if (br.ReadByte() != 0)
+            //    throw new NullReferenceException();
             return readstring;
         }
     }
