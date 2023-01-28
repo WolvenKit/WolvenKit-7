@@ -390,6 +390,16 @@ namespace WolvenKit.Forms
                 false,
                 (CR2WFile.EChunkDisplayMode)viewModel.chunkDisplayMode);
         }
+
+        private void buttonAddRootChunk_Click(object sender, EventArgs e)
+        {
+            viewModel.AddNewTopChunk();
+        }
+
+        private void toolStripButtonAddTopChunk_Click(object sender, EventArgs e)
+        {
+            viewModel.AddNewTopChunk();
+        }
     }
 }
  

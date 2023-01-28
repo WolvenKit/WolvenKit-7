@@ -403,6 +403,27 @@ namespace WolvenKit.App.ViewModels
             }
         }
 
+        /// <summary>
+        /// Adds a new top-level chunk
+        /// </summary>
+        public void AddNewTopChunk()
+        {
+            var cr2w = /*viewModel.*/File as CR2WFile;
+            if (cr2w == null)
+                return;
+
+            List<string> availableTypes = CR2WManager.GetAvailableTypes("CResource").Select(_ => _.Name).ToList();
+            var chunkParams = m_windowFactory.ShowAddChunkFormModal(availableTypes);
+            var newChunktype = chunkParams.Item1;
+            if (string.IsNullOrEmpty(newChunktype))
+                return;
+
+            var chunk = cr2w.CreateChunk(
+                newChunktype,
+                cr2w.chunks.Count);
+            OnPropertyChanged(nameof(File));
+        }
+
         public void AddListElement(IEditableVariable editableVariable)
         {
             if (editableVariable == null || !editableVariable.CanAddVariable(null) || !(editableVariable is IArrayAccessor parentarray))
