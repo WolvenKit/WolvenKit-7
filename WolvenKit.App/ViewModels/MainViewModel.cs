@@ -298,7 +298,8 @@ namespace WolvenKit.App.ViewModels
                 .Where(_ => _.Split(' ').First() != "")
                 .ToList();
 
-            string newChunktypename = m_windowFactory.ShowAddChunkFormModal(availableTypes);
+            var varParams = m_windowFactory.ShowAddChunkFormModal(availableTypes);
+            string newChunktypename = varParams.Item1;
 
             newChunktypename = newChunktypename.Split(' ').Last().TrimStart("(").TrimEnd(')');
             var redextension = newChunktypename.Split(' ').First();

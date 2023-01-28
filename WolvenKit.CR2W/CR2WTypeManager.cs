@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -18,6 +18,20 @@ namespace WolvenKit.CR2W.Types
         public static IEnumerable<string> AvailableTypes => AvailableVanillaTypes;
 
         public static IEnumerable<string> AvailableVanillaTypes
+        {
+            get
+            {
+                const string nspace = "WolvenKit.CR2W.Types";
+
+                var cr2wassembly = Assembly.GetExecutingAssembly();
+                var vanillaclassNames = cr2wassembly.GetTypes()
+                    .Where(_ => _.IsClass && _.Namespace == nspace)
+                    .Select(_ => _.Name);
+
+                return vanillaclassNames;
+            }
+        }
+        public static IEnumerable<string> AvailableVanillaEnums
         {
             get
             {
@@ -85,7 +99,9 @@ namespace WolvenKit.CR2W.Types
                     case "handle":
                         {
                             CVariable innerobject = Create(innertype, "", cr2w, null);
-                            return MakeGenericType(typeof(CHandle<>), innerobject);
+                            var newHandle = MakeGenericType(typeof(CHandle<>), innerobject);
+                            (newHandle as IHandleAccessor).ClassName = innertype;
+                            return newHandle;
                         }
                     case "CPtr":
                     case "ptr":
@@ -97,7 +113,9 @@ namespace WolvenKit.CR2W.Types
                     case "soft":
                         {
                             CVariable innerobject = Create(innertype, "", cr2w, null);
-                            return MakeGenericType(typeof(CSoft<>), innerobject);
+                            var newSoft = MakeGenericType(typeof(CSoft<>), innerobject);
+                            (newSoft as ISoftAccessor).ClassName = innertype;
+                            return newSoft;
                         }
                     case "array":
                         {

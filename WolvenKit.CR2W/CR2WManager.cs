@@ -92,6 +92,7 @@ namespace WolvenKit.CR2W
             return type;
         }
 
+        public static List<string> TypeNames => m_types?.Keys.ToList();
         public static bool TypeExists(string typeName) => m_types?.ContainsKey(typeName) ?? false;
 
         private static void LoadTypes()
@@ -160,6 +161,7 @@ namespace WolvenKit.CR2W
             return type;
         }
 
+        public static List<string> EnumNames => m_enums?.Keys.ToList();
         public static bool EnumExists(string typeName) => m_enums?.ContainsKey(typeName) ?? false;
         #endregion
 

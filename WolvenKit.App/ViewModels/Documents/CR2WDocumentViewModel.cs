@@ -314,7 +314,8 @@ namespace WolvenKit.App.ViewModels
                         }
                         else
                         {
-                            newChunktype = m_windowFactory.ShowAddChunkFormModal(availableTypes);
+                            var varParams = m_windowFactory.ShowAddChunkFormModal(availableTypes);
+                            newChunktype = varParams.Item1;
                         }
 
                         if (string.IsNullOrEmpty(newChunktype))
@@ -376,7 +377,8 @@ namespace WolvenKit.App.ViewModels
                             }
                             else
                             {
-                                newhandletype = m_windowFactory.ShowAddChunkFormModal(availableTypes);
+                                var varParams = m_windowFactory.ShowAddChunkFormModal(availableTypes);
+                                newhandletype = varParams.Item1;
                             }
 
 
@@ -414,12 +416,17 @@ namespace WolvenKit.App.ViewModels
 
             if (newvar is IVariantAccessor ivar)
             {
-                var availableTypes = CR2WManager.GetAvailableTypes("CObject").Select(_ => _.Name);
-                var variantType = m_windowFactory.ShowAddChunkFormModal(availableTypes);
+                var availableTypes = CR2WManager.GetAvailableTypes(nameof(IReferencable)).Select(_ => _.Name).ToList();
+                availableTypes.AddRange(new List<string>() { "Bool", "Color", "Int8", "Uint8", "Int16", "Uint16", "Int32", "Uint32", "Int64", "Uint64", "Float", "Matrix", "String", "CName" });
+                var varName = parentarray.Count.ToString();
+                var variantParams = m_windowFactory.ShowAddChunkFormModal(availableTypes, true, true);
+                var variantType = variantParams.Item1;
+                var variantName = variantParams.Item2;
 
-                var variant = CR2WTypeManager.Create(variantType, "Variant", newvar.cr2w, newvar);
+                var variant = CR2WTypeManager.Create(variantType, variantName, newvar.cr2w, newvar);
                 variant.IsSerialized = true;
                 ivar.Variant = variant;
+                newvar.SetREDName(variantName);
             }
 
             if (newvar is IChunkPtrAccessor chunkptr)

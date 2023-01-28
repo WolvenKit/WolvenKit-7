@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -80,6 +80,9 @@ namespace WolvenKit.CR2W.Reflection
                 m_enums.Add(type.Name, type);
             }
         }
+
+        public static List<string> EnumNames => m_enums.Keys.ToList();
+        public static List<string> TypeNames => m_types.Keys.ToList();
 
         public static Type GetEnumByName(string typeName)
         {

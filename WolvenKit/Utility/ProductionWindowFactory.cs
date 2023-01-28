@@ -24,16 +24,16 @@ namespace WolvenKit.Utility
             return output;
         }
 
-        public string ShowAddChunkFormModal(IEnumerable<string> availableTypes)
+        public (string, string) ShowAddChunkFormModal(IEnumerable<string> availableTypes, bool isVariant = false, bool allowEditName = false)
         {
-            using (var form = new frmAddChunk(availableTypes.ToList()))
+            using (var form = new frmAddChunk(availableTypes.ToList(), isVariant, allowEditName))
             {
                 var result = form.ShowDialog();
 
                 var output = result == DialogResult.OK 
-                    ? form.ChunkType 
+                    ? form.FinalType 
                     : "";
-                return output;
+                return (output, form.VarName);
             }
         }
 

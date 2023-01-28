@@ -127,8 +127,10 @@ namespace WolvenKit.Forms
                     // if variant is null, ask the user to create a new wrapped cvar
                     if (editableVariable is IVariantAccessor ivariant && ivariant.Variant == null)
                     {
-                        var availableTypes = CR2WManager.GetAvailableTypes(nameof(IReferencable)).Select(_ => _.Name);
-                        var variantType = new Utility.ProductionWindowFactory().ShowAddChunkFormModal(availableTypes);
+                        var availableTypes = CR2WManager.GetAvailableTypes(nameof(IReferencable)).Select(_ => _.Name).ToList();
+                        availableTypes.AddRange(new List<string>() { "Bool", "Color", "Int8", "Uint8", "Int16", "Uint16", "Int32", "Uint32", "Int64", "Uint64", "Float", "Matrix", "String", "CName" });
+                        var variantParams = new Utility.ProductionWindowFactory().ShowAddChunkFormModal(availableTypes, true, false);
+                        var variantType = variantParams.Item1;
 
                         var variant = CR2WTypeManager.Create(variantType, "Variant", editableVariable.cr2w,
                             (CVariable)editableVariable);
