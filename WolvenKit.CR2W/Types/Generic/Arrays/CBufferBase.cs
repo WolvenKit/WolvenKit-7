@@ -92,7 +92,9 @@ namespace WolvenKit.CR2W.Types
         {
             if (variable is T tvar)
             {
-                variable.SetREDName(elements.Count.ToString());
+                // don't override if name set for variant array element
+                if (!(variable is IVariantAccessor) || string.IsNullOrEmpty(variable.REDName))
+                    variable.SetREDName(elements.Count.ToString());
                 tvar.IsSerialized = true;
                 elements.Add(tvar);
                 SetIsSerialized();
@@ -150,6 +152,8 @@ namespace WolvenKit.CR2W.Types
         {
             for (int i = 0; i < elements.Count; i++)
             {
+                if (elements[i] is IVariantAccessor && !string.IsNullOrEmpty(elements[i].REDName))
+                    continue;
                 elements[i].SetREDName(i.ToString());
             }
         }
