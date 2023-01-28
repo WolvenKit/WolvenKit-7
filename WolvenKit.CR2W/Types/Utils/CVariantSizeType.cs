@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,7 +18,6 @@ namespace WolvenKit.CR2W.Types
     [REDMeta()]
     public class CVariantSizeType : CVariable, IBufferVariantAccessor
     {
-        public override string REDType => $"{base.REDType} ({Variant?.REDType})";
         public CVariable Variant { get; set; }
 
         public CVariantSizeType(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name)
