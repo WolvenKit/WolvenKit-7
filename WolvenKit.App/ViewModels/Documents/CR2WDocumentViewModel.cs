@@ -323,7 +323,7 @@ namespace WolvenKit.App.ViewModels
                         var cr2w = /*viewModel.*/File as CR2WFile;
                         ptr.Reference = cr2w.CreateChunk(
                             newChunktype,
-                            cr2w.GetLastChildrenIndexRecursive(cr2w.chunks[ptr.LookUpChunkIndex()]) + 1,
+                            cr2w.chunks.Count,
                             SelectedChunk,
                             SelectedChunk,
                             (CVariable)newvar);
@@ -387,7 +387,7 @@ namespace WolvenKit.App.ViewModels
                             var cr2w = /*viewModel.*/File as CR2WFile;
                             handle.Reference = cr2w.CreateChunk(
                                 newhandletype,
-                                cr2w.GetLastChildrenIndexRecursive(cr2w.chunks[handle.LookUpChunkIndex()]) + 1,
+                                cr2w.chunks.Count,
                                 SelectedChunk,
                                 SelectedChunk,
                                 (CVariable)newvar);
