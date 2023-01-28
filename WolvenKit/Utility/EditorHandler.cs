@@ -253,9 +253,9 @@ namespace WolvenKit.Utility
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    @this.Red.val = dlg.Color.R;
-                    @this.Green.val = dlg.Color.G;
-                    @this.Blue.val = dlg.Color.B;
+                    @this.Red.SetValue(dlg.Color.R);
+                    @this.Green.SetValue(dlg.Color.G);
+                    @this.Blue.SetValue(dlg.Color.B);
 
                     ((Panel)sender).BackColor = dlg.Color;
                 }
