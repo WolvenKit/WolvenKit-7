@@ -259,7 +259,7 @@ namespace WolvenKit.CR2W.JSON
             }
             if (cvar.REDType != node.type && !(node is CR2WJsonData) && !(cvar is CByteArray) && cvar.REDName != "SBlockDataPackedObject")
             {
-                PrintError($"{LogIndent(logLevel)}[DewalkNode] Json node type ({node.type}) don't match {extension}{cvar.GetFullName()} ({cvar.REDType})");
+                PrintError($"{LogIndent(logLevel)}[DewalkNode] Json node type ({node.type}) doesn't match {extension}{cvar.GetFullName()} ({cvar.REDType})");
             }
 
             // wrap special types first
@@ -459,7 +459,14 @@ namespace WolvenKit.CR2W.JSON
 
             if (!cvar.IsSerialized)
             {
-                PrintError($"{LogIndent(logLevel)}[DewalkNode] Not serialized! Failed to set value? ({node.type}) -> {extension}{cvar.GetFullName()} ({cvar.REDType})");
+                if (cvar is CFloat && node is CR2WJsonScalar scalar && scalar.value is string s)
+                {
+                    PrintError($"{LogIndent(logLevel)}[DewalkNode] Can't set string value {s} -> {extension}{cvar.GetFullName()} ({cvar.REDType})");
+                }
+                else
+                {
+                    PrintError($"{LogIndent(logLevel)}[DewalkNode] Not serialized! Failed to set value? ({node.type}) -> {extension}{cvar.GetFullName()} ({cvar.REDType})");
+                }
             }
             return;
         }
