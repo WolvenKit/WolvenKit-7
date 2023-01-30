@@ -171,46 +171,46 @@ namespace WolvenKit.CR2W.JSON
             /* CR2W Buffers - CHECKME ? */
             cr2w.buffers = jsonCR2W.buffers;
 
-            /* CR2W Chunks */
+            /* CR2W Chunks - Create */
             var chunkByKey = new Dictionary<string, CR2WExportWrapper>();
             foreach (var kv_chunk in jsonCR2W.chunks)
             {
-                var chunk = kv_chunk.Value;
+                var jsonChunk = kv_chunk.Value;
                 CR2WExportWrapper cr2wChunk = null;
-                if (chunk.parentKey == "")
-                {
-                    cr2wChunk = cr2w.CreateChunk(chunk.type, cr2w.chunks.Count);
-                    if (options.Verbose)
-                    {
-                        PrintOK($"{LogIndent(logLevel)}[DewalkCR2W] Create top chunk #{cr2w.chunks.Count}: {chunk.chunkKey}");
-                    }
-                }
-                else
-                {
-                    if (!chunkByKey.ContainsKey(chunk.parentKey))
-                    {
-                        PrintError($"{LogIndent(logLevel)}[DewalkCR2W] Can't find parent chunk by key: {chunk.parentKey}");
-                        continue;
-                    }
-                    cr2wChunk = cr2w.CreateChunk(chunk.type, cr2w.chunks.Count, chunkByKey[chunk.parentKey], chunkByKey[chunk.parentKey]);
-                    // ? data.SetREDFlags(Export.objectFlags);
-                    if (options.Verbose)
-                    {
-                        Print($"{LogIndent(logLevel)}[DewalkCR2W] Create chunk #{cr2w.chunks.Count}: {chunk.chunkKey} with parent = {chunk.parentKey}");
-                    }
-                }
+                cr2wChunk = cr2w.CreateChunk(jsonChunk.type, cr2w.chunks.Count);
                 if (cr2wChunk == null)
                 {
-                    PrintError($"{LogIndent(logLevel)}[DewalkCR2W] NULL chunk created: {chunk.chunkKey}");
+                    PrintError($"{LogIndent(logLevel)}[DewalkCR2W] NULL chunk created: {jsonChunk.chunkKey}");
                     continue;
                 }
                 chunkByKey[kv_chunk.Key] = cr2wChunk;
             }
+            /* CR2W Chunks - Link to parent & Fill data */
             foreach (var kv_chunk in jsonCR2W.chunks)
             {
                 var jsonChunk = kv_chunk.Value;
                 var cr2wChunk = chunkByKey[kv_chunk.Key];
-                PrintOK($"{LogIndent(logLevel)}[DewalkCR2W] Chunk {kv_chunk.Key} ({cr2wChunk.REDType})");
+                if (jsonChunk.parentKey != "")
+                {
+                    if (!chunkByKey.ContainsKey(jsonChunk.parentKey))
+                    {
+                        PrintError($"{LogIndent(logLevel)}[DewalkCR2W] Can't find parent chunk {jsonCR2W.extension}{jsonChunk.parentKey} for chunk {jsonCR2W.extension}{kv_chunk.Key}");
+                    }
+                    else
+                    {
+                        if (options.Verbose)
+                        {
+                            Print($"{LogIndent(logLevel)}[DewalkCR2W] Linking chunk {jsonCR2W.extension}{kv_chunk.Key} to parent {jsonCR2W.extension}{jsonChunk.parentKey}");
+                        }
+                        cr2wChunk.ParentChunk = chunkByKey[jsonChunk.parentKey];
+                        cr2wChunk.MountChunkVirtually(chunkByKey[jsonChunk.parentKey]);
+                    }
+                    PrintOK($"{LogIndent(logLevel)}[DewalkCR2W] Chunk {kv_chunk.Key} ({cr2wChunk.REDType})");
+                }
+                else
+                {
+                    PrintOK($"{LogIndent(logLevel)}[DewalkCR2W] Top-chunk {kv_chunk.Key} ({cr2wChunk.REDType})");
+                } 
                 cr2wChunk.REDObjectFlags = jsonChunk.flags;
                 if (jsonChunk.vars.ContainsKey("_unknownBytes") && cr2wChunk.data is CBytes dataBytes)
                 {
