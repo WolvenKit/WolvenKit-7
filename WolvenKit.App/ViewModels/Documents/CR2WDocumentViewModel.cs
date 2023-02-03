@@ -413,6 +413,8 @@ namespace WolvenKit.App.ViewModels
                 return;
 
             List<string> availableTypes = CR2WManager.GetAvailableTypes("CResource").Select(_ => _.Name).ToList();
+            availableTypes.AddRange( CR2WManager.GetAvailableTypes("CComponent").Select(_ => _.Name).ToList() );
+            availableTypes.AddRange( CR2WManager.GetAvailableTypes("CEntity").Select(_ => _.Name).ToList() );
             var chunkParams = m_windowFactory.ShowAddChunkFormModal(availableTypes);
             var newChunktype = chunkParams.Item1;
             if (string.IsNullOrEmpty(newChunktype))
