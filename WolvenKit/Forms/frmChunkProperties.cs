@@ -25,7 +25,7 @@ namespace WolvenKit.Forms
 {
     public partial class frmChunkProperties : DockContent, IThemedContent
     {
-        private bool showOnlySerialized = false;
+        private bool showOnlySerialized = true;
         //private HotkeyCollection hotkeys;
         private readonly CR2WDocumentViewModel viewModel;
 
