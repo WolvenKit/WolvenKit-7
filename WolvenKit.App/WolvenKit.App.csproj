@@ -37,8 +37,6 @@
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Pfim" Version="0.11.1" />
-    <PackageReference Include="protobuf-net" Version="3.1.26" />
-    <PackageReference Include="protobuf-net.Core" Version="3.1.26" />
     <PackageReference Include="SharpZipLib" Version="1.4.1" />
     <PackageReference Include="SymbolicLinkSupport" Version="1.2.0" />
     <PackageReference Include="System.AppContext" Version="4.3.0" />

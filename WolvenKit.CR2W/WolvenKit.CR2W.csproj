@@ -13,7 +13,7 @@
     <NoWarn>CS1591</NoWarn>
     <DefineConstants>TRACE;NGE_VERSION</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
-    <Optimize>true</Optimize>
+    <!--<Optimize>true</Optimize>-->
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>pdbonly</DebugType>
