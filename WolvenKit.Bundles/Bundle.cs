@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -107,9 +107,6 @@ namespace WolvenKit.Bundles
                         Console.WriteLine("Warning: Bundle '" + ArchiveAbsolutePath + "' could not be fully loaded as resource '" + item.Name + "' is defined more than once. Thus, only the first definition was loaded.");
                     }
                 }
-
-
-                reader.Close();
             }
         }
 

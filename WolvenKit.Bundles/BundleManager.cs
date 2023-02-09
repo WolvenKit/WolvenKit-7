@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -69,7 +69,7 @@ namespace WolvenKit.Bundles
                 // if file is already in another bundle
                 if (ispatch && Items[item.Key].Count > 0)
                 {
-                    // check if file is already in contentN directory (content0, content1 etc) 
+                    // check if file is already in content directory (content0, content1 etc) 
                     List<IWitcherFile> filesInBundles = Items[item.Key];
                     var splits = filesInBundles.First().Bundle.ArchiveAbsolutePath.Split(Path.DirectorySeparatorChar);
                     var contentdir = splits[splits.Length - 3];
