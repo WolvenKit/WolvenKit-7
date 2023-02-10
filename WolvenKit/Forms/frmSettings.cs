@@ -214,11 +214,7 @@ namespace WolvenKit.Forms
                         }
                         default:
                         {
-                            DialogResult = DialogResult.None;
-                            textBoxGame.Focus();
-                            MessageBox.Show("Invalid wcc_lite.exe path you seem to have on older version",
-                                "failed to save.");
-                            return;
+                            break;
                         }
                     }
 
