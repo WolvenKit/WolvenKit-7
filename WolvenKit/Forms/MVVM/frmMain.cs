@@ -1424,6 +1424,8 @@ namespace WolvenKit
 #endregion
 
 #region UI Events
+
+
         private void frmMain_Load(object sender, EventArgs e)
         {
             //Load/Setup the config
@@ -1475,6 +1477,8 @@ namespace WolvenKit
             richpresenceworker.RunWorkerAsync();
 
             ResetWindows();
+
+
             if (MainController.Get().Configuration.IsWelcomeFormDisabled)
             {
                 return;
@@ -1499,6 +1503,7 @@ namespace WolvenKit
             }
 
             MainController.Get().StatusProgress = 100;
+
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -1569,6 +1574,10 @@ namespace WolvenKit
             {
                 OpenCr2wFile(MainController.Get().InitialFilePath);
             }
+
+            // hack to set toolbar to visible
+             toolbarToolStrip.Visible = true;
+             statusToolStrip.Visible = true;
         }
 
         private void frmMain_MdiChildActivate(object sender, EventArgs e)
