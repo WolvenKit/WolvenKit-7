@@ -72,8 +72,14 @@ jobs:
       - run: echo "PORTABLE=${{env.NAME}}-${{env.VERSION_APP}}.zip" >> $env:GITHUB_ENV
 
       # Publish app
-      - run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal /t:Publish -p:PublishDir=.\..\publish\app -p:VersionSuffix="nightly.${{env.ISODATE}}" -p:InformationalVersion="${{env.VERSION_APP}}"
-      - run: Compress-Archive -Path ./publish/app/* -DestinationPath ${{env.FINALOUT}}/${{env.PORTABLE}}
+      - name: Restore packages
+        run: dotnet restore --packages .nuget --runtime win-x64
+
+      - name: Publish app with msbuild
+        run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal /t:Publish -p:PublishDir=.\..\publish\app -p:VersionSuffix="nightly.${{env.ISODATE}}" -p:InformationalVersion="${{env.VERSION_APP}}"
+      
+      - name: Compress release
+        run: Compress-Archive -Path ./publish/app/* -DestinationPath ${{env.FINALOUT}}/${{env.PORTABLE}}
       
       ##########################################
       # INSTALLER
