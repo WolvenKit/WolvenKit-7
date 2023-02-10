@@ -58,7 +58,7 @@ jobs:
         run: dotnet restore --packages .nuget --runtime win-x64
 
       - name: Publish app with msbuild
-        run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal /t:Publish -p:PublishDir=.\..\publish -p:VersionSuffix="nightly.${{env.ISODATE}}" -p:InformationalVersion="${{env.VERSION_APP}}"
+        run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal /t:Publish -p:PublishDir=.\..\publish 
       
 
       ##########################################
