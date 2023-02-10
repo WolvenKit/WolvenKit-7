@@ -1,60 +1,104 @@
 name: WolvenKit-Nightly
 on:
-  push:
-    branches: [main]
+  schedule:
+    - cron: "0 12 * * *"
   workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'     
-        required: false
-        default: 'warning' 
-        type: choice
-        options:
-        - info
-        - warning
-        - debug 
+
+env:
+  FINALOUT: ./publish
+  NAME: WolvenKit
+  MREPO: ${{github.repository}}
 
 jobs:
-  build:
-    runs-on: windows-latest
+  check_date:
+    runs-on: ubuntu-latest
+    name: Check latest commit
+    outputs:
+      should_run: ${{ steps.should_run.outputs.should_run }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - id: should_run
+        name: check latest commit is less than a day
+        run: |
+          myvar=$(git rev-list --after="24 hours" HEAD)
+          if (test ! -z "$myvar"); then HAS_COMMITS='true'; else HAS_COMMITS='false'; fi;
+          echo "$HAS_COMMITS"
+          echo "should_run="$HAS_COMMITS"" >> $GITHUB_OUTPUT
+
+  nightly-wkit-win:
+    needs: check_date
+    if: ${{ needs.check_date.outputs.should_run == 'true' }}
+    runs-on: windows-2022
 
     steps:
-    - name: Checkout github repo
-      uses: actions/checkout@v2
-    - name: setup-msbuild
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        msbuild-architecture: x64
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7.x
 
-    - name: Restore packages
-      run: dotnet restore --packages .nuget --runtime win-x64
+      ##########################################
+      # SETUP
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
 
-    - name: Build exe
-      run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal
+      - name: Get commit
+        run: |
+          $commit = git log -1 --format=%H
+          echo "SHA=$commit" >> $env:GITHUB_ENV
 
-    - name: Build cli
-      run: msbuild WolvenKit.CLI/WolvenKit.CLI.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.x
 
-    - name: copy cli exe to app output
-      run: Copy-Item ".\WolvenKit.CLI\bin\Release\net48\win-x64\WolvenKit.CLI.exe" -Destination ".\WolvenKit\bin\x64\Release\net48\win-x64"
-    
-    - name: Zip Release
-      run: |
-        cd $Env:GITHUB_WORKSPACE\\WolvenKit\bin
-        Compress-Archive -Path ./x64/Release/net48/win-x64/ -DestinationPath WolvenKit.zip
-    
-    - name: Deploy Nightly
-      uses: WebFreak001/deploy-nightly@v1.1.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
-      with:
-        upload_url: https://uploads.github.com/repos/WolvenKit/WolvenKit-7/releases/68038231/assets{?name,label} # find out this value by opening https://api.github.com/repos/<owner>/<repo>/releases in your browser and copy the full "upload_url" value including the {?name,label} part
-        release_id: 68038231
-        asset_path: WolvenKit/bin/WolvenKit.zip
-        asset_name: WolvenKit-Nightly-NGE-$$.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
-        asset_content_type: application/zip # required by GitHub API
-        max_releases: 5 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
+      - name: Get Date
+        run: |
+          $date = Get-Date -Format "yyyy-MM-dd"
+          echo "ISODATE=$date" >> $env:GITHUB_ENV
+
+      ##########################################
+      # APP
+      - name: Get version
+        uses: naminodarie/get-net-sdk-project-versions-action@v1.1.2
+        id: get_version
+        with:
+          proj-path: ./WolvenKit/WolvenKit.csproj
+
+      - run: echo "VERSION_APP=${{steps.get_version.outputs.assembly-version}}-nightly.${{env.ISODATE}}" >> $env:GITHUB_ENV
+      - run: echo "PORTABLE=${{env.NAME}}-${{env.VERSION_APP}}.zip" >> $env:GITHUB_ENV
+
+      # Publish app
+      - run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal /t:Publish -p:PublishDir=.\..\publish\app -p:VersionSuffix="nightly.${{env.ISODATE}}" -p:InformationalVersion="${{env.VERSION_APP}}"
+      - run: Compress-Archive -Path ./publish/app/* -DestinationPath ${{env.FINALOUT}}/${{env.PORTABLE}}
+      
+      ##########################################
+      # INSTALLER
+
+      - name: create installer
+        run: ISCC /O"${{env.FINALOUT}}" /dMyAppBaseDir="..\publish\app\" /dMyAppName="WolvenKit (TW3) Nightly" /dMyAppId="WolvenKit-7-Nightly" .\Installers\installer.iss
+
+      ##########################################
+      # RELEASE
+
+      # tag main commit
+      - name: Create Tag
+        id: tag_version
+        uses: rfuzzo/github-tag-action@7b0316b3fb8aa236fdc20bee0614ea6ef99f4bf1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: false
+          custom_tag: ${{ env.VERSION_APP }}
+          tag_prefix: ""
+
+      - name: Release dispatch
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION_APP }}
+          generate_release_notes: false
+          files: |
+            ${{ env.FINALOUT }}/*.zip
+            ${{ env.FINALOUT }}/*.exe
+          repository: WolvenKit/WolvenKit-7-nightly
+          token: ${{ secrets.RELEASE_TOKEN }}
+          body: "This is a beta release so you may encounter bugs. Please report them.\n${{ steps.tag_version.outputs.changelog }}"

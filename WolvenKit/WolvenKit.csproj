@@ -13,24 +13,30 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>18</ApplicationRevision>
-    <ApplicationVersion>0.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+      <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <AssemblyTitle>Wolven kit</AssemblyTitle>
     <Company>Community</Company>
     <Product>Wolven kit</Product>
     <Description>Wolven kit a tool to operate with the game \"The Witcher 3: Wild Hunt\" in various ways.</Description>
     <Copyright>Copyright © 2015-2022</Copyright>
-    <AssemblyVersion>7.1.0</AssemblyVersion>
-    <FileVersion>7.1.0</FileVersion>
-    <NoWarn>1591</NoWarn>
-    <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
-    <Platforms>x64</Platforms>
+      <NoWarn>1591</NoWarn>
+      <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
+      <Platforms>x64</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup>
+      <ApplicationVersion>0.0.2.%2a</ApplicationVersion>
+      <ApplicationRevision>18</ApplicationRevision>
+
+      <VersionPrefix>7.1.0</VersionPrefix>
+      <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+      <InformationalVersion>7.1.0</InformationalVersion>
+	</PropertyGroup>
+    
 	<PropertyGroup>
 		<DefineConstants>USE_RENDER,NGE_VERSION</DefineConstants>
 	</PropertyGroup>
