@@ -52,7 +52,8 @@ Download either the latest stable version or the current nightly (beta) version 
 
 | Package | Latest Release | Checks  |
 | ------- | ------------ | ----------------- |
-| [WolvenKit Pre-release](https://github.com/WolvenKit/WolvenKit-7/releases) | [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/WolvenKit/Wolvenkit-7?include_prereleases)](https://img.shields.io/github/v/release/WolvenKit/Wolvenkit-7?include_prereleases) | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/WolvenKit/WolvenKit-7/Nightly.yml) |
+| [WolvenKit Nightly](https://github.com/WolvenKit/WolvenKit-7-nightly/releases/latest) | [![GitHub release (latest by date)](https://img.shields.io/github/v/release/WolvenKit/WolvenKit-7-nightly)](https://github.com/WolvenKit/WolvenKit-7-nightly/releases/latest) | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/WolvenKit/WolvenKit/Nightly.yml) |
+| [WolvenKit Pre-release](https://github.com/WolvenKit/WolvenKit-7/releases) | [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/WolvenKit/Wolvenkit-7?include_prereleases)](https://img.shields.io/github/v/release/WolvenKit/Wolvenkit-7?include_prereleases) | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/WolvenKit/WolvenKit-7/main.yml) |
 | [WolvenKit](https://github.com/WolvenKit/WolvenKit-7/releases/latest) | [![GitHub release (latest by date)](https://img.shields.io/github/v/release/WolvenKit/WolvenKit-7)](https://github.com/WolvenKit/WolvenKit-7/releases/latest) | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/WolvenKit/WolvenKit-7/main.yml) | 
 
 
