@@ -2,9 +2,10 @@
   <PropertyGroup>
     <RootNamespace>WolvenKit.W3SavegameEditor.Core</RootNamespace>
     <AssemblyName>WolvenKit.W3SavegameEditor.Core</AssemblyName>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>x64</Platforms>
+      <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

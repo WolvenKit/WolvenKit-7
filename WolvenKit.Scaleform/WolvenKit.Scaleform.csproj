@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+      <TargetFramework>net481</TargetFramework>
     <AssemblyTitle>W3Edit.Scaleform</AssemblyTitle>
     <Product>W3Edit.Scaleform</Product>
     <Copyright>Copyright ©  2017-2020</Copyright>
