@@ -1,0 +1,110 @@
+name: wkit-draft-release
+on:
+  workflow_dispatch:
+  push:
+    tags-ignore:
+    - '*-nightly*'
+
+env:
+  PROJ: ./WolvenKit/WolvenKit.csproj
+  # PROJC: ./WolvenKit.CLI/WolvenKit.CLI.csproj
+
+jobs:
+
+  release:
+    runs-on: windows-latest
+    env:
+      VERSION_APP: ${{github.ref_name}} # this is the tag on tag push or the branch name on dispatch
+      OUT_DIR: ./release
+      NAME: WolvenKit
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.x
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1
+       
+      ##########################################
+      # VERSIONS
+
+      # the CLI is versioned by its assemblyversion
+      # - name: Get console version
+      #   uses: naminodarie/get-net-sdk-project-versions-action@v1
+      #   id: get_version_cli
+      #   with:
+      #     proj-path: ${{env.PROJC}}
+
+      # get the version for the portable from the tag
+      # only run on dispatch, otherwise the version is taken from the tag
+      - name: Get app version
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: naminodarie/get-net-sdk-project-versions-action@v1
+        id: get_version
+        with:
+          proj-path: ${{env.PROJ}}
+      - name: change version
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        run: echo "VERSION_APP=${{steps.get_version.outputs.assembly-version}}" >> $GITHUB_ENV
+
+
+      ##########################################
+      # APP
+
+      # Publish app to .\publish
+      - name: Restore packages
+        run: dotnet restore --packages .nuget --runtime win-x64
+
+      - name: Publish app with msbuild
+        run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal /t:Publish -p:PublishDir=.\..\publish -p:VersionSuffix="nightly.${{env.ISODATE}}" -p:InformationalVersion="${{env.VERSION_APP}}"
+      
+
+      ##########################################
+      # CONSOLE
+
+      # Publish console to .\publish_cli
+      # - name: publish console
+      #   run: dotnet publish ${{env.PROJC}} -o .\publish_cli -r win-x64 -c Release --no-self-contained
+
+      ##########################################
+      # create release files
+
+      # Create Installer in OUT_DIR
+      - name: create setup
+        run: ISCC /O"${{env.OUT_DIR}}" .\Installers\installer.iss
+     
+      # compress portables to OUT_DIR
+      - run: Compress-Archive -Path .\publish\* -DestinationPath ${{ env.OUT_DIR }}/${{env.NAME}}-${{env.VERSION_APP}}.zip
+      # - run: Compress-Archive -Path .\publish_cli\* -DestinationPath ${{ env.OUT_DIR }}/${{env.NAME}}.Console-${{steps.get_version_cli.outputs.assembly-version}}.zip
+
+      ##########################################
+      # RELEASE
+      - name: Release tag
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          generate_release_notes: true
+          body_path: "RELEASE.md"
+          files: |
+            ${{ env.OUT_DIR }}/*.zip
+            ${{ env.OUT_DIR }}/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # dispatch release uses the version and not the ref
+      - name: Release dispatch
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION_APP }}
+          draft: true
+          generate_release_notes: true
+          body_path: "RELEASE.md"
+          files: |
+            ${{ env.OUT_DIR }}/*.zip
+            ${{ env.OUT_DIR }}/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

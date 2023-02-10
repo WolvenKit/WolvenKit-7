@@ -32,9 +32,9 @@
       <ApplicationVersion>0.0.2.%2a</ApplicationVersion>
       <ApplicationRevision>18</ApplicationRevision>
 
-      <VersionPrefix>7.1.0</VersionPrefix>
+      <VersionPrefix>7.2.0</VersionPrefix>
       <VersionSuffix>$(VersionSuffix)</VersionSuffix>
-      <InformationalVersion>7.1.0</InformationalVersion>
+      <InformationalVersion>7.2.0</InformationalVersion>
 	</PropertyGroup>
     
 	<PropertyGroup>
