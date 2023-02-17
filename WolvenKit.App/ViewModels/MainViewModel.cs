@@ -845,9 +845,9 @@ namespace WolvenKit.App.ViewModels
                     var files = Directory.GetFiles((ActiveMod.ProjectDirectory + "\\strings")).Where(s => Path.GetExtension(s) == ".w3strings").ToList();
 
                     if (packsettings.Strings.Item1)
-                        files.ForEach(x => File.Copy(x, Path.Combine(ActiveMod.PackedDlcDirectory, Path.GetFileName(x))));
-                    if (packsettings.Strings.Item2)
                         files.ForEach(x => File.Copy(x, Path.Combine(ActiveMod.PackedModDirectory, Path.GetFileName(x))));
+                    if (packsettings.Strings.Item2)
+                        files.ForEach(x => File.Copy(x, Path.Combine(ActiveMod.PackedDlcDirectory, Path.GetFileName(x))));
                 }
                 #endregion
                 MainController.Get().StatusProgress = 90;

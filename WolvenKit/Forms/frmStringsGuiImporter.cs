@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -182,14 +182,20 @@ namespace WolvenKit
             if (matchCaseSearch)
                 foreach (var str in strings)
                 {
-                    if (str[2].Contains(textBoxSearch.Text))
-                        results.Add(str);
+                    if (str[2] != null)
+                    {
+                        if (str[2].Contains(textBoxSearch.Text))
+                            results.Add(str);
+                    }
                 }
             else
                 foreach (var str in strings)
                 {
-                    if (str[2].ToUpper().Contains(textBoxSearch.Text.ToUpper()))
-                        results.Add(str);
+                    if (str[2] != null)
+                    {
+                        if (str[2].ToUpper().Contains(textBoxSearch.Text.ToUpper()))
+                            results.Add(str);
+                    }
                 }
             FillListView(results.ToList());
         }
