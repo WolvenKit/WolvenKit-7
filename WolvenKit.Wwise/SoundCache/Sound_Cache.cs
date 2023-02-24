@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
@@ -250,6 +250,10 @@ namespace WolvenKit.Cache
                     DataOffset += 0x10;
                     for (int i = 0; i < data_array.Count; i++)
                         data_array[i].PageOffset = -1;
+                }
+                else
+                {
+                    Version = 1;
                 }
 
                 if (buffersize <= CACHE_BUFFER_SIZE)

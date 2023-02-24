@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -278,7 +278,7 @@ namespace WolvenKit.Wwise.Wwise
                         case "LIST":
                             {
                                 LIST_offset = chunk_offset + 8;
-                                LIST_offset = size;
+                                LIST_size = size;
                                 break;
                             }
                         case "smpl":
@@ -299,6 +299,8 @@ namespace WolvenKit.Wwise.Wwise
                                 data_size = size;
                                 break;
                             }
+                        case "hash":
+                            break;
                         default:
                             throw new Exception("Unknown chunk with type: " + type + "!");
                     }
@@ -422,8 +424,8 @@ namespace WolvenKit.Wwise.Wwise
                     br.BaseStream.Seek(LIST_offset, SeekOrigin.Begin);
                     adtlbuf = new String(br.ReadChars(4));
 
-                    if (adtlbuf != "adtl")
-                        throw new Exception("List is not adtl!");
+                    //if (adtlbuf != "adtl")
+                    //    throw new Exception("List is not adtl!");
 
                     LIST_remain = br.ReadBytes((int)(LIST_size - 4));
                 }
