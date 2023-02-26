@@ -11,7 +11,7 @@
 
 <p align="center">
 
-> ⚠️ This repository focuses on REDengine 3 for The Witcher 2077. For WolvenKit for <em>Cyberpunk 2077</em> please see: https://github.com/WolvenKit/WolvenKit
+> ⚠️ This repository focuses on REDengine 3 for The Witcher 3. For WolvenKit for <em>Cyberpunk 2077</em> please see: https://github.com/WolvenKit/WolvenKit
 
 WolvenKit is an open-source modding tool for <em>The Witcher 3: The Wild Hunt</em>. Our vision is to develop a standalone software which is capable of reading and writing all REDengine file formats. Additionally the WolvenKit application is designed to simplify and accelerate modding workflows. 
 This repository was created to demonstrate how <a href="https://en.wikipedia.org/wiki/CD_Projekt">CDPR</a>'s proprietary <a href="https://en.wikipedia.org/wiki/CD_Projekt#REDengine"><strong>REDengine</strong></a> reads and writes file formats. 
