@@ -2236,7 +2236,8 @@ namespace WolvenKit
                 return;
 
             // check path length
-            if (MainController.Get().Configuration.DepotPath.Length > 38)
+            //if (MainController.Get().Configuration.DepotPath.Length > 38)
+            if (MainController.Get().Configuration.DepotPath.Length > 255)
             {
                 MainController.LogString("Wcc probably does not support path lengths > 255. " +
                                          "Please move your wcc_lite Modkit directory closer to root, e.g. C:\\Modkit\\.", Common.Services.Logtype.Error);
