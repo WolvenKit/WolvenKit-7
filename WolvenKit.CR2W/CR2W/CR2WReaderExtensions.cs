@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,10 +27,16 @@ namespace WolvenKit.CR2W
                 var sb = new StringBuilder();
                 while (true)
                 {
-                    var c = (char)file.ReadByte();
-                    if (c == 0)
+                    if (file.BaseStream.Position <= file.BaseStream.Length)
+                    {
+                        var c = (char)file.ReadByte();
+                        if (c == 0)
+                            break;
+                        sb.Append(c);
+                    } else
+                    {
                         break;
-                    sb.Append(c);
+                    }
                 }
                 str = sb.ToString();
             }
