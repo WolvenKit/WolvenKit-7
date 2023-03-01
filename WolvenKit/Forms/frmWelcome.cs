@@ -1,4 +1,4 @@
-﻿using BrightIdeasSoftware;
+using BrightIdeasSoftware;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -107,10 +107,11 @@ namespace WolvenKit.Forms
         </style> 
     </head>
     <body>
+        <li><a href = ${"\"https://www.nexusmods.com/witcher3/mods/3161\""}> Features and Guidelines </a></li>
         <li><a href = ${"\"https://github.com/Traderain/Wolven-kit/wiki\""}> WolvenKit Wiki </a></li>
         <li><a href = ${"\"https://github.com/WolvenKit/WolvenKit-7\""}> GitHub Repository </a></li>
         <li><a href = ${"\"https://www.youtube.com/watch?v=jUoamicYtjk\""}> Package creation </a></li>
-        <li><a href = ${"\"https://www.youtube.com/watch?v=jUoamicYtjk\""}> Sound modding </a></li>
+        <li><a href = ${"\"https://youtu.be/0Ef-HkEhdv8\""}> Sound modding </a></li>
     </body>
 </html>
           ";
@@ -149,7 +150,9 @@ namespace WolvenKit.Forms
             wolvenKitLbl.ForeColor = UIController.GetForeColor();
 
             helpWebBrowser.DocumentText = DocumentText;
+            helpWebBrowser.Navigating += HelpWebBrowser_Navigating;
         }
+
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -158,8 +161,14 @@ namespace WolvenKit.Forms
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
-      
+
         // UI Events //
+
+        private void HelpWebBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            e.Cancel = true;
+            Process.Start(e.Url.ToString());
+        }
         
         private void mainMenuStrip_MouseDown(object sender, MouseEventArgs e)
         {
