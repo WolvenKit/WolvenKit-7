@@ -13,7 +13,12 @@ namespace WolvenKit.CR2W.Types
         public string InternalType { get; set; }
         public override string REDType => string.IsNullOrEmpty(InternalType) ? base.REDType : InternalType;
 
-        public CByteArray(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name) { }
+        public CByteArray(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name) {
+            if (name == "flatCompiledData")
+            {
+                InternalType = "array:2,0,Uint8";
+            }
+        }
 
         public byte[] Bytes { get; set; }
         public byte[] GetBytes() => Bytes;
