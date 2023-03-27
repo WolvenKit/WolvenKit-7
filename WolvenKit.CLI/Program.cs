@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using CommandLine;
 using WolvenKit.Common.Extensions;
+using WolvenKit.CR2W;
 using WolvenKit.CR2W.JSON;
 
 namespace WolvenKit.CLI
@@ -16,6 +17,8 @@ namespace WolvenKit.CLI
 
         [Option("output", Required = false, HelpText = "CR2W/JSON file output path")]
         public string OutputPath { get; set; }
+        [Option("cr2w2info", Required = false, HelpText = "Dump CR2W partial info into JSON")]
+        public bool DumpCR2W { get; set; }
 
         [Option("cr2w2json", Required = false, HelpText = "Export CR2W to JSON")]
         public bool ExportJSON { get; set; }
@@ -109,6 +112,21 @@ namespace WolvenKit.CLI
                 {
                     PrintError($"ERROR importing JSON!");
                 }
+            }
+            else if (opts.DumpCR2W)
+            {
+                if (string.IsNullOrEmpty(opts.OutputPath))
+                    opts.OutputPath = opts.InputPath + ".info.json";
+
+                Print($"Dumping info to JSON..\nInput CR2W: {opts.InputPath}\nOutput JSON: {opts.OutputPath}");
+                if (!CR2WScripts.DumpInfo(opts.InputPath, opts.OutputPath))
+                {
+                    PrintError($"ERROR dumping JSON!");
+                }
+            }
+            else
+            {
+                Print($"No action specified.");
             }
             TimeSpan ts = watch.Elapsed;
             PrintOK($"Finished in {(int)ts.TotalSeconds}.{(int)ts.TotalMilliseconds} s");
