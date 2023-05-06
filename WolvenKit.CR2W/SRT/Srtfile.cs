@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using WolvenKit.Common;
 using WolvenKit.Common.Model;
@@ -75,6 +77,25 @@ namespace WolvenKit.CR2W.SRT
         #endregion
 
         #region Read
+        public void ReadFromSRT(string srtPath)
+        {
+            FileName = Path.GetFileName(srtPath);
+            using (var fstream = new FileStream(srtPath, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = new BinaryReader(fstream))
+                {
+                    this.Read(reader);
+                }
+                fstream.Close();
+            }
+        }
+        public static Srtfile ReadFromJSON(string jsonPath)
+        {
+            byte[] jsonUtf8Bytes = File.ReadAllBytes(jsonPath);
+            var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter(), new JsonFloatNaNConverter() } };
+            var utf8Reader = new Utf8JsonReader(jsonUtf8Bytes);
+            return JsonSerializer.Deserialize<Srtfile>(ref utf8Reader, options);
+        }
         public EFileReadErrorCodes Read(BinaryReader br)
         {
             WolvenKit_AlignedBytes.Clear();
@@ -908,7 +929,23 @@ namespace WolvenKit.CR2W.SRT
         #endregion
 
         #region Write
-
+        public void WriteToJsonFile(string jsonPath)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter(), new JsonFloatNaNConverter() } };
+            byte[] jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(this, options);
+            File.WriteAllBytes(jsonPath, jsonUtf8Bytes);
+        }
+        public void WriteToSRTFile(string srtPath)
+        {
+            using (var fstream = new FileStream(srtPath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                using (var writer = new BinaryWriter(fstream))
+                {
+                    this.Write2(writer);
+                }
+                fstream.Close();
+            }
+        }
         public void Write(BinaryWriter file)
         {
             WolvenKit_AlignedBytesPosition = 0;
