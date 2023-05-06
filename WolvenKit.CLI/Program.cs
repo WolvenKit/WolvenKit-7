@@ -7,18 +7,26 @@ using CommandLine;
 using WolvenKit.Common.Extensions;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.JSON;
+using WolvenKit.CR2W.SRT;
 
 namespace WolvenKit.CLI
 {
     public class Options
     {
-        [Option("input", Required = true, HelpText = "CR2W/JSON file input path")]
+        [Option("input", Required = true, HelpText = "CR2W/JSON/SRT file input path")]
         public string InputPath { get; set; }
 
         [Option("output", Required = false, HelpText = "CR2W/JSON file output path")]
         public string OutputPath { get; set; }
+
         [Option("cr2w2info", Required = false, HelpText = "Dump CR2W partial info into JSON")]
         public bool DumpCR2W { get; set; }
+
+        [Option("srt2json", Required = false, HelpText = "Export SRT (SpeedTree) into JSON")]
+        public bool ExportSRT { get; set; }
+
+        [Option("json2srt", Required = false, HelpText = "Import JSON into SRT (SpeedTree)")]
+        public bool ImportSRT { get; set; }
 
         [Option("cr2w2json", Required = false, HelpText = "Export CR2W to JSON")]
         public bool ExportJSON { get; set; }
@@ -97,7 +105,7 @@ namespace WolvenKit.CLI
                 if (string.IsNullOrEmpty(opts.OutputPath))
                     opts.OutputPath = opts.InputPath + ".json";
 
-                Print($"Exporting JSON..\nInput CR2W: {opts.InputPath}\nOutput JSON: {opts.OutputPath}");
+                Print($"Exporting CR2W->JSON..\nInput CR2W: {opts.InputPath}\nOutput JSON: {opts.OutputPath}");
                 if (!CR2WJsonTool.ExportJSON(opts.InputPath, opts.OutputPath, ToolOptions))
                 {
                     PrintError($"ERROR exporting JSON!");
@@ -107,7 +115,7 @@ namespace WolvenKit.CLI
                 if (string.IsNullOrEmpty(opts.OutputPath))
                     opts.OutputPath = opts.InputPath.TrimEnd(".json");
 
-                Print($"Importing JSON..\nInput JSON: {opts.InputPath}\nOutput CR2W: {opts.OutputPath}");
+                Print($"Importing JSON->CR2W..\nInput JSON: {opts.InputPath}\nOutput CR2W: {opts.OutputPath}");
                 if (!CR2WJsonTool.ImportJSON(opts.InputPath, opts.OutputPath, ToolOptions))
                 {
                     PrintError($"ERROR importing JSON!");
@@ -123,6 +131,25 @@ namespace WolvenKit.CLI
                 {
                     PrintError($"ERROR dumping JSON!");
                 }
+            }
+            else if (opts.ExportSRT)
+            {
+                if (string.IsNullOrEmpty(opts.OutputPath))
+                    opts.OutputPath = opts.InputPath + ".json";
+
+                Print($"Exporting SRT->JSON..\nInput SRT: {opts.InputPath}\nOutput JSON: {opts.OutputPath}");
+                var SRT = new Srtfile();
+                SRT.ReadFromSRT(opts.InputPath);
+                SRT.WriteToJsonFile(opts.OutputPath);
+            }
+            else if (opts.ImportSRT)
+            {
+                if (string.IsNullOrEmpty(opts.OutputPath))
+                    opts.OutputPath = opts.InputPath.TrimEnd(".json");
+
+                Print($"Importing JSON->SRT..\nInput JSON: {opts.InputPath}\nOutput SRT: {opts.OutputPath}");
+                var SRT = Srtfile.ReadFromJSON(opts.InputPath);
+                SRT.WriteToSRTFile(opts.OutputPath);
             }
             else
             {
