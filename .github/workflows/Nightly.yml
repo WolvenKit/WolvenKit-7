@@ -78,6 +78,9 @@ jobs:
       - name: Publish app with msbuild
         run: msbuild WolvenKit/WolvenKit.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal /t:Publish -p:PublishDir=.\..\publish\app -p:VersionSuffix="nightly.${{env.ISODATE}}" -p:InformationalVersion="${{env.VERSION_APP}}"
       
+      - name: Publish cli with msbuild
+        run: msbuild WolvenKit.CLI/WolvenKit.CLI.csproj -p:Configuration=Release -p:Platform=x64 -m -p:Runtimeidentifier=win-x64 -verbosity:minimal /t:Publish -p:PublishDir=.\..\publish\app -p:VersionSuffix="nightly.${{env.ISODATE}}" -p:InformationalVersion="${{env.VERSION_APP}}"
+
       - name: Compress release
         run: Compress-Archive -Path ./publish/app/* -DestinationPath ${{env.FINALOUT}}/${{env.PORTABLE}}
       
