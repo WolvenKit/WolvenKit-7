@@ -346,11 +346,13 @@ namespace WolvenKit.CR2W.JSON
                         }
                         if (scalar.value is string str)
                         {
-                            if (cvar is CGUID && options.GuidAsString)
+                            if (options.GuidAsString && cvar is CGUID guid)
                             {
-                                cvar.SetValue(str);
+                                guid.SetValue(str);
+                            } else
+                            {
+                                cvar.SetValue(Convert.FromBase64String(str));
                             }
-                            cvar.SetValue(Convert.FromBase64String(str));
                         }
                         else if (scalar.value is byte[] byteArray)
                         {
