@@ -27,6 +27,7 @@ namespace WolvenKit.CR2W.Types
                 if (Guid.TryParse(value, out g))
                 {
                     guid = g.ToByteArray();
+                    SetIsSerialized();
                 }
             }
         }
@@ -54,6 +55,10 @@ namespace WolvenKit.CR2W.Types
                     this.guid = cvar.guid;
 					SetIsSerialized();
                     break;
+                case string str:
+                    GuidString = str;
+                    // ^ SetIsSerialized in setter on success
+                    break;
             }
 
             return this;
@@ -70,13 +75,11 @@ namespace WolvenKit.CR2W.Types
 
         public override string ToString()
         {
-            if (guid != null && guid.Length > 0)
-                return new Guid(guid).ToString();
-            else
+            if (guid == null || guid.Length == 0)
             {
                 guid = new byte[16];
-                return ToString();
             }
+            return new Guid(guid).ToString();
         }
     }
 }

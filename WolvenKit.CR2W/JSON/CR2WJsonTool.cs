@@ -16,15 +16,17 @@ namespace WolvenKit.CR2W.JSON
     public class CR2WJsonToolOptions
     {
         public CR2WJsonToolOptions() { }
-        public CR2WJsonToolOptions(bool verbose, bool bytesAsIntList, bool ignoreEmbeddedCR2W)
+        public CR2WJsonToolOptions(bool verbose, bool bytesAsIntList, bool ignoreEmbeddedCR2W, bool guidAsString)
         {
             Verbose = verbose;
             BytesAsIntList = bytesAsIntList;
+            GuidAsString = guidAsString;
             IgnoreEmbeddedCR2W = ignoreEmbeddedCR2W;
         }
 
         public bool Verbose { get; set; } = false;
         public bool BytesAsIntList { get; set; } = false;
+        public bool GuidAsString { get; set; } = false;
         public bool IgnoreEmbeddedCR2W { get; set; } = false;
     }
 
@@ -342,9 +344,13 @@ namespace WolvenKit.CR2W.JSON
                         {
                             cba.InternalType = scalar.type;
                         }
-                        if (scalar.value is string base64str)
+                        if (scalar.value is string str)
                         {
-                            cvar.SetValue(Convert.FromBase64String(base64str));
+                            if (cvar is CGUID && options.GuidAsString)
+                            {
+                                cvar.SetValue(str);
+                            }
+                            cvar.SetValue(Convert.FromBase64String(str));
                         }
                         else if (scalar.value is byte[] byteArray)
                         {
@@ -729,7 +735,16 @@ namespace WolvenKit.CR2W.JSON
                             return WalkCR2W(extraCR2W, $"{extension}{node.REDName}::", logLevel + 1, options);
                         }
                     }
-                    var primitiveValue = primitive.GetValueObject();
+                    object primitiveValue = null;
+                    if (options.GuidAsString && primitive is CGUID guid)
+                    {
+                        primitiveValue = guid.GuidString;
+                    }
+                    else
+                    {
+                        primitiveValue = primitive.GetValueObject();
+                    }
+
                     if (options.Verbose)
                     {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PRIMITIVE = {primitiveValue}");

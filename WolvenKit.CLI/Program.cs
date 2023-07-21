@@ -37,6 +37,9 @@ namespace WolvenKit.CLI
         [Option("bytes_as_list", Required = false, HelpText = "Output byte array vars as int list (by default as base64 string)")]
         public bool BytesAsIntList { get; set; } = false;
 
+        [Option("guids_as_strings", Required = false, HelpText = "Output CGUID vars as string values (by default as bytearray)")]
+        public bool GuidAsString { get; set; } = false;
+
         [Option("ignore_embedded_cr2w", Required = false, HelpText = "Do NOT serialize embedded cr2w bytearrays - flatCompiledData, etc (serialized by default if possible)")]
         public bool IgnoreEmbeddedCR2W { get; set; } = false;
 
@@ -99,7 +102,7 @@ namespace WolvenKit.CLI
             }
             Stopwatch watch = new Stopwatch();
             watch.Start();
-            var ToolOptions = new CR2WJsonToolOptions(opts.Verbose, opts.BytesAsIntList, opts.IgnoreEmbeddedCR2W);
+            var ToolOptions = new CR2WJsonToolOptions(opts.Verbose, opts.BytesAsIntList, opts.IgnoreEmbeddedCR2W, opts.GuidAsString);
             if (opts.ExportJSON)
             {
                 if (string.IsNullOrEmpty(opts.OutputPath))
