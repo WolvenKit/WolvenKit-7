@@ -92,7 +92,12 @@ namespace WolvenKit.CR2W.SRT
         public static Srtfile ReadFromJSON(string jsonPath)
         {
             byte[] jsonUtf8Bytes = File.ReadAllBytes(jsonPath);
-            var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter(), new JsonFloatNaNConverter() } };
+            var options = new JsonSerializerOptions {
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
+                Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter() }
+            };
             var utf8Reader = new Utf8JsonReader(jsonUtf8Bytes);
             return JsonSerializer.Deserialize<Srtfile>(ref utf8Reader, options);
         }
@@ -931,7 +936,12 @@ namespace WolvenKit.CR2W.SRT
         #region Write
         public void WriteToJsonFile(string jsonPath)
         {
-            var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter(), new JsonFloatNaNConverter() } };
+            var options = new JsonSerializerOptions {
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
+                Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter() }
+            };
             byte[] jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(this, options);
             File.WriteAllBytes(jsonPath, jsonUtf8Bytes);
         }

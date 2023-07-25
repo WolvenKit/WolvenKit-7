@@ -34,7 +34,7 @@ namespace WolvenKit.CR2W
         }
     }
 
-    public class JsonFloatNaNConverter : JsonConverter<float>
+    /*public class JsonFloatNaNConverter : JsonConverter<float>
     {
         public override float Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -57,7 +57,7 @@ namespace WolvenKit.CR2W
                 writer.WriteNumberValue(value);
             }
         }
-    }
+    }*/
 
     /*public class JsonSVertexPropConverter : JsonConverter<SVertexProperty>
     {

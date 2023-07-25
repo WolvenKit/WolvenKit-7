@@ -720,7 +720,12 @@ namespace WolvenKit.Forms
                             FileName = Path.GetFileName(fileName)
                         };
                         var res = SRT.Read(reader);
-                        var options = new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter(), new JsonFloatNaNConverter() } };
+                        var options = new JsonSerializerOptions {
+                            WriteIndented = true,
+                            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                            NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
+                            Converters = { new JsonStringEnumConverter(), new JsonByteArrayConverter() }
+                        };
                         byte[] jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(SRT, options);
                         await streamDestination.BaseStream.WriteAsync(jsonUtf8Bytes, 0, jsonUtf8Bytes.Length);
                     }
