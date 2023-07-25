@@ -57,7 +57,7 @@ namespace WolvenKit.CR2W.Types
             return var;
         }
 
-        public object GetValueObject() => val;
+        public object GetValueObject() => val ?? "";
 
         public override string ToString()
         {
