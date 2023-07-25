@@ -105,7 +105,8 @@ namespace WolvenKit.CR2W.JSON
             var deserializeSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.None,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                FloatFormatHandling = FloatFormatHandling.String
             };
             deserializeSettings.Converters.Add(JsonSubtypesWithPropertyConverterBuilder
                                                 .Of(typeof(CR2WJsonObject))
@@ -469,7 +470,20 @@ namespace WolvenKit.CR2W.JSON
             {
                 if (cvar is CFloat && node is CR2WJsonScalar scalar && scalar.value is string s)
                 {
-                    PrintError($"{LogIndent(logLevel)}[DewalkNode] Can't set string value {s} -> {extension}{cvar.GetFullName()} ({cvar.REDType})");
+                    if (s == "Infinity")
+                    {
+                        cvar.SetValue(float.PositiveInfinity);
+                    } else if (s == "-Infinity")
+                    {
+                        cvar.SetValue(float.NegativeInfinity);
+                    } else if (s == "NaN")
+                    {
+                        cvar.SetValue(float.NaN);
+                    }
+                    else
+                    {
+                        PrintError($"{LogIndent(logLevel)}[DewalkNode] Can't set string value {s} -> {extension}{cvar.GetFullName()} ({cvar.REDType})");
+                    }
                 }
                 else
                 {
@@ -583,7 +597,8 @@ namespace WolvenKit.CR2W.JSON
             var serializeSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.None,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                FloatFormatHandling = FloatFormatHandling.String
             };
             if (options.BytesAsIntList)
             {
