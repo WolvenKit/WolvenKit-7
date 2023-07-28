@@ -319,6 +319,8 @@ namespace WolvenKit
         {
             var extension = "";
             string bundletype = "";
+            s = s.Replace("/", "\\");
+
             if (fileExtensionsCB.SelectedIndex != -1)
                 extension = fileExtensionsCB.Items[fileTypeIdx].ToString();
             if (bundleExtensionCB.SelectedIndex != -1)
