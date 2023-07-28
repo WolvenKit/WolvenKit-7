@@ -932,19 +932,18 @@ namespace WolvenKit.CR2W
 
             // Get lists
             (var nameslist, List<SImportEntry> importslist) = GenerateStringtableInner();
-            var stringlist = new List<string>(nameslist);
+            importslist.RemoveAll(item => (item.Item1 == null || item.Item2 == null));
+            var stringlist = new HashSet<string>(nameslist);
+
             foreach (var import in importslist)
             {
-                if (!nameslist.Contains(import.Item1))
-                    nameslist.Add(import.Item1);
-                if (!stringlist.Contains(import.Item1))
-                    stringlist.Add(import.Item1);
-                if (!stringlist.Contains(import.Item2))
-                    stringlist.Add(import.Item2);
+                nameslist.Add(import.Item1);
+                stringlist.Add(import.Item1);
+                stringlist.Add(import.Item2);
             }
             foreach (var emb in embedded)
             {
-                if (!stringlist.Contains(emb.Handle))
+                if (emb.Handle != null)
                     stringlist.Add(emb.Handle);
             }
 
@@ -990,10 +989,10 @@ namespace WolvenKit.CR2W
                 }
             }
 
-            return (newstringtable, newstrings, nameslist, importslist);
+            return (newstringtable, newstrings, nameslist.ToList<string>(), importslist);
         }
 
-        private (List<string>, List<SImportEntry>) GenerateStringtableInner()
+        private (HashSet<string>, List<SImportEntry>) GenerateStringtableInner()
         {
             var dbg_trace = new List<string>();
             var newnameslist = new Dictionary<string, string>();
@@ -1015,7 +1014,7 @@ namespace WolvenKit.CR2W
             
             newimportslist.AddRange(newsoftlist);
 
-            return (newnameslist.Values.ToList(), newimportslist);
+            return (newnameslist.Values.ToHashSet<string>(), newimportslist);
 
             void LoopWrapper(SNameArg var)
             {
