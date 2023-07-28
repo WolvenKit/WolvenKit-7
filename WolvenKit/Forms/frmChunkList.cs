@@ -263,9 +263,17 @@ namespace WolvenKit.Forms
         private void searchTB_KeyUp(object sender, KeyEventArgs e)
         {
             if (!string.IsNullOrEmpty(toolStripSearchBox.Text))
-                this.treeListView.ModelFilter = TextMatchFilter.Contains(treeListView, toolStripSearchBox.Text.ToUpper());
-            else
+            {
+                var searchText = toolStripSearchBox.Text.ToLower();
+                this.treeListView.ModelFilter = new ModelFilter(delegate (object obj)
+                {
+                    var cr2w_wrapper = obj as CR2WExportWrapper;
+                    return cr2w_wrapper.REDName.ToLower().Contains(searchText) || cr2w_wrapper.Preview.ToLower().Contains(searchText);
+                });
+            } else
+            {
                 treeListView.ModelFilter = null;
+            }
         }
 
         private void listView_ItemsChanged(object sender, ItemsChangedEventArgs e)
