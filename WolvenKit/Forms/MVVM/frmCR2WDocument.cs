@@ -214,6 +214,7 @@ namespace WolvenKit
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                chunkList.UpdateList(true);
 
                 //workerCompletedAction = WorkerLoadFileCompleted;
                 return args;
@@ -275,7 +276,7 @@ namespace WolvenKit
             switch (e.PropertyName)
             {
                 case nameof(vm.File):
-                    chunkList.UpdateList();
+                    chunkList.UpdateList(false);
                     break;
                 case nameof(vm.SelectedChunks):
                     if (propertyWindow == null || propertyWindow.IsDisposed)
@@ -303,7 +304,7 @@ namespace WolvenKit
         }
 
 
-        private void ChunkWindowRequestChunkViewUpdate(object sender, EventArgs e) => chunkList.UpdateList();
+        private void ChunkWindowRequestChunkViewUpdate(object sender, EventArgs e) => chunkList.UpdateList(true);
 
         private void PropertyWindowOnRequestBytesOpen(object sender, RequestByteArrayFileOpenArgs e)
         {

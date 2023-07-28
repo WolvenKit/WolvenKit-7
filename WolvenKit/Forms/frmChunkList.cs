@@ -110,7 +110,7 @@ namespace WolvenKit.Forms
             };
         }
 
-        public void UpdateList()
+        public void UpdateList(bool expandAll)
         {
             if (File == null)
                 return;
@@ -133,7 +133,8 @@ namespace WolvenKit.Forms
                 var model = File.chunks.Where(_ => _.ParentChunk == null).ToList();
                 treeListView.Roots = model;
 
-                treeListView.ExpandAll();
+                if (expandAll)
+                    treeListView.ExpandAll();
             }
             else if (viewModel.chunkDisplayMode == CR2WDocumentViewModel.EChunkDisplayMode.VirtualParent)
             {
@@ -141,7 +142,8 @@ namespace WolvenKit.Forms
                 var model = File.chunks.Where(_ => _.VirtualParentChunk == null).ToList();
                 treeListView.Roots = model;
 
-                treeListView.ExpandAll();
+                if (expandAll)
+                    treeListView.ExpandAll();
             }
 
             // find selectedchunk index
@@ -341,7 +343,7 @@ namespace WolvenKit.Forms
             ChunkDisplayMenuItemParent.Checked = false;
             ChunkDisplayMenuItemVirtualParent.Checked = false;
             viewModel.chunkDisplayMode = CR2WDocumentViewModel.EChunkDisplayMode.Linear;
-            UpdateList();
+            UpdateList(true);
         }
 
         private void ChunkDisplayMenuItemParent_Click(object sender, EventArgs e)
@@ -349,7 +351,7 @@ namespace WolvenKit.Forms
             ChunkDisplayMenuItemLinear.Checked = false;
             ChunkDisplayMenuItemVirtualParent.Checked = false;
             viewModel.chunkDisplayMode = CR2WDocumentViewModel.EChunkDisplayMode.Parent;
-            UpdateList();
+            UpdateList(true);
         }
 
         private void ChunkDisplayMenuItemVirtualParent_Click(object sender, EventArgs e)
@@ -357,7 +359,7 @@ namespace WolvenKit.Forms
             ChunkDisplayMenuItemLinear.Checked = false;
             ChunkDisplayMenuItemParent.Checked = false;
             viewModel.chunkDisplayMode = CR2WDocumentViewModel.EChunkDisplayMode.VirtualParent;
-            UpdateList();
+            UpdateList(true);
         }
         #endregion
 
@@ -373,21 +375,21 @@ namespace WolvenKit.Forms
                 ChunkDisplayMenuItemLinear.Checked = false;
                 viewModel.chunkDisplayMode = CR2WDocumentViewModel.EChunkDisplayMode.Parent;
                 ChunkDisplayMenuItemParent.Checked = true;
-                UpdateList();
+                UpdateList(true);
             }
             else if (viewModel.chunkDisplayMode == CR2WDocumentViewModel.EChunkDisplayMode.Parent)
             {
                 ChunkDisplayMenuItemParent.Checked = false;
                 viewModel.chunkDisplayMode = CR2WDocumentViewModel.EChunkDisplayMode.VirtualParent;
                 ChunkDisplayMenuItemVirtualParent.Checked = true;
-                UpdateList();
+                UpdateList(true);
             }
             else if (viewModel.chunkDisplayMode == CR2WDocumentViewModel.EChunkDisplayMode.VirtualParent)
             {
                 ChunkDisplayMenuItemVirtualParent.Checked = false;
                 viewModel.chunkDisplayMode = CR2WDocumentViewModel.EChunkDisplayMode.Linear;
                 ChunkDisplayMenuItemLinear.Checked = true;
-                UpdateList();
+                UpdateList(true);
             }
         }
 
