@@ -797,6 +797,11 @@ namespace WolvenKit.CR2W.JSON
                     {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> SOFT {softAccessor.ClassName}:{softAccessor.DepotPath}");
                     }
+                    if (softAccessor.DepotPath == null)
+                    {
+                        PrintError($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> SOFT: NULL DepotPath! Skipping.");
+                        return null;
+                    } 
 
                     var softMap = new CR2WJsonMap(node.REDType);
                     softMap.vars[m_varClassName] = new CR2WJsonScalar("string", softAccessor.ClassName);
@@ -808,6 +813,11 @@ namespace WolvenKit.CR2W.JSON
                     handleMap.vars[m_varChunkHandle] = new CR2WJsonScalar("bool", handleAccessor.ChunkHandle);
                     if (handleAccessor.ChunkHandle)
                     {
+                        if (handleAccessor.Reference == null)
+                        {
+                            PrintError($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE: NULL! Skipping.");
+                            return null;
+                        } 
                         var handleReferenceValue = handleAccessor.Reference == null ? "NULL" : $"{extension}{handleAccessor.Reference.REDName}";
                         if (options.Verbose)
                         {
@@ -818,6 +828,11 @@ namespace WolvenKit.CR2W.JSON
                     }
                     else
                     {
+                        if (handleAccessor.DepotPath == null)
+                        {
+                            PrintError($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> SOFT HANDLE: NULL DepotPath! Skipping.");
+                            return null;
+                        }
                         if (options.Verbose)
                         {
                             Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> SOFT HANDLE {handleAccessor.ClassName}:{handleAccessor.DepotPath}");
@@ -830,7 +845,12 @@ namespace WolvenKit.CR2W.JSON
                     return handleMap;
                 case IPtrAccessor ptrAccessor:
                     var ptrMap = new CR2WJsonMap(node.REDType);
-                    var ptrReferenceValue = ptrAccessor.Reference == null ? "NULL" : $"{extension}{ptrAccessor.Reference.REDName}";
+                    if (ptrAccessor.Reference == null)
+                    {
+                        PrintError($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE: NULL! Skipping.");
+                        return null;
+                    }
+                    var ptrReferenceValue = $"{extension}{ptrAccessor.Reference.REDName}";
                     if (options.Verbose)
                     {
                         Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR {ptrReferenceValue}");
