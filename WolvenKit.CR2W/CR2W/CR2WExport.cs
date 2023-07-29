@@ -170,22 +170,33 @@ namespace WolvenKit.CR2W
             get
             {
                 var vars = data.GetEditableVariables();
-                var firstString = vars
-                        .Where(_ => _ is CString)
-                        .Cast<CString>()
-                        .FirstOrDefault(_ => _.val != null)
-                    ;
-                if (firstString != null)
-                {
-                    return firstString.val;
-                }
+                var preview = "";
 
-                var firstName = vars
-                        .Where(_ => (_ is CName))
-                        .Cast<CName>()
-                        .FirstOrDefault(_ => _.Value != null)
-                    ;
-                return firstName != null ? firstName.Value : "";
+                foreach (var v in vars)
+                {
+                    if (v == null || !v.IsSerialized)
+                        continue;
+
+                    if (v is CString s && !string.IsNullOrEmpty(s.val))
+                    {
+                        preview = s.val;
+                        break;
+                    } else if (v is CName n && !string.IsNullOrEmpty(n.Value))
+                    {
+                        preview = n.Value;
+                        break;
+                    } else if (v is IHandleAccessor handle && !handle.ChunkHandle && !string.IsNullOrEmpty(handle.DepotPath))
+                    {
+                        preview = (handle.ClassName ?? "") + ":" + handle.DepotPath;
+                        break;
+                    } else if (v is ISoftAccessor soft && !string.IsNullOrEmpty(soft.DepotPath))
+                    {
+                        preview = (soft.ClassName ?? "") + ":" + soft.DepotPath;
+                        break;
+                    }
+                }
+                
+                return preview;
             }
         }
 
