@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.Types;
 using WolvenKit.CR2W.Reflection;
+using System.Windows.Documents;
 
 namespace WolvenKit
 {
     public partial class frmAddChunk : Form
     {
-        //private string[] classTypes = null;
-        //private string[] enumTypes = null;
+        private string[] classTypes = null;
+        private string[] enumTypes = null;
         private List<string> vanillaClasses = null;
         private List<string> customClasses = null;
         private List<string> vanillaEnums = null;
@@ -28,20 +29,24 @@ namespace WolvenKit
             {
                 txName.Enabled = false;
             }
-            if (vanillaClasses == null)
+            if (list == null)
             {
-                vanillaClasses = AssemblyDictionary.TypeNames;
+                list = AssemblyDictionary.TypeNames;
             }
-            vanillaClasses.Sort();
+            list.Sort();
 
             customClasses = CR2WManager.TypeNames;
             customClasses.Sort();
 
+            classTypes = list.Concat(customClasses).Distinct().ToArray();
 
             vanillaEnums = AssemblyDictionary.EnumNames;
             vanillaEnums.Sort();
             customEnums = CR2WManager.EnumNames;
             customEnums.Sort();
+
+            enumTypes = vanillaEnums.Concat(customEnums).Distinct().ToArray();
+
             UpdateTypeChoices();
         }
 
@@ -50,11 +55,11 @@ namespace WolvenKit
             txType.Items.Clear();
             if (checkEnum.Checked)
             {
-                txType.Items.AddRange(vanillaEnums.Concat(customEnums).Distinct().ToArray());
+                txType.Items.AddRange(enumTypes);
             }
             else
             {
-                txType.Items.AddRange(vanillaClasses.Concat(customClasses).Distinct().ToArray());
+                txType.Items.AddRange(classTypes);
             }
             if (txType.SelectedIndex < 0 && txType.Items.Count > 0)
                 txType.SelectedIndex = 0;
