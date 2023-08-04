@@ -23,23 +23,23 @@ namespace WolvenKit.CR2W.Types
         #region Properties
 
         public CR2WExportWrapper Reference { get; set; }
-        public string ReferenceType => Reference.REDType.Split(':').Last();
+        public string ReferenceType => REDType.Split(':').Last();
         #endregion
 
         #region Methods
         public string GetPtrTargetType()
         {
-            return ReferenceType;
-            //try
-            //{
-            //    if (Reference == null)
-            //        return "NULL";
-            //    return Reference.REDType;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new InvalidPtrException(ex.Message);
-            //}
+            //return ReferenceType;
+            try
+            {
+                if (Reference == null)
+                    return "NULL";
+                return Reference.REDType;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidPtrException(ex.Message);
+            }
         }
 
         /// <summary>
