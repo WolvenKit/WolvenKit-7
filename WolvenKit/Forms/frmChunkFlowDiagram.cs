@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -51,7 +51,6 @@ namespace WolvenKit
         public frmChunkFlowDiagram()
         {
             InitializeComponent();
-
             selectionBackground = new SolidBrush(Color.FromArgb(100, SystemColors.Highlight));
             selectionBorder = new Pen(Color.FromArgb(200, SystemColors.Highlight));
             selectionItemHighlight = new Pen(Color.Green, 2.0f);
@@ -292,7 +291,7 @@ namespace WolvenKit
                     // eat the exception, allready logging the exception when creating the node editor
                 }
 
-                if (conns != null)
+                if (conns != null && !isMoving)
                 {
                     foreach (var conn in conns)
                     {
