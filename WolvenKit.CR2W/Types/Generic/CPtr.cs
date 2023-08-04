@@ -23,7 +23,7 @@ namespace WolvenKit.CR2W.Types
         #region Properties
 
         public CR2WExportWrapper Reference { get; set; }
-        public string ReferenceType => REDType.Split(':').Last();
+        public string ReferenceType => Reference.REDType.Split(':').Last();
         #endregion
 
         #region Methods
