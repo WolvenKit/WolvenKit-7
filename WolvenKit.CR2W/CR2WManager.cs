@@ -174,13 +174,17 @@ namespace WolvenKit.CR2W
 
 
 
-        private const string header = @"
+        private const string header1 = @"
 using System.IO;
 using FastMember;
 using WolvenKit.CR2W.Reflection;
 using static WolvenKit.CR2W.Types.Enums;
 
 
+namespace WolvenKit.CR2W
+{
+";
+        private const string header2 = @"
 namespace WolvenKit.CR2W.Types
 {
 ";
@@ -210,7 +214,7 @@ namespace WolvenKit.CR2W.Types
             using (StringWriter sw = new StringWriter())
             {
                 // usings and namespace
-                sw.WriteLine(header);
+                sw.WriteLine(header1);
 
                 FileInfo[] projectScriptFiles = m_projectinfo.GetFiles("*.ws", SearchOption.AllDirectories);
 
@@ -289,6 +293,8 @@ namespace WolvenKit.CR2W.Types
                 }
                 #endregion
                 sw.WriteLine("\t}\r\n");
+                sw.WriteLine("}\r\n");
+                sw.WriteLine(header2);
 
                 // interpret classes
                 #region Classes
