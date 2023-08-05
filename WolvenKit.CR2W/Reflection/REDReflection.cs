@@ -1,4 +1,4 @@
-﻿using DotNetHelper.FastMember.Extension.Extension;
+using DotNetHelper.FastMember.Extension.Extension;
 using FastMember;
 using System;
 using System.Collections.Generic;
@@ -123,6 +123,8 @@ namespace WolvenKit.CR2W.Reflection
                 case "float": return "CFloat";
                 case "String": return "CString";
                 case "string": return "CString";
+                case "Name": return "CName";
+                case "name": return "CName";
                 case "Color": return "CColor";
                 case "Matrix": return "CMatrix";
                 default:

@@ -29,17 +29,17 @@ namespace WolvenKit.CR2W.Types
         #region Methods
         public string GetPtrTargetType()
         {
-            return ReferenceType;
-            //try
-            //{
-            //    if (Reference == null)
-            //        return "NULL";
-            //    return Reference.REDType;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new InvalidPtrException(ex.Message);
-            //}
+            //return ReferenceType;
+            try
+            {
+                if (Reference == null)
+                    return "NULL";
+                return Reference.REDType;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidPtrException(ex.Message);
+            }
         }
 
         /// <summary>

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.Types;
 using WolvenKit.CR2W.Reflection;
+using System.Windows.Documents;
 
 namespace WolvenKit
 {
@@ -11,6 +12,10 @@ namespace WolvenKit
     {
         private string[] classTypes = null;
         private string[] enumTypes = null;
+        private List<string> vanillaClasses = null;
+        private List<string> customClasses = null;
+        private List<string> vanillaEnums = null;
+        private List<string> customEnums = null;
         public frmAddChunk(List<string> list = null, bool isVariant = false, bool allowEditName = false)
         {
             InitializeComponent();
@@ -29,11 +34,19 @@ namespace WolvenKit
                 list = AssemblyDictionary.TypeNames;
             }
             list.Sort();
-            classTypes = list.ToArray();
 
-            list = AssemblyDictionary.EnumNames;
-            list.Sort();
-            enumTypes = list.ToArray();
+            customClasses = CR2WManager.TypeNames;
+            customClasses.Sort();
+
+            classTypes = list.Concat(customClasses).Distinct().ToArray();
+
+            vanillaEnums = AssemblyDictionary.EnumNames;
+            vanillaEnums.Sort();
+            customEnums = CR2WManager.EnumNames;
+            customEnums.Sort();
+
+            enumTypes = vanillaEnums.Concat(customEnums).Distinct().ToArray();
+
             UpdateTypeChoices();
         }
 
