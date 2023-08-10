@@ -36,16 +36,33 @@ namespace WolvenKit
             list.Sort();
 
             customClasses = CR2WManager.TypeNames;
-            customClasses.Sort();
-
-            classTypes = list.Concat(customClasses).Distinct().ToArray();
+            
+            if (customClasses?.Any() == true)
+            {
+                customClasses.Sort();
+                classTypes = list.Concat(customClasses).Distinct().ToArray();
+            }
+            else
+            {
+                classTypes = list.ToArray();
+            }
+            
 
             vanillaEnums = AssemblyDictionary.EnumNames;
             vanillaEnums.Sort();
             customEnums = CR2WManager.EnumNames;
-            customEnums.Sort();
+            
 
-            enumTypes = vanillaEnums.Concat(customEnums).Distinct().ToArray();
+            if (customEnums?.Any() == true)
+            {
+                customEnums.Sort();
+                enumTypes = vanillaEnums.Concat(customEnums).Distinct().ToArray();
+            }
+            else
+            {
+                enumTypes = vanillaEnums.ToArray();
+            }
+
 
             UpdateTypeChoices();
         }
