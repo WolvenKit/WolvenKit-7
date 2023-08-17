@@ -920,6 +920,7 @@ namespace WolvenKit
                     return;
                 }
 
+                bool overwriteJson = MessageBox.Show("(If there are any) Overwrite existing json files?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes;
                 string savePath;
                 int percent_old = -1;
                 Task.Run(() => //Run the method in another thread to prevent freezing UI
@@ -946,7 +947,11 @@ namespace WolvenKit
                             savePath = $"{rootDir}_{scriptName}\\{cr2wPaths[i].Substring(rootDir.Length + 1, cr2wPaths[i].Length - (rootDir.Length + 1))}.json";
                             Directory.CreateDirectory(Path.GetDirectoryName(savePath));
                         }
-                        if (CR2WJsonTool.ExportJSON(cr2wPaths[i], savePath, new CR2WJsonToolOptions()))
+                        if (File.Exists(savePath) && !overwriteJson)
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) SKIP, JSON exists: {cr2wPaths[i]}..", Logtype.Success);
+                        }
+                        else if (CR2WJsonTool.ExportJSON(cr2wPaths[i], savePath, new CR2WJsonToolOptions()))
                         {
                             logger?.LogString($"[{scriptName}] ({percent}%) OK exported JSON: {cr2wPaths[i]}..", Logtype.Success);
                         }
