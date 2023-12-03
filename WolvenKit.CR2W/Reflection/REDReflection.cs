@@ -92,7 +92,7 @@ namespace WolvenKit.CR2W.Reflection
                 }
                 if (gentype == typeof(CEnum<>))
                 {
-                    
+                    return GetREDTypeString(genprop, flags);
                 }
 
                 return type.GetPrettyGenericTypes();
