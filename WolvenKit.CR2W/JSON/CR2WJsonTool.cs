@@ -187,7 +187,15 @@ namespace WolvenKit.CR2W.JSON
                     continue;
                 }
                 chunkByKey[kv_chunk.Key] = cr2wChunk;
+                if (jsonChunk.parentKey != "")
+                {
+                    if (!chunkByKey.ContainsKey(jsonChunk.parentKey))
+                    {
+                        PrintError($"{LogIndent(logLevel)}[DewalkCR2W] Parent chunk {jsonCR2W.extension}{jsonChunk.parentKey} not defined before chunk {jsonCR2W.extension}{kv_chunk.Key}");
+                    }
+                }
             }
+
             /* CR2W Chunks - Link to parent & Fill data */
             foreach (var kv_chunk in jsonCR2W.chunks)
             {
