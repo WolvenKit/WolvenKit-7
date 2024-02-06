@@ -183,6 +183,36 @@ namespace WolvenKit.CR2W.Types
             return _nam;
         }
 
+        public virtual string GetPreview()
+        {
+            var vars = GetEditableVariables();
+
+            foreach (var v in vars)
+            {
+                if (v == null || !v.IsSerialized)
+                    continue;
+
+                if (v is CString s && !string.IsNullOrEmpty(s.val))
+                {
+                    return s.val;
+                }
+                else if (v is CName n && !string.IsNullOrEmpty(n.Value))
+                {
+                    return n.Value;
+                }
+                else if (v is IHandleAccessor handle && !handle.ChunkHandle && !string.IsNullOrEmpty(handle.DepotPath))
+                {
+                    return (handle.ClassName ?? "") + ":" + handle.DepotPath;
+                }
+                else if (v is ISoftAccessor soft && !string.IsNullOrEmpty(soft.DepotPath))
+                {
+                    return (soft.ClassName ?? "") + ":" + soft.DepotPath;
+                }
+            }
+
+            return "";
+        }
+
         /// <summary>
         /// Recurses through parents until the root cvariable to find the meaningful chunkindex
         /// </summary>

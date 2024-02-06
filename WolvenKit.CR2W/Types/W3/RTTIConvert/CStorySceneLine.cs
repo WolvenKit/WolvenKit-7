@@ -36,5 +36,12 @@ namespace WolvenKit.CR2W.Types
 
 		public override void Write(BinaryWriter file) => base.Write(file);
 
-	}
+        public override string GetPreview()
+        {
+            if (DialogLine != null && DialogLine.IsSerialized && !string.IsNullOrEmpty(DialogLine.Text))
+                return $"[{DialogLine.val}] {DialogLine.Text}";
+            return base.GetPreview();
+        }
+
+    }
 }
