@@ -1468,8 +1468,8 @@ namespace WolvenKit.CR2W
                         {
                             if (!newnameslist.ContainsKey("apexBinaryAsset"))
                                 newnameslist.Add("apexBinaryAsset", "apexBinaryAsset");
-                            if (!newnameslist.ContainsKey("array:95,0,Uint8"))
-                                newnameslist.Add("array:95,0,Uint8", "array:95,0,Uint8");
+                            if (!newnameslist.ContainsKey("array:100,0,Uint8"))
+                                newnameslist.Add("array:100,0,Uint8", "array:100,0,Uint8");
                         }
 
                         newnameslist.Add(str, str);

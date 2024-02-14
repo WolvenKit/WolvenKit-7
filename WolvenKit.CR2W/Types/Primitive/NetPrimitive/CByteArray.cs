@@ -14,9 +14,27 @@ namespace WolvenKit.CR2W.Types
         public override string REDType => string.IsNullOrEmpty(InternalType) ? base.REDType : InternalType;
 
         public CByteArray(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name) {
-            if (name == "flatCompiledData")
+            if ((parent.REDType == "CEntityTemplate" && name == "flatCompiledData")
+                || (parent.REDType == "CLineMotionExtraction2" && name == "deltaTimes")
+                || (parent.REDType == "CVirtualContainerEntity" && name == "characterState"))
             {
                 InternalType = "array:2,0,Uint8";
+            }
+            else if (parent.REDType == "CAnimationBufferBitwiseCompressed" && (name == "fallbackData" || name == "data"))
+            {
+                InternalType = "array:134,0,Int8";
+            }
+            else if (parent.REDType.StartsWith("CApex") && name == "apexBinaryAsset")
+            {
+                InternalType = "array:100,0,Uint8";
+            }
+            else if (parent.REDType == "SMeshCookedData" && name == "renderChunks")
+            {
+                InternalType = "array:47,0,Uint8";
+            }
+            else if (parent.REDType == "SQuestThreadSuspensionData" && name == "scopeData")
+            {
+                InternalType = "array:159,0,Uint8";
             }
         }
 
