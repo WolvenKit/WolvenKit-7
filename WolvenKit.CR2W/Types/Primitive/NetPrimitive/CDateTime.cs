@@ -203,6 +203,27 @@ namespace WolvenKit.CR2W.Types
             file.Write(this.ToUInt64());
         }
 
+        public override CVariable SetValue(object val)
+        {
+            if (val is DateTime datetime)
+            {
+                m_value = datetime;
+                SetIsSerialized();
+            }
+            else if (val is UInt64 uint64)
+            {
+                TryParse(this, uint64);
+                SetIsSerialized();
+            }
+            else if (val is String str)
+            {
+                m_value = DateTime.Parse(str);
+                SetIsSerialized();
+            }
+
+            return this;
+        }
+
         //public static new CVariable Create(CR2WFile cr2w, CVariable parent, string name)
         //{
         //    return new CDateTime(cr2w, parent, name);
