@@ -25,19 +25,30 @@ namespace WolvenKit.CR2W.Types
             TCM_QualityColor
         }
 
-        #region Not found in Ghidra
+        #region Found in Redkit
         public enum ELinkedSocketPlacement
         {
-
+            LSP_Left,
+            LSP_Right,
+            LSP_Bottom,
+            LSP_Center,
+            LSP_Title
         }
         public enum ELinkedSocketDirection
         {
-
+            LSD_Input,
+            LSD_Output,
+            LSD_Variable
         }
         public enum ELinkedSocketDrawStyle
         {
-
+            LSDS_Default,
+            LSDS_Arrow,
+            LSDS_InArrow
         }
+        #endregion
+
+        #region Not found in Ghidra
         public enum EModLogLevel
         {
 
