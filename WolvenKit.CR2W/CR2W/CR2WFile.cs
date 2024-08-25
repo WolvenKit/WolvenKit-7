@@ -504,7 +504,7 @@ namespace WolvenKit.CR2W
                 return EFileReadErrorCodes.NoCr2w;
 
             m_fileheader = file.BaseStream.ReadStruct<CR2WFileHeader>();
-            if (m_fileheader.version > 163 || m_fileheader.version < 159)
+            if (m_fileheader.version > 163 || m_fileheader.version < 158)
                 return EFileReadErrorCodes.UnsupportedVersion;
 
             var dt = new CDateTime(m_fileheader.timeStamp, null, "");
