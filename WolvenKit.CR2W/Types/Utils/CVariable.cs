@@ -80,6 +80,8 @@ namespace WolvenKit.CR2W.Types
 
         public void SetREDFlags(ushort flag) => _redFlags = flag;
 
+        public bool IsCooked() => (REDFlags & 8192) > 0;
+
         /// <summary>
         /// an internal guid that is used to track cvariables 
         /// should be replaced by a better hashing algorithm
@@ -409,7 +411,12 @@ namespace WolvenKit.CR2W.Types
                 string vartype = REDReflection.GetREDTypeString(item.Type, att.Flags);
                 string varname = REDReflection.GetREDNameString(item);
 
-                var parsedvar = CR2WTypeManager.Create(vartype, varname, this.cr2w, this);     // create new variable and parent to this 
+                if (this.REDType == "CGameWorld" && varname == "Firstlayer" && !IsCooked())
+                {
+                    continue;
+                } 
+
+                var parsedvar = CR2WTypeManager.Create(vartype, varname, this.cr2w, this);     // create new variable and parent to this
                 if (parsedvar == null)
                     throw new InvalidParsingException($"Variable {vartype}:{varname} was not read in class {this.GetType().Name}");
 
