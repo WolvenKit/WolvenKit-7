@@ -31,19 +31,23 @@ namespace WolvenKit.CR2W.Types
             var startpos = file.BaseStream.Position;
             base.Read(file, size);
 
-            var endpos = file.BaseStream.Position;
-
-            var bytesread = endpos - startpos;
-            if (bytesread < size)
+            // cooked only
+            if ((REDFlags & 8192) > 0)
             {
-                buffername.Read(file, 2);
-                count.Read(file, size);
-                unk.Read(file, 1);
-                buffer.Read(file, 0, count.val);
-            }
-            else if (bytesread > size)
-            {
+                var endpos = file.BaseStream.Position;
 
+                var bytesread = endpos - startpos;
+                if (bytesread < size)
+                {
+                    buffername.Read(file, 2);
+                    count.Read(file, size);
+                    unk.Read(file, 1);
+                    buffer.Read(file, 0, count.val);
+                }
+                else if (bytesread > size)
+                {
+
+                }
             }
             //SetIsSerialized() in base
         }
