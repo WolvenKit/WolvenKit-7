@@ -518,6 +518,10 @@ namespace WolvenKit.CR2W.JSON
             {
                 PrintError($"{LogIndent(logLevel)}[DewalkPtrNode] Invalid \"{m_varReference}\" in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
                 return false;
+            } else if (referenceKey == "NULL")
+            {
+                Print($"{LogIndent(logLevel)}[DewalkPtrNode] Set NULL ptr in var {extension}{cvar.GetFullName()} ({cvar.REDType})");
+                return true;
             }
             else if (!chunkByKey.ContainsKey(referenceKey))
             {
@@ -809,7 +813,7 @@ namespace WolvenKit.CR2W.JSON
                     {
                         PrintError($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> SOFT: NULL DepotPath! Skipping.");
                         return null;
-                    } 
+                    }
 
                     var softMap = new CR2WJsonMap(node.REDType);
                     softMap.vars[m_varClassName] = new CR2WJsonScalar("string", softAccessor.ClassName);
@@ -823,16 +827,19 @@ namespace WolvenKit.CR2W.JSON
                     {
                         if (handleAccessor.Reference == null)
                         {
-                            PrintError($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE: NULL! Skipping.");
-                            return null;
-                        } 
-                        var handleReferenceValue = handleAccessor.Reference == null ? "NULL" : $"{extension}{handleAccessor.Reference.REDName}";
-                        if (options.Verbose)
-                        {
-                            Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE {handleReferenceValue}");
+                            Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE: NULL!");
+                            handleMap.vars[m_varReference] = new CR2WJsonScalar("string", "NULL");
                         }
+                        else
+                        {
+                            var handleReferenceValue = handleAccessor.Reference == null ? "NULL" : $"{extension}{handleAccessor.Reference.REDName}";
+                            if (options.Verbose)
+                            {
+                                Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE {handleReferenceValue}");
+                            }
 
-                        handleMap.vars[m_varReference] = new CR2WJsonScalar("string", handleReferenceValue);
+                            handleMap.vars[m_varReference] = new CR2WJsonScalar("string", handleReferenceValue);
+                        }
                     }
                     else
                     {
@@ -855,16 +862,18 @@ namespace WolvenKit.CR2W.JSON
                     var ptrMap = new CR2WJsonMap(node.REDType);
                     if (ptrAccessor.Reference == null)
                     {
-                        PrintError($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE: NULL! Skipping.");
-                        return null;
+                        Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR HANDLE: NULL!");
+                        ptrMap.vars[m_varReference] = new CR2WJsonScalar("string", "NULL");
                     }
-                    var ptrReferenceValue = $"{extension}{ptrAccessor.Reference.REDName}";
-                    if (options.Verbose)
+                    else
                     {
-                        Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR {ptrReferenceValue}");
+                        var ptrReferenceValue = $"{extension}{ptrAccessor.Reference.REDName}";
+                        if (options.Verbose)
+                        {
+                            Print($"{LogIndent(logLevel)}{node.REDName} ({node.REDType}) -> PTR {ptrReferenceValue}");
+                        }
+                        ptrMap.vars[m_varReference] = new CR2WJsonScalar("string", ptrReferenceValue);
                     }
-
-                    ptrMap.vars[m_varReference] = new CR2WJsonScalar("string", ptrReferenceValue);
                     return ptrMap;
                 case IVariantAccessor variantAccessor:
                     if (options.Verbose)
