@@ -414,7 +414,11 @@ namespace WolvenKit.CR2W.Types
                 if (this.REDType == "CGameWorld" && varname == "Firstlayer" && !IsCooked())
                 {
                     continue;
-                } 
+                }
+                if (this.REDType == "CEnvProbeComponent" && varname == "Unk1" && !IsCooked())
+                {
+                    continue;
+                }
 
                 var parsedvar = CR2WTypeManager.Create(vartype, varname, this.cr2w, this);     // create new variable and parent to this
                 if (parsedvar == null)
