@@ -24,9 +24,13 @@ namespace WolvenKit.CR2W.Types
 		[Ordinal(6)] [RED("isBackgroundLine")] 		public CBool IsBackgroundLine { get; set;}
 
 		[Ordinal(7)] [RED("alternativeUI")] 		public CBool AlternativeUI { get; set;}
-#if NGE_VERSION
-		[Ordinal(8)] [RED("isSilent")] public CBool IsSilent { get; set; }
-#endif
+
+        [Ordinal(8)] [RED("isSilent")] public CBool IsSilent { get; set; }
+
+        [Ordinal(9)] [RED("overriddenLipsyncFilePath")] public CString OverriddenLipsyncFilePath { get; set; }
+
+        [Ordinal(10)] [RED("overriddenAudioFilePath")] public CString OverriddenAudioFilePath { get; set; }
+
 
 		public CStorySceneLine(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name){ }
 
