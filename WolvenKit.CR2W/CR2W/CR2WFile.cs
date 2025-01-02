@@ -555,6 +555,7 @@ namespace WolvenKit.CR2W
 
                     int percentprogress = (int)((float)i / (float)buffers.Count * 100.0);
                     Logger?.LogProgress(percentprogress);
+                    Logger?.LogString($"Reading buffer data[{i}]: {buffer.Data.Length} bytes");
                 }
             }
             // Read embedded files //block 7
@@ -565,6 +566,7 @@ namespace WolvenKit.CR2W
 
                 int percentprogress = (int)((float)i / (float)embedded.Count * 100.0);
                 Logger?.LogProgress(percentprogress, $"Reading embedded file {emb.ClassName}...");
+                Logger?.LogString($"Reading embedded file[{i}]: {emb.ClassName}");
             }
             #endregion
 
@@ -583,6 +585,7 @@ namespace WolvenKit.CR2W
 
 
             Logger?.LogString($"File {FileName} loaded in: {stopwatch1.Elapsed}\n");
+
             stopwatch1.Stop();
             //m_stream = null;
             return 0;
