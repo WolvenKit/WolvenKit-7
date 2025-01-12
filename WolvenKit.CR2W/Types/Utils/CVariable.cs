@@ -419,6 +419,10 @@ namespace WolvenKit.CR2W.Types
                 {
                     continue;
                 }
+                if (this.REDType == "CTextureArray" && varname == "ffffffff" && !IsCooked())
+                {
+                    continue;
+                }
 
                 var parsedvar = CR2WTypeManager.Create(vartype, varname, this.cr2w, this);     // create new variable and parent to this
                 if (parsedvar == null)
