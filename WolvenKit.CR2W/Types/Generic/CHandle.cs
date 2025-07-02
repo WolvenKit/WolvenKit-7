@@ -83,7 +83,7 @@ namespace WolvenKit.CR2W.Types
                 {
                     Reference = null;
                 }
-                else if (val < 0 || val >= cr2w.chunks.Count) {
+                else if (val < 0 || val > cr2w.chunks.Count) {
                     Reference = null;
                 }
                 else
