@@ -113,4 +113,4 @@ jobs:
             ${{ env.FINALOUT }}/*.exe
           repository: WolvenKit/WolvenKit-7-nightly
           token: ${{ secrets.RELEASE_TOKEN }}
-          body: "This is a beta release so you may encounter bugs. Please report them.\n${{ steps.tag_version.outputs.changelog }}"
+          body: "This is a beta (nightly) release so you may encounter bugs. Please report them.\n${{ steps.tag_version.outputs.changelog }}"
