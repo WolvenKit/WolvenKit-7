@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using WolvenKit.CR2W.Reflection;
 using FastMember;
 using static WolvenKit.CR2W.Types.Enums;
+using WolvenKit.Common.Model;
 
 
 namespace WolvenKit.CR2W.Types
@@ -31,5 +32,29 @@ namespace WolvenKit.CR2W.Types
 
 		public static new CVariable Create(CR2WFile cr2w, CVariable parent, string name) => new CEntity(cr2w, parent, name);
 
-	}
+        public override string GetPreview()
+        {
+            if (Template != null && !Template.ChunkHandle && !string.IsNullOrEmpty(Template.DepotPath))
+            {
+                return (Template.ClassName ?? "") + ":" + Template.DepotPath;
+            }
+            else if (StreamingDataBuffer != null && StreamingDataBuffer.Bufferdata != null)
+            {
+                var extraCR2W = new CR2WFile();
+                if (extraCR2W.Read(StreamingDataBuffer.Bufferdata.Bytes) == EFileReadErrorCodes.NoError)
+                {
+                    for (int i = 0; i < extraCR2W.chunks.Count; i += 1)
+                    {
+                        string chunk_preview = extraCR2W.chunks[i].Preview;
+                        if (!string.IsNullOrEmpty(chunk_preview))
+                        {
+                            return chunk_preview;
+                        }
+                    }
+                } 
+            }
+            return base.GetPreview();
+        }
+
+    }
 }

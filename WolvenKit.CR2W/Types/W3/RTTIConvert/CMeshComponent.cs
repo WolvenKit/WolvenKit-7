@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using WolvenKit.CR2W.Reflection;
 using FastMember;
 using static WolvenKit.CR2W.Types.Enums;
+using WolvenKit.Common.Model;
 
 
 namespace WolvenKit.CR2W.Types
@@ -21,5 +22,19 @@ namespace WolvenKit.CR2W.Types
 
 		public override void Write(BinaryWriter file) => base.Write(file);
 
-	}
+        public override string GetPreview()
+        {
+            string mesh_preview = ""; 
+            if (Name != null)
+            {
+                mesh_preview += "[" + Name.val + "] ";
+            }
+            if (Mesh != null && !Mesh.ChunkHandle && !string.IsNullOrEmpty(Mesh.DepotPath))
+            {
+                mesh_preview += Mesh.DepotPath;
+            }
+            return mesh_preview;
+        }
+
+    }
 }
