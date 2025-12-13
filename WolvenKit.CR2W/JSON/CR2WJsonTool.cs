@@ -761,7 +761,7 @@ namespace WolvenKit.CR2W.JSON
                         }
                         catch (Exception ex)
                         {
-                            Print($"{LogIndent(logLevel)}[WalkNode] ERROR unpacking CR2W from {node.REDName}, Type = {nodeTypeName}]\n{LogIndent(logLevel)}{ex}");
+                            Print($"{LogIndent(logLevel)}[WalkNode] ERROR unpacking CR2W from {node.REDName}, Type = {nodeTypeName}]\n");
                         }
                         if (readCode == EFileReadErrorCodes.NoError)
                         {
