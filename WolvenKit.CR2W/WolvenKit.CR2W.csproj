@@ -226,7 +226,6 @@
     <Compile Remove="Types\W3\RTTIConvert\CStorySceneEventPoseKey.cs" />
     <Compile Remove="Types\W3\RTTIConvert\CTextureCacheBuilder.cs" />
     <Compile Remove="Types\W3\RTTIConvert\CTextureCacheSplitter.cs" />
-    <Compile Remove="Types\W3\RTTIConvert\CThumbnail.cs" />
     <Compile Remove="Types\W3\RTTIConvert\CWccDummyGame.cs" />
     <Compile Remove="Types\W3\RTTIConvert\CWorldFileAnalyzer.cs" />
     <Compile Remove="Types\W3\RTTIConvert\IAnalyzer.cs" />
