@@ -754,7 +754,16 @@ namespace WolvenKit.CR2W.JSON
                     if (extraCR2WBytes != null)
                     {
                         var extraCR2W = new CR2WFile();
-                        if (extraCR2W.Read(extraCR2WBytes) == EFileReadErrorCodes.NoError)
+                        var readCode = EFileReadErrorCodes.NoCr2w;
+                        try
+                        {
+                            readCode = extraCR2W.Read(extraCR2WBytes);
+                        }
+                        catch (Exception ex)
+                        {
+                            Print($"{LogIndent(logLevel)}[WalkNode] ERROR unpacking CR2W from {node.REDName}, Type = {nodeTypeName}]\n{LogIndent(logLevel)}{ex}");
+                        }
+                        if (readCode == EFileReadErrorCodes.NoError)
                         {
                             if (options.Verbose)
                             {
