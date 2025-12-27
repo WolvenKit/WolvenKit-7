@@ -1082,7 +1082,7 @@ namespace WolvenKit.CR2W
                         default:
                             var elements = a.GetEditableVariables();
                             foreach (var item in elements)
-                                returnedVariables.Add(new SNameArg(EStringTableMod.SkipNameAndType, item));
+                                returnedVariables.Add(new SNameArg(EStringTableMod.SkipName, item));
                             break;
                     }
                     break;
@@ -1125,7 +1125,10 @@ namespace WolvenKit.CR2W
                     }
 
                     // add all normal REDProperties
-                    returnedVariables.AddRange(cvar.GetExistingVariables(false)
+                    var includeBuffers = false;
+                    if (cvar.REDType == "CExtAnimEventsFile")
+                        includeBuffers = true;
+                    returnedVariables.AddRange(cvar.GetExistingVariables(includeBuffers)
                         .Select(_ => new SNameArg(EStringTableMod.None, _)));
 
                     // for all buffers

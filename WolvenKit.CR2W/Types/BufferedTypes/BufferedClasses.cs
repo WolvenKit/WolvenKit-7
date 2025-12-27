@@ -1,6 +1,12 @@
-﻿using System.IO;
-using WolvenKit.CR2W.Reflection;
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
 using FastMember;
+using Newtonsoft.Json.Linq;
+using WolvenKit.CR2W.Reflection;
+using static WolvenKit.CR2W.Types.Enums;
 
 namespace WolvenKit.CR2W.Types
 {
@@ -197,7 +203,8 @@ namespace WolvenKit.CR2W.Types
     /// </summary>
     public partial class CExtAnimEventsFile : CResource
     {
-        [Ordinal(1000)] [REDBuffer(true)] public CUInt32 Unk1 { get; set; }
+        // REDBuffer(true) to ignore writing in base class
+        [Ordinal(1000)] [REDBuffer(true)] public CArray<CExtAnimEvent> ExtAnimEvents { get; set; }
 
         public override void Read(BinaryReader file, uint size)
         {
@@ -206,9 +213,21 @@ namespace WolvenKit.CR2W.Types
             //lazy check if Cvariable is first chunk (= resource) or derived
             if (ParentVar != null || this is CSkeletalAnimationSet)
                 return;
-            Unk1 = new CUInt32(cr2w, this, nameof(Unk1)) { IsSerialized = true };
-            Unk1.Read(file, size);
-            //SetIsSerialized() in base
+
+            // this is w2animev file
+            var events_cnt = file.ReadUInt32();
+            // ExtAnimEvents = new CArray<CExtAnimEvent>(cr2w, this, nameof(ExtAnimEvents)) { IsSerialized = true };
+            ExtAnimEvents = (CArray<CExtAnimEvent>)CR2WTypeManager.Create("array:2,0,CExtAnimEvent", nameof(ExtAnimEvents), cr2w, this);
+
+			for (int i = 0; i < events_cnt; i += 1) {
+                var oldOffset = file.BaseStream.Position;
+                UInt32 SkipSize = file.ReadUInt32();
+                UInt16 cnameIdx = file.ReadUInt16();
+                String eventType = cr2w.names[cnameIdx].Str;
+                CVariable extAnimEvent = CR2WTypeManager.Create(eventType, i.ToString(), cr2w, ExtAnimEvents);
+                extAnimEvent.Read(file, size);
+                ExtAnimEvents.AddVariable(extAnimEvent);
+            }
         }
 
         public override void Write(BinaryWriter file)
@@ -217,7 +236,25 @@ namespace WolvenKit.CR2W.Types
 
             if (ParentVar != null || this is CSkeletalAnimationSet)
                 return;
-            Unk1.Write(file);
+
+            // this is w2animev file
+            file.Write(ExtAnimEvents.Count);
+
+            for (int i = 0; i < ExtAnimEvents.Count; i += 1)
+            {
+                var skipSizeOffset = file.BaseStream.Position;
+                file.Write((UInt32) 0);  // dummy skip size
+                String eventType = ExtAnimEvents.Elements[i].REDType;
+                UInt16 cnameTypeIdx = (UInt16)cr2w.names.FindIndex(_ => _.Str == eventType);
+                file.Write(cnameTypeIdx);
+                CVariable extAnimEvent = CR2WTypeManager.Create(eventType, i.ToString(), cr2w, ExtAnimEvents);
+                ExtAnimEvents.Elements[i].Write(file);
+                var newOffset = file.BaseStream.Position;
+                UInt32 skipSize = (UInt32)(newOffset - skipSizeOffset);
+                file.BaseStream.Position = skipSizeOffset;
+                file.Write(skipSize);  // finalize skip size
+                file.BaseStream.Position = newOffset;
+            }
         }
     }
     public partial class CSkeletalAnimationSet : CExtAnimEventsFile
