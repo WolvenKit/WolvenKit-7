@@ -9,7 +9,6 @@ using WolvenKit.CR2W;
 using WolvenKit.CR2W.Types;
 using WolvenKit.CR2W.JSON;
 using WolvenKit.CR2W.SRT;
-using PureHDF;
 
 namespace WolvenKit.CLI
 {
