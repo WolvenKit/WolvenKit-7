@@ -1,4 +1,4 @@
-﻿using RED.CRC32;
+using RED.CRC32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -97,8 +97,6 @@ namespace WolvenKit.CR2W
                 }
                 bw.Write(b);
             }
-
-            
         }
 
 
