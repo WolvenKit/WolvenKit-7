@@ -64,8 +64,8 @@ namespace WolvenKit.CR2W
                 throw new FormatException($"Not a CR2W file, Magic read as 0x{id:X8}");
 
             m_fileheader = ReadStruct<CR2WFileHeader>();
-            if (m_fileheader.version > 163 || m_fileheader.version < 159)
-                throw new FormatException($"Unknown Version {m_fileheader.version}. Supported versions: 159 - 163.");
+            if (m_fileheader.version > 164 || m_fileheader.version < 159)
+                throw new FormatException($"Unknown Version {m_fileheader.version}. Supported versions: 159 - 164.");
 
             var dt = new CDateTime(m_fileheader.timeStamp, null, "");
 
