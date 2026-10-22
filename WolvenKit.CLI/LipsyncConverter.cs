@@ -192,8 +192,8 @@ namespace WolvenKit.CLI
 
                 var dataCount = reader.ReadVLQInt32();
                 bufferData.Data.SetValue(reader.ReadBytes(dataCount));
-                bufferData.NumFrames.SetValue(reader.ReadBytes(dataCount));
-                bufferData.Dt.SetValue(reader.ReadBytes(dataCount));
+                bufferData.NumFrames.SetValue(reader.ReadUInt32());
+                bufferData.Dt.SetValue(reader.ReadSingle());
             }
 
             CR2WJsonTool.WriteCR2W(cr2w, outputPath);
