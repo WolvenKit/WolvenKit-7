@@ -20,37 +20,33 @@ namespace WolvenKit.W3Strings
 
         public static ReadBit6Result ReadBit6(this BinaryReader stream)
         {
-            var result = 0;
-            var shift = 0;
-            byte b = 0;
-            var i = 1;
-            var length = 0;
+            var first = stream.ReadByte();
+            var length = 1;
+            var result = first & 0x3F;
 
-            do
+            if ((first & 0x40) != 0)
             {
-                b = stream.ReadByte();
-                length += 1;
-                //if (b == 128)
-                    //return new ReadBit6Result(0, length); 
-                    //commented out it seems to work with 128 values... lol
-                byte s = 6;
-                byte mask = 255;
-                if (b > 127)
+                var shift = 6;
+                // at most 4 more bytes, the last one uses all 8 bits
+                for (var i = 0; i < 4; i++)
                 {
-                    mask = 127;
-                    s = 7;
-                }
-                else if (b > 63)
-                {
-                    if (i == 1)
+                    var b = stream.ReadByte();
+                    length += 1;
+                    if (i == 3)
                     {
-                        mask = 63;
+                        result |= b << shift;
+                        break;
                     }
+
+                    result |= (b & 0x7F) << shift;
+                    shift += 7;
+                    if ((b & 0x80) == 0)
+                        break;
                 }
-                result = result | ((b & mask) << shift);
-                shift = shift + s;
-                i = i + 1;
-            } while (!(b < 64 || (i >= 3 && b < 128)));
+            }
+
+            if ((first & 0x80) != 0)
+                result = -result;
 
             return new ReadBit6Result(result, length);
         }
@@ -94,60 +90,25 @@ namespace WolvenKit.W3Strings
 
         public static UInt32 WriteBit6(this BinaryWriter stream, int c)
         {
-            if (c == 0)
+            var value = (uint)Math.Abs((long)c);
+
+            var b = (byte)(value & 0x3F);
+            if (value > 0x3F)
+                b |= 0x40;
+            // the engine sets the sign flag for zero as well
+            if (c <= 0)
+                b |= 0x80;
+            stream.Write(b);
+            UInt32 written = 1;
+
+            value >>= 6;
+            while (value > 0)
             {
-                stream.Write((byte)128);
-                return 1;
-            }
-
-            UInt32 written = 0;
-            var str2 = Convert.ToString(c, 2);
-
-            var bytes = new List<int>();
-            var left = c;
-
-            for (var i = 0; (left > 0); i++)
-            {
-                if (i == 0)
-                {
-                    bytes.Add(left & 63);
-                    left = left >> 6;
-                }
-                else
-                {
-                    bytes.Add(left & 255);
-                    left = left >> 7;
-                }
-            }
-
-
-            for (var i = 0; i < bytes.Count; i++)
-            {
-                var last = (i == bytes.Count - 1);
-                var cleft = (bytes.Count - 1) - i;
-
-                if (!last)
-                {
-                    if (cleft >= 1 && i >= 1)
-                    {
-                        bytes[i] = bytes[i] | 128;
-                    }
-                    else if (bytes[i] < 64)
-                    {
-                        bytes[i] = bytes[i] | 64;
-                    }
-                    else
-                    {
-                        bytes[i] = bytes[i] | 128;
-                    }
-                }
-
-                if (bytes[i] == 128)
-                {
-                    throw new Exception("No clue what to do here, still need to think about it... :p");
-                }
-
-                stream.Write((byte)bytes[i]);
+                b = (byte)(value & 0x7F);
+                value >>= 7;
+                if (value > 0)
+                    b |= 0x80;
+                stream.Write(b);
                 written += 1;
             }
             return written;

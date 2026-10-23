@@ -140,6 +140,7 @@
             this.comboBoxLanguage.Items.AddRange(new object[] {
             "ar",
             "br",
+            "cn",
             "cz",
             "de",
             "en",
@@ -153,6 +154,7 @@
             "pl",
             "ru",
             "tr",
+            "ua",
             "zh"});
             this.comboBoxLanguage.Location = new System.Drawing.Point(4, 39);
             this.comboBoxLanguage.Name = "comboBoxLanguage";
