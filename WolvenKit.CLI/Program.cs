@@ -43,6 +43,12 @@ namespace WolvenKit.CLI
         [Option("ignore_embedded_cr2w", Required = false, HelpText = "Do NOT serialize embedded cr2w bytearrays - flatCompiledData, etc (serialized by default if possible)")]
         public bool IgnoreEmbeddedCR2W { get; set; } = false;
 
+        [Option("cr2w_lipsync_to_raw", Required = false, HelpText = "Convert oldgen CR2W lipsync to nextgen raw format")]
+        public bool LipsyncConvertCR2WToRaw { get; set; } = false;
+
+        [Option("raw_lipsync_to_cr2w", Required = false, HelpText = "Convert nextgen raw lipsync to oldgen CR2W format")]
+        public bool LipsyncConvertRawToCR2W { get; set; } = false;
+
         [Option("verbose", Required = false, HelpText = "Print verbose info")]
         public bool Verbose { get; set; } = false;
     }
@@ -153,6 +159,18 @@ namespace WolvenKit.CLI
                 Print($"Importing JSON->SRT..\nInput JSON: {opts.InputPath}\nOutput SRT: {opts.OutputPath}");
                 var SRT = Srtfile.ReadFromJSON(opts.InputPath);
                 SRT.WriteToSRTFile(opts.OutputPath);
+            }
+            else if (opts.LipsyncConvertCR2WToRaw)
+            {
+                if (string.IsNullOrEmpty(opts.OutputPath))
+                    opts.OutputPath = opts.InputPath.TrimEnd(".cr2w") + ".raw";
+                LipsyncConverter.LipsyncConvertCR2WToRaw(opts.InputPath, opts.OutputPath);
+            }
+            else if (opts.LipsyncConvertRawToCR2W)
+            {
+                if (string.IsNullOrEmpty(opts.OutputPath))
+                    opts.OutputPath = opts.InputPath.TrimEnd(".raw") + ".cr2w";
+                LipsyncConverter.LipsyncConvertRawToCR2W(opts.InputPath, opts.OutputPath);
             }
             else
             {

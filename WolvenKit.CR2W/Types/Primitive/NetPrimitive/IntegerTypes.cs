@@ -110,12 +110,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case uint o:
                     this.val = o;
+                    SetIsSerialized();
                     break;
                 case string s:
                     this.val = uint.Parse(s);
+                    SetIsSerialized();
                     break;
                 case CUInt32 v:
                     this.val = v.val;
+                    SetIsSerialized();
                     break;
                 default:
                     try
@@ -178,12 +181,15 @@ namespace WolvenKit.CR2W.Types
             {
                 case ushort o:
                     this.val = o;
+                    SetIsSerialized();
                     break;
                 case string s:
                     this.val = ushort.Parse(s);
+                    SetIsSerialized();
                     break;
                 case CUInt16 v:
                     this.val = v.val;
+                    SetIsSerialized();
                     break;
                 default:
                     try

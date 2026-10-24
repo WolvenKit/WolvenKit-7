@@ -14,6 +14,8 @@ namespace WolvenKit.CR2W.Types
     public class SMeshBlock5 : CVariable
     {
         private const int fixedbuffersize = 46;
+        // since version 164 CPhysicsDestructionResource serializes 3 uints and a byte more per collision
+        private const int fixedbuffersize164 = 59;
 
         [Ordinal(0)] [RED] public CUInt16 bytesize { get; set; }
         [Ordinal(1)] [RED] public CBytes unk1 { get; set; }
@@ -28,7 +30,8 @@ namespace WolvenKit.CR2W.Types
         {
             bytesize.Read(file, 2);
 
-            if ((int)bytesize.val != fixedbuffersize)
+            var expectedsize = cr2w.GetFileHeader().version >= 164 ? fixedbuffersize164 : fixedbuffersize;
+            if ((int)bytesize.val != expectedsize)
                 throw new NotImplementedException();
 
             unk1.Read(file, (uint)bytesize.val - 2);

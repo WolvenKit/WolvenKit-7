@@ -1431,7 +1431,7 @@ namespace WolvenKit
             //Load/Setup the config
             var exit = false;
             var config = MainController.Get().Configuration;
-            while (!File.Exists(config.ExecutablePath) || !Directory.Exists(config.GameModDir) || !Directory.Exists(config.GameDlcDir))
+            while (!File.Exists(config.ExecutablePath))
             {
                 var sets = new frmSettings();
                 if (sets.ShowDialog() != DialogResult.OK)
