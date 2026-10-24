@@ -232,6 +232,33 @@ namespace WolvenKit.CR2W.Types
         public int GottenVarChunkIndex => LookUpChunkIndex();
 #endif
 
+        /// <summary>
+        /// Cache of per-type "closest property by name" (C# name binding: the declaration on the
+        /// nearest type in the inheritance hierarchy wins). Plain Type.GetProperty(name) throws
+        /// AmbiguousMatchException for shadowed members (e.g. CExtAnimEventsFile.ExtAnimEvents).
+        /// </summary>
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>> closestPropertyCache
+            = new System.Collections.Concurrent.ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>>();
+
+        private static PropertyInfo GetClosestProperty(Type type, string name)
+        {
+            var byName = closestPropertyCache.GetOrAdd(type, t =>
+            {
+                var map = new Dictionary<string, PropertyInfo>();
+                // derived first, so the closest declaration wins
+                for (Type cur = t; cur != null && cur != typeof(object); cur = cur.BaseType)
+                {
+                    foreach (var p in cur.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+                    {
+                        if (!map.ContainsKey(p.Name))
+                            map[p.Name] = p;
+                    }
+                }
+                return map;
+            });
+            return byName.TryGetValue(name, out var prop) ? prop : null;
+        }
+
         #region Virtual
 
         /// <summary>
@@ -245,6 +272,14 @@ namespace WolvenKit.CR2W.Types
 
             foreach (Member item in this.GetREDMembers(true))
             {
+                // skip shadowed members (e.g. CExtAnimEventsFile.ExtAnimEvents [CArray<CExtAnimEvent>]
+                // vs CSkeletalAnimationSet.ExtAnimEvents [CArray<CHandle<CExtAnimEventsFile>>]):
+                // name-based FastMember access always resolves to the closest property, so a value
+                // created for the shadowed member's type would throw InvalidCastException on set
+                var resolvedProp = GetClosestProperty(this.GetType(), item.Name);
+                if (resolvedProp != null && resolvedProp.PropertyType != item.Type)
+                    continue;
+
                 object o = accessor[this, item.Name];
                 if (o is CVariable cvar)
                     redvariables.Add(cvar);
@@ -276,6 +311,12 @@ namespace WolvenKit.CR2W.Types
                 // ??
                 //if (includeBuffers && item.GetMemberAttribute<REDBufferAttribute>()==null)
                 //    continue;
+
+                // skip shadowed members (see GetEditableVariables) - name-based access
+                // would resolve to the closest property which has a different type
+                var resolvedProp = GetClosestProperty(this.GetType(), item.Name);
+                if (resolvedProp != null && resolvedProp.PropertyType != item.Type)
+                    continue;
 
                 object o = accessor[this, item.Name];
                 if (o is CVariable cvar)
@@ -451,6 +492,13 @@ namespace WolvenKit.CR2W.Types
             {
                 if (member.Name == varname || member.Name == varname.FirstCharToLower())
                 {
+                    // skip shadowed members (e.g. CExtAnimEventsFile.ExtAnimEvents [CArray<CExtAnimEvent>]
+                    // vs CSkeletalAnimationSet.ExtAnimEvents [CArray<CHandle<CExtAnimEventsFile>>]):
+                    // name-based FastMember set would resolve to the closest property with a different type
+                    var resolvedProp = GetClosestProperty(this.GetType(), member.Name);
+                    if (resolvedProp != null && resolvedProp.PropertyType != member.Type)
+                        continue;
+
                     if (member.Type == value.GetType())
                     {
                         accessor[this, member.Name] = value;
