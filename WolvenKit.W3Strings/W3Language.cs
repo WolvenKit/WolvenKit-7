@@ -28,6 +28,8 @@ namespace WolvenKit.W3Strings
             new W3Language(new W3LanguageKey(0x00000000), new W3LanguageMagic(0x00000000), "esMX"),
             new W3Language(new W3LanguageKey(0x00000000), new W3LanguageMagic(0x00000000), "kr"),
             new W3Language(new W3LanguageKey(0x00000000), new W3LanguageMagic(0x00000000), "tr"),
+            new W3Language(new W3LanguageKey(0x00000000), new W3LanguageMagic(0x00000000), "cn"),
+            new W3Language(new W3LanguageKey(0x00000000), new W3LanguageMagic(0x00000000), "ua"),
             new W3Language(new W3LanguageKey(0x83496237), new W3LanguageMagic(0x73946816), "pl"),
             new W3Language(new W3LanguageKey(0x43975139), new W3LanguageMagic(0x79321793), "en"),
             new W3Language(new W3LanguageKey(0x75886138), new W3LanguageMagic(0x42791159), "de"),

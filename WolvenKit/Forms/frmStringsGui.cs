@@ -51,6 +51,7 @@ namespace WolvenKit
             InitializeComponent();
 
             comboBoxLanguagesMode.SelectedIndex = 0;
+            toolStripComboBoxFormat.SelectedIndex = (int)MainController.Get().Configuration.StringsFormat;
             CreateDataTable();
 
             this.Icon = UIController.GetThemedWkitIcon();
@@ -150,6 +151,16 @@ namespace WolvenKit
                 Encode();
             else
                 MessageBox.Show("Current file is empty.", "Wolven Kit", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void toolStripComboBoxFormat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var format = (W3Strings.EW3StringsFormat)toolStripComboBoxFormat.SelectedIndex;
+            if (MainController.Get().Configuration.StringsFormat == format)
+                return;
+
+            MainController.Get().Configuration.StringsFormat = format;
+            MainController.Get().Configuration.Save();
         }
 
         private void toolStripButtonImport_Click(object sender, EventArgs e)
@@ -1028,6 +1039,8 @@ namespace WolvenKit
 
             if (stringsDir == "")
                 return;
+
+            var format = (W3Strings.EW3StringsFormat)toolStripComboBoxFormat.SelectedIndex;
             if (comboBoxLanguagesMode.SelectedIndex == 0)
             {
                 var strings = new List<List<string>>();
@@ -1049,8 +1062,8 @@ namespace WolvenKit
                 foreach (var lang in languages)
                 {
                     var w3tringFile = new W3Strings.W3StringFile();
-                    w3tringFile.Create(strings, lang.Handle);
-                    using (var bw = new BinaryWriter(File.OpenWrite(stringsDir + "\\" + lang.Handle + ".w3strings")))
+                    w3tringFile.Create(strings, lang.Handle, format);
+                    using (var bw = new BinaryWriter(File.Create(stringsDir + "\\" + lang.Handle + ".w3strings")))
                     {
                         w3tringFile.Write(bw);
                     }
@@ -1079,8 +1092,8 @@ namespace WolvenKit
                     {
                         stringsBlock1Strings.Add(new List<string>() { str[0], str[2], str[3] });
                     }
-                    w3tringFile.Create(stringsBlock1Strings, lang.language);
-                    using (var bw = new BinaryWriter(File.OpenWrite(stringsDir + "\\" + lang.language + ".w3strings")))
+                    w3tringFile.Create(stringsBlock1Strings, lang.language, format);
+                    using (var bw = new BinaryWriter(File.Create(stringsDir + "\\" + lang.language + ".w3strings")))
                     {
                         w3tringFile.Write(bw);
                     }

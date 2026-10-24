@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using WolvenKit.Common;
 
 namespace WolvenKit.W3Strings
 {
     public class W3StringFile
     {
         private static readonly byte[] IDString = { (byte)'R', (byte)'T', (byte)'S', (byte)'W' };
+        private const uint LegacyVersion = 162;
+        // since version 164 strings are stored as UTF-8 instead of UTF-16
+        private const uint Utf8Version = 164;
+        // some vanilla strings contain stray single-byte characters, keep them as Latin-1 instead of losing them
+        private static readonly Encoding Utf8 = Encoding.GetEncoding("utf-8", EncoderFallback.ReplacementFallback, new Latin1DecoderFallback());
         private int block1count;
         private int block2count;
         private int block3count;
@@ -20,7 +27,7 @@ namespace WolvenKit.W3Strings
         public List<W3StringBlock1> block1Unsorted { get; set; }
         public bool Incomplete { get; set; }
 
-        public void Create(List<List<string>> strings, string lang)
+        public void Create(List<List<string>> strings, string lang, EW3StringsFormat format = EW3StringsFormat.Legacy)
         {
             language = W3Language.languages.First(l => l.Handle == lang);
 
@@ -32,6 +39,8 @@ namespace WolvenKit.W3Strings
                 case "esMX":
                 case "kr":
                 case "tr":
+                case "cn":
+                case "ua":
                     key1 = 0;
                     key2 = 0;
                     break;
@@ -81,7 +90,7 @@ namespace WolvenKit.W3Strings
                     break;
             }
 
-            version = 162;
+            version = format == EW3StringsFormat.Remastered ? GameConstants.CURRENT_CR2W_VERSION : LegacyVersion;
 
             // Create block1
             block1count = strings.Count;
@@ -165,16 +174,30 @@ namespace WolvenKit.W3Strings
             block1Unsorted = new List<W3StringBlock1>();
             block1Unsorted.AddRange(block1);
 
-            
+
 
             // Read strings
+            var isUtf8 = version >= Utf8Version;
             foreach (var block in block1)
             {
-                var offset = block.offset * 2 + str_start;
+                var offset = block.offset * (isUtf8 ? 1 : 2) + str_start;
 
                 stream.BaseStream.Seek(offset, SeekOrigin.Begin);
 
                 var string_key = (ushort)(language.Magic.value >> 8 & 0xffff);
+
+                if (isUtf8)
+                {
+                    var bytes = stream.ReadBytes((int)block.strlen);
+                    for (var i = 0; i < bytes.Length; i++)
+                    {
+                        var char_key = (ushort)(((block.strlen + 1) * string_key) & 0xffff);
+                        bytes[i] = (byte)(bytes[i] ^ (byte)(char_key & 0xff));
+                        string_key = (ushort)(((string_key << 1) | (string_key >> 15)) & 0xffff);
+                    }
+                    block.str = Utf8.GetString(bytes);
+                    continue;
+                }
 
                 for (var i = 0; i < block.strlen; i++)
                 {
@@ -192,7 +215,7 @@ namespace WolvenKit.W3Strings
                 }
             }
             var strbuffsize = (stream.BaseStream.Length - 2) - str_start;
-            stream.BaseStream.Seek((int)(block3count * 2 + str_start), SeekOrigin.Begin);
+            stream.BaseStream.Seek((int)(block3count * (isUtf8 ? 1 : 2) + str_start), SeekOrigin.Begin);
             var left = stream.BaseStream.Length - stream.BaseStream.Position - 2;
             if (left > 0)
             {
@@ -214,11 +237,30 @@ namespace WolvenKit.W3Strings
             var strbufw = new BinaryWriter(stringbuffer);
 
             // Write string buffer
+            var isUtf8 = version >= Utf8Version;
             {
                 foreach (var block in block1)
                 {
                     block.Modified = false;
                     var string_key = (ushort)(language.Magic.value >> 8 & 0xffff);
+
+                    if (isUtf8)
+                    {
+                        var bytes = block.str != null ? Utf8.GetBytes(block.str) : new byte[0];
+                        block.offset = (uint)strbufw.BaseStream.Position;
+                        block.strlen = (uint)bytes.Length;
+
+                        for (var i = 0; i < bytes.Length; i++)
+                        {
+                            var char_key = (ushort)(((block.strlen + 1) * string_key) & 0xffff);
+                            bytes[i] = (byte)(bytes[i] ^ (byte)(char_key & 0xff));
+                            string_key = (ushort)(((string_key << 1) | (string_key >> 15)) & 0xffff);
+                        }
+
+                        strbufw.Write(bytes);
+                        strbufw.Write((byte)0);
+                        continue;
+                    }
 
                     block.offset = (uint)strbufw.BaseStream.Position / 2;
                     if (block.str != null)
@@ -260,7 +302,7 @@ namespace WolvenKit.W3Strings
             }
 
             //block3count
-            var strbufferlen = strbufw.BaseStream.Length / 2;
+            var strbufferlen = strbufw.BaseStream.Length / (isUtf8 ? 1 : 2);
 
             stream.WriteBit6((int)strbufferlen);
 

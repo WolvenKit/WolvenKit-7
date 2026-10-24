@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using WolvenKit.Common.Model;
+using WolvenKit.W3Strings;
 
 namespace WolvenKit.App
 {
@@ -46,6 +47,8 @@ namespace WolvenKit.App
         public string GameDlcDir { get; set; }
 
         public EUpdateChannel UpdateChannel { get; set; }
+
+        public EW3StringsFormat StringsFormat { get; set; }
 
 
         [XmlIgnore]

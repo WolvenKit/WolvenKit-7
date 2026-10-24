@@ -48,6 +48,8 @@
             this.toolStripButtonGenerateXML = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonGenerateScripts = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEncode = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabelFormat = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripComboBoxFormat = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.splitContainerTabs = new System.Windows.Forms.SplitContainer();
             this.tabControlLanguages = new System.Windows.Forms.TabControl();
@@ -73,9 +75,9 @@
             this.tabControlLanguages.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStrings)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // menuStrip1
-            // 
+            //
             this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -87,9 +89,9 @@
             this.menuStrip1.Size = new System.Drawing.Size(1776, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            // 
+            //
             // fileToolStripMenuItem
-            // 
+            //
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
@@ -97,53 +99,53 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "File";
-            // 
+            //
             // newToolStripMenuItem
-            // 
+            //
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(169, 34);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
-            // 
+            //
             // openToolStripMenuItem
-            // 
+            //
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(169, 34);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
+            //
             // importToolStripMenuItem
-            // 
+            //
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(169, 34);
             this.importToolStripMenuItem.Text = "Import";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
-            // 
+            //
             // generateStringsToolStripMenuItem
-            // 
+            //
             this.generateStringsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fromXMLToolStripMenuItem,
             this.fromScriptsToolStripMenuItem});
             this.generateStringsToolStripMenuItem.Name = "generateStringsToolStripMenuItem";
             this.generateStringsToolStripMenuItem.Size = new System.Drawing.Size(157, 29);
             this.generateStringsToolStripMenuItem.Text = "Generate Strings";
-            // 
+            //
             // fromXMLToolStripMenuItem
-            // 
+            //
             this.fromXMLToolStripMenuItem.Name = "fromXMLToolStripMenuItem";
             this.fromXMLToolStripMenuItem.Size = new System.Drawing.Size(214, 34);
             this.fromXMLToolStripMenuItem.Text = "From XML";
             this.fromXMLToolStripMenuItem.Click += new System.EventHandler(this.fromXMLToolStripMenuItem_Click);
-            // 
+            //
             // fromScriptsToolStripMenuItem
-            // 
+            //
             this.fromScriptsToolStripMenuItem.Name = "fromScriptsToolStripMenuItem";
             this.fromScriptsToolStripMenuItem.Size = new System.Drawing.Size(214, 34);
             this.fromScriptsToolStripMenuItem.Text = "From Scripts";
             this.fromScriptsToolStripMenuItem.Click += new System.EventHandler(this.fromScriptsToolStripMenuItem_Click);
-            // 
+            //
             // viewToolStripMenuItem
-            // 
+            //
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.idToolStripMenuItem,
             this.hexKeyToolStripMenuItem,
@@ -151,36 +153,36 @@
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.viewToolStripMenuItem.Text = "View";
-            // 
+            //
             // idToolStripMenuItem
-            // 
+            //
             this.idToolStripMenuItem.Checked = true;
             this.idToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.idToolStripMenuItem.Name = "idToolStripMenuItem";
             this.idToolStripMenuItem.Size = new System.Drawing.Size(193, 34);
             this.idToolStripMenuItem.Text = "ID";
             this.idToolStripMenuItem.Click += new System.EventHandler(this.idToolStripMenuItem_Click);
-            // 
+            //
             // hexKeyToolStripMenuItem
-            // 
+            //
             this.hexKeyToolStripMenuItem.Checked = true;
             this.hexKeyToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.hexKeyToolStripMenuItem.Name = "hexKeyToolStripMenuItem";
             this.hexKeyToolStripMenuItem.Size = new System.Drawing.Size(193, 34);
             this.hexKeyToolStripMenuItem.Text = "Hex Key";
             this.hexKeyToolStripMenuItem.Click += new System.EventHandler(this.hexKeyToolStripMenuItem_Click);
-            // 
+            //
             // stringKeyToolStripMenuItem
-            // 
+            //
             this.stringKeyToolStripMenuItem.Checked = true;
             this.stringKeyToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.stringKeyToolStripMenuItem.Name = "stringKeyToolStripMenuItem";
             this.stringKeyToolStripMenuItem.Size = new System.Drawing.Size(193, 34);
             this.stringKeyToolStripMenuItem.Text = "String Key";
             this.stringKeyToolStripMenuItem.Click += new System.EventHandler(this.stringKeyToolStripMenuItem_Click);
-            // 
+            //
             // toolStrip1
-            // 
+            //
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonSave,
@@ -188,16 +190,18 @@
             this.toolStripButtonImport,
             this.toolStripButtonGenerateXML,
             this.toolStripButtonGenerateScripts,
-            this.toolStripButtonEncode});
+            this.toolStripButtonEncode,
+            this.toolStripLabelFormat,
+            this.toolStripComboBoxFormat});
             this.toolStrip1.Location = new System.Drawing.Point(0, 33);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.toolStrip1.Size = new System.Drawing.Size(1776, 34);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            // 
+            //
             // toolStripButtonSave
-            // 
+            //
             this.toolStripButtonSave.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSave.Image")));
             this.toolStripButtonSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSave.Name = "toolStripButtonSave";
@@ -205,9 +209,9 @@
             this.toolStripButtonSave.Text = "Save";
             this.toolStripButtonSave.ToolTipText = "Save to CSV file.";
             this.toolStripButtonSave.Click += new System.EventHandler(this.toolStripButtonSave_Click);
-            // 
+            //
             // toolStripButtonOpen
-            // 
+            //
             this.toolStripButtonOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOpen.Image")));
             this.toolStripButtonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonOpen.Name = "toolStripButtonOpen";
@@ -215,9 +219,9 @@
             this.toolStripButtonOpen.Text = "Open";
             this.toolStripButtonOpen.ToolTipText = "Open CSV file.";
             this.toolStripButtonOpen.Click += new System.EventHandler(this.toolStripButtonOpen_Click);
-            // 
+            //
             // toolStripButtonImport
-            // 
+            //
             this.toolStripButtonImport.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonImport.Image")));
             this.toolStripButtonImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonImport.Name = "toolStripButtonImport";
@@ -225,9 +229,9 @@
             this.toolStripButtonImport.Text = "Import";
             this.toolStripButtonImport.ToolTipText = "Import existing w3string file.";
             this.toolStripButtonImport.Click += new System.EventHandler(this.toolStripButtonImport_Click);
-            // 
+            //
             // toolStripButtonGenerateXML
-            // 
+            //
             this.toolStripButtonGenerateXML.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonGenerateXML.Image")));
             this.toolStripButtonGenerateXML.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonGenerateXML.Name = "toolStripButtonGenerateXML";
@@ -235,9 +239,9 @@
             this.toolStripButtonGenerateXML.Text = "Generate From XML";
             this.toolStripButtonGenerateXML.ToolTipText = "Generate strings from menu XML.";
             this.toolStripButtonGenerateXML.Click += new System.EventHandler(this.toolStripButtonGenerateXML_Click);
-            // 
+            //
             // toolStripButtonGenerateScripts
-            // 
+            //
             this.toolStripButtonGenerateScripts.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonGenerateScripts.Image")));
             this.toolStripButtonGenerateScripts.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonGenerateScripts.Name = "toolStripButtonGenerateScripts";
@@ -245,9 +249,9 @@
             this.toolStripButtonGenerateScripts.Text = "Generate From Scripts";
             this.toolStripButtonGenerateScripts.ToolTipText = "Generate strings from scripts (strings with specified prefix in scripts).";
             this.toolStripButtonGenerateScripts.Click += new System.EventHandler(this.toolStripButtonGenerateScripts_Click);
-            // 
+            //
             // toolStripButtonEncode
-            // 
+            //
             this.toolStripButtonEncode.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonEncode.Image")));
             this.toolStripButtonEncode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonEncode.Name = "toolStripButtonEncode";
@@ -255,49 +259,66 @@
             this.toolStripButtonEncode.Text = "Encode";
             this.toolStripButtonEncode.ToolTipText = "Encode w3string files.";
             this.toolStripButtonEncode.Click += new System.EventHandler(this.toolStripButtonEncode_Click);
-            // 
+            //
+            // toolStripLabelFormat
+            //
+            this.toolStripLabelFormat.Name = "toolStripLabelFormat";
+            this.toolStripLabelFormat.Size = new System.Drawing.Size(73, 29);
+            this.toolStripLabelFormat.Text = "Format:";
+            //
+            // toolStripComboBoxFormat
+            //
+            this.toolStripComboBoxFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBoxFormat.Items.AddRange(new object[] {
+            "Old game (UTF-16, v162)",
+            "Remastered (UTF-8, v164)"});
+            this.toolStripComboBoxFormat.Name = "toolStripComboBoxFormat";
+            this.toolStripComboBoxFormat.Size = new System.Drawing.Size(250, 34);
+            this.toolStripComboBoxFormat.ToolTipText = "w3strings format used by encode.";
+            this.toolStripComboBoxFormat.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxFormat_SelectedIndexChanged);
+            //
             // splitContainerMain
-            // 
+            //
             this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerMain.IsSplitterFixed = true;
             this.splitContainerMain.Location = new System.Drawing.Point(0, 67);
             this.splitContainerMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.splitContainerMain.Name = "splitContainerMain";
             this.splitContainerMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
+            //
             // splitContainerMain.Panel1
-            // 
+            //
             this.splitContainerMain.Panel1.Controls.Add(this.splitContainerTabs);
-            // 
+            //
             // splitContainerMain.Panel2
-            // 
+            //
             this.splitContainerMain.Panel2.Controls.Add(this.dataGridViewStrings);
             this.splitContainerMain.Size = new System.Drawing.Size(1776, 759);
             this.splitContainerMain.SplitterDistance = 38;
             this.splitContainerMain.SplitterWidth = 6;
             this.splitContainerMain.TabIndex = 2;
-            // 
+            //
             // splitContainerTabs
-            // 
+            //
             this.splitContainerTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerTabs.Location = new System.Drawing.Point(0, 0);
             this.splitContainerTabs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.splitContainerTabs.Name = "splitContainerTabs";
-            // 
+            //
             // splitContainerTabs.Panel1
-            // 
+            //
             this.splitContainerTabs.Panel1.Controls.Add(this.tabControlLanguages);
-            // 
+            //
             // splitContainerTabs.Panel2
-            // 
+            //
             this.splitContainerTabs.Panel2.Controls.Add(this.comboBoxLanguagesMode);
             this.splitContainerTabs.Size = new System.Drawing.Size(1776, 38);
             this.splitContainerTabs.SplitterDistance = 1509;
             this.splitContainerTabs.SplitterWidth = 6;
             this.splitContainerTabs.TabIndex = 0;
-            // 
+            //
             // tabControlLanguages
-            // 
+            //
             this.tabControlLanguages.Controls.Add(this.tabPageAllLanguages);
             this.tabControlLanguages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlLanguages.Location = new System.Drawing.Point(0, 0);
@@ -307,9 +328,9 @@
             this.tabControlLanguages.Size = new System.Drawing.Size(1509, 38);
             this.tabControlLanguages.TabIndex = 0;
             this.tabControlLanguages.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlLanguages_Selected);
-            // 
+            //
             // tabPageAllLanguages
-            // 
+            //
             this.tabPageAllLanguages.Location = new System.Drawing.Point(4, 29);
             this.tabPageAllLanguages.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageAllLanguages.Name = "tabPageAllLanguages";
@@ -318,9 +339,9 @@
             this.tabPageAllLanguages.TabIndex = 0;
             this.tabPageAllLanguages.Text = "All Languages";
             this.tabPageAllLanguages.UseVisualStyleBackColor = true;
-            // 
+            //
             // comboBoxLanguagesMode
-            // 
+            //
             this.comboBoxLanguagesMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxLanguagesMode.FormattingEnabled = true;
             this.comboBoxLanguagesMode.Items.AddRange(new object[] {
@@ -332,9 +353,9 @@
             this.comboBoxLanguagesMode.Size = new System.Drawing.Size(232, 28);
             this.comboBoxLanguagesMode.TabIndex = 0;
             this.comboBoxLanguagesMode.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguagesMode_SelectedIndexChanged);
-            // 
+            //
             // dataGridViewStrings
-            // 
+            //
             this.dataGridViewStrings.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewStrings.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewStrings.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -352,34 +373,34 @@
             this.dataGridViewStrings.Visible = false;
             this.dataGridViewStrings.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStrings_CellValidated);
             this.dataGridViewStrings.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewStrings_UserDeletedRow);
-            // 
+            //
             // ColumnID
-            // 
+            //
             this.ColumnID.HeaderText = "ID";
             this.ColumnID.MinimumWidth = 8;
             this.ColumnID.Name = "ColumnID";
-            // 
+            //
             // ColumnHexKey
-            // 
+            //
             this.ColumnHexKey.HeaderText = "Hex key";
             this.ColumnHexKey.MinimumWidth = 8;
             this.ColumnHexKey.Name = "ColumnHexKey";
             this.ColumnHexKey.Visible = false;
-            // 
+            //
             // ColumnStringKey
-            // 
+            //
             this.ColumnStringKey.HeaderText = "String Key";
             this.ColumnStringKey.MinimumWidth = 8;
             this.ColumnStringKey.Name = "ColumnStringKey";
-            // 
+            //
             // ColumnLocalisation
-            // 
+            //
             this.ColumnLocalisation.HeaderText = "Localisation";
             this.ColumnLocalisation.MinimumWidth = 8;
             this.ColumnLocalisation.Name = "ColumnLocalisation";
-            // 
+            //
             // textBoxModID
-            // 
+            //
             this.textBoxModID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxModID.Location = new System.Drawing.Point(1538, 38);
             this.textBoxModID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -389,9 +410,9 @@
             this.textBoxModID.TabIndex = 3;
             this.textBoxModID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxModID_KeyDown);
             this.textBoxModID.Leave += new System.EventHandler(this.textBoxModID_Leave);
-            // 
+            //
             // labelModID
-            // 
+            //
             this.labelModID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelModID.AutoSize = true;
             this.labelModID.Location = new System.Drawing.Point(1248, 38);
@@ -400,9 +421,9 @@
             this.labelModID.Size = new System.Drawing.Size(277, 20);
             this.labelModID.TabIndex = 4;
             this.labelModID.Text = "Mod ID (separate multiple IDs with \";\")";
-            // 
+            //
             // frmStringsGui
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1776, 826);
@@ -458,6 +479,8 @@
         private System.Windows.Forms.TextBox textBoxModID;
         private System.Windows.Forms.Label labelModID;
         private System.Windows.Forms.ToolStripButton toolStripButtonEncode;
+        private System.Windows.Forms.ToolStripLabel toolStripLabelFormat;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxFormat;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHexKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnStringKey;
