@@ -38,7 +38,7 @@ namespace WolvenKit.CR2W
             embedded = new List<CR2WEmbeddedWrapper>();     //block 7
 
             m_fileheader = new CR2WFileHeader(){
-                version = 162,
+                version = GameConstants.DEFAULT_CR2W_VERSION,
             };
 
             Logger = logger ?? new LoggerService();
@@ -47,11 +47,11 @@ namespace WolvenKit.CR2W
             m_tableheaders = new CR2WTable[10];
         }
 
-        
+
         #endregion
 
         #region Fields
-        
+
         // constants
         private const uint MAGIC = 0x57325243; // "W2RC"
         private const uint DEADBEEF = 0xDEADBEEF;
@@ -96,7 +96,7 @@ namespace WolvenKit.CR2W
         [DataMember(Order = 0)]
         public string FileName { get; set; }
 
-       
+
         /// <summary>
         ///     LocalizedStringSource
         /// </summary>
@@ -448,8 +448,8 @@ namespace WolvenKit.CR2W
                 throw new FormatException($"Not a CR2W file, Magic read as 0x{id:X8}");
 
             m_fileheader = file.BaseStream.ReadStruct<CR2WFileHeader>();
-            if (m_fileheader.version > 163 || m_fileheader.version < 159)
-                throw new FormatException($"Unknown Version {m_fileheader.version}. Supported versions: 159 - 163.");
+            if (m_fileheader.version > GameConstants.CURRENT_CR2W_VERSION || m_fileheader.version < 159)
+                throw new FormatException($"Unknown Version {m_fileheader.version}. Supported versions: 159 - {GameConstants.CURRENT_CR2W_VERSION}.");
 
             var dt = new CDateTime(m_fileheader.timeStamp, null, "");
 
@@ -504,7 +504,7 @@ namespace WolvenKit.CR2W
                 return EFileReadErrorCodes.NoCr2w;
 
             m_fileheader = file.BaseStream.ReadStruct<CR2WFileHeader>();
-            if (m_fileheader.version > 163 || m_fileheader.version < 158)
+            if (m_fileheader.version > GameConstants.CURRENT_CR2W_VERSION || m_fileheader.version < 158)
                 return EFileReadErrorCodes.UnsupportedVersion;
 
             var dt = new CDateTime(m_fileheader.timeStamp, null, "");
@@ -515,7 +515,7 @@ namespace WolvenKit.CR2W
 
             // read strings - block 1 (index 0)
             m_strings = ReadStringsBuffer(file.BaseStream);
-            
+
             // read the other tables
             names = ReadTable<CR2WName>(file.BaseStream, 1).Select(_ => new CR2WNameWrapper(_, this)).ToList(); // block 2
             imports = ReadTable<CR2WImport>(file.BaseStream, 2).Select(_ => new CR2WImportWrapper(_, this)).ToList(); // block 3
@@ -621,7 +621,7 @@ namespace WolvenKit.CR2W
             var m_temp = new byte[m_strings_size];
             stream.Read(m_temp, 0, m_temp.Length);
 
-            
+
             uint offset = 0;
             var tempstring = new List<byte>();
             for (uint i = 0; i < m_strings_size; i++)
@@ -671,7 +671,7 @@ namespace WolvenKit.CR2W
             m_tableheaders[0].itemCount = (uint)m_strings.Length;
             m_tableheaders[0].crc32 = Crc32Algorithm.Compute(m_strings);
 
-            
+
 
             #endregion
 
@@ -708,7 +708,7 @@ namespace WolvenKit.CR2W
                     }, this));
             }
             #endregion
-            #region Embedded 
+            #region Embedded
             for (var i = 0; i < embedded.Count; i++)
             {
                 var emb = embedded[i];
@@ -1014,7 +1014,7 @@ namespace WolvenKit.CR2W
                 chunkguidlist.Add(c.data.InternalGuid);
                 LoopWrapper(new SNameArg(EStringTableMod.SkipName, c.data));
             }
-            
+
             newimportslist.AddRange(newsoftlist);
 
             return (newnameslist.Values.ToHashSet<string>(), newimportslist);
@@ -1062,7 +1062,7 @@ namespace WolvenKit.CR2W
 
             var returnedVariables = new List<SNameArg>();
 
-            // if variable is generic type or some special case 
+            // if variable is generic type or some special case
             switch(ivar)
             {
                 case IArrayAccessor a:
@@ -1325,7 +1325,7 @@ namespace WolvenKit.CR2W
                             if (h.ParentVar is CEntity)
                                 flags = EImportFlags.Template;
                         }
-                            
+
                         if (var.cr2w.embedded.Any(_ => _.ImportPath == h.DepotPath && _.ImportClass == h.ClassName))
                             flags = EImportFlags.Inplace;
 
@@ -1492,7 +1492,7 @@ namespace WolvenKit.CR2W
             m_tableheaders[1].itemCount = (uint)names.Count;
             m_tableheaders[1].offset = (uint) file.BaseStream.Position;
             WriteTable<CR2WName>(file.BaseStream, names.Select(_ => _.Name).ToArray(), 1);
-            
+
             m_tableheaders[2].itemCount = (uint)imports.Count;
             m_tableheaders[2].offset = imports.Count > 0 ? (uint) file.BaseStream.Position : 0;
             WriteTable<CR2WImport>(file.BaseStream, imports.Select(_ => _.Import).ToArray(), 2);

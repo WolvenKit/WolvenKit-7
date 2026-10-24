@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using RED.CRC32;
 using WolvenKit.CR2W.Types;
+using WolvenKit.Common;
 using WolvenKit.Common.FNV1A;
 
 namespace WolvenKit.CR2W
@@ -64,8 +65,8 @@ namespace WolvenKit.CR2W
                 throw new FormatException($"Not a CR2W file, Magic read as 0x{id:X8}");
 
             m_fileheader = ReadStruct<CR2WFileHeader>();
-            if (m_fileheader.version > 163 || m_fileheader.version < 159)
-                throw new FormatException($"Unknown Version {m_fileheader.version}. Supported versions: 159 - 163.");
+            if (m_fileheader.version > GameConstants.CURRENT_CR2W_VERSION || m_fileheader.version < 159)
+                throw new FormatException($"Unknown Version {m_fileheader.version}. Supported versions: 159 - {GameConstants.CURRENT_CR2W_VERSION}.");
 
             var dt = new CDateTime(m_fileheader.timeStamp, null, "");
 

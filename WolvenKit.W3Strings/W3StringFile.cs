@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using WolvenKit.Common;
 
 namespace WolvenKit.W3Strings
 {
@@ -89,7 +90,7 @@ namespace WolvenKit.W3Strings
                     break;
             }
 
-            version = format == EW3StringsFormat.Remastered ? Utf8Version : LegacyVersion;
+            version = format == EW3StringsFormat.Remastered ? GameConstants.CURRENT_CR2W_VERSION : LegacyVersion;
 
             // Create block1
             block1count = strings.Count;
